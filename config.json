@@ -1,6 +1,6 @@
 {
   "ticker": [
-    "LISA’s \"ROCKSTAR\" just hit 200M streams on Spotify",
+    "LISA’s",
     "Countdown: 28 days until BLACKPINK's 10th Anniversary Event",
     "JENNIE fronts Chanel Coco Crush campaign worldwide",
     "ROSÉ signs global partnership with The Black Label"
@@ -31,7 +31,7 @@
       "label": "THE BLACK LABEL",
       "brands": "Saint Laurent & Tiffany & Co.",
       "project": "Saint Laurent Campaigns",
-      "bio": "Ros\u00e9 is a talented Korean-New Zealand singer and dancer who debuted with Blackpink in 2016. As the group's main vocalist, she is globally recognized for her highly distinct, emotional, and dreamy voice. In 2021, she made a historic solo debut with her record-shattering single album R. Beyond music, Ros\u00e9 is a massive style icon, serving as a global ambassador for luxury powerhouses Saint Laurent and Tiffany & Co. Her undeniable charisma and vocal prowess have firmly cemented her status as a definitive modern pop idol."
+      "bio": "Rosé is a talented Korean-New Zealand singer and dancer who debuted with Blackpink in 2016. As the group's main vocalist, she is globally recognized for her highly distinct, emotional, and dreamy voice. In 2021, she made a historic solo debut with her record-shattering single album R. Beyond music, Rosé is a massive style icon, serving as a global ambassador for luxury powerhouses Saint Laurent and Tiffany & Co. Her undeniable charisma and vocal prowess have firmly cemented her status as a definitive modern pop idol."
     },
     "lisa": {
       "name": "LISA",
@@ -44,30 +44,135 @@
     }
   },
   "votings": [
-    { "id": 1, "name": "Show! Music Core", "nomination": "ROSÉ - APT.", "date": "Ongoing Event", "link": "https://mnetplus.net/" },
-    { "id": 2, "name": "Inkigayo Weekly Poll", "nomination": "LISA - Rockstar", "date": "Closing in 3 days", "link": "https://starpass.co.kr/" },
-    { "id": 3, "name": "Billboard Fan Choice", "nomination": "BLACKPINK - Group Category", "date": "Closes July 31, 2026", "link": "https://www.billboard.com/" }
+    {
+      "id": 1,
+      "name": "Show! Music Core",
+      "nomination": "ROSÉ - APT.",
+      "date": "Ongoing Event",
+      "link": "https://mnetplus.net/"
+    },
+    {
+      "id": 2,
+      "name": "Inkigayo Weekly Poll",
+      "nomination": "LISA - Rockstar",
+      "date": "Closing in 3 days",
+      "link": "https://starpass.co.kr/"
+    },
+    {
+      "id": 3,
+      "name": "Billboard Fan Choice",
+      "nomination": "BLACKPINK - Group Category",
+      "date": "Closes July 31, 2026",
+      "link": "https://www.billboard.com/"
+    }
   ],
   "stats": [
-    { "id": 1, "platform": "Spotify", "song": "ROCKSTAR", "current": "125M", "target": "200M", "progress": 62.5 },
-    { "id": 2, "platform": "YouTube", "song": "ROCKSTAR MV", "current": "98M", "target": "150M", "progress": 65.3 },
-    { "id": 3, "platform": "Spotify", "song": "New Woman", "current": "12M", "target": "50M", "progress": 24.0 }
+    {
+      "id": 1,
+      "platform": "Spotify",
+      "song": "ROCKSTAR",
+      "current": "125M",
+      "target": "200M",
+      "progress": 62.5
+    },
+    {
+      "id": 2,
+      "platform": "YouTube",
+      "song": "ROCKSTAR MV",
+      "current": "98M",
+      "target": "150M",
+      "progress": 65.3
+    },
+    {
+      "id": 3,
+      "platform": "Spotify",
+      "song": "New Woman",
+      "current": "12M",
+      "target": "50M",
+      "progress": 24
+    }
   ],
   "schedules": [
-    { "id": 1, "category": "Anniversary", "date": "August 8, 2026", "event": "10th Anniversary Fandom Streaming Party", "link": "#" },
-    { "id": 2, "category": "Fashion", "date": "September 24, 2026", "event": "JENNIE - Chanel Paris Fashion Week Show", "link": "#" }
+    {
+      "id": 1,
+      "category": "Anniversary",
+      "date": "August 8, 2026",
+      "event": "10th Anniversary Fandom Streaming Party",
+      "link": "#"
+    },
+    {
+      "id": 2,
+      "category": "Fashion",
+      "date": "September 24, 2026",
+      "event": "JENNIE - Chanel Paris Fashion Week Show",
+      "link": "#"
+    }
   ],
   "soloStats": [
-    { "id": 1, "member": "JISOO", "spotify": "12.4M", "youtube": "15.1M", "instagram": "78.2M" },
-    { "id": 2, "member": "JENNIE", "spotify": "23.5M", "youtube": "12.2M", "instagram": "84.9M" },
-    { "id": 3, "member": "ROS\u00c9", "spotify": "18.1M", "youtube": "8.4M", "instagram": "79.1M" },
-    { "id": 4, "member": "LISA", "spotify": "26.3M", "youtube": "14.0M", "instagram": "104.1M" }
+    {
+      "id": 1,
+      "member": "JISOO",
+      "spotify": "12.4M",
+      "youtube": "15.1M",
+      "instagram": "78.2M"
+    },
+    {
+      "id": 2,
+      "member": "JENNIE",
+      "spotify": "23.5M",
+      "youtube": "12.2M",
+      "instagram": "84.9M"
+    },
+    {
+      "id": 3,
+      "member": "ROSÉ",
+      "spotify": "18.1M",
+      "youtube": "8.4M",
+      "instagram": "79.1M"
+    },
+    {
+      "id": 4,
+      "member": "LISA",
+      "spotify": "26.3M",
+      "youtube": "14.0M",
+      "instagram": "104.1M"
+    }
   ],
   "playlists": [
-    { "id": 1, "title": "BLACKPINK group playlist", "spotify": "https://open.spotify.com/artist/41MozSoPIsD1dJM0CLPjZF", "apple": "https://music.apple.com/us/artist/blackpink/1145027411", "youtube": "https://www.youtube.com/@BLACKPINK" },
-    { "id": 2, "title": "JISOO playlist", "spotify": "https://open.spotify.com/artist/6UZ0ba50XreR4TM8u322gs", "apple": "https://music.apple.com/us/artist/jisoo/1676643265", "youtube": "https://www.youtube.com/results?search_query=JISOO+Flower" },
-    { "id": 3, "title": "JENNIE playlist", "spotify": "https://open.spotify.com/artist/250b0Wlc5Vk0CoUsaCY84M", "apple": "https://music.apple.com/us/artist/jennie/1440733519", "youtube": "https://www.youtube.com/results?search_query=JENNIE+Solo" },
-    { "id": 4, "title": "ROSE playlist", "spotify": "https://open.spotify.com/artist/3eVa5w3URK5duf6eyVDbu9", "apple": "https://music.apple.com/us/artist/ros%C3%A9/1556657989", "youtube": "https://www.youtube.com/results?search_query=ROSE+On+The+Ground" },
-    { "id": 5, "title": "LISA playlist", "spotify": "https://open.spotify.com/artist/5L1lO4eRHmJ7a0Q6csE5cT", "apple": "https://music.apple.com/us/artist/lisa/1582298950", "youtube": "https://www.youtube.com/results?search_query=LISA+Lalisa" }
+    {
+      "id": 1,
+      "title": "BLACKPINK group playlist",
+      "spotify": "https://open.spotify.com/artist/41MozSoPIsD1dJM0CLPjZF",
+      "apple": "https://music.apple.com/us/artist/blackpink/1145027411",
+      "youtube": "https://www.youtube.com/@BLACKPINK"
+    },
+    {
+      "id": 2,
+      "title": "JISOO playlist",
+      "spotify": "https://open.spotify.com/artist/6UZ0ba50XreR4TM8u322gs",
+      "apple": "https://music.apple.com/us/artist/jisoo/1676643265",
+      "youtube": "https://www.youtube.com/results?search_query=JISOO+Flower"
+    },
+    {
+      "id": 3,
+      "title": "JENNIE playlist",
+      "spotify": "https://open.spotify.com/artist/250b0Wlc5Vk0CoUsaCY84M",
+      "apple": "https://music.apple.com/us/artist/jennie/1440733519",
+      "youtube": "https://www.youtube.com/results?search_query=JENNIE+Solo"
+    },
+    {
+      "id": 4,
+      "title": "ROSE playlist",
+      "spotify": "https://open.spotify.com/artist/3eVa5w3URK5duf6eyVDbu9",
+      "apple": "https://music.apple.com/us/artist/ros%C3%A9/1556657989",
+      "youtube": "https://www.youtube.com/results?search_query=ROSE+On+The+Ground"
+    },
+    {
+      "id": 5,
+      "title": "LISA playlist",
+      "spotify": "https://open.spotify.com/artist/5L1lO4eRHmJ7a0Q6csE5cT",
+      "apple": "https://music.apple.com/us/artist/lisa/1582298950",
+      "youtube": "https://www.youtube.com/results?search_query=LISA+Lalisa"
+    }
   ]
 }
