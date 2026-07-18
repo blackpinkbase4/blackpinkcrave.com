@@ -131,32 +131,48 @@
   ],
   "soloStats": [
     {
-      "id": 1,
-      "member": "JISOO",
-      "spotify": "12.4M",
-      "youtube": "15.1M",
-      "instagram": "78.2M"
+      "id": 1784380119640,
+      "title": "EARTHQUAKE",
+      "streams": "189,834,160",
+      "goal": "200,000,000",
+      "daily": "146,148",
+      "trend": "up",
+      "spotify": "https://open.spotify.com/track/10zywlg5b0gQOC3q1A7ADx?si=83563abb9e924792",
+      "apple": "https://music.apple.com/us/song/earthquake/1794049591",
+      "youtube": "https://www.youtube.com/watch?v=2V6lvCUPT8I"
     },
     {
-      "id": 2,
-      "member": "JENNIE",
-      "spotify": "23.5M",
-      "youtube": "12.2M",
-      "instagram": "84.9M"
+      "id": 1784380271722,
+      "title": "LIKE JENNIE",
+      "streams": "897,623,084",
+      "goal": "900,000,000",
+      "daily": "775,153",
+      "trend": "up",
+      "spotify": "https://open.spotify.com/track/0fK7ie6XwGxQTIkpFoWkd1?si=d6aa299e55974b04",
+      "apple": "https://music.apple.com/us/song/like-jennie/1795979745",
+      "youtube": "https://www.youtube.com/watch?v=JSFG-IE8n_c"
     },
     {
-      "id": 3,
-      "member": "ROSÉ",
-      "spotify": "18.1M",
-      "youtube": "8.4M",
-      "instagram": "79.1M"
+      "id": 1784380641991,
+      "title": "TOXIC TILL THE END",
+      "streams": "457,892,667",
+      "goal": "500,000,000",
+      "daily": "325,435",
+      "trend": "up",
+      "spotify": "https://open.spotify.com/track/1z5ebC9238uGoBgzYyvGpQ?si=df31c9cd0e2248c6",
+      "apple": "https://music.apple.com/us/song/toxic-till-the-end/1771105929",
+      "youtube": "https://www.youtube.com/watch?v=eA0lHNZ1KCA"
     },
     {
-      "id": 4,
-      "member": "LISA",
-      "spotify": "26.3M",
-      "youtube": "14.0M",
-      "instagram": "104.1M"
+      "id": 1784380789311,
+      "title": "FXUP UP THE WORLD (FT.FUTURE)",
+      "streams": "110,560,232",
+      "goal": "200,000,000",
+      "daily": "53,432",
+      "trend": "up",
+      "spotify": "https://open.spotify.com/album/2yFUY0P4ie8NDZYgBRZuTA?si=LYPTHjNARdKGXV90uLUmuA",
+      "apple": "https://music.apple.com/us/song/fxck-up-the-world-feat-future/1798585336",
+      "youtube": "https://www.youtube.com/watch?v=r5VRqWkFpEQ"
     }
   ],
   "playlists": [
