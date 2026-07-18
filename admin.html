@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Admin Dashboard - BLACKPINK CRAVE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=5">
+  <style>
+    .admin-grid {
+      display: grid !important;
+      grid-template-columns: 1fr !important;
+      gap: 30px !important;
+    }
+    .admin-card.span-2 {
+      grid-column: span 1 !important;
+    }
+    @media (min-width: 1025px) {
+      .admin-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 40px !important;
+      }
+      .admin-card.span-2 {
+        grid-column: span 2 !important;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      nav .nav-container {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 12px 15px !important;
+        gap: 0 !important;
+      }
+      nav .desktop-only {
+        display: none !important;
+      }
+      nav .nav-right {
+        display: none !important;
+      }
+      nav .nav-container > div:last-child {
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        margin-top: 0 !important;
+      }
+      main.admin-main {
+        margin-top: 85px !important;
+        padding: 20px 15px !important;
+      }
+      .admin-card {
+        padding: 20px 15px !important;
+      }
+      .section-header {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 15px !important;
+        margin-bottom: 25px !important;
+      }
+      .section-header button {
+        width: 100% !important;
+        padding: 12px !important;
+        font-size: 11px !important;
+      }
+      .ticker-input-row button {
+        background-color: rgba(239, 68, 68, 0.08) !important;
+        padding: 6px 12px !important;
+        border-radius: 4px !important;
+      }
+    }
+  </style>
+  <script>
+    if (localStorage.getItem('crave_admin_logged_in') !== 'true') {
+      window.location.href = 'login.html';
+    }
+  </script>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <a href="index.html" class="back-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+          </svg>
+          <span>Home</span>
+        </a>
+        <span style="opacity: 0.15; font-size: 14px; display: inline-block; transform: translateY(-1px);">|</span>
+        <div class="logo"><a href="index.html?v=2"><img src="images/logo.jpg" alt="Logo" class="logo-img"><span>BLACKPINK CRAVE</span></a> <span class="nav-breadcrumb">/ ADMIN BOARD</span></div>
+      </div>
+      <div class="nav-right desktop-only">
+        <ul class="nav-links">
+          <li><a href="index.html#members">Members</a></li>
+          <li><a href="stats.html?v=2">Streaming Goals</a></li>
+          <li><a href="solos.html?v=2">Discography</a></li>
+          <li><a href="votings.html?v=2">Votings</a></li>
+          <li><a href="playlists.html?v=5">Playlists</a></li>
+          
+        </ul>
+        
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button onclick="handleLogout()" class="emoji-theme-btn" id="logoutBtn" title="Logout">🚪</button>
+        <button onclick="toggleTheme()" class="emoji-theme-btn" id="themeToggleBtn" title="Toggle Light/Dark Mode">☀️</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="admin-main">
+    <div class="section-header" style="justify-content: space-between; align-items: flex-end;">
+      <div>
+        <p class="section-num">06 / Dashboard</p>
+        <h2 class="section-title">Team Admin Control</h2>
+      </div>
+      <button class="btn-submit" onclick="saveAllChanges()" style="padding: 10px 20px;">Save All Changes</button>
+    </div>
+
+    <div class="save-reminder-box" style="background-color: rgba(224, 86, 36, 0.05); border: 1px solid rgba(224, 86, 36, 0.2); border-radius: 10px; padding: 15px 20px; margin-top: 20px; margin-bottom: 25px; display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+      <span style="font-size: 20px;">⚠️</span>
+      <p style="font-size: 13px; font-weight: 500; margin: 0; color: #ff8552; font-family: var(--font-sans); line-height: 1.5; letter-spacing: 0.3px;">
+        <strong>IMPORTANT REMINDER:</strong> Please make sure to click the <strong style="text-decoration: underline; color: #ffffff;">Save All Changes</strong> button at the top or bottom of this page after adding or editing any content. Unsaved changes will be lost when you log out or close the page!
+      </p>
+    </div>
+
+    <div id="successAlert" style="display: none; padding: 15px; border: 1px solid #00ba7c; color: #00ba7c; background-color: rgba(0, 186, 124, 0.05); text-align: center; margin-bottom: 30px; font-weight: 500; font-size: 14px;">
+      ✦ Success: All edits saved! The website will now render your overrides.
+    </div>
+
+    <div class="admin-grid">
+      <div class="admin-card">
+        <h3 class="admin-card-title">1. Edit Scoreboard Ticker</h3>
+        <div id="tickerInputsList" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
+        </div>
+        <button class="btn-submit" onclick="addTickerInputRow()" style="background-color: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); font-size: 11px; padding: 10px; text-transform: uppercase;">+ Add Ticker Message</button>
+      </div>
+
+      <div class="admin-card">
+        <h3 class="admin-card-title">2. Edit Member Bios</h3>
+        <div class="form-group">
+          <label>Select Member</label>
+          <select id="memberSelector" class="form-control" onchange="loadMemberDataForEdit()" style="background-color: var(--card-bg);">
+            <option value="jisoo">Jisoo</option>
+            <option value="jennie">Jennie</option>
+            <option value="rose">Rosé</option>
+            <option value="lisa">Lisa</option>
+          </select>
+        </div>
+        <div class="form-row-2col">
+          <div class="form-group">
+            <label>Homepage Name</label>
+            <input type="text" id="memberName" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Full Bio Name</label>
+            <input type="text" id="memberFullName" class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Agency / Label</label>
+          <input type="text" id="memberLabel" class="form-control">
+        </div>
+        <div class="form-row-2col">
+          <div class="form-group">
+            <label>Fashion Brands</label>
+            <input type="text" id="memberBrands" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Latest Project</label>
+            <input type="text" id="memberProject" class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Biography Text</label>
+          <textarea id="memberBio" class="form-control" rows="4" style="resize: vertical; font-family: var(--font-sans); font-size: 13px; line-height: 1.5;"></textarea>
+        </div>
+      </div>
+
+      <div class="admin-card span-2">
+        <h3 class="admin-card-title">3. Manage Ongoing Votings</h3>
+        <div class="form-row-flex">
+          <div class="form-group" style="flex: 1.5; min-width: 200px;">
+            <label>Show / Poll Name</label>
+            <input type="text" id="newVoteName" class="form-control" placeholder="e.g. Mnet M Countdown">
+          </div>
+          <div class="form-group" style="flex: 1.2; min-width: 180px;">
+            <label>Nomination Detail</label>
+            <input type="text" id="newVoteNom" class="form-control" placeholder="e.g. LISA - ROCKSTAR">
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 150px;">
+            <label>Closing Date</label>
+            <input type="text" id="newVoteDate" class="form-control" placeholder="e.g. July 20, 2026">
+          </div>
+          <div class="form-group" style="flex: 1.5; min-width: 200px;">
+            <label>Voting Platform Link</label>
+            <input type="url" id="newVoteLink" class="form-control" placeholder="https://...">
+          </div>
+          <button class="btn-submit" id="addVoteBtn" onclick="addVotingItem()" style="padding: 12px 25px; height: 46px;">Add Poll</button>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-color); padding-top: 15px;">
+          <h4 style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 10px;">Current Voting Polls</h4>
+          <div id="votingList" style="display: flex; flex-direction: column; gap: 10px;">
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-card span-2">
+        <h3 class="admin-card-title">4. Manage Group Streaming Goals</h3>
+        <div class="form-row-flex">
+          <div class="form-group" style="flex: 1.5; min-width: 200px;">
+            <label>Song Title</label>
+            <input type="text" id="newGoalTitle" class="form-control" placeholder="e.g. Pink Venom">
+          </div>
+          <div class="form-group" style="flex: 1.2; min-width: 150px;">
+            <label>Current Streams</label>
+            <input type="text" id="newGoalStreams" class="form-control" placeholder="e.g. 850,000,000">
+          </div>
+          <div class="form-group" style="flex: 1.2; min-width: 150px;">
+            <label>Milestone Target</label>
+            <input type="text" id="newGoalMilestone" class="form-control" placeholder="e.g. 1,000,000,000">
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 120px;">
+            <label>Daily Streams</label>
+            <input type="text" id="newGoalDaily" class="form-control" placeholder="e.g. 211,196">
+          </div>
+          <div class="form-group" style="flex: 0.8; min-width: 100px;">
+            <label>Trend</label>
+            <select id="newGoalTrend" class="form-control" style="background-color: var(--card-bg);">
+              <option value="up">Up (Green)</option>
+              <option value="down">Down (Red)</option>
+              <option value="flat">Flat (Green)</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-row-flex">
+          <div class="form-group" style="flex: 1; min-width: 200px;">
+            <label>Spotify Stream Link</label>
+            <input type="url" id="newGoalSpotify" class="form-control" placeholder="https://open.spotify.com/...">
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 200px;">
+            <label>Apple Music Link</label>
+            <input type="url" id="newGoalApple" class="form-control" placeholder="https://music.apple.com/...">
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 200px;">
+            <label>YouTube Video Link</label>
+            <input type="url" id="newGoalYouTube" class="form-control" placeholder="https://www.youtube.com/...">
+          </div>
+          <button class="btn-submit" id="addGoalBtn" onclick="addStreamingGoalItem()" style="padding: 12px 25px; height: 46px;">Add Goal</button>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-color); padding-top: 15px;">
+          <h4 style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 10px;">Current Group Streaming Goals</h4>
+          <div id="goalsList" style="display: flex; flex-direction: column; gap: 10px;">
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-card span-2">
+        <h3 class="admin-card-title">4b. Manage Solo Streaming Goals</h3>
+        <div class="form-row-flex">
+          <div class="form-group" style="flex: 1.5; min-width: 200px;">
+            <label>Song Title</label>
+            <input type="text" id="newSoloGoalTitle" class="form-control" placeholder="e.g. Rockstar">
+          </div>
+          <div class="form-group" style="flex: 1.2; min-width: 150px;">
+            <label>Current Streams</label>
+            <input type="text" id="newSoloGoalStreams" class="form-control" placeholder="e.g. 220,105,488">
+          </div>
+          <div class="form-group" style="flex: 1.2; min-width: 150px;">
+            <label>Milestone Target</label>
+            <input type="text" id="newSoloGoalMilestone" class="form-control" placeholder="e.g. 300,000,000">
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 120px;">
+            <label>Daily Streams</label>
+            <input type="text" id="newSoloGoalDaily" class="form-control" placeholder="e.g. 206,960">
+          </div>
+          <div class="form-group" style="flex: 0.8; min-width: 100px;">
+            <label>Trend</label>
+            <select id="newSoloGoalTrend" class="form-control" style="background-color: var(--card-bg);">
+              <option value="up">Up (Green)</option>
+              <option value="down">Down (Red)</option>
+              <option value="flat">Flat (Green)</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-row-flex">
+          <div class="form-group" style="flex: 1; min-width: 200px;">
+            <label>Spotify Stream Link</label>
+            <input type="url" id="newSoloGoalSpotify" class="form-control" placeholder="https://open.spotify.com/...">
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 200px;">
+            <label>Apple Music Link</label>
+            <input type="url" id="newSoloGoalApple" class="form-control" placeholder="https://music.apple.com/...">
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 200px;">
+            <label>YouTube Video Link</label>
+            <input type="url" id="newSoloGoalYouTube" class="form-control" placeholder="https://www.youtube.com/...">
+          </div>
+          <button class="btn-submit" id="addSoloGoalBtn" onclick="addSoloStreamingGoalItem()" style="padding: 12px 25px; height: 46px;">Add Solo Goal</button>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-color); padding-top: 15px;">
+          <h4 style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 10px;">Current Solo Streaming Goals</h4>
+          <div id="soloGoalsList" style="display: flex; flex-direction: column; gap: 10px;">
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-card span-2">
+        <h3 class="admin-card-title">5. Manage Upcoming Calendar/Schedules</h3>
+        <div class="form-row-flex">
+          <div class="form-group" style="flex: 2; min-width: 250px;">
+            <label>Event Description / Title</label>
+            <input type="text" id="newSchedEvent" class="form-control" placeholder="e.g. LISA - Global Citizen Festival Performance">
+          </div>
+          <div class="form-group" style="flex: 1.2; min-width: 180px;">
+            <label>Date / Time</label>
+            <input type="text" id="newSchedDate" class="form-control" placeholder="e.g. September 27, 2026">
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 120px;">
+            <label>Category Badge</label>
+            <input type="text" id="newSchedCategory" class="form-control" placeholder="e.g. Performance">
+          </div>
+          <div class="form-group" style="flex: 1.5; min-width: 200px;">
+            <label>Info Link (Optional)</label>
+            <input type="url" id="newSchedLink" class="form-control" placeholder="https://...">
+          </div>
+          <button class="btn-submit" id="addSchedBtn" onclick="addScheduleItem()" style="padding: 12px 25px; height: 46px;">Add Event</button>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-color); padding-top: 15px;">
+          <h4 style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 10px;">Current Schedules List</h4>
+          <div id="schedulesList" style="display: flex; flex-direction: column; gap: 10px;">
+        </div>
+      </div>
+
+      <div class="admin-card span-2">
+        <h3 class="admin-card-title">6. Manage Streaming Playlists</h3>
+        <div class="form-group">
+          <label>Playlist Title</label>
+          <input type="text" id="newPlaylistTitle" class="form-control" placeholder="e.g. BLACKPINK Hype Loop">
+        </div>
+        <div class="form-row-flex" style="margin-top: 15px;">
+          <div class="form-group" style="flex: 1; min-width: 200px;">
+            <label>Spotify Link</label>
+            <input type="url" id="newPlaylistSpotify" class="form-control" placeholder="https://...">
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 200px;">
+            <label>Apple Music Link</label>
+            <input type="url" id="newPlaylistApple" class="form-control" placeholder="https://...">
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 200px;">
+            <label>YouTube Link</label>
+            <input type="url" id="newPlaylistYouTube" class="form-control" placeholder="https://...">
+          </div>
+          <button class="btn-submit" id="addPlaylistBtn" onclick="addPlaylistGridItem()" style="padding: 12px 25px; height: 46px; align-self: flex-end; margin-bottom: 2px;">Add Playlist</button>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-color); padding-top: 15px; margin-top: 20px;">
+          <h4 style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 10px;">Current Playlists</h4>
+          <div id="adminPlaylistsList" style="display: flex; flex-direction: column; gap: 10px;">
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 8: GitHub Cloud Sync Settings -->
+      <div class="admin-card span-2" style="border: 1px solid var(--accent-color);">
+        <h3 class="admin-card-title" style="color: var(--accent-color);">GitHub Database Sync</h3>
+        <p style="font-size: 11px; opacity: 0.7; margin-bottom: 20px;">
+          Connect your GitHub repository to sync updates globally in real-time. Changes will write to config.json in your repo, triggering automatic redeploy.
+        </p>
+        
+        <div id="githubSyncAlert" style="display: none; padding: 12px; font-size: 12px; border: 1px solid #00ba7c; color: #00ba7c; background-color: rgba(0, 186, 124, 0.05); text-align: center; margin-bottom: 20px;">
+          ✦ Success: GitHub config.json updated! Redeploy triggered.
+        </div>
+        <div id="githubSyncError" style="display: none; padding: 12px; font-size: 12px; border: 1px solid #ef4444; color: #ef4444; background-color: rgba(239, 68, 68, 0.05); text-align: center; margin-bottom: 20px;">
+        </div>
+
+        <div class="form-row-flex" style="gap: 15px;">
+          <div class="form-group" style="flex: 1; min-width: 150px;">
+            <label>GitHub Username</label>
+            <input type="text" id="githubUser" class="form-control" placeholder="e.g. yourusername">
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 150px;">
+            <label>Repository Name</label>
+            <input type="text" id="githubRepo" class="form-control" placeholder="e.g. blackpinkcrave">
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 100px;">
+            <label>Branch Name</label>
+            <input type="text" id="githubBranch" class="form-control" placeholder="main">
+          </div>
+        </div>
+        <div class="form-group" style="margin-top: 15px;">
+          <label>GitHub Personal Access Token (stored locally & securely in your browser)</label>
+          <input type="password" id="githubToken" class="form-control" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+    <footer>
+    <div class="footer-logo"><img src="images/logo.jpg" alt="Logo" class="logo-img" style="width: 24px; height: 24px;"><span>BLACKPINK CRAVE</span></div>
+    <div class="footer-copy">&copy; 2026 BLACKPINK CRAVE Designed for BLINKs</div>
+    
+  
+      
+      <p class="footer-disclaimer" style="font-size: 11px; opacity: 0.45; max-width: 600px; margin: 15px auto 0 auto; line-height: 1.6; font-family: var(--font-sans); text-transform: none; letter-spacing: 0px;">
+        BLACKPINK CRAVE is an independent fan-run platform and is not affiliated with YG Entertainment. All content is for informational and entertainment purposes only.
+      </p>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/blackpinkofficial/" target="_blank" title="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+        <a href="https://twitter.com/BLACKPINK" target="_blank" title="Twitter / X"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"></path><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path></svg></a>
+        <a href="https://www.tiktok.com/@bp_tiktok" target="_blank" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg></a>
+        <a href="https://www.youtube.com/@BLACKPINK" target="_blank" title="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="5" ry="5"></rect><path d="M10 15l5-3-5-3v6z"></path></svg></a>
+                <a href="https://open.spotify.com/artist/41MozSoPIsD1dJM0CLPjZF" target="_blank" title="Spotify"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 11.5c2.5-1.5 5.5-1.5 8 0"></path><path d="M9 14c2-1 4-1 6 0"></path><path d="M7 9c3-2 7-2 10 0"></path></svg></a>
+      </div>
+    </footer>
+
+  <script src="script.js?v=5"></script>
+  <script>
+    let tickerData = [
+      "LISA’s \"ROCKSTAR\" just hit 200M streams on Spotify",
+      "Countdown: 28 days until BLACKPINK's 10th Anniversary Event",
+      "JENNIE fronts Chanel Coco Crush campaign worldwide",
+      "ROSÉ signs global partnership with The Black Label"
+    ];
+    let memberData = {
+      jisoo: {
+        name: "JISOO",
+        fullName: "JISOO",
+        role: "Vocalist & Actress",
+        label: "BLISSOO Entertainment",
+        brands: "Dior & Cartier",
+        project: "Newtopia (Coupang Play)",
+        bio: "Jisoo is a multi-talented South Korean singer and actress who debuted with Blackpink in 2016. As the eldest member and lead vocalist, she is celebrated for her distinct, husky vocal tone. In 2023, she made a record-breaking solo musical debut with her hit single \"Flower.\" Beyond music, Jisoo is an acclaimed actress, starring in the popular television drama Snowdrop. Her massive cultural influence extends into high fashion, where she serves as a global ambassador for Dior."
+      },
+      jennie: {
+        name: "JENNIE",
+        fullName: "JENNIE",
+        role: "Rapper & Vocalist",
+        label: "ODD ATELIER",
+        brands: "Chanel & Gentle Monster",
+        project: "Solo Album Campaign",
+        bio: "Jennie is a versatile South Korean singer and rapper who debuted with Blackpink in 2016. As the group's main rapper and lead vocalist, she is famous for her fierce stage presence. In 2018, she became the first member to go solo with her chart-topping single \"Solo.\" Beyond music, she made her Hollywood acting debut in the HBO television series The Idol. A powerhouse in high fashion, Jennie serves as a prominent global ambassador for the luxury brand Chanel."
+      },
+      rose: {
+        name: "ROSÉ",
+        fullName: "ROSÉ",
+        role: "Main Vocalist",
+        label: "The Black Label",
+        brands: "Saint Laurent & Tiffany & Co.",
+        project: "APT. Worldwide Release",
+        bio: "Rosé is a talented Korean-New Zealand singer and dancer who debuted with Blackpink in 2016. As the group's main vocalist, she is globally recognized for her highly distinct, emotional, and dreamy voice. In 2021, she made a historic solo debut with her record-shattering single album R. Beyond music, Rosé is a massive style icon, serving as a global ambassador for luxury powerhouses Saint Laurent and Tiffany & Co. Her undeniable charisma and vocal prowess have firmly cemented her status as a definitive modern pop idol."
+      },
+      lisa: {
+        name: "LISA",
+        fullName: "LISA",
+        role: "Dancer & Rapper",
+        label: "LLOUD Co. / RCA",
+        brands: "Bulgari & Louis Vuitton",
+        project: "Rockstar Single Promo",
+        bio: "Lisa is a phenomenal Thai rapper and dancer who debuted with Blackpink in 2016. As the group's main dancer and lead rapper, she is globally celebrated for her unparalleled stage presence. She launched a historic solo career with her record-shattering single album LALISA and her independent label LLOUD. Beyond music, she expanded her career into Hollywood by acting in the acclaimed series The White Lotus. A monumental force in high fashion, Lisa dominates the industry as a premier global ambassador for Louis Vuitton."
+      }
+    };
+    let votingData = [
+      { id: 1, name: "Show! Music Core", nomination: "ROSÉ - APT.", date: "Ongoing Event", link: "https://mnetplus.net/" },
+      { id: 2, name: "Inkigayo Weekly Poll", nomination: "LISA - Rockstar", date: "Closing in 3 days", link: "https://starpass.co.kr/" },
+      { id: 3, name: "Billboard Fan Choice", nomination: "BLACKPINK - Group Category", date: "Closes July 31, 2026", link: "https://www.billboard.com/" }
+    ];
+    let goalsData = [
+      {
+        id: 1,
+        title: "Shut Down",
+        streams: "897,200,570",
+        goal: "1,000,000,000",
+        daily: "211,196",
+        trend: "flat",
+        spotify: "https://open.spotify.com/track/7gRFDGEzF9UkBV233yv2dc",
+        apple: "https://music.apple.com/us/album/shut-down/1636184518?i=1636184520",
+        youtube: "https://www.youtube.com/watch?v=POeVILS0030"
+      },
+      {
+        id: 2,
+        title: "JUMP",
+        streams: "650,091,377",
+        goal: "800,000,000",
+        daily: "630,646",
+        trend: "flat",
+        spotify: "https://open.spotify.com/track/5jQ3mnhNhs9VuEvmVKllWM",
+        apple: "https://music.apple.com/us/search?term=BLACKPINK%20JUMP",
+        youtube: "https://www.youtube.com/results?search_query=BLACKPINK+JUMP"
+      },
+      {
+        id: 3,
+        title: "GO",
+        streams: "90,208,179",
+        goal: "100,000,000",
+        daily: "210,926",
+        trend: "flat",
+        spotify: "https://open.spotify.com/track/0mYa3o6tlUN5HRippmKmwH",
+        apple: "https://music.apple.com/us/search?term=BLACKPINK%20GO",
+        youtube: "https://www.youtube.com/results?search_query=BLACKPINK+GO"
+      }
+    ];
+
+    let editingVoteId = null;
+    let editingGoalId = null;
+    let editingScheduleId = null;
+    let editingSoloGoalId = null;
+    let soloGoalsData = [
+      {
+        id: 101,
+        title: "Rockstar",
+        streams: "220,105,488",
+        goal: "300,000,000",
+        trend: "up",
+        spotify: "https://open.spotify.com/track/4eJ234sl0C3V3p0wJu5qGj",
+        apple: "https://music.apple.com/us/search?term=LISA%20Rockstar",
+        youtube: "https://www.youtube.com/watch?v=hbcGx4MGUMg"
+      },
+      {
+        id: 102,
+        title: "Solo",
+        streams: "650,489,102",
+        goal: "700,000,000",
+        trend: "flat",
+        spotify: "https://open.spotify.com/track/2nSpzZqX6Q3Zz66L72tS4o",
+        apple: "https://music.apple.com/us/album/solo/1441865745?i=1441865746",
+        youtube: "https://www.youtube.com/watch?v=b73BI9eUkjM"
+      },
+      {
+        id: 103,
+        title: "On The Ground",
+        streams: "420,119,482",
+        goal: "500,000,000",
+        trend: "up",
+        spotify: "https://open.spotify.com/track/4y94J22gV2n2SpzZqX6Q3Z",
+        apple: "https://music.apple.com/us/search?term=ROSE%20On%20The%20Ground",
+        youtube: "https://www.youtube.com/watch?v=CKZvXxC5170"
+      }
+    ];
+
+    let schedulesData = [
+      { id: 1, event: "LISA - Global Citizen Festival Performance", date: "September 27, 2026", category: "Performance", link: "https://www.globalcitizen.org/" },
+      { id: 2, event: "JENNIE - Chanel Spring/Summer Fashion Week", date: "October 1, 2026", category: "Fashion", link: "https://www.chanel.com/" },
+      { id: 3, event: "ROSÉ - Album Pre-release Single", date: "Late 2026", category: "Music", link: "stats.html" }
+    ];
+
+    let playlistsData = [
+      {
+        id: 1,
+        title: "BLACKPINK group playlist",
+        spotify: "https://open.spotify.com/artist/41MozSoPIsD1dJM0CLPjZF",
+        apple: "https://music.apple.com/us/artist/blackpink/1145027411",
+        youtube: "https://www.youtube.com/@BLACKPINK"
+      },
+      {
+        id: 2,
+        title: "JISOO playlist",
+        spotify: "https://open.spotify.com/artist/6UZ0ba50XreR4TM8u322gs",
+        apple: "https://music.apple.com/us/artist/jisoo/1676643265",
+        youtube: "https://www.youtube.com/results?search_query=JISOO+Flower"
+      },
+      {
+        id: 3,
+        title: "JENNIE playlist",
+        spotify: "https://open.spotify.com/artist/250b0Wlc5Vk0CoUsaCY84M",
+        apple: "https://music.apple.com/us/artist/jennie/1440733519",
+        youtube: "https://www.youtube.com/results?search_query=JENNIE+Solo"
+      },
+      {
+        id: 4,
+        title: "ROSE playlist",
+        spotify: "https://open.spotify.com/artist/3eVa5w3URK5duf6eyVDbu9",
+        apple: "https://music.apple.com/us/artist/ros%C3%A9/1556657989",
+        youtube: "https://www.youtube.com/results?search_query=ROSE+On+The+Ground"
+      },
+      {
+        id: 5,
+        title: "LISA playlist",
+        spotify: "https://open.spotify.com/artist/5L1lO4eRHmJ7a0Q6csE5cT",
+        apple: "https://music.apple.com/us/artist/lisa/1582298950",
+        youtube: "https://www.youtube.com/results?search_query=LISA+Lalisa"
+      }
+    ];
+
+    let editingPlaylistId = null;
+
+    if (localStorage.getItem('crave_ticker_overrides')) {
+      tickerData = JSON.parse(localStorage.getItem('crave_ticker_overrides'));
+    }
+    if (localStorage.getItem('crave_member_overrides')) {
+      memberData = JSON.parse(localStorage.getItem('crave_member_overrides'));
+    }
+    if (localStorage.getItem('crave_voting_data')) {
+      votingData = JSON.parse(localStorage.getItem('crave_voting_data'));
+    }
+    if (localStorage.getItem('crave_stats_data')) {
+      goalsData = JSON.parse(localStorage.getItem('crave_stats_data'));
+    }
+    if (localStorage.getItem('crave_schedules')) {
+      schedulesData = JSON.parse(localStorage.getItem('crave_schedules'));
+    }
+    if (localStorage.getItem('crave_solo_stats_data')) {
+      soloGoalsData = JSON.parse(localStorage.getItem('crave_solo_stats_data'));
+    }
+    if (localStorage.getItem('crave_playlists_data')) {
+      playlistsData = JSON.parse(localStorage.getItem('crave_playlists_data'));
+    }
+
+    function initForm() {
+      renderTickerInputs();
+
+      loadMemberDataForEdit();
+
+      renderVotingsList();
+
+      renderGoalsList();
+
+      renderSchedulesList();
+      renderSoloGoalsList();
+      renderPlaylistsList();
+
+      document.getElementById('githubUser').value = localStorage.getItem('crave_gh_user') || '';
+      document.getElementById('githubRepo').value = localStorage.getItem('crave_gh_repo') || '';
+      document.getElementById('githubBranch').value = localStorage.getItem('crave_gh_branch') || 'main';
+      document.getElementById('githubToken').value = localStorage.getItem('crave_gh_token') || '';
+    }
+
+        function updateTickerData(idx, val) {
+      tickerData[idx] = val;
+      autoSave();
+    }
+
+    function renderTickerInputs() {
+      const list = document.getElementById('tickerInputsList');
+      list.innerHTML = '';
+      
+      tickerData.forEach((msg, idx) => {
+        const row = document.createElement('div');
+        row.className = 'ticker-input-row';
+        row.style.display = 'flex';
+        row.style.gap = '10px';
+        row.style.alignItems = 'center';
+        
+        row.innerHTML = `
+          <input type="text" value="${msg}" class="form-control ticker-input-field" style="flex: 1;" oninput="updateTickerData(${idx}, this.value)">
+          <button onclick="removeTickerInputRow(${idx})" style="background: none; border: none; color: #ef4444; font-size: 11px; text-transform: uppercase; cursor: pointer; letter-spacing: 1px; flex-shrink: 0;">Delete</button>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    function addTickerInputRow() {
+      gatherCurrentTickerInputs();
+      tickerData.push("");
+      renderTickerInputs();
+      autoSave();
+    }
+
+    function removeTickerInputRow(idx) {
+      if (tickerData.length <= 1) {
+        alert("At least one ticker message is required.");
+        return;
+      }
+      gatherCurrentTickerInputs();
+      tickerData.splice(idx, 1);
+      renderTickerInputs();
+      autoSave();
+    }
+
+    function gatherCurrentTickerInputs() {
+      const fields = document.querySelectorAll('.ticker-input-field');
+      tickerData = Array.from(fields).map(field => field.value.trim());
+    }
+
+    function loadMemberDataForEdit() {
+      const selected = document.getElementById('memberSelector').value;
+      const data = memberData[selected];
+      
+      const defaultInfo = {
+        jisoo: {
+          name: "JISOO",
+          fullName: "JISOO",
+          label: "BLISSOO Entertainment",
+          brands: "Dior & Cartier",
+          project: "Newtopia (Coupang Play)",
+          bio: "Jisoo is a multi-talented South Korean singer and actress who debuted with Blackpink in 2016. As the eldest member and lead vocalist, she is celebrated for her distinct, husky vocal tone. In 2023, she made a record-breaking solo musical debut with her hit single \"Flower.\" Beyond music, Jisoo is an acclaimed actress, starring in the popular television drama Snowdrop. Her massive cultural influence extends into high fashion, where she serves as a global ambassador for Dior."
+        },
+        jennie: {
+          name: "JENNIE",
+          fullName: "JENNIE",
+          label: "ODD ATELIER",
+          brands: "Chanel & Gentle Monster",
+          project: "Solo Album Campaign",
+          bio: "Jennie is a versatile South Korean singer and rapper who debuted with Blackpink in 2016. As the group's main rapper and lead vocalist, she is famous for her fierce stage presence. In 2018, she became the first member to go solo with her chart-topping single \"Solo.\" Beyond music, she made her Hollywood acting debut in the HBO television series The Idol. A powerhouse in high fashion, Jennie serves as a prominent global ambassador for the luxury brand Chanel."
+        },
+        rose: {
+          name: "ROSÉ",
+          fullName: "ROSÉ",
+          label: "The Black Label",
+          brands: "Saint Laurent & Tiffany & Co.",
+          project: "APT. Worldwide Release",
+          bio: "Rosé is a talented Korean-New Zealand singer and dancer who debuted with Blackpink in 2016. As the group's main vocalist, she is globally recognized for her highly distinct, emotional, and dreamy voice. In 2021, she made a historic solo debut with her record-shattering single album R. Beyond music, Rosé is a massive style icon, serving as a global ambassador for luxury powerhouses Saint Laurent and Tiffany & Co. Her undeniable charisma and vocal prowess have firmly cemented her status as a definitive modern pop idol."
+        },
+        lisa: {
+          name: "LISA",
+          fullName: "LISA",
+          label: "LLOUD",
+          brands: "Louis Vuitton & Bulgari",
+          project: "White Lotus Season 3",
+          bio: "Lisa is a phenomenal Thai rapper and dancer who debuted with Blackpink in 2016. As the group's main dancer and lead rapper, she is globally celebrated for her unparalleled stage presence. She launched a historic solo career with her record-shattering single album LALISA and her independent label LLOUD. Beyond music, she expanded her career into Hollywood by acting in the acclaimed series The White Lotus. A monumental force in high fashion, Lisa dominates the industry as a premier global ambassador for Louis Vuitton."
+        }
+      };
+      
+      const defaults = defaultInfo[selected];
+      
+      document.getElementById('memberName').value = data.name || defaults.name;
+      document.getElementById('memberFullName').value = data.fullName || defaults.fullName;
+      document.getElementById('memberLabel').value = data.label || defaults.label;
+      document.getElementById('memberBrands').value = data.brands || defaults.brands;
+      document.getElementById('memberProject').value = data.project || defaults.project;
+      document.getElementById('memberBio').value = data.bio || defaults.bio;
+    }
+
+    function renderVotingsList() {
+      const container = document.getElementById('votingList');
+      container.innerHTML = '';
+
+      if (votingData.length === 0) {
+        container.innerHTML = '<p style="opacity: 0.5; font-size: 13px; font-style: italic;">No voting polls configured.</p>';
+        return;
+      }
+
+      votingData.forEach(item => {
+        const row = document.createElement('div');
+        row.style.display = 'flex';
+        row.style.justifyContent = 'space-between';
+        row.style.alignItems = 'center';
+        row.style.padding = '12px 15px';
+        row.style.border = '1px solid var(--border-color)';
+        row.style.backgroundColor = 'var(--bg-color)';
+        
+        row.innerHTML = `
+          <div>
+            <strong style="font-family: var(--font-serif); font-size: 15px;">${item.name}</strong>
+            <span style="opacity: 0.5; font-size: 11px; margin-left: 10px;">(${item.nomination})</span>
+            <div style="font-size: 10px; opacity: 0.7; margin-top: 3px;">Date: ${item.date} | Link: <a href="${item.link}" target="_blank" style="color: var(--accent-color);">${item.link}</a></div>
+          </div>
+          <div style="display: flex; gap: 15px; align-items: center;">
+            <button onclick="editVotingItem(${item.id})" style="background: none; border: none; color: var(--accent-color); font-size: 11px; text-transform: uppercase; cursor: pointer; letter-spacing: 1px;">Edit</button>
+            <button onclick="deleteVotingItem(${item.id})" style="background: none; border: none; color: #ef4444; font-size: 11px; text-transform: uppercase; cursor: pointer; letter-spacing: 1px;">Delete</button>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function editVotingItem(id) {
+      const item = votingData.find(i => i.id === id);
+      if (!item) return;
+      editingVoteId = id;
+      document.getElementById('newVoteName').value = item.name;
+      document.getElementById('newVoteNom').value = item.nomination;
+      document.getElementById('newVoteDate').value = item.date;
+      document.getElementById('newVoteLink').value = item.link;
+      document.getElementById('addVoteBtn').textContent = 'Update Poll';
+      
+      document.getElementById('newVoteName').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function addVotingItem() {
+      const name = document.getElementById('newVoteName').value.trim();
+      const nomination = document.getElementById('newVoteNom').value.trim();
+      const date = document.getElementById('newVoteDate').value.trim();
+      const link = document.getElementById('newVoteLink').value.trim();
+
+      if (!name || !nomination || !link) {
+        alert("Please complete the Name, Nomination, and Link fields.");
+        return;
+      }
+
+      if (editingVoteId !== null) {
+        const item = votingData.find(i => i.id === editingVoteId);
+        if (item) {
+          item.name = name;
+          item.nomination = nomination;
+          item.date = date || 'Ongoing Event';
+          item.link = link;
+        }
+        editingVoteId = null;
+        document.getElementById('addVoteBtn').textContent = 'Add Poll';
+      } else {
+        const newItem = {
+          id: Date.now(),
+          name,
+          nomination,
+          date: date || 'Ongoing Event',
+          link
+        };
+        votingData.push(newItem);
+      }
+
+      renderVotingsList();
+      autoSave();
+
+      document.getElementById('newVoteName').value = '';
+      document.getElementById('newVoteNom').value = '';
+      document.getElementById('newVoteDate').value = '';
+      document.getElementById('newVoteLink').value = '';
+    }
+
+    function deleteVotingItem(id) {
+      votingData = votingData.filter(item => item.id !== id);
+      renderVotingsList();
+      autoSave();
+    }
+
+    function renderGoalsList() {
+      const container = document.getElementById('goalsList');
+      container.innerHTML = '';
+
+      if (goalsData.length === 0) {
+        container.innerHTML = '<p style="opacity: 0.5; font-size: 13px; font-style: italic;">No streaming goals configured.</p>';
+        return;
+      }
+
+      goalsData.forEach(item => {
+        const row = document.createElement('div');
+        row.style.display = 'flex';
+        row.style.justifyContent = 'space-between';
+        row.style.alignItems = 'center';
+        row.style.padding = '12px 15px';
+        row.style.border = '1px solid var(--border-color)';
+        row.style.backgroundColor = 'var(--bg-color)';
+        
+        row.innerHTML = `
+          <div>
+            <strong style="font-family: var(--font-serif); font-size: 15px;">${item.title}</strong>
+            <span style="opacity: 0.5; font-size: 11px; margin-left: 10px;">(Milestone: ${item.goal} | Current: ${item.streams})</span>
+            <div style="font-size: 10px; opacity: 0.7; margin-top: 3px;">Spotify: <a href="${item.spotify}" target="_blank" style="color: var(--accent-color);">Link</a></div>
+          </div>
+          <div style="display: flex; gap: 15px; align-items: center;">
+            <button onclick="editGoalItem(${item.id})" style="background: none; border: none; color: var(--accent-color); font-size: 11px; text-transform: uppercase; cursor: pointer; letter-spacing: 1px;">Edit</button>
+            <button onclick="deleteGoalItem(${item.id})" style="background: none; border: none; color: #ef4444; font-size: 11px; text-transform: uppercase; cursor: pointer; letter-spacing: 1px;">Delete</button>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function editGoalItem(id) {
+      const item = goalsData.find(i => i.id === id);
+      if (!item) return;
+      editingGoalId = id;
+      document.getElementById('newGoalTitle').value = item.title;
+      document.getElementById('newGoalStreams').value = item.streams;
+      document.getElementById('newGoalMilestone').value = item.goal;
+      document.getElementById('newGoalDaily').value = item.daily || '0';
+      document.getElementById('newGoalTrend').value = item.trend || 'flat';
+      document.getElementById('newGoalSpotify').value = item.spotify;
+      document.getElementById('newGoalApple').value = item.apple === '#' ? '' : item.apple;
+      document.getElementById('newGoalYouTube').value = item.youtube === '#' ? '' : item.youtube;
+      document.getElementById('addGoalBtn').textContent = 'Update Goal';
+      
+      document.getElementById('newGoalTitle').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function addStreamingGoalItem() {
+      const title = document.getElementById('newGoalTitle').value.trim();
+      const streams = document.getElementById('newGoalStreams').value.trim();
+      const goal = document.getElementById('newGoalMilestone').value.trim();
+      const daily = document.getElementById('newGoalDaily').value.trim() || '0';
+      const trend = document.getElementById('newGoalTrend').value;
+      const spotify = document.getElementById('newGoalSpotify').value.trim();
+      const apple = document.getElementById('newGoalApple').value.trim();
+      const youtube = document.getElementById('newGoalYouTube').value.trim();
+
+      if (!title || !streams || !goal || !spotify) {
+        alert("Please complete the Title, Current Streams, Milestone, and Spotify Link fields.");
+        return;
+      }
+
+      if (editingGoalId !== null) {
+        const item = goalsData.find(i => i.id === editingGoalId);
+        if (item) {
+          item.title = title;
+          item.streams = streams;
+          item.goal = goal;
+          item.daily = daily;
+          item.trend = trend;
+          item.spotify = spotify;
+          item.apple = apple || "#";
+          item.youtube = youtube || "#";
+        }
+        editingGoalId = null;
+        document.getElementById('addGoalBtn').textContent = 'Add Goal';
+      } else {
+        const newItem = {
+          id: Date.now(),
+          title,
+          streams,
+          goal,
+          daily: daily,
+          trend,
+          spotify,
+          apple: apple || "#",
+          youtube: youtube || "#"
+        };
+        goalsData.push(newItem);
+      }
+
+      renderGoalsList();
+      autoSave();
+
+      document.getElementById('newGoalTitle').value = '';
+      document.getElementById('newGoalStreams').value = '';
+      document.getElementById('newGoalMilestone').value = '';
+      document.getElementById('newGoalSpotify').value = '';
+      document.getElementById('newGoalApple').value = '';
+      document.getElementById('newGoalYouTube').value = '';
+      document.getElementById('newGoalDaily').value = '';
+    }
+
+    function deleteGoalItem(id) {
+      goalsData = goalsData.filter(item => item.id !== id);
+      renderGoalsList();
+      autoSave();
+    }
+
+    function renderSchedulesList() {
+      const container = document.getElementById('schedulesList');
+      container.innerHTML = '';
+
+      if (schedulesData.length === 0) {
+        container.innerHTML = '<p style="opacity: 0.5; font-size: 13px; font-style: italic;">No calendar events configured.</p>';
+        return;
+      }
+
+      schedulesData.forEach(item => {
+        const row = document.createElement('div');
+        row.style.display = 'flex';
+        row.style.justifyContent = 'space-between';
+        row.style.alignItems = 'center';
+        row.style.padding = '12px 15px';
+        row.style.border = '1px solid var(--border-color)';
+        row.style.backgroundColor = 'var(--bg-color)';
+        
+        row.innerHTML = `
+          <div>
+            <strong style="font-family: var(--font-serif); font-size: 15px;">${item.event}</strong>
+            <span style="opacity: 0.5; font-size: 11px; margin-left: 10px;">(${item.date} | ${item.category})</span>
+            ${item.link && item.link !== '#' ? `<div style="font-size: 10px; opacity: 0.7; margin-top: 3px;">Link: <a href="${item.link}" target="_blank" style="color: var(--accent-color);">${item.link}</a></div>` : ''}
+          </div>
+          <div style="display: flex; gap: 15px; align-items: center;">
+            <button onclick="editScheduleItem(${item.id})" style="background: none; border: none; color: var(--accent-color); font-size: 11px; text-transform: uppercase; cursor: pointer; letter-spacing: 1px;">Edit</button>
+            <button onclick="deleteScheduleItem(${item.id})" style="background: none; border: none; color: #ef4444; font-size: 11px; text-transform: uppercase; cursor: pointer; letter-spacing: 1px;">Delete</button>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function editScheduleItem(id) {
+      const item = schedulesData.find(i => i.id === id);
+      if (!item) return;
+      editingScheduleId = id;
+      document.getElementById('newSchedEvent').value = item.event;
+      document.getElementById('newSchedDate').value = item.date;
+      document.getElementById('newSchedCategory').value = item.category;
+      document.getElementById('newSchedLink').value = item.link === '#' ? '' : item.link;
+      document.getElementById('addSchedBtn').textContent = 'Update Event';
+      
+      document.getElementById('newSchedEvent').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function addScheduleItem() {
+      const eventVal = document.getElementById('newSchedEvent').value.trim();
+      const dateVal = document.getElementById('newSchedDate').value.trim();
+      const catVal = document.getElementById('newSchedCategory').value.trim();
+      const linkVal = document.getElementById('newSchedLink').value.trim();
+
+      if (!eventVal || !dateVal || !catVal) {
+        alert("Please complete the Event Title, Date, and Category fields.");
+        return;
+      }
+
+      if (editingScheduleId !== null) {
+        const item = schedulesData.find(i => i.id === editingScheduleId);
+        if (item) {
+          item.event = eventVal;
+          item.date = dateVal;
+          item.category = catVal;
+          item.link = linkVal || "#";
+        }
+        editingScheduleId = null;
+        document.getElementById('addSchedBtn').textContent = 'Add Event';
+      } else {
+        const newItem = {
+          id: Date.now(),
+          event: eventVal,
+          date: dateVal,
+          category: catVal,
+          link: linkVal || "#"
+        };
+        schedulesData.push(newItem);
+      }
+
+      renderSchedulesList();
+      autoSave();
+
+      document.getElementById('newSchedEvent').value = '';
+      document.getElementById('newSchedDate').value = '';
+      document.getElementById('newSchedCategory').value = '';
+      document.getElementById('newSchedLink').value = '';
+    }
+
+    function deleteScheduleItem(id) {
+      schedulesData = schedulesData.filter(item => item.id !== id);
+      renderSchedulesList();
+      autoSave();
+    }
+
+    function renderSoloGoalsList() {
+      const container = document.getElementById('soloGoalsList');
+      container.innerHTML = '';
+
+      if (soloGoalsData.length === 0) {
+        container.innerHTML = '<p style="opacity: 0.5; font-size: 13px; font-style: italic;">No solo streaming goals configured.</p>';
+        return;
+      }
+
+      soloGoalsData.forEach(item => {
+        const row = document.createElement('div');
+        row.style.display = 'flex';
+        row.style.justifyContent = 'space-between';
+        row.style.alignItems = 'center';
+        row.style.padding = '12px 15px';
+        row.style.border = '1px solid var(--border-color)';
+        row.style.backgroundColor = 'var(--bg-color)';
+        
+        row.innerHTML = `
+          <div>
+            <strong style="font-family: var(--font-serif); font-size: 15px;">${item.title}</strong>
+            <span style="opacity: 0.5; font-size: 11px; margin-left: 10px;">(Milestone: ${item.goal} | Current: ${item.streams})</span>
+            <div style="font-size: 10px; opacity: 0.7; margin-top: 3px;">Spotify: <a href="${item.spotify}" target="_blank" style="color: var(--accent-color);">Link</a></div>
+          </div>
+          <div style="display: flex; gap: 15px; align-items: center;">
+            <button onclick="editSoloGoalItem(${item.id})" style="background: none; border: none; color: var(--accent-color); font-size: 11px; text-transform: uppercase; cursor: pointer; letter-spacing: 1px;">Edit</button>
+            <button onclick="deleteSoloGoalItem(${item.id})" style="background: none; border: none; color: #ef4444; font-size: 11px; text-transform: uppercase; cursor: pointer; letter-spacing: 1px;">Delete</button>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function editSoloGoalItem(id) {
+      const item = soloGoalsData.find(i => i.id === id);
+      if (!item) return;
+      editingSoloGoalId = id;
+      document.getElementById('newSoloGoalTitle').value = item.title;
+      document.getElementById('newSoloGoalStreams').value = item.streams;
+      document.getElementById('newSoloGoalMilestone').value = item.goal;
+      document.getElementById('newSoloGoalDaily').value = item.daily || '0';
+      document.getElementById('newSoloGoalTrend').value = item.trend || 'flat';
+      document.getElementById('newSoloGoalSpotify').value = item.spotify;
+      document.getElementById('newSoloGoalApple').value = item.apple === '#' ? '' : item.apple;
+      document.getElementById('newSoloGoalYouTube').value = item.youtube === '#' ? '' : item.youtube;
+      document.getElementById('addSoloGoalBtn').textContent = 'Update Solo Goal';
+      
+      document.getElementById('newSoloGoalTitle').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function addSoloStreamingGoalItem() {
+      const title = document.getElementById('newSoloGoalTitle').value.trim();
+      const streams = document.getElementById('newSoloGoalStreams').value.trim();
+      const goal = document.getElementById('newSoloGoalMilestone').value.trim();
+      const daily = document.getElementById('newSoloGoalDaily').value.trim() || '0';
+      const trend = document.getElementById('newSoloGoalTrend').value;
+      const spotify = document.getElementById('newSoloGoalSpotify').value.trim();
+      const apple = document.getElementById('newSoloGoalApple').value.trim();
+      const youtube = document.getElementById('newSoloGoalYouTube').value.trim();
+
+      if (!title || !streams || !goal || !spotify) {
+        alert("Please complete the Title, Current Streams, Milestone, and Spotify Link fields.");
+        return;
+      }
+
+      if (editingSoloGoalId !== null) {
+        const item = soloGoalsData.find(i => i.id === editingSoloGoalId);
+        if (item) {
+          item.title = title;
+          item.streams = streams;
+          item.goal = goal;
+          item.daily = daily;
+          item.trend = trend;
+          item.spotify = spotify;
+          item.apple = apple || "#";
+          item.youtube = youtube || "#";
+        }
+        editingSoloGoalId = null;
+        document.getElementById('addSoloGoalBtn').textContent = 'Add Solo Goal';
+      } else {
+        const newItem = {
+          id: Date.now(),
+          title,
+          streams,
+          goal,
+          daily: daily,
+          trend,
+          spotify,
+          apple: apple || "#",
+          youtube: youtube || "#"
+        };
+        soloGoalsData.push(newItem);
+      }
+
+      renderSoloGoalsList();
+      autoSave();
+
+      document.getElementById('newSoloGoalTitle').value = '';
+      document.getElementById('newSoloGoalStreams').value = '';
+      document.getElementById('newSoloGoalMilestone').value = '';
+      document.getElementById('newSoloGoalSpotify').value = '';
+      document.getElementById('newSoloGoalApple').value = '';
+      document.getElementById('newSoloGoalYouTube').value = '';
+      document.getElementById('newSoloGoalDaily').value = '';
+    }
+
+    function deleteSoloGoalItem(id) {
+      soloGoalsData = soloGoalsData.filter(item => item.id !== id);
+      renderSoloGoalsList();
+      autoSave();
+    }
+
+
+    function autoSave() {
+      localStorage.setItem('crave_ticker_overrides', JSON.stringify(tickerData));
+      localStorage.setItem('crave_member_overrides', JSON.stringify(memberData));
+      localStorage.setItem('crave_voting_data', JSON.stringify(votingData));
+      localStorage.setItem('crave_stats_data', JSON.stringify(goalsData));
+      localStorage.setItem('crave_solo_stats_data', JSON.stringify(soloGoalsData));
+      localStorage.setItem('crave_schedules', JSON.stringify(schedulesData));
+      localStorage.setItem('crave_playlists_data', JSON.stringify(playlistsData));
+    }
+
+    function saveAllChanges() {
+      autoSave();
+      gatherCurrentTickerInputs();
+      const cleanedTicker = tickerData.filter(msg => msg !== "");
+      if (cleanedTicker.length === 0) {
+        alert("At least one ticker message is required.");
+        return;
+      }
+      localStorage.setItem('crave_ticker_overrides', JSON.stringify(cleanedTicker));
+
+      const selected = document.getElementById('memberSelector').value;
+      memberData[selected] = {
+        name: document.getElementById('memberName').value.trim(),
+        fullName: document.getElementById('memberFullName').value.trim(),
+        role: (memberData[selected] && memberData[selected].role) || '',
+        label: document.getElementById('memberLabel').value.trim(),
+        brands: document.getElementById('memberBrands').value.trim(),
+        project: document.getElementById('memberProject').value.trim(),
+        bio: document.getElementById('memberBio').value.trim()
+      };
+      localStorage.setItem('crave_member_overrides', JSON.stringify(memberData));
+
+      localStorage.setItem('crave_voting_data', JSON.stringify(votingData));
+
+      localStorage.setItem('crave_stats_data', JSON.stringify(goalsData));
+
+      localStorage.setItem('crave_schedules', JSON.stringify(schedulesData));
+
+      localStorage.setItem('crave_solo_stats_data', JSON.stringify(soloGoalsData));
+
+      localStorage.setItem('crave_playlists_data', JSON.stringify(playlistsData));
+
+      const ghUser = document.getElementById('githubUser').value.trim();
+      const ghRepo = document.getElementById('githubRepo').value.trim();
+      const ghBranch = document.getElementById('githubBranch').value.trim() || 'main';
+      const ghToken = document.getElementById('githubToken').value.trim();
+
+      localStorage.setItem('crave_gh_user', ghUser);
+      localStorage.setItem('crave_gh_repo', ghRepo);
+      localStorage.setItem('crave_gh_branch', ghBranch);
+      localStorage.setItem('crave_gh_token', ghToken);
+
+      if (ghUser && ghRepo && ghToken) {
+        syncConfigToGitHub(ghUser, ghRepo, ghBranch, ghToken);
+      }
+
+      const alert = document.getElementById('successAlert');
+      alert.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      setTimeout(() => {
+        alert.style.display = 'none';
+      }, 5000);
+    }
+
+    function renderPlaylistsList() {
+      const container = document.getElementById('adminPlaylistsList');
+      container.innerHTML = '';
+
+      if (playlistsData.length === 0) {
+        container.innerHTML = '<p style="opacity: 0.5; font-size: 13px; font-style: italic;">No playlists configured.</p>';
+        return;
+      }
+
+      playlistsData.forEach(item => {
+        const row = document.createElement('div');
+        row.style.display = 'flex';
+        row.style.justifyContent = 'space-between';
+        row.style.alignItems = 'center';
+        row.style.padding = '12px 15px';
+        row.style.border = '1px solid var(--border-color)';
+        row.style.backgroundColor = 'var(--bg-color)';
+        
+        row.innerHTML = `
+          <div>
+            <strong style="font-family: var(--font-serif); font-size: 15px;">${item.title}</strong>
+            <div style="font-size: 10px; opacity: 0.7; margin-top: 3px;">
+              Links: 
+              ${item.spotify ? `<a href="${item.spotify}" target="_blank" style="color: var(--accent-color); margin-right: 8px;">Spotify</a>` : ''}
+              ${item.apple ? `<a href="${item.apple}" target="_blank" style="color: var(--accent-color); margin-right: 8px;">Apple</a>` : ''}
+              ${item.youtube ? `<a href="${item.youtube}" target="_blank" style="color: var(--accent-color);">YouTube</a>` : ''}
+            </div>
+          </div>
+          <div style="display: flex; gap: 15px; align-items: center;">
+            <button onclick="editPlaylistGridItem(${item.id})" style="background: none; border: none; color: var(--accent-color); font-size: 11px; text-transform: uppercase; cursor: pointer; letter-spacing: 1px;">Edit</button>
+            <button onclick="deletePlaylistGridItem(${item.id})" style="background: none; border: none; color: #ef4444; font-size: 11px; text-transform: uppercase; cursor: pointer; letter-spacing: 1px;">Delete</button>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function editPlaylistGridItem(id) {
+      const item = playlistsData.find(i => i.id === id);
+      if (!item) return;
+      editingPlaylistId = id;
+      document.getElementById('newPlaylistTitle').value = item.title;
+      document.getElementById('newPlaylistSpotify').value = item.spotify || '';
+      document.getElementById('newPlaylistApple').value = item.apple || '';
+      document.getElementById('newPlaylistYouTube').value = item.youtube || '';
+      document.getElementById('addPlaylistBtn').textContent = 'Update Playlist';
+      
+      document.getElementById('newPlaylistTitle').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function addPlaylistGridItem() {
+      const title = document.getElementById('newPlaylistTitle').value.trim();
+      const spotify = document.getElementById('newPlaylistSpotify').value.trim();
+      const apple = document.getElementById('newPlaylistApple').value.trim();
+      const youtube = document.getElementById('newPlaylistYouTube').value.trim();
+
+      if (!title) {
+        alert("Please complete the Playlist Title field.");
+        return;
+      }
+
+      if (editingPlaylistId !== null) {
+        const item = playlistsData.find(i => i.id === editingPlaylistId);
+        if (item) {
+          item.title = title;
+          item.spotify = spotify;
+          item.apple = apple;
+          item.youtube = youtube;
+        }
+        editingPlaylistId = null;
+        document.getElementById('addPlaylistBtn').textContent = 'Add Playlist';
+      } else {
+        const newItem = {
+          id: Date.now(),
+          title,
+          spotify,
+          apple,
+          youtube
+        };
+        playlistsData.push(newItem);
+      }
+
+      renderPlaylistsList();
+      autoSave();
+
+      document.getElementById('newPlaylistTitle').value = '';
+      document.getElementById('newPlaylistSpotify').value = '';
+      document.getElementById('newPlaylistApple').value = '';
+      document.getElementById('newPlaylistYouTube').value = '';
+    }
+
+    function deletePlaylistGridItem(id) {
+      playlistsData = playlistsData.filter(item => item.id !== id);
+      renderPlaylistsList();
+      autoSave();
+    }
+
+    async function syncConfigToGitHub(user, repo, branch, token) {
+      const alertBox = document.getElementById('githubSyncAlert');
+      const errBox = document.getElementById('githubSyncError');
+      alertBox.style.display = 'none';
+      errBox.style.display = 'none';
+
+      const fullConfig = {
+        ticker: tickerData,
+        members: memberData,
+        votings: votingData,
+        stats: goalsData,
+        schedules: schedulesData,
+        soloStats: soloGoalsData,
+        playlists: playlistsData
+      };
+
+      try {
+        const fileUrl = `https://api.github.com/repos/${user}/${repo}/contents/config.json`;
+        
+        let sha = null;
+        const getRes = await fetch(`${fileUrl}?ref=${branch}`, {
+          headers: {
+            'Authorization': `token ${token}`,
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+
+        if (getRes.ok) {
+          const fileData = await getRes.json();
+          sha = fileData.sha;
+        }
+
+        const putRes = await fetch(fileUrl, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: 'Update config.json database via admin panel',
+            content: btoa(unescape(encodeURIComponent(JSON.stringify(fullConfig, null, 2)))),
+            sha: sha,
+            branch: branch
+          })
+        });
+
+        if (putRes.ok) {
+          alertBox.style.display = 'block';
+          setTimeout(() => {
+            alertBox.style.display = 'none';
+          }, 6000);
+        } else {
+          const errData = await putRes.json();
+          errBox.textContent = `GitHub Sync Error: ${errData.message || 'Failed to update file.'}`;
+          errBox.style.display = 'block';
+        }
+      } catch (err) {
+        errBox.textContent = `GitHub Sync Error: ${err.message || 'Connection failed.'}`;
+        errBox.style.display = 'block';
+      }
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('crave_admin_logged_in');
+      window.location.href = 'login.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', initForm);
+  </script>
+</body>
+</html>

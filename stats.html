@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Streaming Goals - BLACKPINK CRAVE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=5">
+  <style>
+    @media (min-width: 993px) {
+      .stats-three-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  
+  <nav>
+    <div class="nav-container">
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <a href="index.html" class="back-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+          </svg>
+          <span>Back</span>
+        </a>
+        <span style="opacity: 0.15; font-size: 14px; display: inline-block; transform: translateY(-1px);">|</span>
+        <div class="logo"><a href="index.html?v=2"><img src="images/logo.jpg" alt="Logo" class="logo-img"><span>BLACKPINK CRAVE</span></a> <span class="nav-breadcrumb">/ STREAMING GOALS</span></div>
+      </div>
+      <div class="nav-right desktop-only">
+        <ul class="nav-links">
+          <li><a href="index.html#members">Members</a></li>
+          <li><a href="stats.html?v=2" class="active">Streaming Goals</a></li>
+          <li><a href="solos.html?v=2">Discography</a></li>
+          <li><a href="votings.html?v=2">Votings</a></li>
+          <li><a href="playlists.html?v=5">Playlists</a></li>
+          
+        </ul>
+        
+        
+      </div>
+      
+      <button class="menu-toggle-btn mobile-only" id="menuToggleBtn" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <button onclick="toggleTheme()" class="emoji-theme-btn" id="themeToggleBtn" title="Toggle Light/Dark Mode">☀️</button>
+    </div>
+  </nav>
+
+  
+  <div class="mobile-menu-backdrop" id="mobileMenuBackdrop" onclick="closeMobileMenu()"></div>
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <button class="mobile-menu-close" id="mobileMenuCloseBtn">&times;</button>
+    <ul class="mobile-menu-links">
+      <li>
+        <a href="index.html#members" onclick="closeMobileMenu()">Members</a>
+        <ul class="mobile-submenu">
+          <li><a href="jisoo.html?v=2">Jisoo</a></li>
+          <li><a href="jennie.html?v=2">Jennie</a></li>
+          <li><a href="rose.html?v=2">Rosé</a></li>
+          <li><a href="lisa.html?v=2">Lisa</a></li>
+        </ul>
+        
+      </li>
+      <li><a href="stats.html?v=2">Streaming Goals</a></li>
+      <li><a href="solos.html?v=2">Discography</a></li>
+      <li><a href="votings.html?v=2">Votings</a></li>
+          <li><a href="playlists.html?v=5">Playlists</a></li>
+      
+    </ul>
+        
+    
+  </div>
+
+  
+  <div class="ticker-bar">
+    <div class="ticker-track">
+      <div class="ticker-item"><span>✦</span> LISA’s "ROCKSTAR" just hit 200M streams on Spotify</div>
+      <div class="ticker-item"><span>✦</span> Countdown: 28 days until BLACKPINK's 10th Anniversary Event</div>
+      <div class="ticker-item"><span>✦</span> JENNIE fronts Chanel Coco Crush campaign worldwide</div>
+      <div class="ticker-item"><span>✦</span> ROSÉ signs global partnership with The Black Label</div>
+      
+      <div class="ticker-item"><span>✦</span> LISA’s "ROCKSTAR" just hit 200M streams on Spotify</div>
+      <div class="ticker-item"><span>✦</span> Countdown: 28 days until BLACKPINK's 10th Anniversary Event</div>
+      <div class="ticker-item"><span>✦</span> JENNIE fronts Chanel Coco Crush campaign worldwide</div>
+      <div class="ticker-item"><span>✦</span> ROSÉ signs global partnership with The Black Label</div>
+    </div>
+  </div>
+
+  
+  <main style="margin-top: 101px; padding: 0;">
+    <section>
+      <div class="section-header">
+        <div>
+          <p class="section-num">04 / Goals</p>
+          <h2 class="section-title">Streaming Goals</h2>
+        </div>
+        <p class="section-link" id="lastUpdatedLabel" style="border: none; text-transform: uppercase; font-size: 10px; opacity: 0.65; cursor: default;">
+          Syncing Live Data...
+        </p>
+      </div>
+
+      <div class="stats-container">
+        
+        
+        <h3 style="font-size: 13px; text-transform: uppercase; letter-spacing: 2px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 25px; color: var(--text-color); font-family: var(--font-sans); font-weight: 600;">Group Streaming Goals</h3>
+        
+        
+        <div class="stats-grid" id="goalsGridContainer" style="margin-bottom: 50px;">
+          
+        </div>
+
+        
+        <h3 style="font-size: 13px; text-transform: uppercase; letter-spacing: 2px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 25px; color: var(--text-color); font-family: var(--font-sans); font-weight: 600;">Solo Streaming Goals</h3>
+        
+        
+        <div class="stats-grid" id="soloGoalsGridContainer">
+          
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  
+    <footer>
+    <div class="footer-logo"><img src="images/logo.jpg" alt="Logo" class="logo-img" style="width: 24px; height: 24px;"><span>BLACKPINK CRAVE</span></div>
+    <div class="footer-copy">&copy; 2026 BLACKPINK CRAVE Designed for BLINKs</div>
+    
+  
+      
+      <p class="footer-disclaimer" style="font-size: 11px; opacity: 0.45; max-width: 600px; margin: 15px auto 0 auto; line-height: 1.6; font-family: var(--font-sans); text-transform: none; letter-spacing: 0px;">
+        BLACKPINK CRAVE is an independent fan-run platform and is not affiliated with YG Entertainment. All content is for informational and entertainment purposes only.
+      </p>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/blackpinkofficial/" target="_blank" title="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+        <a href="https://twitter.com/BLACKPINK" target="_blank" title="Twitter / X"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"></path><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path></svg></a>
+        <a href="https://www.tiktok.com/@bp_tiktok" target="_blank" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg></a>
+        <a href="https://www.youtube.com/@BLACKPINK" target="_blank" title="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="5" ry="5"></rect><path d="M10 15l5-3-5-3v6z"></path></svg></a>
+                <a href="https://open.spotify.com/artist/41MozSoPIsD1dJM0CLPjZF" target="_blank" title="Spotify"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 11.5c2.5-1.5 5.5-1.5 8 0"></path><path d="M9 14c2-1 4-1 6 0"></path><path d="M7 9c3-2 7-2 10 0"></path></svg></a>
+      </div>
+    
+      <div style="margin-top: 25px; opacity: 0.25; font-size: 8px; text-align: center;">
+        <a href="login.html?v=5" style="color: var(--text-color); text-decoration: none; font-family: var(--font-sans); letter-spacing: 1px; font-weight: 500;">🔒 TEAM ACCESS</a>
+      </div>
+    </footer>
+
+  <script src="script.js?v=5"></script>
+  
+  <script>
+    function renderStatsGrid(goals) {
+      const container = document.getElementById('goalsGridContainer');
+      if (!container) return;
+      container.innerHTML = '';
+      
+      if (goals.length === 3) {
+        container.className = "stats-grid stats-three-grid";
+      } else {
+        container.className = "stats-grid";
+        if (goals.length > 3) {
+          container.style.gridTemplateColumns = "repeat(auto-fill, minmax(320px, 1fr))";
+        } else if (goals.length === 2) {
+          container.style.gridTemplateColumns = "repeat(2, 1fr)";
+        } else if (goals.length === 1) {
+          container.style.gridTemplateColumns = "1fr";
+          container.style.maxWidth = "500px";
+          container.style.margin = "0 auto";
+        }
+      }
+
+      goals.forEach(item => {
+        const currentNum = parseFloat(item.streams.toString().replace(/,/g, ''));
+        const goalNum = parseFloat(item.goal.toString().replace(/,/g, ''));
+        
+        let progressPercent = 0;
+        if (goalNum > 0) {
+          progressPercent = Math.min((currentNum / goalNum) * 100, 100).toFixed(1);
+        }
+        
+        let displayTotal = "-";
+        if (currentNum >= 1000000000) {
+          displayTotal = (currentNum / 1000000000).toFixed(2) + "B";
+        } else if (currentNum >= 1000000) {
+          displayTotal = (currentNum / 1000000).toFixed(1) + "M";
+        } else {
+          displayTotal = currentNum.toLocaleString();
+        }
+
+        let displayGoal = "-";
+        if (goalNum >= 1000000000) {
+          displayGoal = (goalNum / 1000000000).toFixed(1) + "B";
+        } else if (goalNum >= 1000000) {
+          displayGoal = (goalNum / 1000000).toFixed(1) + "M";
+        } else {
+          displayGoal = goalNum.toLocaleString();
+        }
+
+        const dailyVal = (item.daily || '0').toString();
+        const dailyFormatted = parseFloat(dailyVal.replace(/,/g, '')).toLocaleString();
+        const trendColor = item.trend === "down" ? "#ef4444" : "#00ba7c";
+
+        const card = document.createElement('div');
+        card.className = "stats-card";
+        
+        card.innerHTML = `
+          <div class="stats-card-header">
+            <div>
+              <span class="stats-card-label">Spotify Target Goal</span>
+              <h3 class="stats-card-title">${item.title}</h3>
+            </div>
+            <span class="stats-card-num">${displayTotal}</span>
+          </div>
+          
+          <div class="progress-container" style="margin-bottom: 15px;">
+            <div class="progress-label-row">
+              <span>Progress: ${parseFloat(item.streams.toString().replace(/,/g, '')).toLocaleString()} streams</span>
+              <span>Goal: ${displayGoal} (${progressPercent}%)</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" style="width: ${progressPercent}%;"></div>
+            </div>
+          </div>
+          
+          <p class="stats-card-footer" style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color);">
+            Daily Streams: <span style="font-weight: 600; color: ${trendColor};">+${dailyFormatted}</span>
+          </p>
+          
+          <div class="stream-now-section">
+            <span style="font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 8px; font-weight: 600;">Stream Now</span>
+            <div style="display: flex; gap: 15px;">
+              <a href="${item.spotify || '#'}" target="_blank" class="release-link" style="font-size: 11px; letter-spacing: 1.5px; font-weight: 600;">Spotify</a>
+              ${item.apple && item.apple !== '#' ? `<a href="${item.apple}" target="_blank" class="release-link" style="font-size: 11px; letter-spacing: 1.5px; font-weight: 600;">Apple Music</a>` : ''}
+              ${item.youtube && item.youtube !== '#' ? `<a href="${item.youtube}" target="_blank" class="release-link" style="font-size: 11px; letter-spacing: 1.5px; font-weight: 600;">YouTube</a>` : ''}
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function renderSoloStatsGrid(goals) {
+      const container = document.getElementById('soloGoalsGridContainer');
+      if (!container) return;
+      container.innerHTML = '';
+      
+      if (goals.length === 3) {
+        container.className = "stats-grid stats-three-grid";
+      } else {
+        container.className = "stats-grid";
+        if (goals.length > 3) {
+          container.style.gridTemplateColumns = "repeat(auto-fill, minmax(320px, 1fr))";
+        } else if (goals.length === 2) {
+          container.style.gridTemplateColumns = "repeat(2, 1fr)";
+        } else if (goals.length === 1) {
+          container.style.gridTemplateColumns = "1fr";
+          container.style.maxWidth = "500px";
+          container.style.margin = "0 auto";
+        }
+      }
+
+      goals.forEach(item => {
+        const currentNum = parseFloat(item.streams.toString().replace(/,/g, ''));
+        const goalNum = parseFloat(item.goal.toString().replace(/,/g, ''));
+        
+        let progressPercent = 0;
+        if (goalNum > 0) {
+          progressPercent = Math.min((currentNum / goalNum) * 100, 100).toFixed(1);
+        }
+        
+        let displayTotal = "-";
+        if (currentNum >= 1000000000) {
+          displayTotal = (currentNum / 1000000000).toFixed(2) + "B";
+        } else if (currentNum >= 1000000) {
+          displayTotal = (currentNum / 1000000).toFixed(1) + "M";
+        } else {
+          displayTotal = currentNum.toLocaleString();
+        }
+
+        let displayGoal = "-";
+        if (goalNum >= 1000000000) {
+          displayGoal = (goalNum / 1000000000).toFixed(1) + "B";
+        } else if (goalNum >= 1000000) {
+          displayGoal = (goalNum / 1000000).toFixed(1) + "M";
+        } else {
+          displayGoal = goalNum.toLocaleString();
+        }
+
+        const dailyVal = (item.daily || '0').toString();
+        const dailyFormatted = parseFloat(dailyVal.replace(/,/g, '')).toLocaleString();
+        const trendColor = item.trend === "down" ? "#ef4444" : "#00ba7c";
+
+        const card = document.createElement('div');
+        card.className = "stats-card";
+        
+        card.innerHTML = `
+          <div class="stats-card-header">
+            <div>
+              <span class="stats-card-label">Spotify Target Goal</span>
+              <h3 class="stats-card-title">${item.title}</h3>
+            </div>
+            <span class="stats-card-num">${displayTotal}</span>
+          </div>
+          
+          <div class="progress-container" style="margin-bottom: 15px;">
+            <div class="progress-label-row">
+              <span>Progress: ${parseFloat(item.streams.toString().replace(/,/g, '')).toLocaleString()} streams</span>
+              <span>Goal: ${displayGoal} (${progressPercent}%)</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" style="width: ${progressPercent}%;"></div>
+            </div>
+          </div>
+          
+          <p class="stats-card-footer" style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color);">
+            Daily Streams: <span style="font-weight: 600; color: ${trendColor};">+${dailyFormatted}</span>
+          </p>
+          
+          <div class="stream-now-section">
+            <span style="font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 8px; font-weight: 600;">Stream Now</span>
+            <div style="display: flex; gap: 15px;">
+              <a href="${item.spotify || '#'}" target="_blank" class="release-link" style="font-size: 11px; letter-spacing: 1.5px; font-weight: 600;">Spotify</a>
+              ${item.apple && item.apple !== '#' ? `<a href="${item.apple}" target="_blank" class="release-link" style="font-size: 11px; letter-spacing: 1.5px; font-weight: 600;">Apple Music</a>` : ''}
+              ${item.youtube && item.youtube !== '#' ? `<a href="${item.youtube}" target="_blank" class="release-link" style="font-size: 11px; letter-spacing: 1.5px; font-weight: 600;">YouTube</a>` : ''}
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    async function loadStats() {
+      const groupOverrides = localStorage.getItem('crave_stats_data');
+      let groupGoals = [];
+      if (groupOverrides) {
+        groupGoals = JSON.parse(groupOverrides);
+        document.getElementById('lastUpdatedLabel').textContent = "MANUAL OVERRIDE ACTIVE";
+      } else {
+        const defaultGoals = [
+          {
+            title: "Shut Down",
+            streams: "897,200,570",
+            goal: "1,000,000,000",
+            trend: "flat",
+            spotify: "https://open.spotify.com/track/7gRFDGEzF9UkBV233yv2dc",
+            apple: "https://music.apple.com/us/album/shut-down/1636184518?i=1636184520",
+            youtube: "https://www.youtube.com/watch?v=POeVILS0030"
+          },
+          {
+            title: "JUMP",
+            streams: "650,091,377",
+            goal: "800,000,000",
+            trend: "flat",
+            spotify: "https://open.spotify.com/track/5jQ3mnhNhs9VuEvmVKllWM",
+            apple: "https://music.apple.com/us/search?term=BLACKPINK%20JUMP",
+            youtube: "https://www.youtube.com/results?search_query=BLACKPINK+JUMP"
+          },
+          {
+            title: "GO",
+            streams: "90,208,179",
+            goal: "100,000,000",
+            trend: "flat",
+            spotify: "https://open.spotify.com/track/0mYa3o6tlUN5HRippmKmwH",
+            apple: "https://music.apple.com/us/search?term=BLACKPINK%20GO",
+            youtube: "https://www.youtube.com/results?search_query=BLACKPINK+GO"
+          }
+        ];
+        groupGoals = defaultGoals;
+      }
+      renderStatsGrid(groupGoals);
+
+      const soloOverrides = localStorage.getItem('crave_solo_stats_data');
+      let soloGoals = [];
+      if (soloOverrides) {
+        soloGoals = JSON.parse(soloOverrides);
+      } else {
+        const defaultSoloGoals = [
+          {
+            id: 101,
+            title: "Rockstar",
+            streams: "220,105,488",
+            goal: "300,000,000",
+            daily: "206,960",
+            trend: "up",
+            spotify: "https://open.spotify.com/track/4eJ234sl0C3V3p0wJu5qGj",
+            apple: "https://music.apple.com/us/search?term=LISA%20Rockstar",
+            youtube: "https://www.youtube.com/watch?v=hbcGx4MGUMg"
+          },
+          {
+            id: 102,
+            title: "Solo",
+            streams: "650,489,102",
+            goal: "700,000,000",
+            daily: "211,196",
+            trend: "flat",
+            spotify: "https://open.spotify.com/track/2nSpzZqX6Q3Zz66L72tS4o",
+            apple: "https://music.apple.com/us/album/solo/1441865745?i=1441865746",
+            youtube: "https://www.youtube.com/watch?v=b73BI9eUkjM"
+          },
+          {
+            id: 103,
+            title: "On The Ground",
+            streams: "420,119,482",
+            goal: "500,000,000",
+            daily: "210,926",
+            trend: "up",
+            spotify: "https://open.spotify.com/track/4y94J22gV2n2SpzZqX6Q3Z",
+            apple: "https://music.apple.com/us/search?term=ROSE%20On%20The%20Ground",
+            youtube: "https://www.youtube.com/watch?v=CKZvXxC5170"
+          }
+        ];
+        soloGoals = defaultSoloGoals;
+      }
+      renderSoloStatsGrid(soloGoals);
+    }
+
+    document.addEventListener('DOMContentLoaded', loadStats);
+  </script>
+</body>
+</html>
