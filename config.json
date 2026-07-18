@@ -99,7 +99,36 @@
       "youtube": "https://www.youtube.com/watch?v=POe9SOEKotk"
     }
   ],
-  "schedules": [],
+  "schedules": [
+    {
+      "id": 1784379645569,
+      "event": "JENNIE - Lollapalooza Chicago Festival Performance",
+      "date": "August 1 , 2026.",
+      "category": "Music Festival",
+      "link": "https://www.lollapalooza.com/"
+    },
+    {
+      "id": 1784379704784,
+      "event": "LISA - Official Documentary Release",
+      "date": "August 17, 2026",
+      "category": "Movie / Media",
+      "link": "#"
+    },
+    {
+      "id": 1784379779270,
+      "event": "JENNIE - Summer Sonic Tokyo",
+      "date": "August 14, 2026",
+      "category": "Music Festival",
+      "link": "#"
+    },
+    {
+      "id": 1784379859558,
+      "event": "LISA - \"Viva La Lisa\" Las Vegas Residency (Opening Weekend)",
+      "date": "November 13–14, 2026",
+      "category": "Concert Residency",
+      "link": "#"
+    }
+  ],
   "soloStats": [
     {
       "id": 1,
