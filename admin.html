@@ -596,29 +596,68 @@
 
     let editingPlaylistId = null;
 
-    if (localStorage.getItem('crave_ticker_overrides')) {
-      tickerData = JSON.parse(localStorage.getItem('crave_ticker_overrides'));
-    }
-    if (localStorage.getItem('crave_member_overrides')) {
-      memberData = JSON.parse(localStorage.getItem('crave_member_overrides'));
-    }
-    if (localStorage.getItem('crave_voting_data')) {
-      votingData = JSON.parse(localStorage.getItem('crave_voting_data'));
-    }
-    if (localStorage.getItem('crave_stats_data')) {
-      goalsData = JSON.parse(localStorage.getItem('crave_stats_data'));
-    }
-    if (localStorage.getItem('crave_schedules')) {
-      schedulesData = JSON.parse(localStorage.getItem('crave_schedules'));
-    }
-    if (localStorage.getItem('crave_solo_stats_data')) {
-      soloGoalsData = JSON.parse(localStorage.getItem('crave_solo_stats_data'));
-    }
-    if (localStorage.getItem('crave_playlists_data')) {
-      playlistsData = JSON.parse(localStorage.getItem('crave_playlists_data'));
+    function syncFromLocalStorage() {
+      if (localStorage.getItem('crave_ticker_overrides')) {
+        tickerData = JSON.parse(localStorage.getItem('crave_ticker_overrides'));
+      }
+      if (localStorage.getItem('crave_member_overrides')) {
+        memberData = JSON.parse(localStorage.getItem('crave_member_overrides'));
+      }
+      if (localStorage.getItem('crave_voting_data')) {
+        votingData = JSON.parse(localStorage.getItem('crave_voting_data'));
+      }
+      if (localStorage.getItem('crave_stats_data')) {
+        goalsData = JSON.parse(localStorage.getItem('crave_stats_data'));
+      }
+      if (localStorage.getItem('crave_schedules')) {
+        schedulesData = JSON.parse(localStorage.getItem('crave_schedules'));
+      }
+      if (localStorage.getItem('crave_solo_stats_data')) {
+        soloGoalsData = JSON.parse(localStorage.getItem('crave_solo_stats_data'));
+      }
+      if (localStorage.getItem('crave_playlists_data')) {
+        playlistsData = JSON.parse(localStorage.getItem('crave_playlists_data'));
+      }
     }
 
-    function initForm() {
+    async function loadConfigFromServer(force = false) {
+      if (force || !localStorage.getItem('crave_ticker_overrides')) {
+        try {
+          const res = await fetch(`config.json?t=${Date.now()}`);
+          if (res.ok) {
+            const config = await res.json();
+            if (config.ticker) localStorage.setItem('crave_ticker_overrides', JSON.stringify(config.ticker));
+            if (config.members) localStorage.setItem('crave_member_overrides', JSON.stringify(config.members));
+            if (config.votings) localStorage.setItem('crave_voting_data', JSON.stringify(config.votings));
+            if (config.stats) localStorage.setItem('crave_stats_data', JSON.stringify(config.stats));
+            if (config.schedules) localStorage.setItem('crave_schedules', JSON.stringify(config.schedules));
+            if (config.soloStats) localStorage.setItem('crave_solo_stats_data', JSON.stringify(config.soloStats));
+            if (config.playlists) localStorage.setItem('crave_playlists_data', JSON.stringify(config.playlists));
+            
+            syncFromLocalStorage();
+            
+            renderTickerInputs();
+            loadMemberDataForEdit();
+            renderVotingsList();
+            renderGoalsList();
+            renderSchedulesList();
+            renderSoloGoalsList();
+            renderPlaylistsList();
+            
+            if (force) {
+              alert("Successfully loaded the latest database from the live server!");
+            }
+          }
+        } catch (e) {
+          if (force) alert("Failed to fetch data from the server.");
+        }
+      }
+    }
+
+    syncFromLocalStorage();
+
+    async function initForm() {
+      await loadConfigFromServer(false);
       renderTickerInputs();
 
       loadMemberDataForEdit();
