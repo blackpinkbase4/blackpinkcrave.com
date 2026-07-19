@@ -146,7 +146,6 @@ function renderCraveMembers() {
             if (memberKey && customMembers[memberKey]) {
               const m = customMembers[memberKey];
               if (m.name) nameEl.textContent = m.name;
-              if (m.role && roleEl) roleEl.textContent = m.role;
             }
           }
         }
