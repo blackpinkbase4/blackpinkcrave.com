@@ -210,6 +210,10 @@ function renderCraveMembers() {
 
 async function loadCraveCDNConfig() {
   try {
+    if (window.location.pathname.includes('admin.html')) {
+      return;
+    }
+
     const res = await fetch(`config.json?t=${Date.now()}`);
     if (res.ok) {
       const config = await res.json();
