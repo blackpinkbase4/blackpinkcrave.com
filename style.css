@@ -1930,33 +1930,25 @@ footer {
 }
 
 /* ==========================================================================
-   10TH ANNIVERSARY STICKY COUNTDOWN BAR
+   10TH ANNIVERSARY TOP COUNTDOWN BAR
    ========================================================================== */
 
-.anniversary-bar {
+.anniversary-top-bar {
   position: fixed;
-  bottom: 0;
+  top: 69px;
   left: 0;
   width: 100%;
-  height: 48px;
-  background-color: #0b0b0b;
-  border-top: 1px solid var(--accent-color);
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(224, 86, 36, 0.2);
-  z-index: 9999;
+  height: 44px;
+  background-color: var(--card-bg);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 999;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 0 20px;
   box-sizing: border-box;
   font-family: var(--font-sans);
   backdrop-filter: blur(10px);
-  transition: transform 0.4s ease, opacity 0.4s ease;
-}
-
-.anniversary-bar.closed {
-  transform: translateY(100%);
-  opacity: 0;
-  pointer-events: none;
 }
 
 .anniversary-bar-content {
@@ -1977,7 +1969,7 @@ footer {
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: #ffffff;
+  color: var(--text-color);
   white-space: nowrap;
 }
 
@@ -2012,66 +2004,28 @@ footer {
   font-family: var(--font-sans);
   font-size: 9px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-muted);
   text-transform: uppercase;
-}
-
-.anniversary-link-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  background-color: var(--accent-color);
-  color: #ffffff;
-  font-family: var(--font-sans);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  text-decoration: none;
-  border-radius: 2px;
-  box-shadow: 0 2px 10px rgba(224, 86, 36, 0.3);
-  transition: background-color 0.3s, transform 0.2s;
-  white-space: nowrap;
-}
-
-.anniversary-link-btn:hover {
-  background-color: #f06a3d;
-  transform: translateY(-1px);
-}
-
-.anniversary-close-btn {
-  background: none;
-  border: none;
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 20px;
-  cursor: pointer;
-  padding: 0 0 0 15px;
-  line-height: 1;
-  transition: color 0.3s;
-}
-
-.anniversary-close-btn:hover {
-  color: var(--accent-color);
 }
 
 @media (max-width: 768px) {
-  .anniversary-bar {
-    height: 42px;
-    padding: 0 12px;
+  .anniversary-top-bar {
+    top: 60px !important;
+    height: 40px !important;
+    padding: 0 12px !important;
   }
   .anniversary-title {
-    font-size: 9px;
-    letter-spacing: 0.8px;
+    font-size: 9px !important;
+    letter-spacing: 0.5px !important;
   }
   .timer-unit {
-    font-size: 14px;
-    gap: 2px;
+    font-size: 14px !important;
+    gap: 2px !important;
   }
   .timer-unit small {
-    font-size: 8px;
+    font-size: 8px !important;
   }
   .anniversary-bar-content {
-    gap: 10px;
+    gap: 10px !important;
   }
 }
