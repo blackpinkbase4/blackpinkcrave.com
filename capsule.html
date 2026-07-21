@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BLACKPINK CRAVE — 10th Anniversary Time Capsule</title>
+  <meta name="description" content="A decade of records, historic moments, and timeless memories. Leave your 10th-anniversary letter for Jisoo, Jennie, Rosé, Lisa, or BLACKPINK.">
+  <link rel="icon" type="image/jpeg" href="images/logo.jpg">
+  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .capsule-hero {
+      padding: 60px 20px 40px 20px;
+      text-align: center;
+      background: radial-gradient(circle at top, rgba(224, 86, 36, 0.12) 0%, transparent 65%);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .capsule-badge {
+      display: inline-block;
+      padding: 5px 12px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent-color);
+      border: 1px solid var(--accent-color);
+      margin-bottom: 15px;
+      background-color: rgba(224, 86, 36, 0.05);
+    }
+    .capsule-title {
+      font-family: var(--font-serif);
+      font-size: 42px;
+      font-weight: 400;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+      color: var(--text-color);
+    }
+    .capsule-subtitle {
+      max-width: 650px;
+      margin: 0 auto 30px auto;
+      font-size: 14px;
+      opacity: 0.75;
+      line-height: 1.6;
+    }
+    
+    .capsule-form-card {
+      max-width: 650px;
+      margin: 0 auto 50px auto;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+    .capsule-form-card h3 {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      letter-spacing: 1.5px;
+      margin-bottom: 20px;
+      color: var(--text-color);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Fix dropdown options visibility */
+    select.form-control {
+      background-color: #161616 !important;
+      color: #ffffff !important;
+      border: 1px solid var(--border-color) !important;
+    }
+    select.form-control option {
+      background-color: #161616 !important;
+      color: #ffffff !important;
+      padding: 10px !important;
+    }
+
+    .char-count {
+      font-size: 10px;
+      opacity: 0.5;
+      margin-top: 5px;
+      text-align: right;
+    }
+
+    .letters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    .polaroid-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 15px;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      position: relative;
+    }
+
+    .polaroid-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-color);
+      box-shadow: 0 10px 25px rgba(224, 86, 36, 0.15);
+    }
+
+    .polaroid-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 10px;
+    }
+
+    .polaroid-sender {
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 1px;
+      color: var(--text-color);
+    }
+
+    .polaroid-recipient {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent-color);
+      padding: 2px 6px;
+      border: 1px solid var(--accent-color);
+    }
+
+    .polaroid-body {
+      font-size: 13px;
+      line-height: 1.6;
+      opacity: 0.85;
+      white-space: pre-wrap;
+      font-family: var(--font-sans);
+    }
+
+    .polaroid-footer {
+      font-size: 10px;
+      opacity: 0.4;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px stroke var(--border-color);
+    }
+
+    .filter-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .filter-tab-btn {
+      background: none;
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      padding: 8px 16px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+    }
+
+    .filter-tab-btn.active, .filter-tab-btn:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+      background-color: rgba(224, 86, 36, 0.05);
+    }
+
+    @media (max-width: 768px) {
+      .capsule-title {
+        font-size: 28px;
+      }
+      .capsule-form-card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo"><a href="index.html?v=8"><img src="images/logo.jpg" alt="Logo" class="logo-img"><span>BLACKPINK CRAVE</span></a></div>
+      <div class="nav-right desktop-only">
+        <ul class="nav-links">
+          <li><a href="index.html#members">Members</a></li>
+          <li><a href="stats.html?v=8">Streaming Goals</a></li>
+          <li><a href="solos.html?v=8">Discography</a></li>
+          <li><a href="votings.html?v=8">Votings</a></li>
+          <li><a href="playlists.html?v=8">Playlists</a></li>
+          <li><a href="capsule.html?v=8">Time Capsule</a></li>
+        </ul>
+      </div>
+      
+      <button class="menu-toggle-btn mobile-only" id="menuToggleBtn" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <button onclick="toggleTheme()" class="emoji-theme-btn" id="themeToggleBtn" title="Toggle Light/Dark Mode">☀️</button>
+    </div>
+  </nav>
+
+  <!-- Mobile Slideout Menu -->
+  <div class="mobile-menu-backdrop" id="mobileMenuBackdrop" onclick="closeMobileMenu()"></div>
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <button class="mobile-menu-close" id="mobileMenuCloseBtn">&times;</button>
+    <ul class="mobile-menu-links">
+      <li>
+        <a href="index.html#members" onclick="closeMobileMenu()">Members</a>
+        <ul class="mobile-submenu">
+          <li><a href="jisoo.html?v=8">Jisoo</a></li>
+          <li><a href="jennie.html?v=8">Jennie</a></li>
+          <li><a href="rose.html?v=8">Rosé</a></li>
+          <li><a href="lisa.html?v=8">Lisa</a></li>
+        </ul>
+      </li>
+      <li><a href="stats.html?v=8">Streaming Goals</a></li>
+      <li><a href="solos.html?v=8">Discography</a></li>
+      <li><a href="votings.html?v=8">Votings</a></li>
+      <li><a href="playlists.html?v=8">Playlists</a></li>
+      <li><a href="capsule.html?v=8">Time Capsule ✦</a></li>
+    </ul>
+  </div>
+
+  <main style="margin-top: 60px;">
+
+    <!-- Hero Header -->
+    <section class="capsule-hero">
+      <div class="capsule-badge">✦ 2016 — 2026 • 10TH ANNIVERSARY SPECIAL</div>
+      <h1 class="capsule-title">THE 10-YEAR TIME CAPSULE</h1>
+      <p class="capsule-subtitle">
+        A decade of historic records, world tours, and timeless memories. Leave your 10th-anniversary letter for Jisoo, Jennie, Rosé, Lisa, BLACKPINK, or fellow BLINKs.
+      </p>
+    </section>
+
+    <div class="section-container" style="padding-top: 40px;">
+
+      <!-- Write Letter Form -->
+      <div class="capsule-form-card" id="capsuleFormCard">
+        <h3>✉️ WRITE YOUR 10TH ANNIVERSARY LETTER</h3>
+        <form id="timeCapsuleForm" onsubmit="submitCapsuleLetter(event)">
+          <div class="form-row-flex" style="gap: 15px;">
+            <div class="form-group" style="flex: 1; min-width: 150px;">
+              <label>Your Name / Nickname</label>
+              <input type="text" id="capsuleSender" class="form-control" placeholder="e.g. Paris BLINK" required>
+            </div>
+            <div class="form-group" style="flex: 1; min-width: 150px;">
+              <label>To (Recipient)</label>
+              <select id="capsuleRecipient" class="form-control">
+                <option value="BLACKPINK">BLACKPINK (All Members)</option>
+                <option value="JISOO">JISOO</option>
+                <option value="JENNIE">JENNIE</option>
+                <option value="ROSÉ">ROSÉ</option>
+                <option value="LISA">LISA</option>
+                <option value="FELLOW BLINKS">FELLOW BLINKs (To Fans)</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group" style="margin-top: 15px;">
+            <label>Your Letter / Message</label>
+            <textarea id="capsuleContent" class="form-control" rows="5" placeholder="Write your heartfelt message for the 10th Anniversary..." maxlength="1000" oninput="updateCharCount()" required></textarea>
+            <div class="char-count"><span id="capsuleCharCount">0</span> / 1000 characters</div>
+          </div>
+
+          <button type="submit" class="btn-action primary" style="width: 100%; padding: 14px; margin-top: 15px; font-weight: 700; letter-spacing: 2px;">
+            SEAL LETTER IN TIME CAPSULE ✉️
+          </button>
+        </form>
+      </div>
+
+      <!-- Sealed Success & Vault Card (Shown AFTER submitting a letter) -->
+      <div id="vaultSuccessCard" style="display: none; text-align: center; padding: 50px 20px; background-color: var(--card-bg); border: 1px solid var(--border-color); max-width: 650px; margin: 0 auto 50px auto; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+        <div style="font-size: 44px; margin-bottom: 15px;">🔒</div>
+        <h3 style="font-family: var(--font-serif); font-size: 22px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-color);">YOUR LETTER HAS BEEN SEALED!</h3>
+        <p style="font-size: 13px; opacity: 0.75; margin: 12px auto 25px auto; max-width: 500px; line-height: 1.6;">
+          Your 10th Anniversary letter has been safely locked in the BLACKPINK CRAVE Time Capsule Vault. All sealed letters will unlock for public reading on <strong>August 8, 2026 at 12:00 AM KST</strong>!
+        </p>
+
+        <div style="display: flex; gap: 15px; justify-content: center; align-items: center; flex-wrap: wrap;">
+          <button onclick="showWriteForm()" class="btn-action primary" style="padding: 12px 24px; font-weight: 700; letter-spacing: 1.5px;">
+            WRITE ANOTHER LETTER ✉️
+          </button>
+        </div>
+      </div>
+
+      <!-- Vault Unlocked Header & Filter Tabs (Shown on/after August 8) -->
+      <div id="unlockedHeaderArea" style="display: none;">
+        <div style="text-align: center; margin-bottom: 15px;">
+          <h2 style="font-family: var(--font-serif); font-size: 24px; text-transform: uppercase; letter-spacing: 2px;">🔓 UNLOCKED FAN LETTERS</h2>
+          <p style="font-size: 12px; opacity: 0.6; margin-top: 5px;">Browse 10th-anniversary messages left by BLINKs worldwide.</p>
+        </div>
+
+        <div class="filter-tabs">
+          <button class="filter-tab-btn active" onclick="filterLetters('ALL', this)">ALL LETTERS</button>
+          <button class="filter-tab-btn" onclick="filterLetters('BLACKPINK', this)">BLACKPINK</button>
+          <button class="filter-tab-btn" onclick="filterLetters('JISOO', this)">JISOO</button>
+          <button class="filter-tab-btn" onclick="filterLetters('JENNIE', this)">JENNIE</button>
+          <button class="filter-tab-btn" onclick="filterLetters('ROSÉ', this)">ROSÉ</button>
+          <button class="filter-tab-btn" onclick="filterLetters('LISA', this)">LISA</button>
+          <button class="filter-tab-btn" onclick="filterLetters('FELLOW BLINKS', this)">FELLOW BLINKS</button>
+        </div>
+
+        <!-- Letters Grid -->
+        <div class="letters-grid" id="lettersGrid">
+          <!-- Dynamic Letters Rendered Here -->
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-logo"><img src="images/logo.jpg" alt="Logo" class="logo-img" style="width: 24px; height: 24px;"><span>BLACKPINK CRAVE</span></div>
+    <div class="footer-copy">&copy; 2026 BLACKPINK CRAVE Designed for BLINKs</div>
+    <p class="footer-disclaimer" style="font-size: 11px; opacity: 0.45; max-width: 600px; margin: 15px auto 0 auto; line-height: 1.6; font-family: var(--font-sans);">
+      BLACKPINK CRAVE is an independent fan-run platform celebrating a decade of BLACKPINK.
+    </p>
+  </footer>
+
+  <!-- 10th Anniversary Sticky Countdown Bar -->
+  <div class="anniversary-bar" id="anniversaryBar">
+    <div class="anniversary-bar-content">
+      <div class="anniversary-title">
+        <span class="anniversary-sparkle">✦</span>
+        <span>BLACKPINK 10TH ANNIVERSARY COUNTDOWN</span>
+      </div>
+      <div class="anniversary-timer" id="anniversaryTimer">
+        <div class="timer-unit"><span id="annDays">00</span><small>D</small></div>
+        <div class="timer-unit"><span id="annHours">00</span><small>H</small></div>
+        <div class="timer-unit"><span id="annMins">00</span><small>M</small></div>
+        <div class="timer-unit"><span id="annSecs">00</span><small>S</small></div>
+      </div>
+      <a href="capsule.html?v=8" class="anniversary-link-btn">WRITE A LETTER ✉️</a>
+    </div>
+  </div>
+
+  <script src="script.js?v=8"></script>
+  <script>
+    let currentFilter = 'ALL';
+    let lettersData = [
+      {
+        id: 1,
+        sender: "Sofia (Paris BLINK)",
+        recipient: "BLACKPINK",
+        content: "Happy 10th Anniversary to the four girls who changed K-Pop forever! Thank you for 10 years of iconic music, Coachella headlining sets, and unforgettable memories. We love you Jisoo, Jennie, Rosé, and Lisa! 🖤💗",
+        date: "July 21, 2026"
+      },
+      {
+        id: 2,
+        sender: "Kevin (Seoul)",
+        recipient: "ROSÉ",
+        content: "ROSÉ! From On The Ground to APT. with Bruno Mars, your vocals have been the soundtrack to my life. Happy 10th anniversary! We will keep streaming APT and your new album forever!",
+        date: "July 20, 2026"
+      },
+      {
+        id: 3,
+        sender: "Maya (LA BLINK)",
+        recipient: "JENNIE",
+        content: "Jennie Ruby Jane, 10 years of unmatched charisma, fashion, and talent. SOLO and Mantra were masterpieces. Happy 10th Anniversary! We are so proud of you!",
+        date: "July 19, 2026"
+      },
+      {
+        id: 4,
+        sender: "Lucas (Tokyo)",
+        recipient: "LISA",
+        content: "LISA! Rockstar and Lalisa set the world on fire! 10 years of being the ultimate performer and dance queen. Happy 10th anniversary!",
+        date: "July 18, 2026"
+      },
+      {
+        id: 5,
+        sender: "Minah (Singapore)",
+        recipient: "JISOO",
+        content: "Jisoo unnie! FLOWER and your acting roles have brought so much happiness. Your grace and humor make BLACKPINK complete. Happy 10th Anniversary!",
+        date: "July 17, 2026"
+      },
+      {
+        id: 6,
+        sender: "Alex (London BLINK)",
+        recipient: "FELLOW BLINKS",
+        content: "To every BLINK around the world: 10 years of supporting our girls together! From streaming parties to lightstick oceans at stadium tours, proud to share this decade with you all! 🖤💗",
+        date: "July 16, 2026"
+      }
+    ];
+
+    function checkVaultState() {
+      const targetDate = new Date("2026-08-08T00:00:00+09:00").getTime();
+      const now = new Date().getTime();
+
+      const unlockedArea = document.getElementById('unlockedHeaderArea');
+
+      if (now >= targetDate) {
+        // Vault unlocks on/after Aug 8
+        if (unlockedArea) unlockedArea.style.display = 'block';
+        renderLetters();
+      }
+    }
+
+    function loadCapsuleLetters() {
+      const saved = localStorage.getItem('crave_capsule_letters');
+      if (saved) {
+        lettersData = JSON.parse(saved);
+      }
+      checkVaultState();
+    }
+
+    function updateCharCount() {
+      const val = document.getElementById('capsuleContent').value;
+      document.getElementById('capsuleCharCount').textContent = val.length;
+    }
+
+    function renderLetters() {
+      const grid = document.getElementById('lettersGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      const filtered = currentFilter === 'ALL' 
+        ? lettersData 
+        : lettersData.filter(l => l.recipient.toUpperCase() === currentFilter.toUpperCase());
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; opacity: 0.5; padding: 40px; font-style: italic;">No letters sealed for this recipient yet. Be the first to write one!</div>';
+        return;
+      }
+
+      filtered.forEach(letter => {
+        const card = document.createElement('div');
+        card.className = 'polaroid-card';
+        card.innerHTML = `
+          <div>
+            <div class="polaroid-header">
+              <span class="polaroid-sender">✉️ ${escapeHtml(letter.sender)}</span>
+              <span class="polaroid-recipient">TO: ${escapeHtml(letter.recipient)}</span>
+            </div>
+            <div class="polaroid-body" style="margin-top: 15px;">${escapeHtml(letter.content)}</div>
+          </div>
+          <div class="polaroid-footer">
+            <span>✦ 10TH ANNIVERSARY VAULT</span>
+            <span>${escapeHtml(letter.date)}</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function filterLetters(category, btn) {
+      currentFilter = category;
+      document.querySelectorAll('.filter-tab-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderLetters();
+    }
+
+    function submitCapsuleLetter(e) {
+      e.preventDefault();
+      const sender = document.getElementById('capsuleSender').value.trim();
+      const recipient = document.getElementById('capsuleRecipient').value;
+      const content = document.getElementById('capsuleContent').value.trim();
+
+      if (!sender || !content) return;
+
+      const newLetter = {
+        id: Date.now(),
+        sender,
+        recipient,
+        content,
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+      };
+
+      lettersData.unshift(newLetter);
+      localStorage.setItem('crave_capsule_letters', JSON.stringify(lettersData));
+
+      // Hide Form, Show Success Card
+      document.getElementById('capsuleFormCard').style.display = 'none';
+      document.getElementById('vaultSuccessCard').style.display = 'block';
+
+      // Reset Form
+      document.getElementById('capsuleSender').value = '';
+      document.getElementById('capsuleContent').value = '';
+      updateCharCount();
+
+      window.scrollTo({ top: 150, behavior: 'smooth' });
+    }
+
+    function showWriteForm() {
+      document.getElementById('vaultSuccessCard').style.display = 'none';
+      document.getElementById('capsuleFormCard').style.display = 'block';
+      window.scrollTo({ top: 150, behavior: 'smooth' });
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCapsuleLetters);
+  </script>
+</body>
+</html>
