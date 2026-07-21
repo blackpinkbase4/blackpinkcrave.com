@@ -223,6 +223,7 @@ async function loadCraveCDNConfig() {
       if (config.schedules) localStorage.setItem('crave_schedules', JSON.stringify(config.schedules));
       if (config.soloStats) localStorage.setItem('crave_solo_stats_data', JSON.stringify(config.soloStats));
       if (config.playlists) localStorage.setItem('crave_playlists_data', JSON.stringify(config.playlists));
+      if (config.capsuleLetters) localStorage.setItem('crave_capsule_letters', JSON.stringify(config.capsuleLetters));
       if (config.supportLink) localStorage.setItem('crave_support_link', config.supportLink);
 
       renderCraveTicker();
@@ -235,3 +236,51 @@ async function loadCraveCDNConfig() {
     }
   } catch (e) {}
 }
+
+function closeAnniversaryBar() {
+  const bar = document.getElementById('anniversaryBar');
+  if (bar) {
+    bar.classList.add('closed');
+  }
+}
+
+function initAnniversaryCountdown() {
+  const targetDate = new Date("2026-08-08T00:00:00+09:00").getTime();
+
+  function updateClock() {
+    const now = new Date().getTime();
+    const diff = targetDate - now;
+
+    const daysEl = document.getElementById('annDays');
+    const hoursEl = document.getElementById('annHours');
+    const minsEl = document.getElementById('annMins');
+    const secsEl = document.getElementById('annSecs');
+
+    if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
+
+    if (diff <= 0) {
+      daysEl.textContent = '00';
+      hoursEl.textContent = '00';
+      minsEl.textContent = '00';
+      secsEl.textContent = '00';
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    daysEl.textContent = String(days).padStart(2, '0');
+    hoursEl.textContent = String(hours).padStart(2, '0');
+    minsEl.textContent = String(minutes).padStart(2, '0');
+    secsEl.textContent = String(seconds).padStart(2, '0');
+  }
+
+  updateClock();
+  setInterval(updateClock, 1000);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initAnniversaryCountdown();
+});
