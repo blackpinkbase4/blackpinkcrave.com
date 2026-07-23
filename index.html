@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BLACKPINK CRAVE</title>
+  <title>BLACKPINK CRAVE - Editorial Fanbase Portal</title>
   
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,18 +12,319 @@
   
   
   <link rel="stylesheet" href="style.css?v=5">
+  <style>
+    /* Magazine Floating Side Card Styles */
+    .promo-side-widget {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 9999;
+      width: 320px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .promo-side-widget.closed {
+      transform: translateY(50px) scale(0.9);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .promo-modal-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.6);
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.85;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .promo-modal-close:hover {
+      opacity: 1;
+      background-color: var(--accent-color);
+      color: #000;
+      transform: scale(1.1) rotate(90deg);
+    }
+    .promo-carousel-container {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+    }
+    .promo-carousel-wrapper {
+      position: relative;
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .promo-slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      box-sizing: border-box;
+    }
+    .promo-slide-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+    .promo-slide-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .promo-slide:hover .promo-slide-bg img {
+      transform: scale(1.06);
+    }
+    .promo-slide-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.2) 100%);
+      z-index: 2;
+    }
+    .promo-content {
+      position: relative;
+      z-index: 3;
+      padding: 20px;
+      text-align: left;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .promo-tag {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent-color);
+      margin-bottom: 6px;
+    }
+    .promo-title {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      line-height: 1.3;
+      font-weight: 400;
+      margin: 0 0 6px 0;
+      color: #fff;
+    }
+    .promo-subtitle {
+      font-size: 11px;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 15px;
+      line-height: 1.4;
+    }
+    .promo-action-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .promo-btn {
+      border: 1px solid var(--accent-color);
+      background-color: var(--accent-color);
+      color: #000;
+      padding: 8px 16px;
+      text-transform: uppercase;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      display: inline-block;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(224, 86, 36, 0.3);
+    }
+    .promo-btn:hover {
+      background-color: transparent;
+      color: var(--accent-color);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(224, 86, 36, 0.5);
+    }
+    .promo-btn:active {
+      transform: translateY(0);
+    }
+    .promo-date {
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+    .promo-carousel-nav {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 5;
+      background: rgba(0,0,0,0.5);
+      padding: 3px 8px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .promo-nav-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.8;
+      transition: all 0.2s ease;
+    }
+    .promo-nav-btn:hover {
+      opacity: 1;
+      color: var(--accent-color);
+      transform: scale(1.2);
+    }
+    .promo-indicators {
+      display: flex;
+      gap: 4px;
+    }
+    .promo-ind {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: rgba(255,255,255,0.4);
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .promo-ind.active {
+      background-color: var(--accent-color);
+    }
+
+    @media (max-width: 480px) {
+      .promo-side-widget {
+        bottom: 15px;
+        right: 15px;
+        width: calc(100vw - 30px);
+        height: 90px;
+        flex-direction: row;
+        align-items: center;
+      }
+      .promo-carousel-container {
+        aspect-ratio: auto;
+        height: 100%;
+        width: 100%;
+      }
+      .promo-slide {
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        height: 100%;
+        padding: 10px;
+      }
+      .promo-slide-bg {
+        position: relative;
+        width: 70px;
+        height: 70px;
+        flex-shrink: 0;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .promo-slide-overlay {
+        display: none;
+      }
+      .promo-content {
+        padding: 0 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+      }
+      .promo-tag {
+        font-size: 7px;
+        margin-bottom: 2px;
+      }
+      .promo-title {
+        font-size: 14px;
+        margin: 0;
+        color: var(--text-color);
+      }
+      .promo-subtitle {
+        display: none;
+      }
+      .promo-action-row {
+        margin-top: 4px;
+        justify-content: flex-start;
+        gap: 10px;
+      }
+      .promo-btn {
+        padding: 6px 12px;
+        font-size: 8px;
+      }
+      .promo-date {
+        font-size: 8px;
+        color: var(--text-muted);
+      }
+      .promo-modal-close {
+        top: 5px;
+        right: 5px;
+        width: 22px;
+        height: 22px;
+        font-size: 14px;
+        background: var(--border-color);
+        color: var(--text-color);
+      }
+      .promo-carousel-nav {
+        top: 5px;
+        left: 5px;
+        padding: 2px 6px;
+      }
+      .promo-nav-btn {
+        font-size: 8px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-  
+  <!-- Magazine Promo Floating Side Card -->
+  <div id="promoSideWidget" class="promo-side-widget closed">
+    <button class="promo-modal-close" onclick="closePromoModal()">&times;</button>
+    <div class="promo-carousel-container">
+      <div class="promo-carousel-wrapper" id="promoCarouselWrapper">
+        <!-- Promos will render dynamically here -->
+      </div>
+    </div>
+    <!-- Navigation controls for carousel -->
+    <div class="promo-carousel-nav" id="promoCarouselNav" style="display: none;">
+      <button class="promo-nav-btn prev" onclick="navigatePromo(-1)">&larr;</button>
+      <div class="promo-indicators" id="promoIndicators"></div>
+      <button class="promo-nav-btn next" onclick="navigatePromo(1)">&rarr;</button>
+    </div>
+  </div>
+
   <nav>
     <div class="nav-container">
       <div class="logo"><a href="index.html?v=2"><img src="images/logo.jpg" alt="Logo" class="logo-img"><span>BLACKPINK CRAVE</span></a></div>
       <div class="nav-right desktop-only">
         <ul class="nav-links">
           <li><a href="index.html#members">Members</a></li>
-          <li><a href="stats.html?v=2">Streaming Goals</a></li>
-          <li><a href="solos.html?v=2">Discography</a></li>
+          <li><a href="stats.html?v=5">Streaming Goals</a></li>
+          <li><a href="solos.html?v=5">Discography</a></li>
+          <li><a href="videos.html?v=5">Videos</a></li>
           <li><a href="votings.html?v=7">Votings</a></li>
           <li><a href="playlists.html?v=7">Playlists</a></li>
         </ul>
@@ -55,8 +356,9 @@
         </ul>
         
       </li>
-      <li><a href="stats.html?v=7">Streaming Goals</a></li>
-      <li><a href="solos.html?v=7">Discography</a></li>
+      <li><a href="stats.html?v=5">Streaming Goals</a></li>
+      <li><a href="solos.html?v=5">Discography</a></li>
+      <li><a href="videos.html?v=5" onclick="closeMobileMenu()">Videos</a></li>
       <li><a href="votings.html?v=7">Votings</a></li>
       <li><a href="playlists.html?v=7">Playlists</a></li>
     </ul>
@@ -90,7 +392,8 @@
             <img src="images/slide_stats.jpg" alt="BLACKPINK Stats" class="slide-image">
           </div>
           <div class="slide-text-container">
-             <h2 class="slide-title">Who is BLACKPINK?</h2>
+            <p class="slide-tag">E D I T O R I A L</p>
+            <h2 class="slide-title">Who is BLACKPINK?</h2>
             <p class="slide-desc">Blackpink is a record-breaking South Korean girl group featuring members Jisoo, Jennie, Rosé, and Lisa. Debuting in 2016, they became a global music phenomenon by fusing fierce hip-hop with catchy pop hooks. They are historic Coachella headliners and major luxury fashion icons who dominate the global charts.</p>
           </div>
         </div>
@@ -209,11 +512,7 @@
     </div>
   </section>
 
-
-
-
-
-    <footer>
+  <footer>
     <div class="footer-logo"><img src="images/logo.jpg" alt="Logo" class="logo-img" style="width: 24px; height: 24px;"><span>BLACKPINK CRAVE</span></div>
     <div class="footer-copy">&copy; 2026 BLACKPINK CRAVE Designed for BLINKs</div>
     
@@ -410,7 +709,112 @@
       });
     }
 
-    document.addEventListener('DOMContentLoaded', loadSchedules);
+
+
+    let activePromos = [];
+    let currentPromoIdx = 0;
+
+    function closePromoModal() {
+      const widget = document.getElementById('promoSideWidget');
+      if (widget) {
+        widget.classList.add('closed');
+        sessionStorage.setItem('crave_promo_closed', 'true');
+      }
+    }
+
+    function showPromoSlide(idx) {
+      const wrapper = document.getElementById('promoCarouselWrapper');
+      if (!wrapper) return;
+      currentPromoIdx = idx;
+      wrapper.style.transform = `translateX(-${currentPromoIdx * 100}%)`;
+      
+      const indicators = document.querySelectorAll('.promo-ind');
+      indicators.forEach((ind, i) => {
+        if (i === currentPromoIdx) ind.classList.add('active');
+        else ind.classList.remove('active');
+      });
+    }
+
+    function navigatePromo(dir) {
+      let target = currentPromoIdx + dir;
+      if (target < 0) target = activePromos.length - 1;
+      if (target >= activePromos.length) target = 0;
+      showPromoSlide(target);
+    }
+
+    function loadPromoModal() {
+      const stored = localStorage.getItem('crave_promos_data');
+      if (!stored) return;
+      
+      const allPromos = JSON.parse(stored);
+      activePromos = allPromos.filter(p => p.enabled);
+      
+      if (activePromos.length === 0) return;
+      
+      const wrapper = document.getElementById('promoCarouselWrapper');
+      const nav = document.getElementById('promoCarouselNav');
+      const indicators = document.getElementById('promoIndicators');
+      if (!wrapper) return;
+      
+      wrapper.innerHTML = '';
+      
+      activePromos.forEach(promo => {
+        let imgSrc = promo.coverImg;
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+          if (imgSrc.startsWith('images/promo_')) {
+            const user = localStorage.getItem('crave_gh_user') || 'blackpinkbase4';
+            const repo = localStorage.getItem('crave_gh_repo') || 'blackpinkcrave.com';
+            const branch = localStorage.getItem('crave_gh_branch') || 'main';
+            imgSrc = `https://raw.githubusercontent.com/${user}/${repo}/${branch}/${promo.coverImg}`;
+          }
+        }
+        
+        const slide = document.createElement('div');
+        slide.className = 'promo-slide';
+        
+        slide.innerHTML = `
+          <div class="promo-slide-bg">
+            <img src="${imgSrc}" alt="${promo.title}">
+          </div>
+          <div class="promo-slide-overlay"></div>
+          <div class="promo-content">
+            <div class="promo-tag">${promo.issueTag}</div>
+            <h2 class="promo-title">${promo.title}</h2>
+            <p class="promo-subtitle">${promo.subtitle}</p>
+            <div class="promo-action-row">
+              <a href="${promo.presaveLink}" target="_blank" class="promo-btn">Pre-Save</a>
+              <div class="promo-date">${promo.releaseDate}</div>
+            </div>
+          </div>
+        `;
+        wrapper.appendChild(slide);
+      });
+      
+      if (activePromos.length > 1) {
+        if (nav) nav.style.display = 'flex';
+        if (indicators) {
+          indicators.innerHTML = '';
+          activePromos.forEach((_, idx) => {
+            const ind = document.createElement('div');
+            ind.className = 'promo-ind' + (idx === 0 ? ' active' : '');
+            ind.onclick = () => showPromoSlide(idx);
+            indicators.appendChild(ind);
+          });
+        }
+      } else {
+        if (nav) nav.style.display = 'none';
+      }
+      
+      if (!sessionStorage.getItem('crave_promo_closed')) {
+        const widget = document.getElementById('promoSideWidget');
+        if (widget) widget.classList.remove('closed');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadSchedules();
+      loadPromoModal();
+    });
   </script>
 </body>
 </html>
