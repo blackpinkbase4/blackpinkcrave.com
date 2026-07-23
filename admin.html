@@ -130,10 +130,7 @@
     </div>
 
     <div id="successAlert" style="display: none; padding: 15px; border: 1px solid #00ba7c; color: #00ba7c; background-color: rgba(0, 186, 124, 0.05); text-align: center; margin-bottom: 30px; font-weight: 500; font-size: 14px;">
-      ✦ Success: All changes saved to GitHub! Your site will auto-redeploy in 15 seconds. ✨
-    </div>
-
-    <div id="errorAlert" style="display: none; padding: 15px; border: 1px solid #ef4444; color: #ef4444; background-color: rgba(239, 68, 68, 0.05); text-align: center; margin-bottom: 30px; font-weight: 500; font-size: 14px;">
+      ✦ Success: All edits saved! The website will now render your overrides.
     </div>
 
     <div class="admin-grid">
@@ -1365,8 +1362,9 @@
     }
 
     async function syncConfigToGitHub(user, repo, branch, token) {
-      const successBox = document.getElementById('successAlert');
-      const errBox = document.getElementById('errorAlert');
+      const alertBox = document.getElementById('githubSyncAlert');
+      const errBox = document.getElementById('githubSyncError');
+      alertBox.style.display = 'none';
       errBox.style.display = 'none';
 
       const fullConfig = {
@@ -1411,21 +1409,18 @@
         });
 
         if (putRes.ok) {
-          successBox.style.display = 'block';
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          alertBox.style.display = 'block';
           setTimeout(() => {
-            successBox.style.display = 'none';
-          }, 8000);
+            alertBox.style.display = 'none';
+          }, 6000);
         } else {
           const errData = await putRes.json();
-          errBox.textContent = `GitHub Sync Error: ${errData.message || 'Failed to update database file.'}`;
+          errBox.textContent = `GitHub Sync Error: ${errData.message || 'Failed to update file.'}`;
           errBox.style.display = 'block';
-          window.scrollTo({ top: 0, behavior: 'smooth' });
         }
       } catch (err) {
         errBox.textContent = `GitHub Sync Error: ${err.message || 'Connection failed.'}`;
         errBox.style.display = 'block';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
 
