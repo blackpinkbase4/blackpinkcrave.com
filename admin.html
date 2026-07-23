@@ -370,7 +370,85 @@
           <div id="adminPlaylistsList" style="display: flex; flex-direction: column; gap: 10px;">
           </div>
         </div>
-      <!-- Section 8: GitHub Cloud Sync Settings -->
+      </div>
+
+      <!-- Section 7: Manage Magazine Promotions (Pre-saves) -->
+      <div class="admin-card span-2">
+        <h3 class="admin-card-title">7. Manage Magazine Promotions (Pre-saves)</h3>
+        
+        <div class="form-row-flex">
+          <div class="form-group" style="flex: 1; min-width: 150px;">
+            <label>Promo Label / Issue Tag</label>
+            <input type="text" id="newPromoTag" class="form-control" placeholder="e.g. LISA - NEW SINGLE">
+          </div>
+          <div class="form-group" style="flex: 1.5; min-width: 200px;">
+            <label>Song / Album Title</label>
+            <input type="text" id="newPromoTitle" class="form-control" placeholder="e.g. Rockstar">
+          </div>
+          <div class="form-group" style="flex: 2; min-width: 250px;">
+            <label>Description Subtitle</label>
+            <input type="text" id="newPromoSubtitle" class="form-control" placeholder="e.g. PRE-SAVE THE DEBUT ALBUM NOW">
+          </div>
+        </div>
+
+        <div class="form-row-flex" style="margin-top: 15px;">
+          <div class="form-group" style="flex: 1.8; min-width: 250px;">
+            <label>Promo Cover Image (Upload from Device)</label>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <input type="file" id="newPromoFile" class="form-control" accept="image/*" onchange="handlePromoFileSelect(this)" style="padding: 6px;">
+              <input type="hidden" id="newPromoImg">
+            </div>
+            <div id="promoFileStatus" style="font-size: 10px; margin-top: 5px; color: var(--accent-color); font-weight: 500;"></div>
+          </div>
+          <div class="form-group" style="flex: 1.5; min-width: 200px;">
+            <label>Pre-Save / Target Link</label>
+            <input type="url" id="newPromoLink" class="form-control" placeholder="https://...">
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 150px;">
+            <label>Release Date Text</label>
+            <input type="text" id="newPromoDate" class="form-control" placeholder="e.g. FEB 28, 2026">
+          </div>
+          <button class="btn-submit" id="addPromoBtn" onclick="addPromoGridItem()" style="padding: 12px 25px; height: 46px; align-self: flex-end; margin-bottom: 2px;">Add Promo</button>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-color); padding-top: 15px; margin-top: 20px;">
+          <h4 style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 10px;">Active Promotions</h4>
+          <div id="adminPromosList" style="display: flex; flex-direction: column; gap: 10px;">
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 8: Manage Music Videos -->
+      <div class="admin-card span-2">
+        <h3 class="admin-card-title">Section 8: Manage Music Videos</h3>
+        <p style="font-size: 11px; opacity: 0.7; margin-bottom: 20px;">
+          Configure official music videos for the Cinematic MV Station. The designated featured video automatically autoplays at the top of the homepage.
+        </p>
+
+        <div class="form-row-flex">
+          <div class="form-group" style="flex: 2; min-width: 250px;">
+            <label>Song / Video Title</label>
+            <input type="text" id="newMvTitle" class="form-control" placeholder="e.g. GO">
+          </div>
+          <div class="form-group" style="flex: 1.5; min-width: 200px;">
+            <label>YouTube Video ID</label>
+            <input type="text" id="newMvId" class="form-control" placeholder="e.g. 2GJfWMYCWY0">
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 100px;">
+            <label>Release Year</label>
+            <input type="text" id="newMvYear" class="form-control" placeholder="e.g. 2026">
+          </div>
+          <button class="btn-submit" id="addMvBtn" onclick="addMvGridItem()" style="padding: 12px 25px; height: 46px; align-self: flex-end; margin-bottom: 2px;">Add Video</button>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-color); padding-top: 15px; margin-top: 20px;">
+          <h4 style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 10px;">Music Video Playlist</h4>
+          <div id="adminMvsList" style="display: flex; flex-direction: column; gap: 10px;">
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 9: GitHub Cloud Sync Settings -->
       <div class="admin-card span-2" style="border: 1px solid var(--accent-color);">
         <h3 class="admin-card-title" style="color: var(--accent-color);">GitHub Database Sync</h3>
         <p style="font-size: 11px; opacity: 0.7; margin-bottom: 20px;">
@@ -594,14 +672,22 @@
 
     let editingPlaylistId = null;
 
-    let magazineModalData = {
-      enabled: true,
-      issueTag: "SPECIAL ISSUE #01 • COMEBACK EDITION",
-      title: "ROSÉ - APT. (FEAT. BRUNO MARS)",
-      subtitle: "PRE-SAVE THE GLOBAL HIT SINGLE NOW",
-      coverImg: "images/slide_stats.jpg",
-      presaveLink: "https://rosesarered.lnk.to/apt"
-    };
+    let promosData = [
+      {
+        id: 1,
+        enabled: true,
+        issueTag: "SPECIAL ISSUE #01 • COMEBACK EDITION",
+        title: "ROSÉ - APT. (FEAT. BRUNO MARS)",
+        subtitle: "PRE-SAVE THE GLOBAL HIT SINGLE NOW",
+        coverImg: "images/slide_stats.jpg",
+        presaveLink: "https://rosesarered.lnk.to/apt",
+        releaseDate: "OCT 18, 2024"
+      }
+    ];
+    let editingPromoId = null;
+
+    let mvsData = [];
+    let editingMvId = null;
 
     function syncFromLocalStorage() {
       if (localStorage.getItem('crave_ticker_overrides')) {
@@ -625,6 +711,12 @@
       if (localStorage.getItem('crave_playlists_data')) {
         playlistsData = JSON.parse(localStorage.getItem('crave_playlists_data'));
       }
+      if (localStorage.getItem('crave_promos_data')) {
+        promosData = JSON.parse(localStorage.getItem('crave_promos_data'));
+      }
+      if (localStorage.getItem('crave_mv_data')) {
+        mvsData = JSON.parse(localStorage.getItem('crave_mv_data'));
+      }
     }
 
     async function loadConfigFromServer(force = false) {
@@ -639,6 +731,8 @@
           if (config.schedules) localStorage.setItem('crave_schedules', JSON.stringify(config.schedules));
           if (config.soloStats) localStorage.setItem('crave_solo_stats_data', JSON.stringify(config.soloStats));
           if (config.playlists) localStorage.setItem('crave_playlists_data', JSON.stringify(config.playlists));
+          if (config.promos) localStorage.setItem('crave_promos_data', JSON.stringify(config.promos));
+          if (config.mvs) localStorage.setItem('crave_mv_data', JSON.stringify(config.mvs));
           
           syncFromLocalStorage();
           
@@ -649,6 +743,8 @@
           renderSchedulesList();
           renderSoloGoalsList();
           renderPlaylistsList();
+          renderPromosList();
+          renderMvsList();
           
           if (force) {
             alert("Successfully loaded the latest database from the live server!");
@@ -656,17 +752,6 @@
         }
       } catch (e) {
         if (force) alert("Failed to fetch data from the server.");
-      }
-    }
-
-    function loadMagazineModalForm() {
-      if (document.getElementById('magEnabled')) {
-        document.getElementById('magEnabled').checked = magazineModalData.enabled;
-        document.getElementById('magIssueTagInput').value = magazineModalData.issueTag || '';
-        document.getElementById('magTitleInput').value = magazineModalData.title || '';
-        document.getElementById('magSubtitleInput').value = magazineModalData.subtitle || '';
-        document.getElementById('magCoverImgInput').value = magazineModalData.coverImg || '';
-        document.getElementById('magPresaveLinkInput').value = magazineModalData.presaveLink || '';
       }
     }
 
@@ -685,6 +770,8 @@
       renderSchedulesList();
       renderSoloGoalsList();
       renderPlaylistsList();
+      renderPromosList();
+      renderMvsList();
 
       document.getElementById('githubUser').value = localStorage.getItem('crave_gh_user') || '';
       document.getElementById('githubRepo').value = localStorage.getItem('crave_gh_repo') || '';
@@ -1207,6 +1294,8 @@
       localStorage.setItem('crave_solo_stats_data', JSON.stringify(soloGoalsData));
       localStorage.setItem('crave_schedules', JSON.stringify(schedulesData));
       localStorage.setItem('crave_playlists_data', JSON.stringify(playlistsData));
+      localStorage.setItem('crave_promos_data', JSON.stringify(promosData));
+      localStorage.setItem('crave_mv_data', JSON.stringify(mvsData));
     }
 
     function saveAllChanges() {
@@ -1241,6 +1330,10 @@
 
       localStorage.setItem('crave_playlists_data', JSON.stringify(playlistsData));
 
+      localStorage.setItem('crave_promos_data', JSON.stringify(promosData));
+
+      localStorage.setItem('crave_mv_data', JSON.stringify(mvsData));
+
       const ghUser = document.getElementById('githubUser').value.trim();
       const ghRepo = document.getElementById('githubRepo').value.trim();
       const ghBranch = document.getElementById('githubBranch').value.trim() || 'main';
@@ -1255,6 +1348,7 @@
         syncConfigToGitHub(ghUser, ghRepo, ghBranch, ghToken);
       }
 
+      sessionStorage.removeItem('crave_promo_shown');
       const alert = document.getElementById('successAlert');
       alert.style.display = 'block';
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1367,21 +1461,64 @@
       alertBox.style.display = 'none';
       errBox.style.display = 'none';
 
-      const fullConfig = {
-        ticker: tickerData,
-        members: memberData,
-        votings: votingData,
-        stats: goalsData,
-        schedules: schedulesData,
-        soloStats: soloGoalsData,
-        playlists: playlistsData
-      };
-
       try {
+        // 1. Upload any pending promo images to GitHub first
+        for (let promo of promosData) {
+          if (promo.pendingImage) {
+            const imgUrl = `https://api.github.com/repos/${user}/${repo}/contents/${promo.coverImg}`;
+            let imgSha = null;
+            const getImg = await fetch(`${imgUrl}?ref=${branch}&t=${Date.now()}`, {
+              headers: {
+                'Authorization': `token ${token}`,
+                'Accept': 'application/vnd.github.v3+json'
+              }
+            });
+            if (getImg.ok) {
+              const imgData = await getImg.json();
+              imgSha = imgData.sha;
+            }
+
+            const putImg = await fetch(imgUrl, {
+              method: 'PUT',
+              headers: {
+                'Authorization': `token ${token}`,
+                'Accept': 'application/vnd.github.v3+json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                message: `Upload promo cover image: ${promo.pendingImage.name}`,
+                content: promo.pendingImage.base64,
+                sha: imgSha,
+                branch: branch
+              })
+            });
+
+            if (!putImg.ok) {
+              const errData = await putImg.json();
+              throw new Error(`Failed to upload cover image. ${errData.message || ''}`);
+            }
+
+            delete promo.pendingImage;
+            localStorage.setItem('crave_promos_data', JSON.stringify(promosData));
+          }
+        }
+
+        const fullConfig = {
+          ticker: tickerData,
+          members: memberData,
+          votings: votingData,
+          stats: goalsData,
+          schedules: schedulesData,
+          soloStats: soloGoalsData,
+          playlists: playlistsData,
+          promos: promosData,
+          mvs: mvsData
+        };
+
         const fileUrl = `https://api.github.com/repos/${user}/${repo}/contents/config.json`;
         
         let sha = null;
-        const getRes = await fetch(`${fileUrl}?ref=${branch}`, {
+        const getRes = await fetch(`${fileUrl}?ref=${branch}&t=${Date.now()}`, {
           headers: {
             'Authorization': `token ${token}`,
             'Accept': 'application/vnd.github.v3+json'
@@ -1422,6 +1559,252 @@
         errBox.textContent = `GitHub Sync Error: ${err.message || 'Connection failed.'}`;
         errBox.style.display = 'block';
       }
+    }
+
+    function renderPromosList() {
+      const container = document.getElementById('adminPromosList');
+      if (!container) return;
+      container.innerHTML = '';
+
+      if (promosData.length === 0) {
+        container.innerHTML = '<p style="opacity: 0.5; font-size: 13px; font-style: italic;">No active promotions configured.</p>';
+        return;
+      }
+
+      promosData.forEach(item => {
+        const row = document.createElement('div');
+        row.style.display = 'flex';
+        row.style.justifyContent = 'space-between';
+        row.style.alignItems = 'center';
+        row.style.padding = '12px 15px';
+        row.style.border = '1px solid var(--border-color)';
+        row.style.backgroundColor = 'var(--bg-color)';
+        row.style.marginBottom = '10px';
+        
+        row.innerHTML = `
+          <div>
+            <span style="font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-color); font-weight: 600; display: block; margin-bottom: 3px;">${item.issueTag} [Status: ${item.enabled ? 'Active' : 'Disabled'}]</span>
+            <strong style="font-family: var(--font-serif); font-size: 15px;">${item.title}</strong>
+            <span style="opacity: 0.5; font-size: 11px; margin-left: 10px;">(${item.releaseDate})</span>
+          </div>
+          <div style="display: flex; gap: 15px; align-items: center;">
+            <button onclick="togglePromoStatus(${item.id})" style="background: none; border: none; color: ${item.enabled ? '#ef4444' : '#00ba7c'}; font-size: 11px; text-transform: uppercase; cursor: pointer; letter-spacing: 1px;">${item.enabled ? 'Disable' : 'Enable'}</button>
+            <button onclick="editPromoGridItem(${item.id})" style="background: none; border: none; color: var(--accent-color); font-size: 11px; text-transform: uppercase; cursor: pointer; letter-spacing: 1px;">Edit</button>
+            <button onclick="deletePromoGridItem(${item.id})" style="background: none; border: none; color: #ef4444; font-size: 11px; text-transform: uppercase; cursor: pointer; letter-spacing: 1px;">Delete</button>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function togglePromoStatus(id) {
+      const item = promosData.find(i => i.id === id);
+      if (item) {
+        item.enabled = !item.enabled;
+        renderPromosList();
+        autoSave();
+      }
+    }
+
+    let pendingPromoImage = null;
+
+    function handlePromoFileSelect(input) {
+      const statusDiv = document.getElementById('promoFileStatus');
+      if (!input.files || input.files.length === 0) {
+        pendingPromoImage = null;
+        if (statusDiv) statusDiv.textContent = '';
+        return;
+      }
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const base64Content = e.target.result.split(',')[1];
+        const safeName = `promo_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
+        pendingPromoImage = {
+          name: safeName,
+          base64: base64Content
+        };
+        if (statusDiv) statusDiv.textContent = `✓ Selected: ${file.name} (uploads on save)`;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function editPromoGridItem(id) {
+      const item = promosData.find(i => i.id === id);
+      if (!item) return;
+      editingPromoId = id;
+      document.getElementById('newPromoTag').value = item.issueTag || '';
+      document.getElementById('newPromoTitle').value = item.title || '';
+      document.getElementById('newPromoSubtitle').value = item.subtitle || '';
+      document.getElementById('newPromoImg').value = item.coverImg || '';
+      document.getElementById('newPromoLink').value = item.presaveLink || '';
+      document.getElementById('newPromoDate').value = item.releaseDate || '';
+      document.getElementById('addPromoBtn').textContent = 'Update Promo';
+      
+      document.getElementById('newPromoFile').value = '';
+      const statusDiv = document.getElementById('promoFileStatus');
+      if (statusDiv) statusDiv.textContent = item.coverImg ? `Current image: ${item.coverImg}` : '';
+      pendingPromoImage = null;
+
+      document.getElementById('newPromoTag').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function addPromoGridItem() {
+      const tag = document.getElementById('newPromoTag').value.trim();
+      const title = document.getElementById('newPromoTitle').value.trim();
+      const subtitle = document.getElementById('newPromoSubtitle').value.trim();
+      const img = document.getElementById('newPromoImg').value.trim();
+      const link = document.getElementById('newPromoLink').value.trim();
+      const date = document.getElementById('newPromoDate').value.trim();
+
+      if (!title || (!img && !pendingPromoImage) || !link) {
+        alert("Please complete the Title, select an Image file, and fill the Pre-Save Link field.");
+        return;
+      }
+
+      if (editingPromoId !== null) {
+        const item = promosData.find(i => i.id === editingPromoId);
+        if (item) {
+          item.issueTag = tag || 'NEW PROMOTION';
+          item.title = title;
+          item.subtitle = subtitle;
+          if (pendingPromoImage) {
+            item.coverImg = `images/${pendingPromoImage.name}`;
+            item.pendingImage = pendingPromoImage;
+          } else if (img) {
+            item.coverImg = img;
+          }
+          item.presaveLink = link;
+          item.releaseDate = date || 'COMING SOON';
+        }
+        editingPromoId = null;
+        document.getElementById('addPromoBtn').textContent = 'Add Promo';
+      } else {
+        const newItem = {
+          id: Date.now(),
+          enabled: true,
+          issueTag: tag || 'NEW PROMOTION',
+          title,
+          subtitle,
+          coverImg: pendingPromoImage ? `images/${pendingPromoImage.name}` : (img || 'images/slide_stats.jpg'),
+          presaveLink: link,
+          releaseDate: date || 'COMING SOON'
+        };
+        if (pendingPromoImage) {
+          newItem.pendingImage = pendingPromoImage;
+        }
+        promosData.push(newItem);
+      }
+
+      renderPromosList();
+      autoSave();
+
+      document.getElementById('newPromoTag').value = '';
+      document.getElementById('newPromoTitle').value = '';
+      document.getElementById('newPromoSubtitle').value = '';
+      document.getElementById('newPromoImg').value = '';
+      document.getElementById('newPromoLink').value = '';
+      document.getElementById('newPromoDate').value = '';
+      document.getElementById('newPromoFile').value = '';
+      const statusDiv = document.getElementById('promoFileStatus');
+      if (statusDiv) statusDiv.textContent = '';
+      pendingPromoImage = null;
+    }
+
+    function deletePromoGridItem(id) {
+      promosData = promosData.filter(item => item.id !== id);
+      renderPromosList();
+      autoSave();
+    }
+
+    function renderMvsList() {
+      const container = document.getElementById('adminMvsList');
+      if (!container) return;
+      container.innerHTML = '';
+
+      if (mvsData.length === 0) {
+        container.innerHTML = '<p style="opacity: 0.5; font-size: 13px; font-style: italic;">No music videos configured.</p>';
+        return;
+      }
+
+      mvsData.forEach(item => {
+        const row = document.createElement('div');
+        row.style.display = 'flex';
+        row.style.justifyContent = 'space-between';
+        row.style.alignItems = 'center';
+        row.style.padding = '12px 15px';
+        row.style.border = '1px solid var(--border-color)';
+        row.style.backgroundColor = 'var(--bg-color)';
+        row.style.marginBottom = '10px';
+
+        row.innerHTML = `
+          <div>
+            <span style="font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; color: ${item.featured ? 'var(--accent-color)' : 'var(--text-muted)'}; font-weight: 600; display: block; margin-bottom: 3px;">
+              ${item.featured ? '★ FEATURED (AUTOPLAYS AT TOP)' : 'STANDARD VIDEO'}
+            </span>
+            <strong style="font-family: var(--font-serif); font-size: 15px;">${item.title}</strong>
+            <span style="opacity: 0.5; font-size: 11px; margin-left: 10px;">(Year: ${item.year}, ID: ${item.id})</span>
+          </div>
+          <div style="display: flex; gap: 15px; align-items: center;">
+            ${!item.featured ? `<button onclick="setFeaturedMv('${item.id}')" style="background: none; border: none; color: var(--accent-color); font-size: 11px; text-transform: uppercase; cursor: pointer; letter-spacing: 1px;">Make Featured</button>` : ''}
+            <button onclick="deleteMvGridItem('${item.id}')" style="background: none; border: none; color: #ef4444; font-size: 11px; text-transform: uppercase; cursor: pointer; letter-spacing: 1px;">Delete</button>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function addMvGridItem() {
+      const title = document.getElementById('newMvTitle').value.trim();
+      const id = document.getElementById('newMvId').value.trim();
+      const year = document.getElementById('newMvYear').value.trim();
+
+      if (!title || !id || !year) {
+        alert("Please complete all fields (Title, Video ID, and Release Year).");
+        return;
+      }
+
+      if (mvsData.some(item => item.id === id)) {
+        alert("A video with this YouTube ID already exists.");
+        return;
+      }
+
+      const newItem = {
+        id: id,
+        title: title,
+        year: year,
+        featured: mvsData.length === 0 ? true : false
+      };
+
+      mvsData.push(newItem);
+      renderMvsList();
+      autoSave();
+
+      document.getElementById('newMvTitle').value = '';
+      document.getElementById('newMvId').value = '';
+      document.getElementById('newMvYear').value = '';
+    }
+
+    function deleteMvGridItem(id) {
+      const item = mvsData.find(v => v.id === id);
+      const wasFeatured = item ? item.featured : false;
+
+      mvsData = mvsData.filter(item => item.id !== id);
+
+      if (wasFeatured && mvsData.length > 0) {
+        mvsData[0].featured = true;
+      }
+
+      renderMvsList();
+      autoSave();
+    }
+
+    function setFeaturedMv(id) {
+      mvsData.forEach(item => {
+        item.featured = (item.id === id);
+      });
+      renderMvsList();
+      autoSave();
     }
 
     function handleLogout() {
