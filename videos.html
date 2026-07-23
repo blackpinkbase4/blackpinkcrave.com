@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Videos - BLACKPINK CRAVE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=12">
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <a href="index.html" class="back-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+          </svg>
+          <span>Back</span>
+        </a>
+        <span style="opacity: 0.15; font-size: 14px; display: inline-block; transform: translateY(-1px);">|</span>
+        <div class="logo"><a href="index.html?v=5"><img src="images/logo.jpg" alt="Logo" class="logo-img"><span>BLACKPINK CRAVE</span></a> <span class="nav-breadcrumb">/ VIDEOS</span></div>
+      </div>
+      <div class="nav-right desktop-only">
+        <ul class="nav-links">
+          <li><a href="index.html#members">Members</a></li>
+          <li><a href="stats.html?v=5">Streaming Goals</a></li>
+          <li><a href="solos.html?v=5">Discography</a></li>
+          <li><a href="videos.html?v=5" class="active">Videos</a></li>
+          <li><a href="votings.html?v=5">Votings</a></li>
+          <li><a href="playlists.html?v=5">Playlists</a></li>
+        </ul>
+      </div>
+      
+      <button class="menu-toggle-btn mobile-only" id="menuToggleBtn" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <button onclick="toggleTheme()" class="emoji-theme-btn" id="themeToggleBtn" title="Toggle Light/Dark Mode">☀️</button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu-backdrop" id="mobileMenuBackdrop" onclick="closeMobileMenu()"></div>
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <button class="mobile-menu-close" id="mobileMenuCloseBtn">&times;</button>
+    <ul class="mobile-menu-links">
+      <li>
+        <a href="index.html#members" onclick="closeMobileMenu()">Members</a>
+        <ul class="mobile-submenu">
+          <li><a href="jisoo.html?v=5">Jisoo</a></li>
+          <li><a href="jennie.html?v=5">Jennie</a></li>
+          <li><a href="rose.html?v=5">Rosé</a></li>
+          <li><a href="lisa.html?v=5">Lisa</a></li>
+        </ul>
+      </li>
+      <li><a href="stats.html?v=5">Streaming Goals</a></li>
+      <li><a href="solos.html?v=5">Discography</a></li>
+      <li><a href="videos.html?v=5" class="active">Videos</a></li>
+      <li><a href="votings.html?v=5">Votings</a></li>
+      <li><a href="playlists.html?v=5">Playlists</a></li>
+    </ul>
+  </div>
+
+  <div class="ticker-bar">
+    <div class="ticker-track" id="tickerTrack">
+    </div>
+  </div>
+
+  <main style="margin-top: 101px; padding: 0;">
+    <section>
+      <div class="section-header">
+        <div>
+          <p class="section-num">06 / Cinematics</p>
+          <h2 class="section-title">Music Videos</h2>
+        </div>
+        <a href="https://www.youtube.com/@BLACKPINK/videos" target="_blank" class="section-link">Official Channel &rarr;</a>
+      </div>
+
+      <div class="mv-hub-container">
+        <div class="mv-player-section">
+          <div class="mv-player-wrapper">
+            <iframe id="mvMainPlayer" src="" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <div class="mv-player-info">
+            <div class="mv-player-title" id="mvPlayerTitle">Loading Music Video...</div>
+            <div class="mv-player-meta" id="mvPlayerMeta">RELEASE ERA</div>
+          </div>
+        </div>
+
+        <div class="mv-grid" id="mvGridList">
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-logo"><img src="images/logo.jpg" alt="Logo" class="logo-img" style="width: 24px; height: 24px;"><span>BLACKPINK CRAVE</span></div>
+    <div class="footer-copy">&copy; 2026 BLACKPINK CRAVE Designed for BLINKs</div>
+    
+    <p class="footer-disclaimer" style="font-size: 11px; opacity: 0.45; max-width: 600px; margin: 15px auto 0 auto; line-height: 1.6; font-family: var(--font-sans); text-transform: none; letter-spacing: 0px;">
+      BLACKPINK CRAVE is an independent fan-run platform and is not affiliated with YG Entertainment. All content is for informational and entertainment purposes only.
+    </p>
+    <div class="footer-socials">
+      <a href="https://www.instagram.com/blackpinkofficial/" target="_blank" title="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+      <a href="https://twitter.com/BLACKPINK" target="_blank" title="Twitter / X"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"></path><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path></svg></a>
+      <a href="https://www.tiktok.com/@bp_tiktok" target="_blank" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg></a>
+      <a href="https://www.youtube.com/@BLACKPINK" target="_blank" title="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="5" ry="5"></rect><path d="M10 15l5-3-5-3v6z"></path></svg></a>
+      <a href="https://open.spotify.com/artist/41MozSoPIsD1dJM0CLPjZF" target="_blank" title="Spotify"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 11.5c2.5-1.5 5.5-1.5 8 0"></path><path d="M9 14c2-1 4-1 6 0"></path><path d="M7 9c3-2 7-2 10 0"></path></svg></a>
+    </div>
+    
+    <div style="margin-top: 25px; opacity: 0.25; font-size: 8px; text-align: center;">
+      <a href="login.html?v=5" style="color: var(--text-color); text-decoration: none; font-family: var(--font-sans); letter-spacing: 1px; font-weight: 500;">🔒 TEAM ACCESS</a>
+    </div>
+  </footer>
+
+  <script src="script.js?v=5"></script>
+  <script>
+    let mvsData = [];
+
+    function playSelectedMv(id, title, year) {
+      const player = document.getElementById('mvMainPlayer');
+      const titleEl = document.getElementById('mvPlayerTitle');
+      const metaEl = document.getElementById('mvPlayerMeta');
+      if (player) {
+        player.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+      }
+      if (titleEl) titleEl.textContent = title;
+      if (metaEl) metaEl.textContent = `${year} RELEASE`;
+
+      const cards = document.querySelectorAll('.mv-card');
+      cards.forEach(card => {
+        if (card.getAttribute('data-id') === id) {
+          card.classList.add('active-mv');
+        } else {
+          card.classList.remove('active-mv');
+        }
+      });
+    }
+
+    function loadMvs() {
+      const stored = localStorage.getItem('crave_mv_data');
+      const grid = document.getElementById('mvGridList');
+      if (!stored || !grid) return;
+
+      mvsData = JSON.parse(stored);
+      grid.innerHTML = '';
+
+      if (mvsData.length === 0) {
+        grid.innerHTML = '<p style="opacity: 0.5; font-style: italic;">No music videos configured.</p>';
+        return;
+      }
+
+      const featuredId = "2GJfWMYCWY0";
+      const featured = mvsData.find(v => v.id === featuredId) || mvsData[0];
+
+      const player = document.getElementById('mvMainPlayer');
+      const titleEl = document.getElementById('mvPlayerTitle');
+      const metaEl = document.getElementById('mvPlayerMeta');
+      if (player && (!player.getAttribute('src') || player.getAttribute('src') === '')) {
+        player.src = `https://www.youtube.com/embed/${featured.id}?autoplay=1&mute=1&rel=0`;
+      }
+      if (titleEl) titleEl.textContent = featured.title;
+      if (metaEl) metaEl.textContent = `${featured.year} RELEASE`;
+
+      mvsData.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'mv-card' + (item.id === featured.id ? ' active-mv' : '');
+        card.setAttribute('data-id', item.id);
+        card.onclick = () => {
+          playSelectedMv(item.id, item.title, item.year);
+          const playerSec = document.querySelector('.mv-player-section');
+          if (playerSec) {
+            playerSec.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        };
+
+        card.innerHTML = `
+          <div class="mv-card-thumb">
+            <img src="https://img.youtube.com/vi/${item.id}/mqdefault.jpg" alt="${item.title}" loading="lazy">
+          </div>
+          <div class="mv-card-body">
+            <h4 class="mv-card-title">${item.title}</h4>
+            <div class="mv-card-year">${item.year} RELEASE</div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadMvs();
+    });
+  </script>
+</body>
+</html>
