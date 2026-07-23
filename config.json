@@ -233,9 +233,106 @@
       "issueTag": "SPECIAL ISSUE #01 • COMEBACK EDITION",
       "title": "ROSÉ - APT. (FEAT. BRUNO MARS)",
       "subtitle": "PRE-SAVE THE GLOBAL HIT SINGLE NOW",
-      "coverImg": "images/promo_1784798428351_member_rose.jpg",
-      "presaveLink": "https://rosesarered.lnk.to/apt",
-      "releaseDate": "COMING SOON"
+      "coverImg": "images/slide_stats.jpg",
+      "presaveLink": "https://rosesarered.lnk.to/apt"
+    }
+  ],
+  "mvs": [
+    {
+      "id": "2GJfWMYCWY0",
+      "title": "Go",
+      "year": "2026",
+      "featured": true
+    },
+    {
+      "id": "CgCVZdcKcqY",
+      "title": "Jump",
+      "year": "2025",
+      "featured": false
+    },
+    {
+      "id": "cSqOY5nktfg",
+      "title": "The Girls",
+      "year": "2023",
+      "featured": false
+    },
+    {
+      "id": "POe9SOEKotk",
+      "title": "Shut Down",
+      "year": "2022",
+      "featured": false
+    },
+    {
+      "id": "gQlMMD8auMs",
+      "title": "Pink Venom",
+      "year": "2022",
+      "featured": false
+    },
+    {
+      "id": "7WyHtSlvHD4",
+      "title": "Ready for Love",
+      "year": "2022",
+      "featured": false
+    },
+    {
+      "id": "dyRsYk0LyA8",
+      "title": "Lovesick Girls",
+      "year": "2020",
+      "featured": false
+    },
+    {
+      "id": "vRXZj0DzXIA",
+      "title": "Ice Cream",
+      "year": "2020",
+      "featured": false
+    },
+    {
+      "id": "ioNng23DkIM",
+      "title": "How You Like That",
+      "year": "2020",
+      "featured": false
+    },
+    {
+      "id": "2S24-y0Ij3Y",
+      "title": "Kill This Love",
+      "year": "2019",
+      "featured": false
+    },
+    {
+      "id": "IHNzOHi8sJs",
+      "title": "Ddu-Du Ddu-Du",
+      "year": "2018",
+      "featured": false
+    },
+    {
+      "id": "Amq-qlqbjYA",
+      "title": "As If It's Your Last",
+      "year": "2017",
+      "featured": false
+    },
+    {
+      "id": "FzVR_fymZw4",
+      "title": "Stay",
+      "year": "2016",
+      "featured": false
+    },
+    {
+      "id": "9pdj4iJD08s",
+      "title": "Playing with Fire",
+      "year": "2016",
+      "featured": false
+    },
+    {
+      "id": "bwmSjveL3Lc",
+      "title": "Boombayah",
+      "year": "2016",
+      "featured": false
+    },
+    {
+      "id": "dISNgvVpWlo",
+      "title": "Whistle",
+      "year": "2016",
+      "featured": false
     }
   ]
 }
