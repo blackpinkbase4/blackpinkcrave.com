@@ -223,6 +223,8 @@ async function loadCraveCDNConfig() {
       if (config.schedules) localStorage.setItem('crave_schedules', JSON.stringify(config.schedules));
       if (config.soloStats) localStorage.setItem('crave_solo_stats_data', JSON.stringify(config.soloStats));
       if (config.playlists) localStorage.setItem('crave_playlists_data', JSON.stringify(config.playlists));
+      if (config.promos) localStorage.setItem('crave_promos_data', JSON.stringify(config.promos));
+      if (config.mvs) localStorage.setItem('crave_mv_data', JSON.stringify(config.mvs));
       if (config.supportLink) localStorage.setItem('crave_support_link', config.supportLink);
 
       renderCraveTicker();
@@ -232,6 +234,8 @@ async function loadCraveCDNConfig() {
       if (typeof loadPlaylists === 'function') loadPlaylists();
       if (typeof loadVotings === 'function') loadVotings();
       if (typeof loadSchedules === 'function') loadSchedules();
+      if (typeof loadPromoModal === 'function') loadPromoModal();
+      if (typeof loadMvs === 'function') loadMvs();
     }
   } catch (e) {}
 }
