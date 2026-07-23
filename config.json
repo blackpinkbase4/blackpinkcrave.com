@@ -229,12 +229,13 @@
   "promos": [
     {
       "id": 1,
-      "enabled": false,
+      "enabled": true,
       "issueTag": "SPECIAL ISSUE #01 • COMEBACK EDITION",
       "title": "ROSÉ - APT. (FEAT. BRUNO MARS)",
       "subtitle": "PRE-SAVE THE GLOBAL HIT SINGLE NOW",
-      "coverImg": "images/slide_stats.jpg",
-      "presaveLink": "https://rosesarered.lnk.to/apt"
+      "coverImg": "images/promo_1784796617663_member_rose.jpg",
+      "presaveLink": "https://rosesarered.lnk.to/apt",
+      "releaseDate": "COMING SOON"
     }
   ]
 }
