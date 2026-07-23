@@ -223,7 +223,6 @@ async function loadCraveCDNConfig() {
       if (config.schedules) localStorage.setItem('crave_schedules', JSON.stringify(config.schedules));
       if (config.soloStats) localStorage.setItem('crave_solo_stats_data', JSON.stringify(config.soloStats));
       if (config.playlists) localStorage.setItem('crave_playlists_data', JSON.stringify(config.playlists));
-      if (config.capsuleLetters) localStorage.setItem('crave_capsule_letters', JSON.stringify(config.capsuleLetters));
       if (config.supportLink) localStorage.setItem('crave_support_link', config.supportLink);
 
       renderCraveTicker();
