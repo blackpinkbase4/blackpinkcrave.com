@@ -104,17 +104,6 @@
       "spotify": "https://open.spotify.com/track/6tCd8bPvYnceDG7W9M1RMk?si=d3f335ab9fdf4368",
       "apple": "https://music.apple.com/us/song/shut-down/1644431999",
       "youtube": "https://www.youtube.com/watch?v=POe9SOEKotk"
-    },
-    {
-      "id": 1784794497131,
-      "title": "fgf",
-      "streams": "fcg",
-      "goal": "cfg",
-      "daily": "0",
-      "trend": "up",
-      "spotify": "cfg",
-      "apple": "#",
-      "youtube": "#"
     }
   ],
   "schedules": [
@@ -235,6 +224,17 @@
       "spotify": "https://open.spotify.com/playlist/1Lggv2egNIsiPr2dqXzCZf?si=-Z4cg8u8RyCwOs1uRAYJ8w",
       "apple": "",
       "youtube": ""
+    }
+  ],
+  "promos": [
+    {
+      "id": 1,
+      "enabled": false,
+      "issueTag": "SPECIAL ISSUE #01 • COMEBACK EDITION",
+      "title": "ROSÉ - APT. (FEAT. BRUNO MARS)",
+      "subtitle": "PRE-SAVE THE GLOBAL HIT SINGLE NOW",
+      "coverImg": "images/slide_stats.jpg",
+      "presaveLink": "https://rosesarered.lnk.to/apt"
     }
   ]
 }
