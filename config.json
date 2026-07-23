@@ -104,6 +104,17 @@
       "spotify": "https://open.spotify.com/track/6tCd8bPvYnceDG7W9M1RMk?si=d3f335ab9fdf4368",
       "apple": "https://music.apple.com/us/song/shut-down/1644431999",
       "youtube": "https://www.youtube.com/watch?v=POe9SOEKotk"
+    },
+    {
+      "id": 1784794497131,
+      "title": "fgf",
+      "streams": "fcg",
+      "goal": "cfg",
+      "daily": "0",
+      "trend": "up",
+      "spotify": "cfg",
+      "apple": "#",
+      "youtube": "#"
     }
   ],
   "schedules": [
