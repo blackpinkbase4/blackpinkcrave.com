@@ -372,20 +372,6 @@
         </div>
       </div>
 
-      <!-- Section 10: 10th Anniversary Time Capsule Fan Letters -->
-      <div class="admin-card span-2">
-        <h3 class="admin-card-title">Section 10: 10th Anniversary Fan Letters Manager</h3>
-        <p style="font-size: 11px; opacity: 0.7; margin-bottom: 20px;">
-          Manage sealed fan letters submitted for the 10th Anniversary Time Capsule. Deleting a letter removes it from the global vault.
-        </p>
-
-        <div style="border-top: 1px solid var(--border-color); padding-top: 15px; margin-top: 10px;">
-          <h4 style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 10px;">Sealed Fan Letters (<span id="adminLettersCount">0</span>)</h4>
-          <div id="adminLettersList" style="display: flex; flex-direction: column; gap: 10px;">
-          </div>
-        </div>
-      </div>
-
       <!-- Section 8: GitHub Cloud Sync Settings -->
       <div class="admin-card span-2" style="border: 1px solid var(--accent-color);">
         <h3 class="admin-card-title" style="color: var(--accent-color);">GitHub Database Sync</h3>
@@ -637,100 +623,42 @@
       }
       if (localStorage.getItem('crave_solo_stats_data')) {
         soloGoalsData = JSON.parse(localStorage.getItem('crave_solo_stats_data'));
+      }
       if (localStorage.getItem('crave_playlists_data')) {
         playlistsData = JSON.parse(localStorage.getItem('crave_playlists_data'));
       }
-      if (localStorage.getItem('crave_capsule_letters')) {
-        capsuleLettersData = JSON.parse(localStorage.getItem('crave_capsule_letters'));
-      }
     }
-
-    let capsuleLettersData = [
-      {
-        id: 1,
-        sender: "Sofia (Paris BLINK)",
-        recipient: "BLACKPINK",
-        content: "Happy 10th Anniversary to the four girls who changed K-Pop forever!",
-        date: "July 21, 2026"
-      }
-    ];
 
     async function loadConfigFromServer(force = false) {
-      if (force || !localStorage.getItem('crave_ticker_overrides')) {
-        try {
-          const res = await fetch(`config.json?t=${Date.now()}`);
-          if (res.ok) {
-            const config = await res.json();
-            if (config.ticker) localStorage.setItem('crave_ticker_overrides', JSON.stringify(config.ticker));
-            if (config.members) localStorage.setItem('crave_member_overrides', JSON.stringify(config.members));
-            if (config.votings) localStorage.setItem('crave_voting_data', JSON.stringify(config.votings));
-            if (config.stats) localStorage.setItem('crave_stats_data', JSON.stringify(config.stats));
-            if (config.schedules) localStorage.setItem('crave_schedules', JSON.stringify(config.schedules));
-            if (config.soloStats) localStorage.setItem('crave_solo_stats_data', JSON.stringify(config.soloStats));
-            if (config.playlists) localStorage.setItem('crave_playlists_data', JSON.stringify(config.playlists));
-            if (config.capsuleLetters) localStorage.setItem('crave_capsule_letters', JSON.stringify(config.capsuleLetters));
-            
-            syncFromLocalStorage();
-            
-            renderTickerInputs();
-            loadMemberDataForEdit();
-            renderVotingsList();
-            renderGoalsList();
-            renderSchedulesList();
-            renderSoloGoalsList();
-            renderPlaylistsList();
-            renderAdminLettersList();
-            
-            if (force) {
-              alert("Successfully loaded the latest database from the live server!");
-            }
+      try {
+        const res = await fetch(`config.json?t=${Date.now()}`);
+        if (res.ok) {
+          const config = await res.json();
+          if (config.ticker) localStorage.setItem('crave_ticker_overrides', JSON.stringify(config.ticker));
+          if (config.members) localStorage.setItem('crave_member_overrides', JSON.stringify(config.members));
+          if (config.votings) localStorage.setItem('crave_voting_data', JSON.stringify(config.votings));
+          if (config.stats) localStorage.setItem('crave_stats_data', JSON.stringify(config.stats));
+          if (config.schedules) localStorage.setItem('crave_schedules', JSON.stringify(config.schedules));
+          if (config.soloStats) localStorage.setItem('crave_solo_stats_data', JSON.stringify(config.soloStats));
+          if (config.playlists) localStorage.setItem('crave_playlists_data', JSON.stringify(config.playlists));
+          
+          syncFromLocalStorage();
+          
+          renderTickerInputs();
+          loadMemberDataForEdit();
+          renderVotingsList();
+          renderGoalsList();
+          renderSchedulesList();
+          renderSoloGoalsList();
+          renderPlaylistsList();
+          
+          if (force) {
+            alert("Successfully loaded the latest database from the live server!");
           }
-        } catch (e) {
-          if (force) alert("Failed to fetch data from the server.");
         }
+      } catch (e) {
+        if (force) alert("Failed to fetch data from the server.");
       }
-    }
-
-    function renderAdminLettersList() {
-      const container = document.getElementById('adminLettersList');
-      const countEl = document.getElementById('adminLettersCount');
-      if (!container) return;
-      container.innerHTML = '';
-      if (countEl) countEl.textContent = capsuleLettersData.length;
-
-      if (capsuleLettersData.length === 0) {
-        container.innerHTML = '<p style="opacity: 0.5; font-size: 13px; font-style: italic;">No fan letters sealed in the vault yet.</p>';
-        return;
-      }
-
-      capsuleLettersData.forEach(item => {
-        const row = document.createElement('div');
-        row.style.display = 'flex';
-        row.style.justifyContent = 'space-between';
-        row.style.alignItems = 'center';
-        row.style.padding = '12px 15px';
-        row.style.border = '1px solid var(--border-color)';
-        row.style.backgroundColor = 'var(--bg-color)';
-        
-        row.innerHTML = `
-          <div style="flex: 1; min-width: 0; padding-right: 15px;">
-            <strong style="font-family: var(--font-serif); font-size: 14px;">✉️ ${item.sender}</strong>
-            <span style="font-size: 10px; color: var(--accent-color); border: 1px solid var(--accent-color); padding: 1px 5px; margin-left: 8px; text-transform: uppercase;">TO: ${item.recipient}</span>
-            <div style="font-size: 12px; opacity: 0.8; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">"${item.content}"</div>
-            <div style="font-size: 9px; opacity: 0.4; margin-top: 2px;">Date: ${item.date || 'Jul 2026'}</div>
-          </div>
-          <div>
-            <button onclick="deleteAdminLetter(${item.id})" style="background: none; border: none; color: #ef4444; font-size: 11px; text-transform: uppercase; cursor: pointer; letter-spacing: 1px;">Delete</button>
-          </div>
-        `;
-        container.appendChild(row);
-      });
-    }
-
-    function deleteAdminLetter(id) {
-      capsuleLettersData = capsuleLettersData.filter(item => item.id !== id);
-      renderAdminLettersList();
-      autoSave();
     }
 
     function loadMagazineModalForm() {
@@ -759,7 +687,6 @@
       renderSchedulesList();
       renderSoloGoalsList();
       renderPlaylistsList();
-      renderAdminLettersList();
 
       document.getElementById('githubUser').value = localStorage.getItem('crave_gh_user') || '';
       document.getElementById('githubRepo').value = localStorage.getItem('crave_gh_repo') || '';
@@ -1282,7 +1209,6 @@
       localStorage.setItem('crave_solo_stats_data', JSON.stringify(soloGoalsData));
       localStorage.setItem('crave_schedules', JSON.stringify(schedulesData));
       localStorage.setItem('crave_playlists_data', JSON.stringify(playlistsData));
-      localStorage.setItem('crave_capsule_letters', JSON.stringify(capsuleLettersData));
     }
 
     function saveAllChanges() {
@@ -1316,8 +1242,6 @@
       localStorage.setItem('crave_solo_stats_data', JSON.stringify(soloGoalsData));
 
       localStorage.setItem('crave_playlists_data', JSON.stringify(playlistsData));
-
-      localStorage.setItem('crave_capsule_letters', JSON.stringify(capsuleLettersData));
 
       const ghUser = document.getElementById('githubUser').value.trim();
       const ghRepo = document.getElementById('githubRepo').value.trim();
@@ -1452,8 +1376,7 @@
         stats: goalsData,
         schedules: schedulesData,
         soloStats: soloGoalsData,
-        playlists: playlistsData,
-        capsuleLetters: capsuleLettersData
+        playlists: playlistsData
       };
 
       try {
