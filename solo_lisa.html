@@ -179,14 +179,12 @@
           card.className = 'release-card';
           
           card.innerHTML = `
-            <div class="release-info" style="gap: 4px; text-align: left; display: flex; flex-direction: column;">
+            <div class="release-info" style="gap: 4px; text-align: left; display: flex; flex-direction: column; width: 100%;">
               <span class="release-type" style="font-size: 8px;">Spotify Track</span>
               <h3 class="release-title" style="font-size: 16px; margin: 0; font-family: var(--font-serif);">${title}</h3>
-              <p style="margin: 0; font-size: 12px; opacity: 0.85; font-weight: 500;">Streams: ${songData.streams}</p>
-              
-            </div>
-            <div class="release-links" style="margin-top: 0; flex-shrink: 0;">
-              <a href="${songData.url}" target="_blank" class="release-link" style="border: 1px solid var(--border-color); padding: 6px 12px; text-transform: uppercase; font-size: 9px; font-weight: 600; letter-spacing: 1px; display: inline-block;">Stream Now</a>
+              <div class="release-links" style="margin-top: 6px;">
+                <a href="${songData.url}" target="_blank" class="release-link" style="border: 1px solid var(--border-color); padding: 6px 12px; text-transform: uppercase; font-size: 9px; font-weight: 600; letter-spacing: 1px; display: inline-block;">Stream Now</a>
+              </div>
             </div>
           `;
           gridContainer.appendChild(card);
