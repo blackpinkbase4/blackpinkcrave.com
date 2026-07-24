@@ -2223,3 +2223,196 @@ footer {
 .mv-card.active-mv .mv-card-title {
   color: var(--accent-color);
 }
+
+.new-release-section {
+  display: none;
+  background-color: transparent;
+  border-bottom: 1px solid var(--border-color);
+  padding: 80px 0 0 0;
+}
+
+@keyframes floatBob {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes orangeGlowPulse {
+  0%, 100% {
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85), 0 0 15px rgba(224, 86, 36, 0.15);
+    border-color: rgba(224, 86, 36, 0.25);
+  }
+  50% {
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85), 0 0 35px rgba(224, 86, 36, 0.55);
+    border-color: rgba(224, 86, 36, 0.75);
+  }
+}
+
+.new-release-card {
+  max-width: 1200px;
+  margin: 50px auto;
+  background-color: var(--card-bg);
+  border: 1px solid rgba(224, 86, 36, 0.25);
+  border-radius: 16px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85), 0 0 15px rgba(224, 86, 36, 0.15);
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: floatBob 3s ease-in-out infinite, orangeGlowPulse 3s infinite ease-in-out;
+}
+
+.new-release-media {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  background-color: #000;
+  border: none;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+.new-release-media iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.new-release-bar {
+  background: linear-gradient(180deg, #0a0a0a 0%, #050505 100%);
+  border-top: 1px solid var(--border-color);
+  padding: 30px 6%;
+}
+
+.new-release-bar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.new-release-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.new-release-tag {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--accent-color);
+  text-transform: uppercase;
+}
+
+.new-release-title {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  font-weight: 300;
+  line-height: 1.1;
+  margin: 0;
+  color: var(--text-color);
+}
+
+.new-release-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+}
+
+.stream-link-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 10px 20px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--border-color);
+  background-color: transparent;
+  border-radius: 4px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stream-link-btn svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+.stream-link-btn.spotify {
+  color: #1ed760;
+  border-color: rgba(30, 215, 96, 0.25);
+}
+
+.stream-link-btn.spotify:hover {
+  background-color: rgba(30, 215, 96, 0.08);
+  border-color: #1ed760;
+  box-shadow: 0 4px 15px rgba(30, 215, 96, 0.15);
+}
+
+.stream-link-btn.apple {
+  color: #ff2d55;
+  border-color: rgba(255, 45, 85, 0.25);
+}
+
+.stream-link-btn.apple:hover {
+  background-color: rgba(255, 45, 85, 0.08);
+  border-color: #ff2d55;
+  box-shadow: 0 4px 15px rgba(255, 45, 85, 0.15);
+}
+
+.stream-link-btn.ytmusic {
+  color: #ff0000;
+  border-color: rgba(255, 0, 0, 0.25);
+}
+
+.stream-link-btn.ytmusic:hover {
+  background-color: rgba(255, 0, 0, 0.08);
+  border-color: #ff0000;
+  box-shadow: 0 4px 15px rgba(255, 0, 0, 0.15);
+}
+
+@media (max-width: 1240px) {
+  .new-release-card {
+    width: calc(100% - 24px) !important;
+    margin: 25px auto !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(224, 86, 36, 0.25) !important;
+    animation: floatBob 3s ease-in-out infinite, orangeGlowPulse 3s infinite ease-in-out !important;
+  }
+  .new-release-bar {
+    padding: 20px 15px;
+  }
+  .new-release-bar-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .new-release-buttons {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  .stream-link-btn {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}
+
