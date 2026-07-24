@@ -225,6 +225,7 @@ async function loadCraveCDNConfig() {
       if (config.playlists) localStorage.setItem('crave_playlists_data', JSON.stringify(config.playlists));
       if (config.promos) localStorage.setItem('crave_promos_data', JSON.stringify(config.promos));
       if (config.mvs) localStorage.setItem('crave_mv_data', JSON.stringify(config.mvs));
+      if (config.newRelease) localStorage.setItem('crave_new_release_data', JSON.stringify(config.newRelease));
       if (config.supportLink) localStorage.setItem('crave_support_link', config.supportLink);
 
       renderCraveTicker();
@@ -236,6 +237,7 @@ async function loadCraveCDNConfig() {
       if (typeof loadSchedules === 'function') loadSchedules();
       if (typeof loadPromoModal === 'function') loadPromoModal();
       if (typeof loadMvs === 'function') loadMvs();
+      if (typeof loadNewRelease === 'function') loadNewRelease();
     }
   } catch (e) {}
 }
