@@ -226,17 +226,7 @@
       "youtube": ""
     }
   ],
-  "promos": [
-    {
-      "id": 1,
-      "enabled": true,
-      "issueTag": "SPECIAL ISSUE #01 • COMEBACK EDITION",
-      "title": "ROSÉ - APT. (FEAT. BRUNO MARS)",
-      "subtitle": "PRE-SAVE THE GLOBAL HIT SINGLE NOW",
-      "coverImg": "images/slide_stats.jpg",
-      "presaveLink": "https://rosesarered.lnk.to/apt"
-    }
-  ],
+  "promos": [],
   "mvs": [
     {
       "id": "2GJfWMYCWY0",
@@ -337,10 +327,10 @@
   ],
   "newRelease": {
     "enabled": true,
-    "title": "Go",
-    "ytId": "2GJfWMYCWY0",
-    "spotify": "https://open.spotify.com/track/0mYa3o6tlUN5HRippmKmwH",
-    "apple": "https://music.apple.com/us/search?term=BLACKPINK%20GO",
-    "youtubeMusic": "https://music.youtube.com/search?q=BLACKPINK+GO"
+    "title": "Less than a Lover",
+    "ytId": "https://www.youtube.com/watch?v=_IT83Y_HcAw",
+    "spotify": "https://open.spotify.com/track/19UnXjpLshSLobPspdyxlD?si=75fe5998f25d4afd",
+    "apple": "https://music.apple.com/us/song/less-than-a-lover/6793277028",
+    "youtubeMusic": "https://www.youtube.com/watch?v=_IT83Y_HcAw"
   }
 }
