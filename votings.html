@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=24">
 </head>
 <body>
 
@@ -26,13 +26,12 @@
       </div>
       <div class="nav-right desktop-only">
         <ul class="nav-links">
+          <li><a href="index.html#active-streaming-goals">Streaming Goals</a></li>
           <li><a href="index.html#members">Members</a></li>
-          <li><a href="stats.html?v=5">Streaming Goals</a></li>
-          <li><a href="solos.html?v=5">Discography</a></li>
+          <li><a href="schedules.html?v=5">Schedules</a></li>
           <li><a href="videos.html?v=5">Videos</a></li>
           <li><a href="votings.html?v=5" class="active">Votings</a></li>
-          <li><a href="playlists.html?v=5">Playlists</a></li>
-          
+          <li><a href="about.html?v=5">About</a></li>
         </ul>
         
         
@@ -52,25 +51,21 @@
   <div class="mobile-menu-overlay" id="mobileMenuOverlay">
     <button class="mobile-menu-close" id="mobileMenuCloseBtn">&times;</button>
     <ul class="mobile-menu-links">
+      <li><a href="index.html#active-streaming-goals" onclick="closeMobileMenu()">Streaming Goals</a></li>
       <li>
         <a href="index.html#members" onclick="closeMobileMenu()">Members</a>
         <ul class="mobile-submenu">
-          <li><a href="jisoo.html?v=2">Jisoo</a></li>
-          <li><a href="jennie.html?v=2">Jennie</a></li>
-          <li><a href="rose.html?v=2">Rosé</a></li>
-          <li><a href="lisa.html?v=2">Lisa</a></li>
+          <li><a href="jisoo.html?v=5">Jisoo</a></li>
+          <li><a href="jennie.html?v=5">Jennie</a></li>
+          <li><a href="rose.html?v=5">Rosé</a></li>
+          <li><a href="lisa.html?v=5">Lisa</a></li>
         </ul>
-        
       </li>
-      <li><a href="stats.html?v=5">Streaming Goals</a></li>
-      <li><a href="solos.html?v=5">Discography</a></li>
+      <li><a href="schedules.html?v=5" onclick="closeMobileMenu()">Schedules</a></li>
       <li><a href="videos.html?v=5" onclick="closeMobileMenu()">Videos</a></li>
-      <li><a href="votings.html?v=5" class="active">Votings</a></li>
-      <li><a href="playlists.html?v=5">Playlists</a></li>
-      
+      <li><a href="votings.html?v=5" onclick="closeMobileMenu()" class="active">Votings</a></li>
+      <li><a href="about.html?v=5" onclick="closeMobileMenu()">About</a></li>
     </ul>
-        
-    
   </div>
 
   <div class="ticker-bar">
