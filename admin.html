@@ -448,7 +448,46 @@
         </div>
       </div>
 
-      <!-- Section 9: GitHub Cloud Sync Settings -->
+      <div class="admin-card span-2">
+        <h3 class="admin-card-title">Section 9: Manage New Release Spotlight</h3>
+        <p style="font-size: 11px; opacity: 0.7; margin-bottom: 20px;">
+          Configure a dedicated spotlight showcase section on the homepage for the latest release. Provide the YouTube video ID and streaming URLs below.
+        </p>
+
+        <div class="form-row-flex">
+          <div class="form-group" style="flex: 1; min-width: 150px;">
+            <label>Showcase Status</label>
+            <select id="newReleaseEnabled" class="form-control" onchange="autoSave()">
+              <option value="true">Enabled (Visible on Home)</option>
+              <option value="false">Disabled (Hidden)</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex: 2; min-width: 250px;">
+            <label>Song Title</label>
+            <input type="text" id="newReleaseTitleInput" class="form-control" oninput="autoSave()" placeholder="e.g. GO">
+          </div>
+          <div class="form-group" style="flex: 1.5; min-width: 200px;">
+            <label>YouTube Video ID</label>
+            <input type="text" id="newReleaseYtIdInput" class="form-control" oninput="autoSave()" placeholder="e.g. 2GJfWMYCWY0">
+          </div>
+        </div>
+
+        <div class="form-row-flex" style="margin-top: 15px;">
+          <div class="form-group" style="flex: 1; min-width: 200px;">
+            <label>Spotify URL</label>
+            <input type="text" id="newReleaseSpotifyInput" class="form-control" oninput="autoSave()" placeholder="e.g. https://open.spotify.com/track/...">
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 200px;">
+            <label>Apple Music URL</label>
+            <input type="text" id="newReleaseAppleInput" class="form-control" oninput="autoSave()" placeholder="e.g. https://music.apple.com/...">
+          </div>
+          <div class="form-group" style="flex: 1; min-width: 200px;">
+            <label>YouTube Music URL</label>
+            <input type="text" id="newReleaseYtMusicInput" class="form-control" oninput="autoSave()" placeholder="e.g. https://music.youtube.com/...">
+          </div>
+        </div>
+      </div>
+
       <div class="admin-card span-2" style="border: 1px solid var(--accent-color);">
         <h3 class="admin-card-title" style="color: var(--accent-color);">GitHub Database Sync</h3>
         <p style="font-size: 11px; opacity: 0.7; margin-bottom: 20px;">
@@ -689,6 +728,15 @@
     let mvsData = [];
     let editingMvId = null;
 
+    let newRelease = {
+      enabled: true,
+      title: "",
+      ytId: "",
+      spotify: "",
+      apple: "",
+      youtubeMusic: ""
+    };
+
     function syncFromLocalStorage() {
       if (localStorage.getItem('crave_ticker_overrides')) {
         tickerData = JSON.parse(localStorage.getItem('crave_ticker_overrides'));
@@ -717,6 +765,9 @@
       if (localStorage.getItem('crave_mv_data')) {
         mvsData = JSON.parse(localStorage.getItem('crave_mv_data'));
       }
+      if (localStorage.getItem('crave_new_release_data')) {
+        newRelease = JSON.parse(localStorage.getItem('crave_new_release_data'));
+      }
     }
 
     async function loadConfigFromServer(force = false) {
@@ -733,6 +784,7 @@
           if (config.playlists) localStorage.setItem('crave_playlists_data', JSON.stringify(config.playlists));
           if (config.promos) localStorage.setItem('crave_promos_data', JSON.stringify(config.promos));
           if (config.mvs) localStorage.setItem('crave_mv_data', JSON.stringify(config.mvs));
+          if (config.newRelease) localStorage.setItem('crave_new_release_data', JSON.stringify(config.newRelease));
           
           syncFromLocalStorage();
           
@@ -745,6 +797,7 @@
           renderPlaylistsList();
           renderPromosList();
           renderMvsList();
+          populateNewReleaseInputs();
           
           if (force) {
             alert("Successfully loaded the latest database from the live server!");
@@ -772,6 +825,7 @@
       renderPlaylistsList();
       renderPromosList();
       renderMvsList();
+      populateNewReleaseInputs();
 
       document.getElementById('githubUser').value = localStorage.getItem('crave_gh_user') || '';
       document.getElementById('githubRepo').value = localStorage.getItem('crave_gh_repo') || '';
@@ -1287,6 +1341,7 @@
 
 
     function autoSave() {
+      gatherNewReleaseInputs();
       localStorage.setItem('crave_ticker_overrides', JSON.stringify(tickerData));
       localStorage.setItem('crave_member_overrides', JSON.stringify(memberData));
       localStorage.setItem('crave_voting_data', JSON.stringify(votingData));
@@ -1296,9 +1351,11 @@
       localStorage.setItem('crave_playlists_data', JSON.stringify(playlistsData));
       localStorage.setItem('crave_promos_data', JSON.stringify(promosData));
       localStorage.setItem('crave_mv_data', JSON.stringify(mvsData));
+      localStorage.setItem('crave_new_release_data', JSON.stringify(newRelease));
     }
 
     function saveAllChanges() {
+      gatherNewReleaseInputs();
       autoSave();
       gatherCurrentTickerInputs();
       const cleanedTicker = tickerData.filter(msg => msg !== "");
@@ -1333,6 +1390,7 @@
       localStorage.setItem('crave_promos_data', JSON.stringify(promosData));
 
       localStorage.setItem('crave_mv_data', JSON.stringify(mvsData));
+      localStorage.setItem('crave_new_release_data', JSON.stringify(newRelease));
 
       const ghUser = document.getElementById('githubUser').value.trim();
       const ghRepo = document.getElementById('githubRepo').value.trim();
@@ -1512,7 +1570,8 @@
           soloStats: soloGoalsData,
           playlists: playlistsData,
           promos: promosData,
-          mvs: mvsData
+          mvs: mvsData,
+          newRelease: newRelease
         };
 
         const fileUrl = `https://api.github.com/repos/${user}/${repo}/contents/config.json`;
@@ -1805,6 +1864,26 @@
       });
       renderMvsList();
       autoSave();
+    }
+
+    function populateNewReleaseInputs() {
+      document.getElementById('newReleaseEnabled').value = newRelease.enabled ? "true" : "false";
+      document.getElementById('newReleaseTitleInput').value = newRelease.title || "";
+      document.getElementById('newReleaseYtIdInput').value = newRelease.ytId || "";
+      document.getElementById('newReleaseSpotifyInput').value = newRelease.spotify || "";
+      document.getElementById('newReleaseAppleInput').value = newRelease.apple || "";
+      document.getElementById('newReleaseYtMusicInput').value = newRelease.youtubeMusic || "";
+    }
+
+    function gatherNewReleaseInputs() {
+      newRelease = {
+        enabled: document.getElementById('newReleaseEnabled').value === "true",
+        title: document.getElementById('newReleaseTitleInput').value.trim(),
+        ytId: document.getElementById('newReleaseYtIdInput').value.trim(),
+        spotify: document.getElementById('newReleaseSpotifyInput').value.trim(),
+        apple: document.getElementById('newReleaseAppleInput').value.trim(),
+        youtubeMusic: document.getElementById('newReleaseYtMusicInput').value.trim()
+      };
     }
 
     function handleLogout() {
