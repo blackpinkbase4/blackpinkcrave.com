@@ -69,7 +69,7 @@
       "goal": "700,000,000",
       "daily": "675,752",
       "trend": "up",
-      "spotify": "https://open.spotify.com/track/5H1sKFMzDeMtXwND3V6hRY?si=9176a3129c324816",
+      "spotify": "https://open.spotify.com/track/5jQ3mnhNhs9VuEvmVKllWM",
       "apple": "https://music.apple.com/us/song/jump/1824672652",
       "youtube": "https://www.youtube.com/watch?v=CgCVZdcKcqY"
     },
@@ -85,7 +85,7 @@
       "goal": "100,000,000",
       "daily": "222,630",
       "trend": "up",
-      "spotify": "https://open.spotify.com/track/3FZPp9lBUvhsxFxKJi3VkB?si=6d4e3637fc114733",
+      "spotify": "https://open.spotify.com/track/0mYa3o6tlUN5HRippmKmwH",
       "apple": "https://music.apple.com/us/song/go/1870046942",
       "youtube": "https://www.youtube.com/watch?v=2GJfWMYCWY0"
     },
@@ -101,7 +101,7 @@
       "goal": "900,000,000",
       "daily": "212,758",
       "trend": "up",
-      "spotify": "https://open.spotify.com/track/6tCd8bPvYnceDG7W9M1RMk?si=d3f335ab9fdf4368",
+      "spotify": "https://open.spotify.com/track/7gRFDGEzF9UkBV233yv2dc",
       "apple": "https://music.apple.com/us/song/shut-down/1644431999",
       "youtube": "https://www.youtube.com/watch?v=POe9SOEKotk"
     }
@@ -134,6 +134,13 @@
       "date": "November 13–14, 2026",
       "category": "Concert Residency",
       "link": "#"
+    },
+    {
+      "id": 1784474179408,
+      "event": "JENNIE - Less than a Lover",
+      "date": "24 July,2026",
+      "category": "Music",
+      "link": "https://x.com/jennierubyjane/status/2079221159078343137?s=20"
     }
   ],
   "soloStats": [
@@ -144,7 +151,7 @@
       "goal": "200,000,000",
       "daily": "146,148",
       "trend": "up",
-      "spotify": "https://open.spotify.com/track/10zywlg5b0gQOC3q1A7ADx?si=83563abb9e924792",
+      "spotify": "https://open.spotify.com/track/10zywlg5b0gQOC3q1A7ADx",
       "apple": "https://music.apple.com/us/song/earthquake/1794049591",
       "youtube": "https://www.youtube.com/watch?v=2V6lvCUPT8I"
     },
@@ -152,10 +159,10 @@
       "id": 1784380271722,
       "title": "LIKE JENNIE",
       "streams": "897,623,084",
-      "goal": "900,000,000",
+      "goal": "1,000,000,000",
       "daily": "775,153",
       "trend": "up",
-      "spotify": "https://open.spotify.com/track/0fK7ie6XwGxQTIkpFoWkd1?si=d6aa299e55974b04",
+      "spotify": "https://open.spotify.com/track/6nWWuodRc3aJS7aLrflaqF",
       "apple": "https://music.apple.com/us/song/like-jennie/1795979745",
       "youtube": "https://www.youtube.com/watch?v=JSFG-IE8n_c"
     },
@@ -166,7 +173,7 @@
       "goal": "500,000,000",
       "daily": "325,435",
       "trend": "up",
-      "spotify": "https://open.spotify.com/track/1z5ebC9238uGoBgzYyvGpQ?si=df31c9cd0e2248c6",
+      "spotify": "https://open.spotify.com/track/1z5ebC9238uGoBgzYyvGpQ",
       "apple": "https://music.apple.com/us/song/toxic-till-the-end/1771105929",
       "youtube": "https://www.youtube.com/watch?v=eA0lHNZ1KCA"
     },
@@ -177,7 +184,7 @@
       "goal": "200,000,000",
       "daily": "53,432",
       "trend": "up",
-      "spotify": "https://open.spotify.com/album/2yFUY0P4ie8NDZYgBRZuTA?si=LYPTHjNARdKGXV90uLUmuA",
+      "spotify": "https://open.spotify.com/track/4rBRRLgdB9DYJhqA9uVcWt",
       "apple": "https://music.apple.com/us/song/fxck-up-the-world-feat-future/1798585336",
       "youtube": "https://www.youtube.com/watch?v=r5VRqWkFpEQ"
     }
@@ -219,7 +226,17 @@
       "youtube": ""
     }
   ],
-  "promos": [],
+  "promos": [
+    {
+      "id": 1,
+      "enabled": true,
+      "issueTag": "SPECIAL ISSUE #01 • COMEBACK EDITION",
+      "title": "ROSÉ - APT. (FEAT. BRUNO MARS)",
+      "subtitle": "PRE-SAVE THE GLOBAL HIT SINGLE NOW",
+      "coverImg": "images/slide_stats.jpg",
+      "presaveLink": "https://rosesarered.lnk.to/apt"
+    }
+  ],
   "mvs": [
     {
       "id": "2GJfWMYCWY0",
@@ -320,10 +337,10 @@
   ],
   "newRelease": {
     "enabled": true,
-    "title": "Less than a Lover",
-    "ytId": "_IT83Y_HcAw",
-    "spotify": "https://open.spotify.com/track/19UnXjpLshSLobPspdyxlD?si=75fe5998f25d4afd",
-    "apple": "https://music.apple.com/us/song/less-than-a-lover/6793277028",
-    "youtubeMusic": "https://music.youtube.com/playlist?list=OLAK5uy_l-uBSgWCYBSLdtP4z1gPHN5ll0_teXWlU&si=BCp_Xk-ETtY4509-"
+    "title": "Go",
+    "ytId": "2GJfWMYCWY0",
+    "spotify": "https://open.spotify.com/track/0mYa3o6tlUN5HRippmKmwH",
+    "apple": "https://music.apple.com/us/search?term=BLACKPINK%20GO",
+    "youtubeMusic": "https://music.youtube.com/search?q=BLACKPINK+GO"
   }
 }
