@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=20">
   <style>
     /* Magazine Floating Side Card Styles */
     .promo-side-widget {
@@ -458,9 +458,40 @@
     </div>
   </section>
 
+  <section id="new-release-showcase" class="new-release-section">
+    <div class="section-header">
+      <p class="section-num">01.5 / Spotlight</p>
+      <h2 class="section-title">New Music</h2>
+    </div>
+    <div class="new-release-card">
+      <div class="new-release-media">
+        <iframe id="newReleasePlayer" src="" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="new-release-bar">
+        <div class="new-release-bar-content">
+          <div class="new-release-info">
+            <span class="new-release-tag">NEW RELEASE OUT NOW</span>
+            <h2 class="new-release-title" id="newReleaseTitle">Loading Title...</h2>
+          </div>
+          <div class="new-release-buttons">
+            <a href="#" id="newReleaseSpotify" target="_blank" class="stream-link-btn spotify">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424c-.18.295-.563.387-.857.207-2.377-1.454-5.37-1.783-8.894-.982-.336.076-.67-.135-.746-.472-.076-.336.135-.67.472-.746 3.852-.878 7.144-.505 9.818 1.132.295.18.387.563.207.861zm1.224-2.724c-.226.367-.707.487-1.074.26-2.72-1.672-6.87-2.157-10.076-1.182-.413.125-.848-.107-.973-.52-.125-.413.107-.848.52-.973 3.666-1.112 8.237-.57 11.343 1.343.366.226.486.707.26 1.072zm.105-2.836C14.492 8.76 8.705 8.567 5.36 9.582c-.522.158-1.076-.143-1.235-.665-.158-.522.143-1.076.665-1.235 3.837-1.164 10.222-.943 14.167 1.402.47.28.622.89.342 1.36-.28.47-.89.622-1.36.342z"/></svg>
+              <span>Spotify</span>
+            </a>
+            <a href="#" id="newReleaseApple" target="_blank" class="stream-link-btn apple">
+              <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h6V3h-8zm-2 16c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+              <span>Apple Music</span>
+            </a>
+            <a href="#" id="newReleaseYtMusic" target="_blank" class="stream-link-btn ytmusic">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+              <span>YouTube Music</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-
-  
   <section id="schedules" style="border-bottom: 1px solid var(--border-color); padding: 80px 0;">
     <div class="section-header">
       <p class="section-num">01 / Calendar</p>
@@ -810,9 +841,37 @@
       }
     }
 
+    function loadNewRelease() {
+      const stored = localStorage.getItem('crave_new_release_data');
+      const section = document.getElementById('new-release-showcase');
+      if (!stored || !section) return;
+
+      const data = JSON.parse(stored);
+      if (!data.enabled) {
+        section.style.display = 'none';
+        return;
+      }
+
+      section.style.display = 'block';
+      const player = document.getElementById('newReleasePlayer');
+      const title = document.getElementById('newReleaseTitle');
+      const btnSpotify = document.getElementById('newReleaseSpotify');
+      const btnApple = document.getElementById('newReleaseApple');
+      const btnYtMusic = document.getElementById('newReleaseYtMusic');
+
+      if (player && (!player.getAttribute('src') || player.getAttribute('src') === '')) {
+        player.src = `https://www.youtube.com/embed/${data.ytId}?autoplay=1&mute=1&rel=0`;
+      }
+      if (title) title.textContent = data.title;
+      if (btnSpotify) btnSpotify.href = data.spotify || '#';
+      if (btnApple) btnApple.href = data.apple || '#';
+      if (btnYtMusic) btnYtMusic.href = data.youtubeMusic || '#';
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       loadSchedules();
       loadPromoModal();
+      loadNewRelease();
     });
   </script>
 </body>
