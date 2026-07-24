@@ -134,13 +134,6 @@
       "date": "November 13–14, 2026",
       "category": "Concert Residency",
       "link": "#"
-    },
-    {
-      "id": 1784474179408,
-      "event": "JENNIE - Less than a Lover",
-      "date": "24 July,2026",
-      "category": "Music",
-      "link": "https://x.com/jennierubyjane/status/2079221159078343137?s=20"
     }
   ],
   "soloStats": [
@@ -226,17 +219,7 @@
       "youtube": ""
     }
   ],
-  "promos": [
-    {
-      "id": 1,
-      "enabled": true,
-      "issueTag": "SPECIAL ISSUE #01 • COMEBACK EDITION",
-      "title": "ROSÉ - APT. (FEAT. BRUNO MARS)",
-      "subtitle": "PRE-SAVE THE GLOBAL HIT SINGLE NOW",
-      "coverImg": "images/slide_stats.jpg",
-      "presaveLink": "https://rosesarered.lnk.to/apt"
-    }
-  ],
+  "promos": [],
   "mvs": [
     {
       "id": "2GJfWMYCWY0",
@@ -336,7 +319,7 @@
     }
   ],
   "newRelease": {
-    "enabled": true,
+    "enabled": false,
     "title": "Go",
     "ytId": "2GJfWMYCWY0",
     "spotify": "https://open.spotify.com/track/0mYa3o6tlUN5HRippmKmwH",
