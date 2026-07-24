@@ -2416,3 +2416,747 @@ footer {
   }
 }
 
+.live-analytics-section {
+  display: block;
+  background-color: transparent;
+  border-bottom: 1px solid var(--border-color);
+  padding: 80px 0;
+}
+
+.analytics-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+@media (max-width: 768px) {
+  .analytics-container {
+    padding: 0 16px;
+  }
+}
+
+.followers-dashboard-title, .goals-dashboard-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 8px;
+  margin-bottom: 25px;
+  color: var(--text-color);
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+
+.analytics-tabs {
+  display: none;
+}
+
+.spotify-artists-comparison-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 50px;
+}
+
+.custom-artist-row-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  padding: 25px 30px;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.custom-artist-row-card:hover {
+  border-color: var(--accent-color);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(224, 86, 36, 0.1);
+}
+
+.row-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.row-avatar-frame {
+  width: 65px;
+  height: 65px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  background-color: #000;
+}
+
+.row-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.row-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.row-artist-name {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 400;
+  margin: 0;
+  color: var(--text-color);
+}
+
+.row-badge-link {
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent-color);
+  text-decoration: none;
+  margin-top: 4px;
+  border-bottom: 1px solid rgba(255, 111, 60, 0.2);
+  width: fit-content;
+  transition: all 0.3s ease;
+}
+
+.row-badge-link:hover {
+  border-color: var(--accent-color);
+}
+
+.row-metrics {
+  display: flex;
+  gap: 45px;
+}
+
+.row-metric-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: right;
+}
+
+.row-metric-lbl {
+  font-size: 8px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.row-metric-num {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-color);
+  font-family: var(--font-sans);
+  letter-spacing: -0.5px;
+}
+
+.row-metric-trend {
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--accent-color);
+  letter-spacing: 1px;
+  opacity: 0.85;
+}
+
+@media (max-width: 992px) {
+  .row-metrics {
+    gap: 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  .custom-artist-row-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+  }
+  .row-metrics {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 15px;
+  }
+  .row-metric-box {
+    text-align: left;
+  }
+  .row-metric-box:last-child {
+    grid-column: span 2;
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+    padding-top: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-unique-goal-card {
+    padding: 20px;
+  }
+  .goal-track-title {
+    font-size: 22px;
+  }
+}
+
+.live-goals-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+@media (max-width: 1200px) {
+  .live-goals-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .live-goals-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.custom-unique-goal-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.custom-unique-goal-card:hover {
+  border-color: var(--accent-color);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(255, 111, 60, 0.1);
+}
+
+.campaign-status-label {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--accent-color);
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  align-self: flex-start;
+}
+
+.goal-track-title {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 400;
+  margin: 0 0 4px 0;
+  color: var(--text-color);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  max-width: 90%;
+}
+
+.goal-track-artist {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 25px;
+}
+
+.goal-live-label {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.goal-progress-bar-container {
+  margin-bottom: 12px;
+}
+
+.goal-progress-bg {
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+  position: relative;
+}
+
+.goal-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-color) 0%, #d4af37 100%);
+  border-radius: 3px;
+  position: relative;
+  transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.goal-progress-knob {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 0 8px var(--accent-color);
+  position: absolute;
+  right: -6px;
+  top: -3px;
+  display: inline-block;
+}
+
+.goal-progress-values {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 20px;
+  font-family: var(--font-sans);
+}
+
+.val-current {
+  color: var(--accent-color);
+}
+
+.val-pct {
+  color: var(--text-color);
+}
+
+.campaign-metrics-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 25px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 15px;
+}
+
+.campaign-metrics-panel .metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-family: var(--font-sans);
+}
+
+.campaign-metrics-panel .metric-label {
+  color: var(--text-muted);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.campaign-metrics-panel .metric-value {
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.stream-spotify-btn-unique {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: 1px solid var(--accent-color);
+  background-color: transparent;
+  color: var(--text-color);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  margin-top: auto;
+}
+
+.stream-spotify-btn-unique:hover {
+  background-color: rgba(255, 111, 60, 0.06);
+  box-shadow: 0 4px 15px rgba(255, 111, 60, 0.15);
+}
+
+.stream-spotify-btn-unique svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+.goal-card-layout {
+  display: flex;
+  gap: 30px;
+  width: 100%;
+}
+
+.goal-card-left {
+  display: flex;
+  flex-direction: column;
+  width: 140px;
+  flex-shrink: 0;
+  align-items: center;
+  text-align: center;
+}
+
+.goal-card-right {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.goal-cover-frame {
+  width: 140px;
+  height: 140px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  background-color: #000;
+  margin-bottom: 15px;
+}
+
+.goal-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.goal-cover-frame:hover .goal-cover-img {
+  transform: scale(1.05);
+}
+
+.goal-left-streams-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.left-streams-label {
+  font-size: 8px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.left-streams-val {
+  font-size: 16px;
+  font-weight: 700;
+.goal-track-title {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 400;
+  margin: 0 0 4px 0;
+  color: var(--text-color);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  max-width: 90%;
+}
+
+.goal-track-artist {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 25px;
+}
+
+.goal-live-label {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.goal-progress-bar-container {
+  margin-bottom: 12px;
+}
+
+.goal-progress-bg {
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+  position: relative;
+}
+
+.goal-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-color) 0%, #d4af37 100%);
+  border-radius: 3px;
+  position: relative;
+  transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.goal-progress-knob {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 0 8px var(--accent-color);
+  position: absolute;
+  right: -6px;
+  top: -3px;
+  display: inline-block;
+}
+
+.goal-progress-values {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 20px;
+  font-family: var(--font-sans);
+}
+
+.val-current {
+  color: var(--accent-color);
+}
+
+.val-pct {
+  color: var(--text-color);
+}
+
+.campaign-metrics-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 25px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 15px;
+}
+
+.campaign-metrics-panel .metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-family: var(--font-sans);
+}
+
+.campaign-metrics-panel .metric-label {
+  color: var(--text-muted);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.campaign-metrics-panel .metric-value {
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.stream-spotify-btn-unique {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: 1px solid var(--accent-color);
+  background-color: transparent;
+  color: var(--text-color);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  margin-top: auto;
+}
+
+.stream-spotify-btn-unique:hover {
+  background-color: rgba(255, 111, 60, 0.06);
+  box-shadow: 0 4px 15px rgba(255, 111, 60, 0.15);
+}
+
+.stream-spotify-btn-unique svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+.goal-card-layout {
+  display: flex;
+  gap: 30px;
+  width: 100%;
+}
+
+.goal-card-left {
+  display: flex;
+  flex-direction: column;
+  width: 140px;
+  flex-shrink: 0;
+  align-items: center;
+  text-align: center;
+}
+
+.goal-card-right {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.goal-cover-frame {
+  width: 140px;
+  height: 140px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  background-color: #000;
+  margin-bottom: 15px;
+}
+
+.goal-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.goal-cover-frame:hover .goal-cover-img {
+  transform: scale(1.05);
+}
+
+.goal-left-streams-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.left-streams-label {
+  font-size: 8px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.left-streams-val {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent-color);
+  font-family: var(--font-sans);
+  letter-spacing: -0.5px;
+}
+
+@media (max-width: 580px) {
+  .goal-card-layout {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .goal-card-left {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    text-align: left;
+  }
+  .goal-cover-frame {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 0;
+  }
+}
+
+.about-section {
+  border-bottom: 1px solid var(--border-color);
+  padding: 100px 0;
+}
+
+.about-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 60px;
+  margin-top: 40px;
+  align-items: start;
+}
+
+.about-editorial-title {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  font-weight: 300;
+  margin: 0 0 20px 0;
+  line-height: 1.3;
+  color: var(--text-color);
+}
+
+.about-editorial-p {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.about-features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.about-feature-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  gap: 15px;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.about-feature-card:hover {
+  border-color: var(--accent-color);
+  transform: translateY(-2px);
+}
+
+.about-feature-icon {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.about-feature-content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.about-feature-title {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+  color: var(--text-color);
+}
+
+.about-feature-desc {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+@media (max-width: 768px) {
+  .about-section {
+    padding: 60px 0;
+  }
+  .about-container {
+    padding: 0 20px;
+  }
+}
