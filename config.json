@@ -319,7 +319,7 @@
     }
   ],
   "newRelease": {
-    "enabled": true,
+    "enabled": false,
     "title": "Less than a Lover",
     "ytId": "_IT83Y_HcAw",
     "spotify": "https://open.spotify.com/track/19UnXjpLshSLobPspdyxlD?si=d4fa8d1081aa4250",
