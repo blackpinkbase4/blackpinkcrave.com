@@ -134,6 +134,13 @@
       "date": "November 13–14, 2026",
       "category": "Concert Residency",
       "link": "#"
+    },
+    {
+      "id": 1784474179408,
+      "event": "JENNIE - Less than a Lover",
+      "date": "24 July,2026",
+      "category": "Music",
+      "link": "https://x.com/jennierubyjane/status/2079221159078343137?s=20"
     }
   ],
   "soloStats": [
@@ -219,7 +226,17 @@
       "youtube": ""
     }
   ],
-  "promos": [],
+  "promos": [
+    {
+      "id": 1,
+      "enabled": true,
+      "issueTag": "SPECIAL ISSUE #01 • COMEBACK EDITION",
+      "title": "ROSÉ - APT. (FEAT. BRUNO MARS)",
+      "subtitle": "PRE-SAVE THE GLOBAL HIT SINGLE NOW",
+      "coverImg": "images/slide_stats.jpg",
+      "presaveLink": "https://rosesarered.lnk.to/apt"
+    }
+  ],
   "mvs": [
     {
       "id": "2GJfWMYCWY0",
@@ -319,11 +336,12 @@
     }
   ],
   "newRelease": {
-    "enabled": false,
-    "title": "Less than a Lover",
-    "ytId": "_IT83Y_HcAw",
-    "spotify": "https://open.spotify.com/track/19UnXjpLshSLobPspdyxlD?si=d4fa8d1081aa4250",
-    "apple": "https://music.apple.com/us/song/less-than-a-lover/6793277028",
-    "youtubeMusic": "https://music.youtube.com/playlist?list=OLAK5uy_l-uBSgWCYBSLdtP4z1gPHN5ll0_teXWlU&si=3YIFzBiC7pMHaU2b"
-  }
+    "enabled": true,
+    "title": "Go",
+    "ytId": "2GJfWMYCWY0",
+    "spotify": "https://open.spotify.com/track/0mYa3o6tlUN5HRippmKmwH",
+    "apple": "https://music.apple.com/us/search?term=BLACKPINK%20GO",
+    "youtubeMusic": "https://music.youtube.com/search?q=BLACKPINK+GO"
+  },
+  "anniversaryEnabled": true
 }
