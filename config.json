@@ -336,13 +336,13 @@
     }
   ],
   "newRelease": {
-    "enabled": true,
+    "enabled": false,
     "title": "Go",
     "ytId": "2GJfWMYCWY0",
     "spotify": "https://open.spotify.com/track/0mYa3o6tlUN5HRippmKmwH",
     "apple": "https://music.apple.com/us/search?term=BLACKPINK%20GO",
     "youtubeMusic": "https://music.youtube.com/search?q=BLACKPINK+GO"
   },
-  "anniversaryEnabled": true,
+  "anniversaryEnabled": false,
   "tributeVideoUrl": "videos/anniversary.mp4"
 }
