@@ -343,6 +343,6 @@
     "apple": "https://music.apple.com/us/search?term=BLACKPINK%20GO",
     "youtubeMusic": "https://music.youtube.com/search?q=BLACKPINK+GO"
   },
-  "anniversaryEnabled": false,
+  "anniversaryEnabled": true,
   "tributeVideoUrl": "https://www.youtube.com/watch?v=vneSYRvdvuU"
 }
