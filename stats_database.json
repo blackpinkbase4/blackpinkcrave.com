@@ -1,21 +1,21 @@
 {
-  "lastUpdated": "2026-07-26T01:48:22.027Z",
+  "lastUpdated": "2026-07-27T01:55:27.415Z",
   "artists": {
     "blackpink": {
       "name": "BLACKPINK",
       "image": "images/slide_stats.jpg",
       "profileUrl": "https://open.spotify.com/artist/41MozSoPIsD1dJM0CLPjZF",
-      "listeners": 19650203,
-      "followers": 60274958,
-      "streams": 17554026424,
-      "dailyGain": 4821961
+      "listeners": 19657547,
+      "followers": 60291387,
+      "streams": 17558598898,
+      "dailyGain": 4572474
     },
     "jisoo": {
       "name": "JISOO",
       "image": "images/slide_jisoo.jpg",
       "profileUrl": "https://open.spotify.com/artist/6UZ0ba50XreR4TM8u322gs",
-      "listeners": 5120526,
-      "followers": 9306845,
+      "listeners": 5146742,
+      "followers": 9314467,
       "streams": 1346595367,
       "dailyGain": 626097
     },
@@ -23,28 +23,28 @@
       "name": "JENNIE",
       "image": "images/slide_jennie.jpg",
       "profileUrl": "https://open.spotify.com/artist/250b0Wlc5Vk0CoUsaCY84M",
-      "listeners": 49431975,
-      "followers": 15847216,
-      "streams": 8117085583,
-      "dailyGain": 8136960
+      "listeners": 49542004,
+      "followers": 15864586,
+      "streams": 8126653978,
+      "dailyGain": 7400014
     },
     "rose": {
       "name": "ROSÉ",
       "image": "images/slide_rose.jpg",
       "profileUrl": "https://open.spotify.com/artist/3eVa5w3URK5duf6eyVDbu9",
-      "listeners": 26330292,
-      "followers": 15739666,
-      "streams": 5630136747,
-      "dailyGain": 3612910
+      "listeners": 26417831,
+      "followers": 15748395,
+      "streams": 5633551461,
+      "dailyGain": 3454560
     },
     "lisa": {
       "name": "LISA",
       "image": "images/slide_lisa.jpg",
       "profileUrl": "https://open.spotify.com/artist/5L1lO4eRHmJ7a0Q6csE5cT",
-      "listeners": 13515373,
-      "followers": 15860846,
-      "streams": 5379913695,
-      "dailyGain": 2384809
+      "listeners": 13514450,
+      "followers": 15870871,
+      "streams": 5382301783,
+      "dailyGain": 2435757
     }
   },
   "goals": [
@@ -52,18 +52,18 @@
       "id": "5jQ3mnhNhs9VuEvmVKllWM",
       "title": "JUMP",
       "artist": "BLACKPINK",
-      "streams": 658186090,
+      "streams": 658855669,
       "target": 700000000,
-      "dailyGain": 706822,
-      "weeklyGain": 6986090,
+      "dailyGain": 669579,
+      "weeklyGain": 6855669,
       "history": [
-        651200000,
         652000000,
         652801439,
         656782416,
         656782416,
         657479268,
-        658186090
+        658186090,
+        658855669
       ],
       "spotify": "https://open.spotify.com/track/5jQ3mnhNhs9VuEvmVKllWM"
     },
@@ -71,18 +71,18 @@
       "id": "0mYa3o6tlUN5HRippmKmwH",
       "title": "GO",
       "artist": "BLACKPINK",
-      "streams": 92838982,
+      "streams": 93047605,
       "target": 100000000,
-      "dailyGain": 221562,
-      "weeklyGain": 3838982,
+      "dailyGain": 208623,
+      "weeklyGain": 2547605,
       "history": [
-        89000000,
         90500000,
         91112226,
         92397602,
         92397602,
         92617420,
-        92838982
+        92838982,
+        93047605
       ],
       "spotify": "https://open.spotify.com/track/0mYa3o6tlUN5HRippmKmwH"
     },
@@ -90,18 +90,18 @@
       "id": "7gRFDGEzF9UkBV233yv2dc",
       "title": "SHUT DOWN",
       "artist": "BLACKPINK",
-      "streams": 899832103,
+      "streams": 900057499,
       "target": 900000000,
-      "dailyGain": 234627,
-      "weeklyGain": 3832103,
+      "dailyGain": 225396,
+      "weeklyGain": 3057499,
       "history": [
-        896000000,
         897000000,
         898075850,
         899352254,
         899352254,
         899597476,
-        899832103
+        899832103,
+        900057499
       ],
       "spotify": "https://open.spotify.com/track/7gRFDGEzF9UkBV233yv2dc"
     },
@@ -112,11 +112,11 @@
       "streams": 190805006,
       "target": 200000000,
       "dailyGain": 138692,
-      "weeklyGain": 1805006,
+      "weeklyGain": 1305006,
       "history": [
-        189000000,
         189500000,
         189834160,
+        190805006,
         190805006,
         190805006,
         190805006,
@@ -128,18 +128,18 @@
       "id": "6nWWuodRc3aJS7aLrflaqF",
       "title": "LIKE JENNIE",
       "artist": "JENNIE",
-      "streams": 904165841,
+      "streams": 905127421,
       "target": 1000000000,
-      "dailyGain": 1080461,
-      "weeklyGain": 8165841,
+      "dailyGain": 961580,
+      "weeklyGain": 8127421,
       "history": [
-        896000000,
         897000000,
         897623084,
         902251526,
         902251526,
         903085380,
-        904165841
+        904165841,
+        905127421
       ],
       "spotify": "https://open.spotify.com/track/6nWWuodRc3aJS7aLrflaqF"
     },
@@ -147,18 +147,18 @@
       "id": "1z5ebC9238uGoBgzYyvGpQ",
       "title": "TOXIC TILL THE END",
       "artist": "ROSÉ",
-      "streams": 460701433,
+      "streams": 461081188,
       "target": 500000000,
-      "dailyGain": 416728,
-      "weeklyGain": 4301433,
+      "dailyGain": 379755,
+      "weeklyGain": 4081188,
       "history": [
-        456400000,
         457000000,
         457892667,
         459881193,
         459881193,
         460284705,
-        460701433
+        460701433,
+        461081188
       ],
       "spotify": "https://open.spotify.com/track/1z5ebC9238uGoBgzYyvGpQ"
     },
@@ -166,18 +166,18 @@
       "id": "4rBRRLgdB9DYJhqA9uVcWt",
       "title": "FXUP UP THE WORLD (FT.FUTURE)",
       "artist": "LISA",
-      "streams": 110925997,
+      "streams": 110978354,
       "target": 200000000,
-      "dailyGain": 53457,
-      "weeklyGain": 1225997,
+      "dailyGain": 52357,
+      "weeklyGain": 978354,
       "history": [
-        109700000,
         110000000,
         110560232,
         110872540,
         110872540,
         110925997,
-        110925997
+        110925997,
+        110978354
       ],
       "spotify": "https://open.spotify.com/track/4rBRRLgdB9DYJhqA9uVcWt"
     }
