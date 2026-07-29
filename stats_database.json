@@ -1,12 +1,12 @@
 {
-  "lastUpdated": "2026-07-28T01:29:28.047Z",
+  "lastUpdated": "2026-07-29T01:30:12.351Z",
   "artists": {
     "blackpink": {
       "name": "BLACKPINK",
       "image": "images/slide_stats.jpg",
       "profileUrl": "https://open.spotify.com/artist/41MozSoPIsD1dJM0CLPjZF",
-      "listeners": 19668406,
-      "followers": 60307434,
+      "listeners": 19698431,
+      "followers": 60321318,
       "streams": 17562993096,
       "dailyGain": 4394198
     },
@@ -14,17 +14,17 @@
       "name": "JISOO",
       "image": "images/slide_jisoo.jpg",
       "profileUrl": "https://open.spotify.com/artist/6UZ0ba50XreR4TM8u322gs",
-      "listeners": 5164212,
-      "followers": 9321977,
-      "streams": 1346595367,
-      "dailyGain": 626097
+      "listeners": 5181225,
+      "followers": 9328589,
+      "streams": 1351241706,
+      "dailyGain": 663758
     },
     "jennie": {
       "name": "JENNIE",
       "image": "images/slide_jennie.jpg",
       "profileUrl": "https://open.spotify.com/artist/250b0Wlc5Vk0CoUsaCY84M",
-      "listeners": 49624384,
-      "followers": 15880433,
+      "listeners": 49763154,
+      "followers": 15893753,
       "streams": 8135466848,
       "dailyGain": 6912180
     },
@@ -32,8 +32,8 @@
       "name": "ROSÉ",
       "image": "images/slide_rose.jpg",
       "profileUrl": "https://open.spotify.com/artist/3eVa5w3URK5duf6eyVDbu9",
-      "listeners": 26498186,
-      "followers": 15756816,
+      "listeners": 26545614,
+      "followers": 15764366,
       "streams": 5636749664,
       "dailyGain": 3238049
     },
@@ -41,8 +41,8 @@
       "name": "LISA",
       "image": "images/slide_lisa.jpg",
       "profileUrl": "https://open.spotify.com/artist/5L1lO4eRHmJ7a0Q6csE5cT",
-      "listeners": 13502622,
-      "followers": 15880553,
+      "listeners": 13479348,
+      "followers": 15889041,
       "streams": 5387237403,
       "dailyGain": 2221451
     }
@@ -55,14 +55,14 @@
       "streams": 659479139,
       "target": 700000000,
       "dailyGain": 623470,
-      "weeklyGain": 6677700,
+      "weeklyGain": 2696723,
       "history": [
-        652801439,
         656782416,
         656782416,
         657479268,
         658186090,
         658855669,
+        659479139,
         659479139
       ],
       "spotify": "https://open.spotify.com/track/5jQ3mnhNhs9VuEvmVKllWM"
@@ -74,14 +74,14 @@
       "streams": 93252727,
       "target": 100000000,
       "dailyGain": 205122,
-      "weeklyGain": 2140501,
+      "weeklyGain": 855125,
       "history": [
-        91112226,
         92397602,
         92397602,
         92617420,
         92838982,
         93047605,
+        93252727,
         93252727
       ],
       "spotify": "https://open.spotify.com/track/0mYa3o6tlUN5HRippmKmwH"
@@ -93,14 +93,14 @@
       "streams": 900273732,
       "target": 900000000,
       "dailyGain": 216233,
-      "weeklyGain": 2197882,
+      "weeklyGain": 921478,
       "history": [
-        898075850,
         899352254,
         899352254,
         899597476,
         899832103,
         900057499,
+        900273732,
         900273732
       ],
       "spotify": "https://open.spotify.com/track/7gRFDGEzF9UkBV233yv2dc"
@@ -109,18 +109,18 @@
       "id": "10zywlg5b0gQOC3q1A7ADx",
       "title": "EARTHQUAKE",
       "artist": "JISOO",
-      "streams": 190805006,
+      "streams": 191881112,
       "target": 200000000,
-      "dailyGain": 138692,
-      "weeklyGain": 970846,
+      "dailyGain": 153729,
+      "weeklyGain": 1076106,
       "history": [
-        189834160,
         190805006,
         190805006,
         190805006,
         190805006,
         190805006,
-        190805006
+        190805006,
+        191881112
       ],
       "spotify": "https://open.spotify.com/track/10zywlg5b0gQOC3q1A7ADx"
     },
@@ -131,14 +131,14 @@
       "streams": 905985189,
       "target": 1000000000,
       "dailyGain": 857768,
-      "weeklyGain": 8362105,
+      "weeklyGain": 3733663,
       "history": [
-        897623084,
         902251526,
         902251526,
         903085380,
         904165841,
         905127421,
+        905985189,
         905985189
       ],
       "spotify": "https://open.spotify.com/track/6nWWuodRc3aJS7aLrflaqF"
@@ -150,14 +150,14 @@
       "streams": 461457253,
       "target": 500000000,
       "dailyGain": 376065,
-      "weeklyGain": 3564586,
+      "weeklyGain": 1576060,
       "history": [
-        457892667,
         459881193,
         459881193,
         460284705,
         460701433,
         461081188,
+        461457253,
         461457253
       ],
       "spotify": "https://open.spotify.com/track/1z5ebC9238uGoBgzYyvGpQ"
@@ -169,14 +169,14 @@
       "streams": 111075784,
       "target": 200000000,
       "dailyGain": 47763,
-      "weeklyGain": 515552,
+      "weeklyGain": 203244,
       "history": [
-        110560232,
         110872540,
         110872540,
         110925997,
         110925997,
         110978354,
+        111075784,
         111075784
       ],
       "spotify": "https://open.spotify.com/track/4rBRRLgdB9DYJhqA9uVcWt"
