@@ -134,6 +134,13 @@
       "date": "November 13–14, 2026",
       "category": "Concert Residency",
       "link": "#"
+    },
+    {
+      "id": 1784474179408,
+      "event": "JENNIE - Less than a Lover",
+      "date": "24 July,2026",
+      "category": "Music",
+      "link": "https://x.com/jennierubyjane/status/2079221159078343137?s=20"
     }
   ],
   "soloStats": [
@@ -327,7 +334,8 @@
     "youtubeMusic": "https://music.youtube.com/search?q=BLACKPINK+GO"
   },
   "anniversary": {
-    "enabled": false,
-    "videoUrl": "videos/anniversary.mp4"
+    "enabled": true,
+    "videoUrl": "videos/anniversary.mp4",
+    "bgSongUrl": "https://ccrma.stanford.edu/~jos/mp3/pno-cs.mp3"
   }
 }
