@@ -76,6 +76,10 @@ async function loadLiveSchedules() {
     const res = await fetch('config.json');
     if (!res.ok) throw new Error();
     const config = await res.json();
+    if (config.ticker) {
+      localStorage.setItem('crave_ticker_overrides', JSON.stringify(config.ticker));
+      renderCraveTicker();
+    }
     if (config.schedules && Array.isArray(config.schedules)) {
       demoEvents = config.schedules.map((item, index) => {
         const parsedDate = parseScheduleDate(item.date);
@@ -119,6 +123,7 @@ async function loadLiveSchedules() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+  renderCraveTicker();
   detectTimezone();
   await loadLiveSchedules();
   renderCalendar();
@@ -127,17 +132,22 @@ document.addEventListener('DOMContentLoaded', async () => {
   const themeToggleBtn = document.getElementById('themeToggleBtn');
   if (themeToggleBtn) {
     if (localStorage.getItem('theme') === 'light') {
-      document.body.classList.add('light-theme');
+      document.body.setAttribute('data-theme', 'light');
       themeToggleBtn.textContent = '🌑';
     } else {
       themeToggleBtn.textContent = '☀️';
     }
     
     themeToggleBtn.addEventListener('click', () => {
-      document.body.classList.toggle('light-theme');
-      const isLight = document.body.classList.contains('light-theme');
-      localStorage.setItem('theme', isLight ? 'light' : 'dark');
-      themeToggleBtn.textContent = isLight ? '🌑' : '☀️';
+      if (document.body.getAttribute('data-theme') === 'light') {
+        document.body.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'dark');
+        themeToggleBtn.textContent = '☀️';
+      } else {
+        document.body.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+        themeToggleBtn.textContent = '🌑';
+      }
     });
   }
 
@@ -402,4 +412,42 @@ function evaluateLiveStates() {
       showDayEvents(selectedDay);
     }
   });
+}
+
+function renderCraveTicker() {
+  const savedTicker = localStorage.getItem('crave_ticker_overrides');
+  const tickerTrack = document.querySelector('.ticker-track');
+  if (tickerTrack) {
+    let customTicker = [];
+    if (savedTicker) {
+      customTicker = JSON.parse(savedTicker);
+    } else {
+      const items = tickerTrack.querySelectorAll('.ticker-item');
+      const uniqueCount = Math.floor(items.length / 2);
+      if (uniqueCount > 0) {
+        for (let i = 0; i < uniqueCount; i++) {
+          customTicker.push(items[i].textContent.replace('✦', '').trim());
+        }
+      }
+    }
+    if (customTicker.length > 0) {
+      let baseHTML = '';
+      customTicker.forEach(msg => {
+        if (msg) {
+          baseHTML += `<div class="ticker-item"><span>✦</span> ${msg}</div>`;
+        }
+      });
+      if (baseHTML) {
+        const repetitions = Math.ceil(16 / customTicker.length) * 2;
+        let trackHTML = '';
+        for (let i = 0; i < repetitions; i++) {
+          trackHTML += baseHTML;
+        }
+        tickerTrack.innerHTML = trackHTML;
+        const totalItems = customTicker.length * repetitions;
+        const duration = (totalItems / 2) * 8;
+        tickerTrack.style.animationDuration = `${duration}s`;
+      }
+    }
+  }
 }
