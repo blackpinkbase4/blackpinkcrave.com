@@ -98,7 +98,7 @@
       "progress": 24,
       "title": "SHUT DOWN",
       "streams": "898,075,850",
-      "goal": "900,000,000",
+      "goal": "1,000,000,000",
       "daily": "212,758",
       "trend": "up",
       "spotify": "https://open.spotify.com/track/7gRFDGEzF9UkBV233yv2dc",
@@ -189,43 +189,7 @@
       "youtube": "https://www.youtube.com/watch?v=r5VRqWkFpEQ"
     }
   ],
-  "playlists": [
-    {
-      "id": 1,
-      "title": "BLACKPINK group focused",
-      "spotify": "https://open.spotify.com/playlist/21XDw8HrIqOXkQkJwG3xoW?si=4lfKT6WbSAOOFwdMkvv5Cg",
-      "apple": "",
-      "youtube": ""
-    },
-    {
-      "id": 2,
-      "title": "JISOO focused",
-      "spotify": "https://open.spotify.com/playlist/1XK8a8VBJ73aM3XhpE0AMy?si=kgfZ34M9Sb-ZtoLBhTdE_A",
-      "apple": "",
-      "youtube": ""
-    },
-    {
-      "id": 3,
-      "title": "JENNIE focused",
-      "spotify": "https://open.spotify.com/playlist/2VO71fBjlbKGr44gZ5lpol?si=wEXjE2ZxT7ySIEeRPvXpcg",
-      "apple": "",
-      "youtube": ""
-    },
-    {
-      "id": 4,
-      "title": "ROSÉ focused",
-      "spotify": "https://open.spotify.com/playlist/5CbyjMqV5XDBmZjyTuAbT4?si=LDuqhTxzTtemLARewOw5OA",
-      "apple": "",
-      "youtube": ""
-    },
-    {
-      "id": 5,
-      "title": "LISA focused",
-      "spotify": "https://open.spotify.com/playlist/1Lggv2egNIsiPr2dqXzCZf?si=-Z4cg8u8RyCwOs1uRAYJ8w",
-      "apple": "",
-      "youtube": ""
-    }
-  ],
+  "playlists": [],
   "promos": [],
   "mvs": [
     {
