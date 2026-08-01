@@ -335,7 +335,7 @@
   },
   "anniversary": {
     "enabled": true,
-    "videoUrl": "videos/anniversary.mp4",
+    "videoUrl": "https://www.youtube.com/watch?v=vneSYRvdvuU",
     "bgSongUrl": "https://ccrma.stanford.edu/~jos/mp3/pno-cs.mp3"
   }
 }
