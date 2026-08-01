@@ -334,7 +334,7 @@
     "youtubeMusic": "https://music.youtube.com/search?q=BLACKPINK+GO"
   },
   "anniversary": {
-    "enabled": true,
+    "enabled": false,
     "videoUrl": "https://www.youtube.com/watch?v=vneSYRvdvuU",
     "bgSongUrl": "https://ccrma.stanford.edu/~jos/mp3/pno-cs.mp3"
   }
