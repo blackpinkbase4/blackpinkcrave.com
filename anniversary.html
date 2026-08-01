@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Decade Theater - BLACKPINK CRAVE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=310">
+</head>
+<body class="theater-body">
+  <audio id="anniversaryBgSong" src="music/stay.mp3" loop></audio>
+
+  <div id="actualTheaterContent" style="display: none;">
+    
+    <button id="musicToggleBtn" onclick="toggleAudioPlayback(event)" style="position: fixed; top: 20px; right: 20px; z-index: 10001; width: 45px; height: 45px; border-radius: 50%; background: rgba(0,0,0,0.65); border: 1px solid rgba(255, 111, 162, 0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 15px rgba(255, 111, 162, 0.25); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); color: #fff; font-size: 16px; outline: none; backdrop-filter: blur(8px);" title="Toggle Background Music">🔇</button>
+
+    <main class="theater-main">
+      
+      <section class="theater-hero-section" style="text-align: center; position: relative;">
+        <div style="position: absolute; top: 15px; left: 50%; transform: translateX(-50%); font-family: var(--font-sans); font-size: 10px; font-weight: 600; letter-spacing: 2px; color: var(--accent-color); text-transform: uppercase; margin-bottom: 5px;">03.2 / Special Feature</div>
+        <h1 class="theater-title" style="margin-top: 40px;">Tribute Showcase</h1>
+        
+        <div id="videoUnmuteOverlay" onclick="unmuteTributeVideo()" style="margin: 20px auto 10px auto; display: flex; justify-content: center; align-items: center; cursor: pointer;">
+          <span class="btn-submit" style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 25px; border-radius: 20px; font-size: 11px; font-weight: 600; letter-spacing: 1px; background-color: var(--accent-color); color: #000; border-color: var(--accent-color); text-transform: uppercase;">Tap to Unmute Sound 🔊</span>
+        </div>
+
+        <div class="theater-video-section">
+          <div class="theater-video-container">
+            <video id="tributeVideo" src="videos/anniversary.mp4" controls preload="auto" autoplay muted playsinline></video>
+            <iframe id="tributeVideoIframe" style="display: none; border: none; width: 100%; height: 100%;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+        </div>
+        
+        <p style="font-family: var(--font-sans); font-size: 11px; letter-spacing: 1px; color: var(--text-muted); text-transform: uppercase; margin: 20px auto 0 auto; opacity: 0.8; max-width: 600px; line-height: 1.5;">Scroll down below the video player to explore the memory timeline & letters from the members.</p>
+      </section>
+
+            
+      <section class="timeline-frames-section" id="timelineFrames">
+        <div class="timeline-track">
+          <div class="timeline-vertical-line"></div>
+          
+          <div class="timeline-frame-item">
+            <div class="timeline-node"></div>
+            <div class="luxury-timeline-card">
+              <div class="parallax-img-frame">
+                <img class="parallax-img-scroll" src="images/keepsake_group1.jpg" alt="Square One">
+              </div>
+              <div class="timeline-content-box">
+                <span class="timeline-year-tag">August 2016</span>
+                <h3 class="timeline-title-text">Square One</h3>
+                <p class="timeline-desc-text"><strong>'BOOMBAYAH' / 'Whistle'</strong> — Achievements: Earned a "Perfect All-Kill" on Korean charts with "Whistle" and became the fastest girl group to win #1 on a music show (SBS Inkigayo) just 13 days after debut.</p>
+              </div>
+            </div>
+            <div class="frame-side-spacer"></div>
+          </div>
+          
+          <div class="timeline-frame-item">
+            <div class="frame-side-spacer"></div>
+            <div class="timeline-node"></div>
+            <div class="luxury-timeline-card">
+              <div class="parallax-img-frame">
+                <img class="parallax-img-scroll" src="images/keepsake_group2.jpg" alt="Square Two">
+              </div>
+              <div class="timeline-content-box">
+                <span class="timeline-year-tag">November 2016</span>
+                <h3 class="timeline-title-text">Square Two</h3>
+                <p class="timeline-desc-text"><strong>'Playing with Fire' / 'Stay'</strong> — Achievements: "Playing with Fire" topped the Billboard World Digital Songs chart and dominated local music programs like M Countdown.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="timeline-frame-item">
+            <div class="timeline-node"></div>
+            <div class="luxury-timeline-card">
+              <div class="parallax-img-frame">
+                <img class="parallax-img-scroll" src="images/keepsake_group3.jpg" alt=""As If It's Your Last"">
+              </div>
+              <div class="timeline-content-box">
+                <span class="timeline-year-tag">June 2017</span>
+                <h3 class="timeline-title-text">"As If It's Your Last"</h3>
+                <p class="timeline-desc-text">Achievements: Reached #1 on the Billboard World Digital Songs chart and was performed at the SBS Gayo Daejeon, featuring their famous uniform stage outfits.</p>
+              </div>
+            </div>
+            <div class="frame-side-spacer"></div>
+          </div>
+          
+          <div class="timeline-frame-item">
+            <div class="frame-side-spacer"></div>
+            <div class="timeline-node"></div>
+            <div class="luxury-timeline-card">
+              <div class="parallax-img-frame">
+                <img class="parallax-img-scroll" src="images/keepsake_group4.jpg" alt="Square Up">
+              </div>
+              <div class="timeline-content-box">
+                <span class="timeline-year-tag">June 2018</span>
+                <h3 class="timeline-title-text">Square Up</h3>
+                <p class="timeline-desc-text"><strong>'DDU-DU DDU-DU'</strong> — Achievements: Broke records with the highest 24-hour YouTube debut for a K-pop group at the time and kicked off their massive In Your Area World Tour.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="timeline-frame-item">
+            <div class="timeline-node"></div>
+            <div class="luxury-timeline-card">
+              <div class="parallax-img-frame">
+                <img class="parallax-img-scroll" src="images/keepsake_group5.jpg" alt="Kill This Love">
+              </div>
+              <div class="timeline-content-box">
+                <span class="timeline-year-tag">April 2019</span>
+                <h3 class="timeline-title-text">Kill This Love</h3>
+                <p class="timeline-desc-text">Coachella Stage: Made history as the first-ever K-pop girl group to perform at Coachella (Sahara Stage), delivering a legendary live band set that broke them into the US mainstream.</p>
+              </div>
+            </div>
+            <div class="frame-side-spacer"></div>
+          </div>
+          
+          <div class="timeline-frame-item">
+            <div class="frame-side-spacer"></div>
+            <div class="timeline-node"></div>
+            <div class="luxury-timeline-card">
+              <div class="parallax-img-frame">
+                <img class="parallax-img-scroll" src="images/keepsake_group6.jpg" alt=""How You Like That"">
+              </div>
+              <div class="timeline-content-box">
+                <span class="timeline-year-tag">June 2020</span>
+                <h3 class="timeline-title-text">"How You Like That"</h3>
+                <p class="timeline-desc-text">Achievements: Broke multiple Guinness World Records, including the biggest YouTube Premiere in history with 86.3 million views in 24 hours.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="timeline-frame-item">
+            <div class="timeline-node"></div>
+            <div class="luxury-timeline-card">
+              <div class="parallax-img-frame">
+                <img class="parallax-img-scroll" src="images/keepsake_group7.jpg" alt=""Ice Cream"">
+              </div>
+              <div class="timeline-content-box">
+                <span class="timeline-year-tag">August 2020</span>
+                <h3 class="timeline-title-text">"Ice Cream"</h3>
+                <p class="timeline-desc-text">(with Selena Gomez) — Achievements: Debuted at #13 on the Billboard Hot 100, marking their highest entry on the chart at the time.</p>
+              </div>
+            </div>
+            <div class="frame-side-spacer"></div>
+          </div>
+          
+          <div class="timeline-frame-item">
+            <div class="frame-side-spacer"></div>
+            <div class="timeline-node"></div>
+            <div class="luxury-timeline-card">
+              <div class="parallax-img-frame">
+                <img class="parallax-img-scroll" src="images/keepsake_group8.jpg" alt="The Album">
+              </div>
+              <div class="timeline-content-box">
+                <span class="timeline-year-tag">October 2020</span>
+                <h3 class="timeline-title-text">The Album</h3>
+                <p class="timeline-desc-text"><strong>'Lovesick Girls'</strong> — Achievements: Became the first K-pop girl group album to sell over 1 million copies, peaking at #2 on the Billboard 200.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="timeline-frame-item">
+            <div class="timeline-node"></div>
+            <div class="luxury-timeline-card">
+              <div class="parallax-img-frame">
+                <img class="parallax-img-scroll" src="images/keepsake_group9.jpg" alt=""Pink Venom"">
+              </div>
+              <div class="timeline-content-box">
+                <span class="timeline-year-tag">August 2022</span>
+                <h3 class="timeline-title-text">"Pink Venom"</h3>
+                <p class="timeline-desc-text">Stages/Achievements: Became their first song to top the Billboard Global 200. They later performed it live at the 2022 MTV Video Music Awards (VMAs).</p>
+              </div>
+            </div>
+            <div class="frame-side-spacer"></div>
+          </div>
+          
+          <div class="timeline-frame-item">
+            <div class="frame-side-spacer"></div>
+            <div class="timeline-node"></div>
+            <div class="luxury-timeline-card">
+              <div class="parallax-img-frame">
+                <img class="parallax-img-scroll" src="images/keepsake_group10.jpg" alt="Born Pink">
+              </div>
+              <div class="timeline-content-box">
+                <span class="timeline-year-tag">September 2022</span>
+                <h3 class="timeline-title-text">Born Pink</h3>
+                <p class="timeline-desc-text"><strong>'Shut Down'</strong> — Coachella Stage: Led into making history as the first Asian and first K-pop act to headline Coachella (Main Stage) in April 2023, performing in custom hanboks for a crowd of 125,000.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="timeline-frame-item">
+            <div class="timeline-node"></div>
+            <div class="luxury-timeline-card">
+              <div class="parallax-img-frame">
+                <img class="parallax-img-scroll" src="images/keepsake_group11.jpg" alt=""The Girls"">
+              </div>
+              <div class="timeline-content-box">
+                <span class="timeline-year-tag">August 2023</span>
+                <h3 class="timeline-title-text">"The Girls"</h3>
+                <p class="timeline-desc-text">Achievements: Released as an exclusive soundtrack for BLACKPINK The Game, winning Best Metaverse Performance at the MTV VMAs.</p>
+              </div>
+            </div>
+            <div class="frame-side-spacer"></div>
+          </div>
+          
+          <div class="timeline-frame-item">
+            <div class="frame-side-spacer"></div>
+            <div class="timeline-node"></div>
+            <div class="luxury-timeline-card">
+              <div class="parallax-img-frame">
+                <img class="parallax-img-scroll" src="images/keepsake_group12.jpg" alt=""JUMP"">
+              </div>
+              <div class="timeline-content-box">
+                <span class="timeline-year-tag">July 2025</span>
+                <h3 class="timeline-title-text">"JUMP"</h3>
+                <p class="timeline-desc-text">Stages/Achievements: First premiered live on stage during the opening night of the Deadline World Tour at Goyang Stadium. It reached #28 on the Billboard Hot 100.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="timeline-frame-item">
+            <div class="timeline-node"></div>
+            <div class="luxury-timeline-card">
+              <div class="parallax-img-frame">
+                <img class="parallax-img-scroll" src="images/keepsake_group13.jpg" alt="Deadline EP">
+              </div>
+              <div class="timeline-content-box">
+                <span class="timeline-year-tag">February 2026</span>
+                <h3 class="timeline-title-text">Deadline EP</h3>
+                <p class="timeline-desc-text">Achievements: Their 3rd mini-album capped off their global stadium tour, with Pitchfork highlighting the track as a powerful evolution of their classic "BLACKPINK in your area" identity.</p>
+              </div>
+            </div>
+            <div class="frame-side-spacer"></div>
+          </div>
+        </div>
+      </section>
+
+      
+      <section class="member-letters-section">
+        <h2 style="font-family: 'Cinzel', serif; font-size: 26px; font-weight: 400; color: #fff; margin: 0 0 35px 0; text-transform: uppercase; letter-spacing: 2px;">Handwritten Letters</h2>
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; justify-content: center; max-width: 800px; margin: 0 auto;" id="memberLettersGrid">
+          
+          <div class="letter-envelope-card" onclick="openCapsule('jisoo')" style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 111, 162, 0.15); border-radius: 12px; padding: 25px 15px; cursor: pointer; transition: all 0.3s; display: flex; flex-direction: column; align-items: center; gap: 12px; backdrop-filter: blur(10px);">
+            <div style="font-size: 32px;">✉️</div>
+            <div style="font-family: 'Cinzel', serif; font-size: 12px; color: #fff; letter-spacing: 1px; text-transform: uppercase;">JISOO</div>
+          </div>
+          
+          <div class="letter-envelope-card" onclick="openCapsule('jennie')" style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 111, 162, 0.15); border-radius: 12px; padding: 25px 15px; cursor: pointer; transition: all 0.3s; display: flex; flex-direction: column; align-items: center; gap: 12px; backdrop-filter: blur(10px);">
+            <div style="font-size: 32px;">✉️</div>
+            <div style="font-family: 'Cinzel', serif; font-size: 12px; color: #fff; letter-spacing: 1px; text-transform: uppercase;">JENNIE</div>
+          </div>
+          
+          <div class="letter-envelope-card" onclick="openCapsule('rose')" style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 111, 162, 0.15); border-radius: 12px; padding: 25px 15px; cursor: pointer; transition: all 0.3s; display: flex; flex-direction: column; align-items: center; gap: 12px; backdrop-filter: blur(10px);">
+            <div style="font-size: 32px;">✉️</div>
+            <div style="font-family: 'Cinzel', serif; font-size: 12px; color: #fff; letter-spacing: 1px; text-transform: uppercase;">ROSÉ</div>
+          </div>
+          
+          <div class="letter-envelope-card" onclick="openCapsule('lisa')" style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 111, 162, 0.15); border-radius: 12px; padding: 25px 15px; cursor: pointer; transition: all 0.3s; display: flex; flex-direction: column; align-items: center; gap: 12px; backdrop-filter: blur(10px);">
+            <div style="font-size: 32px;">✉️</div>
+            <div style="font-family: 'Cinzel', serif; font-size: 12px; color: #fff; letter-spacing: 1px; text-transform: uppercase;">LISA</div>
+          </div>
+          
+          <div class="letter-envelope-card" onclick="openCapsule('group')" style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 111, 162, 0.15); border-radius: 12px; padding: 25px 15px; cursor: pointer; transition: all 0.3s; display: flex; flex-direction: column; align-items: center; gap: 12px; backdrop-filter: blur(10px);">
+            <div style="font-size: 32px;">✉️</div>
+            <div style="font-family: 'Cinzel', serif; font-size: 12px; color: #fff; letter-spacing: 1px; text-transform: uppercase;">GROUP</div>
+          </div>
+        </div>
+      </section>
+
+            
+      <section class="keepsake-wall-section">
+        <h2 style="font-family: 'Cinzel', serif; font-size: 26px; font-weight: 400; color: #fff; margin: 0 0 40px 0; text-transform: uppercase; letter-spacing: 2px;">Keepsake Gallery Wall</h2>
+        <div class="keepsake-gallery-grid">
+          
+          <div class="keepsake-wall-card">
+            <div class="keepsake-card-img-box">
+              <img src="images/keepsake_group1.jpg" class="keepsake-card-img" alt="Group 1 Keepsake">
+              <button class="keepsake-download-btn" onclick="downloadPremadeKeepsake('images/keepsake_group1.jpg', '&quot;We\'re like a family. We have a special and strong teamwork because we trained together as teenagers and have grown together since then.&quot; — JENNIE')" title="Download Card">📥</button>
+            </div>
+            <div class="keepsake-card-text-box">
+              <p class="keepsake-card-quote">"We're like a family. We have a special and strong teamwork because we trained together as teenagers and have grown together since then."</p>
+              <span class="keepsake-card-footer">Jennie</span>
+            </div>
+          </div>
+          
+          <div class="keepsake-wall-card">
+            <div class="keepsake-card-img-box">
+              <img src="images/keepsake_group2.jpg" class="keepsake-card-img" alt="Group 2 Keepsake">
+              <button class="keepsake-download-btn" onclick="downloadPremadeKeepsake('images/keepsake_group2.jpg', '&quot;Through having heart-to-hearts... we were able to get to know each other even deeper.&quot; — JISOO')" title="Download Card">📥</button>
+            </div>
+            <div class="keepsake-card-text-box">
+              <p class="keepsake-card-quote">"Through having heart-to-hearts... we were able to get to know each other even deeper."</p>
+              <span class="keepsake-card-footer">Jisoo</span>
+            </div>
+          </div>
+          
+          <div class="keepsake-wall-card">
+            <div class="keepsake-card-img-box">
+              <img src="images/keepsake_group3.jpg" class="keepsake-card-img" alt="Group 3 Keepsake">
+              <button class="keepsake-download-btn" onclick="downloadPremadeKeepsake('images/keepsake_group3.jpg', '&quot;Knowing I was not alone and being with the people beside me gave me the most strength.&quot; — LISA')" title="Download Card">📥</button>
+            </div>
+            <div class="keepsake-card-text-box">
+              <p class="keepsake-card-quote">"Knowing I was not alone and being with the people beside me gave me the most strength."</p>
+              <span class="keepsake-card-footer">Lisa</span>
+            </div>
+          </div>
+          
+          <div class="keepsake-wall-card">
+            <div class="keepsake-card-img-box">
+              <img src="images/keepsake_group4.jpg" class="keepsake-card-img" alt="Group 4 Keepsake">
+              <button class="keepsake-download-btn" onclick="downloadPremadeKeepsake('images/keepsake_group4.jpg', '&quot;The four of us are like one. We\'re there for each other...&quot; — ROSÉ')" title="Download Card">📥</button>
+            </div>
+            <div class="keepsake-card-text-box">
+              <p class="keepsake-card-quote">"The four of us are like one. We're there for each other..."</p>
+              <span class="keepsake-card-footer">Rosé</span>
+            </div>
+          </div>
+          
+          <div class="keepsake-wall-card">
+            <div class="keepsake-card-img-box">
+              <img src="images/keepsake_group5.jpg" class="keepsake-card-img" alt="Group 5 Keepsake">
+              <button class="keepsake-download-btn" onclick="downloadPremadeKeepsake('images/keepsake_group5.jpg', '&quot;After our training time was over, we\'d go home together and order food, talk about how scary the teachers were, how the work was too much... we just got along.&quot; — JENNIE')" title="Download Card">📥</button>
+            </div>
+            <div class="keepsake-card-text-box">
+              <p class="keepsake-card-quote">"After our training time was over, we'd go home together and order food, talk about how scary the teachers were, how the work was too much... we just got along."</p>
+              <span class="keepsake-card-footer">Jennie</span>
+            </div>
+          </div>
+          
+          <div class="keepsake-wall-card">
+            <div class="keepsake-card-img-box">
+              <img src="images/keepsake_group6.jpg" class="keepsake-card-img" alt="Group 6 Keepsake">
+              <button class="keepsake-download-btn" onclick="downloadPremadeKeepsake('images/keepsake_group6.jpg', '&quot;If you want to love yourself, what should come first? Yourself.&quot; — JISOO')" title="Download Card">📥</button>
+            </div>
+            <div class="keepsake-card-text-box">
+              <p class="keepsake-card-quote">"If you want to love yourself, what should come first? Yourself."</p>
+              <span class="keepsake-card-footer">Jisoo</span>
+            </div>
+          </div>
+          
+          <div class="keepsake-wall-card">
+            <div class="keepsake-card-img-box">
+              <img src="images/keepsake_group7.jpg" class="keepsake-card-img" alt="Group 7 Keepsake">
+              <button class="keepsake-download-btn" onclick="downloadPremadeKeepsake('images/keepsake_group7.jpg', '&quot;There is nothing scary about naturally talented people; hardworking people are the ones to be afraid of.&quot; — LISA')" title="Download Card">📥</button>
+            </div>
+            <div class="keepsake-card-text-box">
+              <p class="keepsake-card-quote">"There is nothing scary about naturally talented people; hardworking people are the ones to be afraid of."</p>
+              <span class="keepsake-card-footer">Lisa</span>
+            </div>
+          </div>
+          
+          <div class="keepsake-wall-card">
+            <div class="keepsake-card-img-box">
+              <img src="images/keepsake_group8.jpg" class="keepsake-card-img" alt="Group 8 Keepsake">
+              <button class="keepsake-download-btn" onclick="downloadPremadeKeepsake('images/keepsake_group8.jpg', '&quot;Standing alone was frightening. It made me realize how much BLACKPINK was a big support to me...&quot; — ROSÉ')" title="Download Card">📥</button>
+            </div>
+            <div class="keepsake-card-text-box">
+              <p class="keepsake-card-quote">"Standing alone was frightening. It made me realize how much BLACKPINK was a big support to me..."</p>
+              <span class="keepsake-card-footer">Rosé</span>
+            </div>
+          </div>
+          
+          <div class="keepsake-wall-card">
+            <div class="keepsake-card-img-box">
+              <img src="images/keepsake_group9.jpg" class="keepsake-card-img" alt="Group 9 Keepsake">
+              <button class="keepsake-download-btn" onclick="downloadPremadeKeepsake('images/keepsake_group9.jpg', '&quot;We\'re like a family. We have a special and strong teamwork because we trained together as teenagers and have grown together since then.&quot; — JENNIE')" title="Download Card">📥</button>
+            </div>
+            <div class="keepsake-card-text-box">
+              <p class="keepsake-card-quote">"We're like a family. We have a special and strong teamwork because we trained together as teenagers and have grown together since then."</p>
+              <span class="keepsake-card-footer">Jennie</span>
+            </div>
+          </div>
+          
+          <div class="keepsake-wall-card">
+            <div class="keepsake-card-img-box">
+              <img src="images/keepsake_group10.jpg" class="keepsake-card-img" alt="Group 10 Keepsake">
+              <button class="keepsake-download-btn" onclick="downloadPremadeKeepsake('images/keepsake_group10.jpg', '&quot;Through having heart-to-hearts... we were able to get to know each other even deeper.&quot; — JISOO')" title="Download Card">📥</button>
+            </div>
+            <div class="keepsake-card-text-box">
+              <p class="keepsake-card-quote">"Through having heart-to-hearts... we were able to get to know each other even deeper."</p>
+              <span class="keepsake-card-footer">Jisoo</span>
+            </div>
+          </div>
+          
+          <div class="keepsake-wall-card">
+            <div class="keepsake-card-img-box">
+              <img src="images/keepsake_group11.jpg" class="keepsake-card-img" alt="Group 11 Keepsake">
+              <button class="keepsake-download-btn" onclick="downloadPremadeKeepsake('images/keepsake_group11.jpg', '&quot;Knowing I was not alone and being with the people beside me gave me the most strength.&quot; — LISA')" title="Download Card">📥</button>
+            </div>
+            <div class="keepsake-card-text-box">
+              <p class="keepsake-card-quote">"Knowing I was not alone and being with the people beside me gave me the most strength."</p>
+              <span class="keepsake-card-footer">Lisa</span>
+            </div>
+          </div>
+          
+          <div class="keepsake-wall-card">
+            <div class="keepsake-card-img-box">
+              <img src="images/keepsake_group12.jpg" class="keepsake-card-img" alt="Group 12 Keepsake">
+              <button class="keepsake-download-btn" onclick="downloadPremadeKeepsake('images/keepsake_group12.jpg', '&quot;The four of us are like one. We\'re there for each other...&quot; — ROSÉ')" title="Download Card">📥</button>
+            </div>
+            <div class="keepsake-card-text-box">
+              <p class="keepsake-card-quote">"The four of us are like one. We're there for each other..."</p>
+              <span class="keepsake-card-footer">Rosé</span>
+            </div>
+          </div>
+          
+          <div class="keepsake-wall-card">
+            <div class="keepsake-card-img-box">
+              <img src="images/keepsake_group13.jpg" class="keepsake-card-img" alt="Group 13 Keepsake">
+              <button class="keepsake-download-btn" onclick="downloadPremadeKeepsake('images/keepsake_group13.jpg', '&quot;After our training time was over, we\'d go home together and order food, talk about how scary the teachers were, how the work was too much... we just got along.&quot; — JENNIE')" title="Download Card">📥</button>
+            </div>
+            <div class="keepsake-card-text-box">
+              <p class="keepsake-card-quote">"After our training time was over, we'd go home together and order food, talk about how scary the teachers were, how the work was too much... we just got along."</p>
+              <span class="keepsake-card-footer">Jennie</span>
+            </div>
+          </div>
+          
+          <div class="keepsake-wall-card">
+            <div class="keepsake-card-img-box">
+              <img src="images/keepsake_group14.jpg" class="keepsake-card-img" alt="Group 14 Keepsake">
+              <button class="keepsake-download-btn" onclick="downloadPremadeKeepsake('images/keepsake_group14.jpg', '&quot;If you want to love yourself, what should come first? Yourself.&quot; — JISOO')" title="Download Card">📥</button>
+            </div>
+            <div class="keepsake-card-text-box">
+              <p class="keepsake-card-quote">"If you want to love yourself, what should come first? Yourself."</p>
+              <span class="keepsake-card-footer">Jisoo</span>
+            </div>
+          </div>
+          
+          <div class="keepsake-wall-card">
+            <div class="keepsake-card-img-box">
+              <img src="images/keepsake_group15.jpg" class="keepsake-card-img" alt="Group 15 Keepsake">
+              <button class="keepsake-download-btn" onclick="downloadPremadeKeepsake('images/keepsake_group15.jpg', '&quot;There is nothing scary about naturally talented people; hardworking people are the ones to be afraid of.&quot; — LISA')" title="Download Card">📥</button>
+            </div>
+            <div class="keepsake-card-text-box">
+              <p class="keepsake-card-quote">"There is nothing scary about naturally talented people; hardworking people are the ones to be afraid of."</p>
+              <span class="keepsake-card-footer">Lisa</span>
+            </div>
+          </div>
+          
+          <div class="keepsake-wall-card">
+            <div class="keepsake-card-img-box">
+              <img src="images/keepsake_group16.jpg" class="keepsake-card-img" alt="Group 16 Keepsake">
+              <button class="keepsake-download-btn" onclick="downloadPremadeKeepsake('images/keepsake_group16.jpg', '&quot;Standing alone was frightening. It made me realize how much BLACKPINK was a big support to me...&quot; — ROSÉ')" title="Download Card">📥</button>
+            </div>
+            <div class="keepsake-card-text-box">
+              <p class="keepsake-card-quote">"Standing alone was frightening. It made me realize how much BLACKPINK was a big support to me..."</p>
+              <span class="keepsake-card-footer">Rosé</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="exit-theater-container">
+        <button onclick="exitTheater()" class="btn-submit" style="text-decoration: none; padding: 18px 40px; font-size: 11px; letter-spacing: 3px; font-weight: 600; text-transform: uppercase; border-radius: 30px; border: 1px solid var(--accent-color); background: transparent; color: var(--accent-color); transition: all 0.3s;" onmouseover="this.style.background='var(--accent-color)'; this.style.color='#000';" onmouseout="this.style.background='transparent'; this.style.color='var(--accent-color)';">Continue to Main Website &rarr;</button>
+      </div>
+    </main>
+
+    
+    <div class="floating-lightstick" onclick="cheerLighstick()" id="cheerBtn" style="position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ffb6c1 0%, #ff6fa2 50%, #d5006d 100%); display: flex; align-items: center; justify-content: center; font-size: 28px; cursor: pointer; box-shadow: 0 10px 25px rgba(255, 111, 162, 0.5), 0 0 20px rgba(255, 111, 162, 0.3); z-index: 10000; transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);" title="Cheer BLACKPINK!">
+      💖
+      <span id="cheerCountDisplay" style="position: absolute; right: 80px; font-size: 13px; font-family: 'Inter', sans-serif; background: rgba(3,3,3,0.9); padding: 5px 12px; border-radius: 20px; border: 1px solid #ff6fa2; white-space: nowrap; color: #ff6fa2; font-weight: 600; backdrop-filter: blur(5px);">Cheers: 0</span>
+    </div>
+
+    
+    <div class="envelope-modal-overlay" id="envelopeModal" onclick="closeCapsule()">
+      <div class="envelope-letter-box" onclick="event.stopPropagation()">
+        <button class="letter-close-btn" onclick="closeCapsule()">&times;</button>
+        <span class="letter-sender" id="letterSender">JISOO</span>
+        <p class="letter-text" id="letterText">Thank you for walking this path with us...</p>
+        <span class="letter-signature" id="letterSignature">Yours Truly, JISOO</span>
+      </div>
+    </div>
+  </div>
+
+  
+  <div id="restrictedTeaserContent" style="display: none; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 20px; box-sizing: border-box; background: radial-gradient(circle at 50% 50%, #15050f 0%, #030303 100%);">
+    <div style="font-size: 70px; margin-bottom: 25px; filter: drop-shadow(0 0 20px rgba(255, 111, 162, 0.6));">🔒</div>
+    <h1 style="font-family: 'Cinzel', serif; font-size: 32px; font-weight: 400; color: #fff; margin: 0 0 15px 0; text-transform: uppercase; letter-spacing: 2px;">404: Access Restricted</h1>
+    <p style="font-family: 'Inter', sans-serif; font-size: 14px; color: #aaa; max-width: 500px; line-height: 1.6; margin: 0 auto 40px auto;">
+      This section is currently locked. It will automatically unlock when the countdown timer concludes.
+    </p>
+    
+    <div style="display: flex; gap: 15px; justify-content: center; margin-bottom: 40px;">
+      <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 111, 162, 0.15); border-radius: 8px; width: 70px; padding: 15px 0; backdrop-filter: blur(5px);">
+        <span id="teaserDays" style="display: block; font-family: 'Cinzel', serif; font-size: 24px; color: #fff; font-weight: 500;">00</span>
+        <small style="font-family: 'Inter', sans-serif; font-size: 9px; color: #ff6fa2; text-transform: uppercase; letter-spacing: 1px; display: block; margin-top: 5px;">Days</small>
+      </div>
+      <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 111, 162, 0.15); border-radius: 8px; width: 70px; padding: 15px 0; backdrop-filter: blur(5px);">
+        <span id="teaserHours" style="display: block; font-family: 'Cinzel', serif; font-size: 24px; color: #fff; font-weight: 500;">00</span>
+        <small style="font-family: 'Inter', sans-serif; font-size: 9px; color: #ff6fa2; text-transform: uppercase; letter-spacing: 1px; display: block; margin-top: 5px;">Hours</small>
+      </div>
+      <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 111, 162, 0.15); border-radius: 8px; width: 70px; padding: 15px 0; backdrop-filter: blur(5px);">
+        <span id="teaserMins" style="display: block; font-family: 'Cinzel', serif; font-size: 24px; color: #fff; font-weight: 500;">00</span>
+        <small style="font-family: 'Inter', sans-serif; font-size: 9px; color: #ff6fa2; text-transform: uppercase; letter-spacing: 1px; display: block; margin-top: 5px;">Mins</small>
+      </div>
+      <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 111, 162, 0.15); border-radius: 8px; width: 70px; padding: 15px 0; backdrop-filter: blur(5px);">
+        <span id="teaserSecs" style="display: block; font-family: 'Cinzel', serif; font-size: 24px; color: #fff; font-weight: 500;">00</span>
+        <small style="font-family: 'Inter', sans-serif; font-size: 9px; color: #ff6fa2; text-transform: uppercase; letter-spacing: 1px; display: block; margin-top: 5px;">Secs</small>
+      </div>
+    </div>
+
+    <button onclick="window.location.href='index.html'" style="padding: 12px 30px; background: transparent; border: 1px solid rgba(255, 111, 162, 0.4); color: #fff; border-radius: 30px; font-family: 'Inter', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; cursor: pointer; transition: all 0.3s; font-weight: 600;" onmouseover="this.style.borderColor='rgba(255,111,162,0.8)'; this.style.boxShadow='0 0 15px rgba(255,111,162,0.3)';" onmouseout="this.style.borderColor='rgba(255,111,162,0.4)'; this.style.boxShadow='none';">Return to Main Website</button>
+  </div>
+
+  <script>
+
+
+    const capsules = {
+      jisoo: {
+        sender: "JISOO",
+        text: '"Don\'t let your mind bully your body."',
+        signature: "With Love, JISOO"
+      },
+      jennie: {
+        sender: "JENNIE",
+        text: '"Just rely on yourself and don\'t depend on others to fulfill your happiness."',
+        signature: "With Love, JENNIE"
+      },
+      rose: {
+        sender: "ROSÉ",
+        text: '"There is no limit to what you can do."',
+        signature: "With Love, ROSÉ"
+      },
+      lisa: {
+        sender: "LISA",
+        text: '"Don\'t tell people your dreams, show them."',
+        signature: "With Love, LISA"
+      },
+      group: {
+        sender: "BLACKPINK",
+        text: '"BLACKPINK is four members from start to finish. No one can ever replace any of us."',
+        signature: "JISOO, JENNIE, ROSÉ, LISA"
+      }
+    };
+    const enabled = localStorage.getItem('crave_anniversary_enabled');
+    const targetDate = new Date("2026-08-08T00:00:00+09:00").getTime();
+    const now = new Date().getTime();
+    const diff = targetDate - now;
+    const isFinished = diff <= 0;
+
+    const isTheaterActive = enabled === 'true' || enabled === true || isFinished;
+
+    async function loadAnniversaryConfig() {
+      try {
+        const res = await fetch(`config.json?t=${Date.now()}`);
+        if (res.ok) {
+          const config = await res.json();
+          if (config.anniversary) {
+            const wasEnabled = localStorage.getItem('crave_anniversary_enabled') === 'true';
+            const isNowEnabled = config.anniversary.enabled === true || config.anniversary.enabled === 'true';
+            
+            localStorage.setItem('crave_anniversary_enabled', isNowEnabled ? 'true' : 'false');
+            localStorage.setItem('crave_tribute_video_url', config.anniversary.videoUrl || 'videos/anniversary.mp4');
+            localStorage.setItem('crave_anniversary_bg_song', config.anniversary.bgSongUrl || 'music/stay.mp3');
+            
+            if (wasEnabled !== isNowEnabled) {
+              window.location.reload();
+            }
+          }
+        }
+      } catch (e) {
+        console.error("Failed to load anniversary config:", e);
+      }
+    }
+    loadAnniversaryConfig();
+
+    if (isTheaterActive) {
+      document.getElementById('actualTheaterContent').style.display = 'block';
+      document.getElementById('restrictedTeaserContent').style.display = 'none';
+
+      let audioContextStarted = false;
+      let userPaused = false;
+      sessionStorage.setItem('anniversary_dismissed', 'true');
+      let bgSong = document.getElementById('anniversaryBgSong');
+      
+      if (localStorage.getItem('crave_anniversary_bg_song') === 'https://ccrma.stanford.edu/~jos/mp3/pno-cs.mp3' || !localStorage.getItem('crave_anniversary_bg_song')) {
+        localStorage.setItem('crave_anniversary_bg_song', 'music/stay.mp3');
+      }
+
+      let storedBgSong = localStorage.getItem('crave_anniversary_bg_song') || 'music/stay.mp3';
+      if (bgSong) {
+        bgSong.src = storedBgSong;
+      }
+      let tributeVideo = document.getElementById('tributeVideo');
+      let tributeVideoIframe = document.getElementById('tributeVideoIframe');
+      let storedVideoUrl = localStorage.getItem('crave_tribute_video_url') || 'videos/anniversary.mp4';
+
+      function getYouTubeEmbedUrl(url) {
+        let videoId = '';
+        if (url.includes('youtube.com/embed/')) {
+          return url;
+        }
+        if (url.includes('youtu.be/')) {
+          videoId = url.split('youtu.be/')[1].split(/[?#]/)[0];
+        } else if (url.includes('youtube.com/watch')) {
+          const urlParams = new URLSearchParams(url.split('?')[1]);
+          videoId = urlParams.get('v');
+        } else if (url.includes('youtube.com/v/')) {
+          videoId = url.split('youtube.com/v/')[1].split(/[?#]/)[0];
+        }
+        return videoId ? `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&rel=0&enablejsapi=1` : '';
+      }
+
+      const ytEmbedUrl = getYouTubeEmbedUrl(storedVideoUrl);
+      if (ytEmbedUrl) {
+        tributeVideo.style.display = 'none';
+        tributeVideoIframe.style.display = 'block';
+        tributeVideoIframe.src = ytEmbedUrl;
+      } else {
+        tributeVideo.style.display = 'block';
+        tributeVideoIframe.style.display = 'none';
+        tributeVideo.src = storedVideoUrl;
+      }
+
+      window.unmuteTributeVideo = function() {
+        const overlay = document.getElementById('videoUnmuteOverlay');
+        if (overlay) {
+          overlay.style.opacity = '0';
+          setTimeout(() => { overlay.style.display = 'none'; }, 500);
+        }
+
+        if (bgSong && !bgSong.paused) {
+          bgSong.pause();
+          document.getElementById('musicToggleBtn').textContent = '🔇';
+          userPaused = true;
+        }
+
+        if (tributeVideo) {
+          tributeVideo.muted = false;
+          tributeVideo.volume = 1.0;
+          tributeVideo.play().catch(e => console.log(e));
+        }
+
+        if (tributeVideoIframe && tributeVideoIframe.style.display !== 'none' && tributeVideoIframe.contentWindow) {
+          tributeVideoIframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'unMute' }), '*');
+          tributeVideoIframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'playVideo' }), '*');
+        }
+      };
+      let cheerCount = parseInt(localStorage.getItem('blink_cheers') || '0', 10);
+      
+      document.getElementById('cheerCountDisplay').textContent = `Cheers: ${cheerCount}`;
+
+      window.exitTheater = function() {
+        sessionStorage.setItem('anniversary_dismissed', 'true');
+        window.location.href = 'index.html';
+      };
+
+      window.toggleAudioPlayback = function(event) {
+        if (event) event.stopPropagation();
+        const toggleBtn = document.getElementById('musicToggleBtn');
+        if (bgSong.paused) {
+          bgSong.play().then(() => {
+            toggleBtn.textContent = '🔊';
+            audioContextStarted = true;
+            userPaused = false;
+          }).catch(err => {
+            console.log("Audio playback failed:", err);
+          });
+        } else {
+          bgSong.pause();
+          toggleBtn.textContent = '🔇';
+          userPaused = true;
+        }
+      };
+
+      window.openCapsule = function(member) {
+        const data = capsules[member];
+        if (!data) return;
+        
+        document.getElementById('letterSender').textContent = data.sender;
+        document.getElementById('letterText').textContent = data.text;
+        document.getElementById('letterSignature').textContent = data.signature;
+        
+        document.getElementById('envelopeModal').classList.add('active');
+      };
+
+      window.closeCapsule = function() {
+        document.getElementById('envelopeModal').classList.remove('active');
+      };
+
+      window.cheerLighstick = function() {
+        cheerCount++;
+        localStorage.setItem('blink_cheers', cheerCount);
+        document.getElementById('cheerCountDisplay').textContent = `Cheers: ${cheerCount}`;
+        
+        const btn = document.getElementById('cheerBtn');
+        btn.style.transform = 'scale(0.85)';
+        setTimeout(() => {
+          btn.style.transform = 'scale(1)';
+        }, 150);
+
+        const ripple = document.createElement('div');
+        ripple.style.position = 'fixed';
+        ripple.style.left = '0';
+        ripple.style.top = '0';
+        ripple.style.width = '100vw';
+        ripple.style.height = '100vh';
+        ripple.style.background = 'rgba(255, 111, 162, 0.08)';
+        ripple.style.pointerEvents = 'none';
+        ripple.style.zIndex = '9998';
+        ripple.style.transition = 'opacity 0.4s ease';
+        document.body.appendChild(ripple);
+        
+        setTimeout(() => {
+          ripple.style.opacity = '0';
+          setTimeout(() => {
+            document.body.removeChild(ripple);
+          }, 400);
+        }, 50);
+
+        const numLightsticks = 15;
+        for (let i = 0; i < numLightsticks; i++) {
+          const stick = document.createElement('img');
+          stick.src = 'images/lightstick_cutout.png';
+          stick.className = 'falling-lightstick';
+          
+          const width = Math.random() * 35 + 30;
+          const left = Math.random() * 100;
+          const duration = Math.random() * 2 + 2.5;
+          const delay = Math.random() * 0.8;
+          
+          stick.style.width = `${width}px`;
+          stick.style.left = `${left}vw`;
+          stick.style.animationDuration = `${duration}s`;
+          stick.style.animationDelay = `${delay}s`;
+          
+          stick.style.transform = `rotate(${Math.random() * 360}deg)`;
+          
+          document.body.appendChild(stick);
+          
+          stick.addEventListener('animationend', () => {
+            stick.remove();
+          });
+        }
+      };
+
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          if (tributeVideo && !tributeVideo.paused) {
+            tributeVideo.pause();
+          }
+          if (tributeVideoIframe && tributeVideoIframe.style.display !== 'none' && tributeVideoIframe.contentWindow) {
+            tributeVideoIframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'pauseVideo' }), '*');
+          }
+
+          if (!audioContextStarted && !userPaused) {
+            audioContextStarted = true;
+            bgSong.volume = 0;
+            bgSong.play().then(() => {
+              document.getElementById('musicToggleBtn').textContent = '🔊';
+            }).catch(err => {
+              console.log("Audio play blocked by browser.");
+            });
+            
+            let vol = 0;
+            const fadeInterval = setInterval(() => {
+              if (vol < 0.25) {
+                vol += 0.02;
+                bgSong.volume = vol;
+              } else {
+                clearInterval(fadeInterval);
+              }
+            }, 100);
+          }
+        } else {
+          if (audioContextStarted) {
+            audioContextStarted = false;
+            let vol = bgSong.volume;
+            const fadeInterval = setInterval(() => {
+              if (vol > 0.02) {
+                vol -= 0.02;
+                bgSong.volume = vol;
+              } else {
+                bgSong.pause();
+                document.getElementById('musicToggleBtn').textContent = '🔇';
+                clearInterval(fadeInterval);
+              }
+            }, 100);
+          }
+        }
+
+        const images = document.querySelectorAll('.parallax-img-scroll');
+        images.forEach((img) => {
+          const parentCard = img.closest('.luxury-timeline-card');
+          if (!parentCard) return;
+          const rect = parentCard.getBoundingClientRect();
+          const viewHeight = window.innerHeight;
+          
+          if (rect.top < viewHeight && rect.bottom > 0) {
+            const relativePos = (rect.top + rect.height / 2) / viewHeight;
+            const offset = (relativePos - 0.5) * 60;
+            img.style.transform = `translate3d(0, ${offset}px, 0)`;
+          }
+        });
+
+      });
+
+      window.addEventListener('click', () => {
+        if (window.scrollY > 300 && audioContextStarted && bgSong.paused && !userPaused) {
+          bgSong.play().then(() => {
+            document.getElementById('musicToggleBtn').textContent = '🔊';
+          }).catch(err => {});
+        }
+      });
+
+      window.downloadPremadeKeepsake = function(imgSrc, quoteText) {
+        const canvas = document.createElement('canvas');
+        canvas.width = 640;
+        canvas.height = 800;
+        const ctx = canvas.getContext('2d');
+
+        ctx.fillStyle = '#050505';
+        ctx.fillRect(0, 0, 640, 800);
+
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.src = imgSrc;
+        img.onload = function() {
+          const imgRatio = img.width / img.height;
+          
+          let drawWidth = 600;
+          let drawHeight = 600;
+          let sx = 0, sy = 0;
+          
+          if (imgRatio > 1) {
+            drawWidth = img.height * 1;
+            drawHeight = img.height;
+            sx = (img.width - drawWidth) / 2;
+          } else {
+            drawWidth = img.width;
+            drawHeight = img.width * 1;
+            sy = (img.height - drawHeight) / 2;
+          }
+          
+          ctx.drawImage(img, sx, sy, drawWidth, drawHeight, 20, 20, 600, 600);
+
+          const grad = ctx.createLinearGradient(0, 420, 0, 620);
+          grad.addColorStop(0, 'rgba(5, 5, 5, 0)');
+          grad.addColorStop(1, '#050505');
+          ctx.fillStyle = grad;
+          ctx.fillRect(20, 420, 600, 200);
+
+          ctx.strokeStyle = 'rgba(255, 111, 162, 0.4)';
+          ctx.lineWidth = 1.5;
+          ctx.strokeRect(10, 10, 620, 780);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.font = 'italic 24px Georgia, serif';
+          
+          const rawText = quoteText;
+          const words = rawText.split(' ');
+          let lines = [];
+          let currentLine = '';
+          const maxWidth = 540;
+
+          for (let n = 0; n < words.length; n++) {
+            let testLine = currentLine + words[n] + ' ';
+            let metrics = ctx.measureText(testLine);
+            if (metrics.width > maxWidth && n > 0) {
+              lines.push(currentLine.trim());
+              currentLine = words[n] + ' ';
+            } else {
+              currentLine = testLine;
+            }
+          }
+          lines.push(currentLine.trim());
+
+          let startY = 700 - ((lines.length - 1) * 15);
+          for (let i = 0; i < lines.length; i++) {
+            ctx.fillText(lines[i], 320, startY + (i * 30));
+          }
+
+          ctx.fillStyle = '#ff6fa2';
+          ctx.font = '600 14px "Courier New", monospace';
+          ctx.letterSpacing = '3px';
+          ctx.fillText('BLACKPINK 10TH ANNIVERSARY', 320, 765);
+
+          const link = document.createElement('a');
+          link.download = 'blackpink_10th_keepsake.png';
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        };
+      };
+
+      const eraGalleries = {
+        '2016-1': {
+          title: "AUGUST 2016",
+          subtitle: "SQUARE ONE DEBUT",
+          desc: "BLACKPINK officially entered the music industry with debut single album 'Square One'. Boasting double lead tracks 'Whistle' and 'Boombayah', they instantly became the fastest girl group to win first place on public broadcast music programs.",
+          images: [
+            "images/keepsake_group1.jpg", "images/keepsake_group2.jpg", "images/keepsake_group3.jpg", "images/keepsake_group4.jpg",
+            "images/keepsake_group5.jpg", "images/keepsake_group6.jpg", "images/keepsake_group7.jpg", "images/keepsake_group8.jpg",
+            "images/keepsake_group9.jpg", "images/keepsake_group10.jpg"
+          ]
+        },
+        '2016-2': {
+          title: "NOVEMBER 2016",
+          subtitle: "SQUARE TWO ERA",
+          desc: "Following their smash debut, they released 'Square Two' with 'Playing with Fire' and 'Stay'. 'Playing with Fire' became their second chart-topper on the Billboard World Digital Songs chart, consolidating their global rookie status.",
+          images: [
+            "images/keepsake_group2.jpg", "images/keepsake_group3.jpg", "images/keepsake_group4.jpg", "images/keepsake_group5.jpg",
+            "images/keepsake_group6.jpg", "images/keepsake_group7.jpg", "images/keepsake_group8.jpg", "images/keepsake_group9.jpg",
+            "images/keepsake_group10.jpg", "images/keepsake_group11.jpg"
+          ]
+        },
+        '2017': {
+          title: "JUNE 2017",
+          subtitle: "AS IF IT'S YOUR LAST",
+          desc: "A bright, summery single 'As If It's Your Last' was released. It swept global iTunes charts in over 18 regions and achieved critical acclaim as their third Billboard World Digital Songs number-one hit.",
+          images: [
+            "images/keepsake_group3.jpg", "images/keepsake_group4.jpg", "images/keepsake_group5.jpg", "images/keepsake_group6.jpg",
+            "images/keepsake_group7.jpg", "images/keepsake_group8.jpg", "images/keepsake_group9.jpg", "images/keepsake_group10.jpg",
+            "images/keepsake_group11.jpg", "images/keepsake_group12.jpg"
+          ]
+        },
+        '2018': {
+          title: "JUNE 2018",
+          subtitle: "SQUARE UP & DDU-DU DDU-DU",
+          desc: "Their first EP 'Square Up' debuted at number 40 on the Billboard 200, while lead track 'Ddu-Du Ddu-Du' broke records as the most-viewed online video in 24 hours by a Korean act, earning their first-ever RIAA gold certification.",
+          images: [
+            "images/keepsake_group4.jpg", "images/keepsake_group5.jpg", "images/keepsake_group6.jpg", "images/keepsake_group7.jpg",
+            "images/keepsake_group8.jpg", "images/keepsake_group9.jpg", "images/keepsake_group10.jpg", "images/keepsake_group11.jpg",
+            "images/keepsake_group12.jpg", "images/keepsake_group13.jpg"
+          ]
+        },
+        '2019': {
+          title: "APRIL 2019",
+          subtitle: "KILL THIS LOVE & COACHELLA",
+          desc: "Releasing 'Kill This Love', BLACKPINK embarked on their first world tour. They made historic headliner debut as the first Korean act at Coachella, creating a monumental global pop cultural moment.",
+          images: [
+            "images/keepsake_group5.jpg", "images/keepsake_group6.jpg", "images/keepsake_group7.jpg", "images/keepsake_group8.jpg",
+            "images/keepsake_group9.jpg", "images/keepsake_group10.jpg", "images/keepsake_group11.jpg", "images/keepsake_group12.jpg",
+            "images/keepsake_group13.jpg", "images/keepsake_group14.jpg"
+          ]
+        },
+        '2020': {
+          title: "OCTOBER 2020",
+          subtitle: "THE ALBUM ERA",
+          desc: "Their debut studio album, 'The Album', went on to sell over 1.2 million physical copies globally, peaking at number 2 on the US Billboard 200 and UK Official Albums Chart—a record-breaking milestone for K-pop female artists.",
+          images: [
+            "images/keepsake_group6.jpg", "images/keepsake_group7.jpg", "images/keepsake_group8.jpg", "images/keepsake_group9.jpg",
+            "images/keepsake_group10.jpg", "images/keepsake_group11.jpg", "images/keepsake_group12.jpg", "images/keepsake_group13.jpg",
+            "images/keepsake_group14.jpg", "images/keepsake_group15.jpg"
+          ]
+        },
+        '2022': {
+          title: "SEPTEMBER 2022",
+          subtitle: "BORN PINK WORLD TOUR",
+          desc: "Releasing 'Born Pink' with lead single 'Shut Down' and pre-release 'Pink Venom', they made history as the first female K-pop act to top the Billboard 200, subsequently launching the largest K-pop girl group world tour in history.",
+          images: [
+            "images/keepsake_group7.jpg", "images/keepsake_group8.jpg", "images/keepsake_group9.jpg", "images/keepsake_group10.jpg",
+            "images/keepsake_group11.jpg", "images/keepsake_group12.jpg", "images/keepsake_group13.jpg", "images/keepsake_group14.jpg",
+            "images/keepsake_group15.jpg", "images/keepsake_group16.jpg"
+          ]
+        },
+        '2023': {
+          title: "AUGUST 2023",
+          subtitle: "THE GIRLS & METAVERSE",
+          desc: "Co-writing 'The Girls' for their mobile game soundtrack, they captured the MTV VMA for Best Metaverse Performance and concluded their epic Born Pink World Tour in Seoul, performing for 1.8 million fans globally.",
+          images: [
+            "images/keepsake_group8.jpg", "images/keepsake_group9.jpg", "images/keepsake_group10.jpg", "images/keepsake_group11.jpg",
+            "images/keepsake_group12.jpg", "images/keepsake_group13.jpg", "images/keepsake_group14.jpg", "images/keepsake_group15.jpg",
+            "images/keepsake_group16.jpg", "images/member_jisoo.jpg"
+          ]
+        },
+        '2025': {
+          title: "JULY 2025",
+          subtitle: "THE RETURN: JUMP",
+          desc: "Coming together after highly successful solo journeys, they released the pre-release single 'JUMP', conquering global streaming charts and securing their status as the world's leading group.",
+          images: [
+            "images/keepsake_group9.jpg", "images/keepsake_group10.jpg", "images/keepsake_group11.jpg", "images/keepsake_group12.jpg",
+            "images/keepsake_group13.jpg", "images/keepsake_group14.jpg", "images/keepsake_group15.jpg", "images/keepsake_group16.jpg",
+            "images/member_jennie.jpg", "images/member_rose.jpg"
+          ]
+        },
+        '2026': {
+          title: "FEBRUARY 2026",
+          subtitle: "DEADLINE & 100M BLINKS",
+          desc: "Releasing the chart-topping masterpiece 'Deadline', they became the first music act in YouTube history to hit 100 million subscribers, ushering in their decade celebration as global icons.",
+          images: [
+            "images/keepsake_group10.jpg", "images/keepsake_group11.jpg", "images/keepsake_group12.jpg", "images/keepsake_group13.jpg",
+            "images/keepsake_group14.jpg", "images/keepsake_group15.jpg", "images/keepsake_group16.jpg", "images/member_lisa.jpg",
+            "images/member_jisoo.jpg", "images/member_jennie.jpg"
+          ]
+        }
+      };
+
+      let currentEraId = '';
+      let currentSlideIdx = 0;
+
+      window.openEraGallery = function(eraId) {
+        const data = eraGalleries[eraId];
+        if (!data) return;
+
+        currentEraId = eraId;
+        currentSlideIdx = 0;
+
+        document.getElementById('eraGalleryTitle').textContent = data.title;
+        document.getElementById('eraGallerySub').textContent = data.subtitle;
+        document.getElementById('eraGalleryDesc').innerHTML = data.desc;
+
+        updateEraSlide();
+        document.getElementById('eraGalleryModal').classList.add('active');
+      };
+
+      window.closeEraGallery = function(event) {
+        if (event) event.stopPropagation();
+        document.getElementById('eraGalleryModal').classList.remove('active');
+      };
+
+      window.prevEraSlide = function() {
+        const data = eraGalleries[currentEraId];
+        if (!data) return;
+        currentSlideIdx = (currentSlideIdx - 1 + data.images.length) % data.images.length;
+        updateEraSlide();
+      };
+
+      window.nextEraSlide = function() {
+        const data = eraGalleries[currentEraId];
+        if (!data) return;
+        currentSlideIdx = (currentSlideIdx + 1) % data.images.length;
+        updateEraSlide();
+      };
+
+      function updateEraSlide() {
+        const data = eraGalleries[currentEraId];
+        const imgEl = document.getElementById('eraGalleryImg');
+        const dotsContainer = document.getElementById('eraDotsContainer');
+        
+        imgEl.style.opacity = '0';
+        setTimeout(() => {
+          imgEl.src = data.images[currentSlideIdx];
+          imgEl.style.opacity = '1';
+        }, 150);
+
+        dotsContainer.innerHTML = '';
+        data.images.forEach((img, idx) => {
+          const dot = document.createElement('div');
+          dot.style.width = '8px';
+          dot.style.height = '8px';
+          dot.style.borderRadius = '50%';
+          dot.style.background = idx === currentSlideIdx ? '#ff6fa2' : 'rgba(255, 255, 255, 0.3)';
+          dot.style.cursor = 'pointer';
+          dot.style.transition = 'background 0.3s';
+          dot.onclick = () => {
+            currentSlideIdx = idx;
+            updateEraSlide();
+          };
+          dotsContainer.appendChild(dot);
+        });
+      }
+    } else {
+      document.getElementById('actualTheaterContent').style.display = 'none';
+      document.getElementById('restrictedTeaserContent').style.display = 'flex';
+
+      window.onAnniversaryConfigLoaded = function() {
+        const latestEnabled = localStorage.getItem('crave_anniversary_enabled');
+        const latestFinished = (targetDate - new Date().getTime()) <= 0;
+        if (latestEnabled === 'true' || latestEnabled === true || latestFinished) {
+          window.location.reload();
+        }
+      };
+      
+      function updateTeaserClock() {
+        const tNow = new Date().getTime();
+        const tDiff = targetDate - tNow;
+        if (tDiff <= 0) {
+          window.location.reload();
+          return;
+        }
+        const days = Math.floor(tDiff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((tDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((tDiff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((tDiff % (1000 * 60)) / 1000);
+
+        document.getElementById('teaserDays').textContent = String(days).padStart(2, '0');
+        document.getElementById('teaserHours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('teaserMins').textContent = String(minutes).padStart(2, '0');
+        document.getElementById('teaserSecs').textContent = String(seconds).padStart(2, '0');
+      }
+      updateTeaserClock();
+      setInterval(updateTeaserClock, 1000);
+    }
+  
+
+</script>
+</body>
+</html>
