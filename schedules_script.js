@@ -2,54 +2,54 @@ const now = new Date();
 
 let demoEvents = [
   {
-    id: 1,
-    title: "LISA 'Rockstar' Special Stage - Goyang Dome",
-    desc: "Lisa performs her record-breaking solo single Rockstar live at Goyang Stadium. Experience the high-energy choreo live stream.",
-    member: "lisa",
-    category: "perf",
-    startISO: new Date(now.getTime() - 10 * 60 * 1000).toISOString(),
-    endISO: new Date(now.getTime() + 50 * 60 * 1000).toISOString(),
-    streamUrl: "https://youtube.com/blackpinkofficial"
-  },
-  {
-    id: 2,
-    title: "ROSÉ Solos Comeback Interview - SBS Inkigayo",
-    desc: "Exclusive live comeback stage interview following Rosé's record-shattering chart performance.",
-    member: "rose",
-    category: "perf",
-    startISO: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 15, 0, 0).toISOString(),
-    endISO: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 16, 0, 0).toISOString(),
-    streamUrl: "https://youtube.com/sbsinkigayo"
-  },
-  {
-    id: 3,
-    title: "JENNIE Brand Ambassador Showcase - Chanel Paris",
-    desc: "Jennie represents Chanel's upcoming Winter Line in Paris. Live stream coverage of the carpet event.",
+    id: 1784379645569,
+    title: "JENNIE - Lollapalooza Chicago Festival Performance",
+    desc: "Music Festival schedule for JENNIE. Details: JENNIE - Lollapalooza Chicago Festival Performance.",
     member: "jennie",
     category: "brand",
-    startISO: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 18, 0, 0).toISOString(),
-    endISO: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 20, 0, 0).toISOString(),
-    streamUrl: "https://chanel.com"
+    startISO: "2026-08-01T12:00:00.000Z",
+    endISO: "2026-08-01T14:00:00.000Z",
+    streamUrl: "https://www.lollapalooza.com/"
   },
   {
-    id: 4,
-    title: "JISOO Birthday Commemorative Fan Meeting",
-    desc: "Jisoo meets BLINKs online for a birthday countdown celebration. Live Q&A and wishes wall reveal.",
-    member: "jisoo",
-    category: "bday",
-    startISO: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 2, 22, 0, 0).toISOString(),
-    endISO: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 2, 23, 30, 0).toISOString(),
-    streamUrl: "https://weverse.io/blackpink"
+    id: 1784379704784,
+    title: "LISA - \"Always LALISA\" Official Documentary Release",
+    desc: "Movie schedule for LISA. Details: LISA - \"Always LALISA\" Official Documentary Release.",
+    member: "lisa",
+    category: "rel",
+    startISO: "2027-08-01T12:00:00.000Z",
+    endISO: "2027-08-01T14:00:00.000Z",
+    streamUrl: "https://www.tiff.net/films/always-lalisa"
   },
   {
-    id: 5,
-    title: "BLACKPINK 'Deadline' Stadium Tour Finale",
-    desc: "The monumental 3rd mini-album tour concludes live in Seoul. Multi-cam streams available for global members.",
-    member: "group",
+    id: 1784379779270,
+    title: "JENNIE - Summer Sonic Tokyo",
+    desc: "Music Festival schedule for JENNIE. Details: JENNIE - Summer Sonic Tokyo.",
+    member: "jennie",
+    category: "brand",
+    startISO: "2026-08-14T12:00:00.000Z",
+    endISO: "2026-08-14T14:00:00.000Z",
+    streamUrl: "#"
+  },
+  {
+    id: 1784379859558,
+    title: "LISA - \"Viva La Lisa\" Las Vegas Residency (Opening Weekend)",
+    desc: "Concert Residency schedule for LISA. Details: LISA - \"Viva La Lisa\" Las Vegas Residency (Opening Weekend).",
+    member: "lisa",
     category: "perf",
-    startISO: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 3, 19, 0, 0).toISOString(),
-    endISO: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 3, 22, 0, 0).toISOString(),
-    streamUrl: "https://concerts.weverse.io/blackpink"
+    startISO: "2026-11-13T12:00:00.000Z",
+    endISO: "2026-11-13T14:00:00.000Z",
+    streamUrl: "#"
+  },
+  {
+    id: 1784474179408,
+    title: "JENNIE - Less than a Lover",
+    desc: "Music schedule for JENNIE. Details: JENNIE - Less than a Lover.",
+    member: "jennie",
+    category: "rel",
+    startISO: "2026-07-24T12:00:00.000Z",
+    endISO: "2026-07-24T14:00:00.000Z",
+    streamUrl: "https://x.com/jennierubyjane/status/2079221159078343137?s=20"
   }
 ];
 
