@@ -5070,3 +5070,40 @@ body.schedules-page {
   --accent: #ff701a;
   --accent-glow: rgba(255, 112, 26, 0.3);
 }
+
+[data-theme="light"] .day-cell {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  color: #111111;
+}
+[data-theme="light"] .day-cell:hover {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+}
+[data-theme="light"] .day-cell.today {
+  border-color: #111111;
+}
+[data-theme="light"] .day-cell.selected {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+}
+[data-theme="light"] .event-card {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  color: #111111;
+}
+[data-theme="light"] .event-card:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+[data-theme="light"] .event-card.live-active {
+  border-color: var(--accent);
+}
+[data-theme="light"] .nav-btn {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  color: #111111;
+}
+[data-theme="light"] .nav-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
