@@ -39,7 +39,36 @@
       main.login-wrapper {
         margin-top: 85px !important;
         padding: 20px 15px !important;
+        min-height: calc(100vh - 85px) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
       }
+      .login-card {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 30px 20px !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+      }
+      .g_id_signin {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+      }
+      .btn-submit {
+        font-size: 12px !important;
+        padding: 13px 10px !important;
+      }
+    }
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 25px 16px !important;
+      }
+    }
+    @keyframes modalSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
@@ -123,6 +152,28 @@
         </button>
       </div>
     </div>
+
+    <div id="twitterModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(8, 8, 8, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 10000; align-items: center; justify-content: center; padding: 16px; box-sizing: border-box;">
+      <div class="login-card" style="max-width: 360px; padding: 36px 24px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.6); box-sizing: border-box; width: 100%; border: 1px solid var(--border-color); background: #111;">
+        <button onclick="closeTwitterModal()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: #a1a1aa; font-size: 24px; cursor: pointer; transition: color 0.2s; line-height: 1;">&times;</button>
+        
+        <div id="modalConsentStep">
+          <div style="width: 52px; height: 52px; border-radius: 50%; background-color: #1a1a1a; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto 18px auto;">
+            <svg style="width: 20px; height: 20px;" viewBox="0 0 24 24"><path fill="#f06292" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </div>
+          <h2 style="font-size: 17px; margin: 0 0 8px 0; font-weight: 600; color: #fff; text-align: center; font-family: var(--font-sans);">Sign in with X (Twitter)</h2>
+          <p style="font-size: 12px; color: #a1a1aa; margin: 0 0 22px 0; line-height: 1.6; text-align: center;"><strong>BLACKPINK CRAVE</strong> would like to access your public profile.</p>
+          <input type="text" id="modalUserInput" placeholder="@yourtwitterhandle" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 13px 14px; color: #fff; font-size: 14px; outline: none; margin-bottom: 16px; width: 100%; box-sizing: border-box; transition: border-color 0.2s;">
+          <button class="btn-submit" onclick="submitTwitterModal()" style="background: linear-gradient(135deg, #ff6f3c, #e05a2b); color: #fff; border: none; padding: 13px 24px; font-size: 11px; font-weight: 700; border-radius: 8px; cursor: pointer; text-transform: uppercase; letter-spacing: 1.5px; width: 100%;">Authorize & Continue</button>
+        </div>
+
+        <div id="modalLoadingStep" style="display: none; text-align: center; padding: 20px 0;">
+          <div style="border: 2px solid rgba(255,255,255,0.1); border-top: 2px solid #ff6f3c; border-radius: 50%; width: 32px; height: 32px; animation: modalSpin 0.8s linear infinite; margin: 0 auto 20px auto;"></div>
+          <h2 style="font-size: 16px; font-weight: 600; color: #fff; font-family: var(--font-sans);">Connecting...</h2>
+          <p style="font-size: 12px; color: #a1a1aa;">Verifying your credentials securely.</p>
+        </div>
+      </div>
+    </div>
   </main>
 
   <footer>
@@ -181,134 +232,31 @@
     });
 
     function handleOAuth(provider) {
-      const width = 500;
-      const height = 600;
-      const left = (window.screen.width - width) / 2;
-      const top = (window.screen.height - height) / 2;
-      
-      const popup = window.open("", "OAuth Consent", `width=${width},height=${height},left=${left},top=${top}`);
-      
-      if (!popup) {
-        alert("Please enable popups for this site to log in.");
+      if (provider === 'X (Twitter)') {
+        document.getElementById('twitterModal').style.display = 'flex';
+        document.getElementById('modalConsentStep').style.display = 'block';
+        document.getElementById('modalLoadingStep').style.display = 'none';
+        document.getElementById('modalUserInput').value = '';
+        document.getElementById('modalUserInput').focus();
+      }
+    }
+    function closeTwitterModal() {
+      document.getElementById('twitterModal').style.display = 'none';
+    }
+    function submitTwitterModal() {
+      const val = document.getElementById('modalUserInput').value.trim();
+      if (!val) {
+        alert('Please enter your account details.');
         return;
       }
-      
-      popup.document.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <title>Sign in - ${provider}</title>
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <style>
-            body {
-              background-color: #080808;
-              color: #f5f5f7;
-              font-family: 'Inter', -apple-system, sans-serif;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              justify-content: center;
-              height: 100vh;
-              margin: 0;
-              text-align: center;
-              padding: 20px;
-            }
-            .card {
-              background-color: #111;
-              border: 1px solid rgba(255,255,255,0.08);
-              border-radius: 12px;
-              padding: 40px 30px;
-              width: 100%;
-              max-width: 360px;
-              box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-              box-sizing: border-box;
-            }
-            .logo {
-              width: 50px;
-              height: 50px;
-              border-radius: 50%;
-              border: 1px solid rgba(255,255,255,0.1);
-              margin-bottom: 20px;
-              display: inline-block;
-            }
-            h2 {
-              font-size: 18px;
-              margin: 0 0 8px 0;
-              font-weight: 500;
-            }
-            p {
-              font-size: 12px;
-              color: #a1a1aa;
-              margin: 0 0 20px 0;
-              line-height: 1.5;
-            }
-            .btn {
-              background-color: #ff6f3c;
-              color: #fff;
-              border: none;
-              padding: 12px 24px;
-              font-size: 11px;
-              font-weight: 600;
-              border-radius: 6px;
-              cursor: pointer;
-              text-transform: uppercase;
-              letter-spacing: 1px;
-              width: 100%;
-              transition: opacity 0.2s;
-            }
-            .btn:hover {
-              opacity: 0.9;
-            }
-            .spinner {
-              border: 2px solid rgba(255,255,255,0.1);
-              border-top: 2px solid #ff6f3c;
-              border-radius: 50%;
-              width: 30px;
-              height: 30px;
-              animation: spin 0.8s linear infinite;
-              margin: 0 auto 20px auto;
-            }
-            @keyframes spin {
-              0% { transform: rotate(0deg); }
-              100% { transform: rotate(360deg); }
-            }
-          </style>
-        </head>
-        <body>
-          <div class="card" id="consentCard">
-            <div class="logo" style="background-color: #222; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto;">
-              <span style="font-size: 18px; font-weight: bold; color: #ff6f3c;">${provider[0]}</span>
-            </div>
-            <h2>Sign in with ${provider}</h2>
-            <p><strong>BLACKPINK CRAVE</strong> requests authorization to view your profile.</p>
-            <input type="text" id="userInput" placeholder="${provider === 'Google' ? 'Enter Google Email' : 'Enter X (Twitter) Username'}" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 12px; color: #fff; font-size: 13px; outline: none; margin-bottom: 20px; width: 100%; box-sizing: border-box; text-align: center;">
-            <button class="btn" onclick="approve()">Approve & Continue</button>
-          </div>
-          <div class="card" id="loaderCard" style="display: none;">
-            <div class="spinner"></div>
-            <h2>Connecting...</h2>
-            <p>Exchanging secure tokens with ${provider} auth server.</p>
-          </div>
-
-          <script>
-            function approve() {
-              const val = document.getElementById('userInput').value.trim();
-              if (!val) {
-                alert('Please enter your account details.');
-                return;
-              }
-              const username = val.includes('@') ? val.split('@')[0] : val;
-              document.getElementById('consentCard').style.display = 'none';
-              document.getElementById('loaderCard').style.display = 'block';
-              setTimeout(() => {
-                window.opener.postMessage({ type: 'OAUTH_SUCCESS', provider: '${provider}', username: username }, '*');
-                window.close();
-              }, 1500);
-            }
-          <\/script>
-        </body>
-        </html>
-      `);
+      const username = val.includes('@') ? val.split('@')[0] : val;
+      document.getElementById('modalConsentStep').style.display = 'none';
+      document.getElementById('modalLoadingStep').style.display = 'block';
+      setTimeout(() => {
+        localStorage.setItem('crave_premium_logged_in', 'true');
+        localStorage.setItem('crave_premium_user_name', username);
+        window.location.href = 'premium.html';
+      }, 1500);
     }
     function handleEmailLogin() {
       const user = document.getElementById('emailInput').value.trim();
