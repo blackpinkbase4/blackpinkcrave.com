@@ -514,134 +514,74 @@ function handlePremiumSubmit() {
 }
 
 function handleOAuth(provider) {
-  const width = 500;
-  const height = 600;
-  const left = (window.screen.width - width) / 2;
-  const top = (window.screen.height - height) / 2;
-  
-  const popup = window.open("", "OAuth Consent", `width=${width},height=${height},left=${left},top=${top}`);
-  
-  if (!popup) {
-    alert("Please enable popups for this site to log in.");
-    return;
-  }
-  
-  popup.document.write(`
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <title>Sign in - ${provider}</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <style>
-        body {
-          background-color: #080808;
-          color: #f5f5f7;
-          font-family: 'Inter', -apple-system, sans-serif;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          height: 100vh;
-          margin: 0;
-          text-align: center;
-          padding: 20px;
-        }
-        .card {
-          background-color: #111;
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 12px;
-          padding: 40px 30px;
-          width: 100%;
-          max-width: 360px;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-          box-sizing: border-box;
-        }
-        .logo {
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          border: 1px solid rgba(255,255,255,0.1);
-          margin-bottom: 20px;
-          display: inline-block;
-        }
-        h2 {
-          font-size: 18px;
-          margin: 0 0 8px 0;
-          font-weight: 500;
-        }
-        p {
-          font-size: 12px;
-          color: #a1a1aa;
-          margin: 0 0 20px 0;
-          line-height: 1.5;
-        }
-        .btn {
-          background-color: #ff6f3c;
-          color: #fff;
-          border: none;
-          padding: 12px 24px;
-          font-size: 11px;
-          font-weight: 600;
-          border-radius: 6px;
-          cursor: pointer;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          width: 100%;
-          transition: opacity 0.2s;
-        }
-        .btn:hover {
-          opacity: 0.9;
-        }
-        .spinner {
-          border: 2px solid rgba(255,255,255,0.1);
-          border-top: 2px solid #ff6f3c;
-          border-radius: 50%;
-          width: 30px;
-          height: 30px;
-          animation: spin 0.8s linear infinite;
-          margin: 0 auto 20px auto;
-        }
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-      </style>
-    </head>
-    <body>
-      <div class="card" id="consentCard">
-        <div class="logo" style="background-color: #222; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto;">
-          <span style="font-size: 18px; font-weight: bold; color: #ff6f3c;">${provider[0]}</span>
-        </div>
-        <h2>Sign in with ${provider}</h2>
-        <p><strong>BLACKPINK CRAVE</strong> requests authorization to view your profile.</p>
-        <input type="text" id="userInput" placeholder="${provider === 'Google' ? 'Enter Google Email' : 'Enter X (Twitter) Username'}" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 12px; color: #fff; font-size: 13px; outline: none; margin-bottom: 20px; width: 100%; box-sizing: border-box; text-align: center;">
-        <button class="btn" onclick="approve()">Approve & Continue</button>
-      </div>
-      <div class="card" id="loaderCard" style="display: none;">
-        <div class="spinner"></div>
-        <h2>Connecting...</h2>
-        <p>Exchanging secure tokens with ${provider} auth server.</p>
-      </div>
+  if (provider === 'Twitter' || provider === 'X (Twitter)') {
+    let modal = document.getElementById('twitterInlineModal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'twitterInlineModal';
+      modal.style.cssText = 'display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(8, 8, 8, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 100000; align-items: center; justify-content: center; padding: 16px; box-sizing: border-box;';
+      modal.innerHTML = `
+        <div style="background: #111; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 36px 24px; max-width: 360px; width: 100%; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.6); box-sizing: border-box; text-align: center; color: #f5f5f7; font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;">
+          <button id="closeTwitterInlineBtn" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: #a1a1aa; font-size: 24px; cursor: pointer; transition: color 0.2s; line-height: 1;">&times;</button>
+          
+          <div id="inlineModalConsentStep">
+            <div style="width: 52px; height: 52px; border-radius: 50%; background-color: #1a1a1a; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto 18px auto;">
+              <svg style="width: 20px; height: 20px;" viewBox="0 0 24 24"><path fill="#f06292" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </div>
+            <h2 style="font-size: 17px; margin: 0 0 8px 0; font-weight: 600; color: #fff; line-height: 1.2;">Sign in with X (Twitter)</h2>
+            <p style="font-size: 12px; color: #a1a1aa; margin: 0 0 22px 0; line-height: 1.6;"><strong>BLACKPINK CRAVE</strong> would like to access your public profile.</p>
+            <input type="text" id="inlineModalUserInput" placeholder="@yourtwitterhandle" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 13px 14px; color: #fff; font-size: 14px; outline: none; margin-bottom: 16px; width: 100%; box-sizing: border-box; text-align: left; transition: border-color 0.2s; border-color: rgba(255,255,255,0.12);">
+            <button id="submitTwitterInlineBtn" style="background: linear-gradient(135deg, #ff6f3c, #e05a2b); color: #fff; border: none; padding: 13px 24px; font-size: 11px; font-weight: 700; border-radius: 8px; cursor: pointer; text-transform: uppercase; letter-spacing: 1.5px; width: 100%; transition: opacity 0.2s;">Authorize & Continue</button>
+          </div>
 
-      <script>
-        function approve() {
-          const val = document.getElementById('userInput').value.trim();
-          if (!val) {
-            alert('Please enter your account details.');
-            return;
+          <div id="inlineModalLoadingStep" style="display: none; padding: 20px 0;">
+            <div style="border: 2px solid rgba(255,255,255,0.1); border-top: 2px solid #ff6f3c; border-radius: 50%; width: 32px; height: 32px; animation: inlineModalSpin 0.8s linear infinite; margin: 0 auto 20px auto;"></div>
+            <h2 style="font-size: 16px; font-weight: 600; color: #fff;">Connecting...</h2>
+            <p style="font-size: 12px; color: #a1a1aa;">Verifying your credentials securely.</p>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modal);
+
+      if (!document.getElementById('twitterModalSpinStyle')) {
+        const style = document.createElement('style');
+        style.id = 'twitterModalSpinStyle';
+        style.textContent = `
+          @keyframes inlineModalSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
           }
-          const username = val.includes('@') ? val.split('@')[0] : val;
-          document.getElementById('consentCard').style.display = 'none';
-          document.getElementById('loaderCard').style.display = 'block';
-          setTimeout(() => {
-            window.opener.postMessage({ type: 'OAUTH_SUCCESS', provider: '${provider}', username: username }, '*');
-            window.close();
-          }, 1500);
+        `;
+        document.head.appendChild(style);
+      }
+
+      document.getElementById('closeTwitterInlineBtn').addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+
+      document.getElementById('submitTwitterInlineBtn').addEventListener('click', () => {
+        const val = document.getElementById('inlineModalUserInput').value.trim();
+        if (!val) {
+          alert('Please enter your account details.');
+          return;
         }
-      <\/script>
-    </body>
-    </html>
-  `);
+        const username = val.includes('@') ? val.split('@')[0] : val;
+        document.getElementById('inlineModalConsentStep').style.display = 'none';
+        document.getElementById('inlineModalLoadingStep').style.display = 'block';
+        setTimeout(() => {
+          localStorage.setItem('crave_premium_logged_in', 'true');
+          localStorage.setItem('crave_premium_user_name', username);
+          window.location.href = 'premium.html';
+        }, 1500);
+      });
+    }
+
+    modal.style.display = 'flex';
+    document.getElementById('inlineModalConsentStep').style.display = 'block';
+    document.getElementById('inlineModalLoadingStep').style.display = 'none';
+    document.getElementById('inlineModalUserInput').value = '';
+    document.getElementById('inlineModalUserInput').focus();
+  }
 }
 
 window.addEventListener('message', (event) => {
