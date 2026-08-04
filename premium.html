@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Hub - BLACKPINK CRAVE</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=24">
+
+  <script>
+
+    if (localStorage.getItem('crave_premium_logged_in') !== 'true') {
+      window.location.href = 'premium_login.html';
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #050505 !important;
+      color: #f5f5f7 !important;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+
+    .bg-video-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      overflow: hidden;
+    }
+
+    .bg-video-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .bg-gradient-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: radial-gradient(circle at center, transparent 10%, #050505 98%),
+                  linear-gradient(to bottom, rgba(5,5,5,0.7) 0%, rgba(5,5,5,0.2) 50%, #050505 100%);
+    }
+
+
+    .premium-nav-link {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      transition: all 0.3s;
+      position: relative;
+      padding: 8px 0;
+    }
+    .premium-nav-link:hover {
+      color: #ff6f3c;
+    }
+    .premium-nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: #ff6f3c;
+      transition: width 0.3s;
+    }
+    .premium-nav-link:hover::after {
+      width: 100%;
+    }
+
+    .premium-nav-signout-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 10px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .premium-nav-signout-btn:hover {
+      background: rgba(244, 67, 54, 0.15);
+      border-color: rgba(244, 67, 54, 0.3);
+      color: #f44336;
+    }
+
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .lens-circle {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.75);
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s, box-shadow 0.4s;
+      animation: float 6s ease-in-out infinite;
+    }
+
+
+    .lens-card:nth-child(1) .lens-circle { animation-delay: 0s; }
+    .lens-card:nth-child(2) .lens-circle { animation-delay: 1.2s; }
+    .lens-card:nth-child(3) .lens-circle { animation-delay: 2.4s; }
+    .lens-card:nth-child(4) .lens-circle { animation-delay: 0.6s; }
+    .lens-card:nth-child(5) .lens-circle { animation-delay: 1.8s; }
+
+
+    .lens-card:hover .lens-circle {
+      animation-play-state: paused;
+      transform: scale(1.08) translateY(-8px);
+      border-color: #f06292 !important;
+      box-shadow: 0 25px 50px rgba(240, 98, 146, 0.35) !important;
+    }
+
+    .lens-card:hover .lens-name {
+      color: #f06292 !important;
+      text-shadow: 0 0 10px rgba(240, 98, 146, 0.4);
+    }
+
+    .lens-card:hover .lens-action-hint {
+      color: #fff !important;
+      opacity: 1 !important;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    }
+
+    .lens-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+
+    .lens-card:hover img {
+      transform: scale(1.04);
+    }
+
+    .premium-menu-toggle-btn {
+      display: none !important;
+      background: none;
+      border: none;
+      cursor: pointer;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 5px;
+      padding: 4px;
+      z-index: 101;
+      width: 32px;
+      height: 32px;
+      box-sizing: border-box;
+    }
+    .premium-menu-toggle-btn span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background-color: #ffffff !important;
+      border-radius: 1px;
+      transition: all 0.3s;
+    }
+    .premium-menu-toggle-btn span:nth-child(2) {
+      width: 14px;
+    }
+    .premium-menu-toggle-btn:hover span:nth-child(2) {
+      width: 22px;
+    }
+    #mobileMenuCloseBtn:hover {
+      transform: rotate(90deg);
+      color: #fff !important;
+    }
+    .mobile-menu-overlay ul li a {
+      transition: all 0.3s !important;
+    }
+    .mobile-menu-overlay ul li a:hover {
+      color: #ff6f3c !important;
+      padding-left: 6px;
+    }
+    .mobile-menu-signout-btn {
+      width: 100%;
+      background: none;
+      border: 1px solid rgba(255, 111, 60, 0.25) !important;
+      color: #ff6f3c !important;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .mobile-menu-signout-btn:hover {
+      background: rgba(255, 111, 60, 0.08) !important;
+      border-color: #ff6f3c !important;
+    }
+    .premium-menu-toggle-btn span:nth-child(2) {
+      width: 14px;
+    }
+    .premium-menu-toggle-btn:hover span:nth-child(2) {
+      width: 22px;
+    }
+    #mobileMenuCloseBtn:hover {
+      transform: rotate(90deg);
+      color: #fff !important;
+    }
+    .mobile-menu-overlay ul li a {
+      transition: all 0.3s !important;
+    }
+    .mobile-menu-overlay ul li a:hover {
+      color: #ff6f3c !important;
+      padding-left: 6px;
+    }
+    .mobile-menu-signout-btn {
+      width: 100%;
+      background: none;
+      border: 1px solid rgba(255, 111, 60, 0.25) !important;
+      color: #ff6f3c !important;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .mobile-menu-signout-btn:hover {
+      background: rgba(255, 111, 60, 0.08) !important;
+      border-color: #ff6f3c !important;
+    }
+
+
+
+
+    @media (max-width: 1150px) {
+      .desktop-only {
+        display: none !important;
+      }
+      #userProfile span {
+        display: none !important;
+      }
+
+      body {
+        overflow-y: auto !important;
+      }
+      .premium-header-nav {
+        padding: 12px 20px !important;
+      }
+      .nav-links-container {
+        display: none !important;
+      }
+      .premium-menu-toggle-btn {
+        display: flex !important;
+      }
+      main {
+        padding: 75px 15px 40px 15px !important;
+      }
+      .premium-lens-container {
+        gap: 30px !important;
+        margin: 10px auto !important;
+      }
+      .lens-circle {
+        width: 140px !important;
+        height: 140px !important;
+      }
+      .lens-name {
+        margin-top: 12px !important;
+        font-size: 11px !important;
+        letter-spacing: 2px !important;
+      }
+
+      .brand-text {
+        font-size: 11px !important;
+        letter-spacing: 1px !important;
+      }
+      .premium-badge {
+        font-size: 8px !important;
+        padding: 1px 4px !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #userProfile span {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+
+  <nav class="premium-header-nav" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 100; background: rgba(15,15,15,0.45); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 15px 40px; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s;">
+    <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+      <img src="images/logo.jpg" alt="Logo" style="width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1);">
+      <span class="brand-text" style="font-family: 'Cinzel', serif; font-size: 13px; font-weight: bold; letter-spacing: 1.5px; color: #fff; text-transform: uppercase; white-space: nowrap; display: flex; align-items: center;">
+        BLACKPINK CRAVE
+        <span class="premium-badge" style="color: #ff6f3c; font-size: 8.5px; font-weight: bold; font-family: 'Inter', sans-serif; letter-spacing: 0.5px; margin-left: 6px; border: 1px solid rgba(255, 111, 60, 0.35); padding: 2px 5px; border-radius: 3px; background: rgba(255, 111, 60, 0.05); display: inline-block;">PREMIUM</span>
+      </span>
+    </div>
+
+    <div class="nav-links-container" style="display: flex; gap: 30px; align-items: center;">
+      <a href="premium_goals.html" class="premium-nav-link">Streaming Goals</a>
+      <a href="premium_schedules.html" class="premium-nav-link">Schedules</a>
+      <a href="premium_votings.html" class="premium-nav-link">Votings</a>
+      <a href="premium_playlists.html" class="premium-nav-link">Streams</a>
+      <a href="premium_stats.html" class="premium-nav-link">Charts</a>
+      <a href="premium_videos.html" class="premium-nav-link">MVs</a>
+      <a href="premium_quiz.html" class="premium-nav-link">Quiz</a>
+      <a href="premium_about.html" class="premium-nav-link">About</a>
+    </div>
+
+
+    <div style="display: flex; align-items: center; gap: 15px;">
+
+      <div id="userProfile" style="display: flex; align-items: center; gap: 8px;">
+
+      </div>
+
+
+      <button onclick="handleLogout()" class="premium-nav-signout-btn desktop-only">Sign Out</button>
+
+
+      <button class="premium-menu-toggle-btn mobile-only" id="menuToggleBtn" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+
+  <div class="mobile-menu-backdrop" id="mobileMenuBackdrop" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.4s;"></div>
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay" style="position: fixed; top: 0; right: -280px; width: 280px; height: 100%; background: rgba(10, 10, 10, 0.75); border-left: 1px solid rgba(255, 111, 60, 0.15); z-index: 1001; padding: 40px 30px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);; overflow-y: auto;">
+    <div style="width: 100%;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; width: 100%;">
+        <span style="font-family: 'Cinzel', serif; font-size: 13px; font-weight: bold; letter-spacing: 1px; color: #fff;">PREMIUM MENU</span>
+        <button id="mobileMenuCloseBtn" style="background: none; border: none; color: #ff6f3c; font-size: 26px; cursor: pointer; line-height: 1; transition: transform 0.3s; transform-origin: center;">&times;</button>
+      </div>
+      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 20px;">
+        <li><a href="premium_goals.html" style="color: #d4d4d8; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; display: block;">Streaming Goals</a></li>
+        <li><a href="premium_schedules.html" style="color: #d4d4d8; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; display: block;">Schedules</a></li>
+        <li><a href="premium_votings.html" style="color: #d4d4d8; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; display: block;">Votings</a></li>
+        <li><a href="premium_playlists.html" style="color: #d4d4d8; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; display: block;">Streams</a></li>
+        <li><a href="premium_stats.html" style="color: #d4d4d8; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; display: block;">Charts</a></li>
+        <li><a href="premium_videos.html" style="color: #d4d4d8; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; display: block;">MVs</a></li>
+        <li><a href="premium_quiz.html" style="color: #d4d4d8; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; display: block;">Quiz</a></li>
+        <li><a href="premium_about.html" style="color: #d4d4d8; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; display: block;">About</a></li>
+      </ul>
+    </div>
+
+    <div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 20px;">
+      <div id="mobileUserProfile" style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+
+      </div>
+      <button onclick="handleLogout()" class="mobile-menu-signout-btn">Sign Out</button>
+    </div>
+  </div>
+
+
+  <div class="bg-video-container">
+    <video autoplay muted playsinline id="premiumBgVideo">
+      <source src="images/premium_bg.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="bg-gradient-overlay"></div>
+
+
+  <main style="flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 90px 25px 40px 25px; z-index: 10;">
+    <div class="premium-lens-container" style="display: flex; gap: 70px; justify-content: center; flex-wrap: wrap; max-width: 100%; width: 100%;">
+
+
+      <a href="premium_blackpink.html" class="lens-card" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);">
+        <div class="lens-circle">
+          <img src="images/disco_group.jpg" alt="BLACKPINK">
+        </div>
+        <span class="lens-name" style="margin-top: 20px; font-family: var(--font-brand); font-size: 14px; font-weight: bold; letter-spacing: 3px; color: #a1a1aa; text-transform: uppercase; transition: color 0.3s;">BLACKPINK</span>
+        <span class="lens-action-hint" style="margin-top: 6px; font-size: 9.5px; font-weight: 700; letter-spacing: 1.5px; color: #ff6f3c; text-transform: uppercase; opacity: 0.7; transition: all 0.3s;">Enter Profile</span>
+      </a>
+
+
+      <a href="premium_jisoo.html" class="lens-card" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);">
+        <div class="lens-circle">
+          <img src="images/disco_jisoo.jpg" alt="JISOO">
+        </div>
+        <span class="lens-name" style="margin-top: 20px; font-family: var(--font-brand); font-size: 14px; font-weight: bold; letter-spacing: 3px; color: #a1a1aa; text-transform: uppercase; transition: color 0.3s;">JISOO</span>
+        <span class="lens-action-hint" style="margin-top: 6px; font-size: 9.5px; font-weight: 700; letter-spacing: 1.5px; color: #ff6f3c; text-transform: uppercase; opacity: 0.7; transition: all 0.3s;">Enter Profile</span>
+      </a>
+
+
+      <a href="premium_jennie.html" class="lens-card" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);">
+        <div class="lens-circle">
+          <img src="images/disco_jennie.jpg" alt="JENNIE">
+        </div>
+        <span class="lens-name" style="margin-top: 20px; font-family: var(--font-brand); font-size: 14px; font-weight: bold; letter-spacing: 3px; color: #a1a1aa; text-transform: uppercase; transition: color 0.3s;">JENNIE</span>
+        <span class="lens-action-hint" style="margin-top: 6px; font-size: 9.5px; font-weight: 700; letter-spacing: 1.5px; color: #ff6f3c; text-transform: uppercase; opacity: 0.7; transition: all 0.3s;">Enter Profile</span>
+      </a>
+
+
+      <a href="premium_rose.html" class="lens-card" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);">
+        <div class="lens-circle">
+          <img src="images/disco_rose.jpg" alt="ROSÉ">
+        </div>
+        <span class="lens-name" style="margin-top: 20px; font-family: var(--font-brand); font-size: 14px; font-weight: bold; letter-spacing: 3px; color: #a1a1aa; text-transform: uppercase; transition: color 0.3s;">ROSÉ</span>
+        <span class="lens-action-hint" style="margin-top: 6px; font-size: 9.5px; font-weight: 700; letter-spacing: 1.5px; color: #ff6f3c; text-transform: uppercase; opacity: 0.7; transition: all 0.3s;">Enter Profile</span>
+      </a>
+
+
+      <a href="premium_lisa.html" class="lens-card" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);">
+        <div class="lens-circle">
+          <img src="images/disco_lisa.jpg" alt="LISA">
+        </div>
+        <span class="lens-name" style="margin-top: 20px; font-family: var(--font-brand); font-size: 14px; font-weight: bold; letter-spacing: 3px; color: #a1a1aa; text-transform: uppercase; transition: color 0.3s;">LISA</span>
+        <span class="lens-action-hint" style="margin-top: 6px; font-size: 9.5px; font-weight: 700; letter-spacing: 1.5px; color: #ff6f3c; text-transform: uppercase; opacity: 0.7; transition: all 0.3s;">Enter Profile</span>
+      </a>
+
+    </div>
+  </main>
+
+  <script src="script.js?v=6"></script>
+  <script>
+    function handleLogout() {
+      localStorage.removeItem('crave_premium_logged_in');
+      sessionStorage.removeItem('premium_modal_dismissed');
+      window.location.href = 'index.html';
+    }
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const video = document.getElementById('premiumBgVideo');
+      if (video) {
+
+        video.loop = false;
+
+        video.addEventListener('timeupdate', () => {
+          if (video.duration && video.currentTime >= video.duration - 7) {
+            video.currentTime = 0;
+            video.play().catch(err => console.log('Video loop play interrupted:', err));
+          }
+        });
+
+
+        video.addEventListener('ended', () => {
+          video.currentTime = 0;
+          video.play().catch(err => console.log('Video end play interrupted:', err));
+        });
+      }
+
+
+      const menuToggle = document.getElementById('menuToggleBtn');
+      const menuClose = document.getElementById('mobileMenuCloseBtn');
+      const menuOverlay = document.getElementById('mobileMenuOverlay');
+      const menuBackdrop = document.getElementById('mobileMenuBackdrop');
+
+      if (menuToggle && menuOverlay && menuBackdrop) {
+        menuToggle.addEventListener('click', () => {
+          menuOverlay.style.right = '0';
+          menuBackdrop.style.opacity = '1';
+          menuBackdrop.style.pointerEvents = 'auto';
+          document.body.style.overflow = 'hidden';
+        });
+      }
+
+      const closeMenu = () => {
+        if (menuOverlay && menuBackdrop) {
+          menuOverlay.style.right = '-280px';
+          menuBackdrop.style.opacity = '0';
+          menuBackdrop.style.pointerEvents = 'none';
+          document.body.style.overflow = 'auto';
+        }
+      };
+
+      if (menuClose) menuClose.addEventListener('click', closeMenu);
+      if (menuBackdrop) menuBackdrop.addEventListener('click', closeMenu);
+
+
+      const userProfile = document.getElementById('userProfile');
+      const mobileUserProfile = document.getElementById('mobileUserProfile');
+      const userName = localStorage.getItem('crave_premium_user_name') || 'Premium User';
+      const userAvatar = localStorage.getItem('crave_premium_user_avatar');
+
+      const firstName = userName.split(' ')[0];
+
+      let avatarHtml = `<div style="width: 28px; height: 28px; border-radius: 50%; background: #ff6f3c; color: #fff; font-size: 11px; font-weight: bold; display: flex; align-items: center; justify-content: center; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1);">${userName.charAt(0)}</div>`;
+
+      if (userAvatar) {
+        avatarHtml = `<img src="${userAvatar}" alt="${userName}" style="width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); object-fit: cover;">`;
+      }
+
+      if (userProfile) {
+        userProfile.innerHTML = `
+          ${avatarHtml}
+          <span style="font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.85); letter-spacing: 0.5px;">Welcome, <span style="color: #ff6f3c; font-weight: 700;">${firstName}</span>!</span>
+        `;
+      }
+      if (mobileUserProfile) {
+        mobileUserProfile.innerHTML = `
+          ${avatarHtml}
+          <span style="font-size: 12px; font-weight: 600; color: #fff; letter-spacing: 0.5px;">Welcome, ${firstName}!</span>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>
