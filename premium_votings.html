@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Votings - Premium Hub</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=25">
+
+  <script>
+
+    if (localStorage.getItem('crave_premium_logged_in') !== 'true') {
+      window.location.href = 'premium_login.html';
+    }
+  </script>
+
+  <style>
+    :root {
+      --bp-pink: #f06292;
+      --jisoo-purple: #a855f7;
+      --jennie-red: #e11d48;
+      --rose-pink: #f472b6;
+      --lisa-yellow: #eab308;
+    }
+
+
+    body {
+      --bg-color: #000000 !important;
+      --card-bg: #121212 !important;
+      --text-color: #f5f5f7 !important;
+      --text-muted: #a1a1aa !important;
+      --border-color: rgba(255, 255, 255, 0.08) !important;
+      --accent-color: #ff6f3c !important;
+
+      background-color: #000000 !important;
+      color: #f5f5f7 !important;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+      background: #000000 !important;
+    }
+
+
+    .premium-nav-link {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      transition: all 0.3s;
+      position: relative;
+      padding: 8px 0;
+    }
+    .premium-nav-link:hover {
+      color: #ff6f3c;
+    }
+    .premium-nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: #ff6f3c;
+      transition: width 0.3s;
+    }
+    .premium-nav-link:hover::after {
+      width: 100%;
+    }
+
+    .premium-nav-signout-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 10px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .premium-nav-signout-btn:hover {
+      background: rgba(244, 67, 54, 0.15);
+      border-color: rgba(244, 67, 54, 0.3);
+      color: #f44336;
+    }
+
+
+    .premium-menu-toggle-btn {
+      display: none !important;
+      background: none;
+      border: none;
+      cursor: pointer;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 5px;
+      padding: 4px;
+      z-index: 101;
+      width: 32px;
+      height: 32px;
+      box-sizing: border-box;
+    }
+    .premium-menu-toggle-btn span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background-color: #ffffff !important;
+      border-radius: 1px;
+      transition: all 0.3s;
+    }
+    .premium-menu-toggle-btn span:nth-child(2) {
+      width: 14px;
+    }
+    .premium-menu-toggle-btn:hover span:nth-child(2) {
+      width: 22px;
+    }
+    #mobileMenuCloseBtn:hover {
+      transform: rotate(90deg);
+      color: #fff !important;
+    }
+    .mobile-menu-overlay ul li a {
+      transition: all 0.3s !important;
+    }
+    .mobile-menu-overlay ul li a:hover {
+      color: #ff6f3c !important;
+      padding-left: 6px;
+    }
+    .mobile-menu-signout-btn {
+      width: 100%;
+      background: none;
+      border: 1px solid rgba(255, 111, 60, 0.25) !important;
+      color: #ff6f3c !important;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .mobile-menu-signout-btn:hover {
+      background: rgba(255, 111, 60, 0.08) !important;
+      border-color: #ff6f3c !important;
+    }
+    .premium-menu-toggle-btn span:nth-child(2) {
+      width: 14px;
+    }
+    .premium-menu-toggle-btn:hover span:nth-child(2) {
+      width: 22px;
+    }
+    #mobileMenuCloseBtn:hover {
+      transform: rotate(90deg);
+      color: #fff !important;
+    }
+    .mobile-menu-overlay ul li a {
+      transition: all 0.3s !important;
+    }
+    .mobile-menu-overlay ul li a:hover {
+      color: #ff6f3c !important;
+      padding-left: 6px;
+    }
+    .mobile-menu-signout-btn {
+      width: 100%;
+      background: none;
+      border: 1px solid rgba(255, 111, 60, 0.25) !important;
+      color: #ff6f3c !important;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .mobile-menu-signout-btn:hover {
+      background: rgba(255, 111, 60, 0.08) !important;
+      border-color: #ff6f3c !important;
+    }
+
+
+    .premium-dashboard-container {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+
+    .premium-hero-card {
+      background: rgba(20, 20, 20, 0.45);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 25px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    .premium-hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin: 0 0 10px 0;
+      color: #fff;
+    }
+
+    .premium-hero-desc {
+      font-size: 13px;
+      color: #a1a1aa;
+      margin: 0;
+      max-width: 600px;
+      line-height: 1.6;
+    }
+
+    .hero-stats-row {
+      display: flex;
+      gap: 20px;
+    }
+
+    .hero-stat-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 15px 25px;
+      text-align: center;
+      min-width: 120px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+
+    .hero-stat-num {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 22px;
+      font-weight: bold;
+      color: #ff6f3c;
+      margin-bottom: 5px;
+    }
+
+    .hero-stat-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: #71717a;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+
+    .dashboard-filters-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 30px;
+      background: rgba(255, 255, 255, 0.02) !important;
+      backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      border-radius: 12px;
+      padding: 12px 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 2px;
+    }
+
+    .filter-tabs::-webkit-scrollbar {
+      height: 2px;
+    }
+    .filter-tabs::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+    }
+
+    .filter-tab {
+      background: none;
+      border: 1px solid transparent;
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+      white-space: nowrap;
+    }
+
+    .filter-tab:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .filter-tab.active {
+      color: #ff6f3c;
+      border-color: rgba(255, 111, 60, 0.35);
+      background: rgba(255, 111, 60, 0.07);
+    }
+
+
+    .voting-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      margin-bottom: 50px;
+    }
+
+    .premium-voting-card {
+      background: rgba(18, 18, 18, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+    .premium-voting-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+
+
+    .premium-voting-card.member-blackpink:hover { border-color: rgba(240, 98, 146, 0.35); }
+    .premium-voting-card.member-jisoo:hover { border-color: rgba(168, 85, 247, 0.35); }
+    .premium-voting-card.member-jennie:hover { border-color: rgba(225, 29, 72, 0.35); }
+    .premium-voting-card.member-rose:hover { border-color: rgba(244, 114, 182, 0.35); }
+    .premium-voting-card.member-lisa:hover { border-color: rgba(234, 179, 8, 0.35); }
+
+    .voting-status-badge {
+      font-size: 8.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.6);
+      display: inline-block;
+      margin-bottom: 15px;
+    }
+    .voting-status-badge.active-badge {
+      background: rgba(46, 204, 113, 0.1);
+      color: #2ecc71;
+      border: 1px solid rgba(46, 204, 113, 0.2);
+    }
+
+    .voting-card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 20px;
+      font-weight: bold;
+      color: #fff;
+      margin: 0 0 10px 0;
+      line-height: 1.3;
+    }
+
+    .voting-card-nomination {
+      font-size: 13px;
+      font-weight: 600;
+      color: #ff6f3c;
+      margin: 0 0 8px 0;
+    }
+
+    .voting-card-enddate {
+      font-size: 11px;
+      color: #71717a;
+      margin: 0 0 20px 0;
+    }
+
+
+    .vote-community-progress-bar {
+      height: 4px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 2px;
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vote-community-progress-fill {
+      height: 100%;
+      width: 45%;
+      background: #ff6f3c;
+      border-radius: 2px;
+      transition: width 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .member-blackpink .vote-community-progress-fill { background: var(--bp-pink); }
+    .member-jisoo .vote-community-progress-fill { background: var(--jisoo-purple); }
+    .member-jennie .vote-community-progress-fill { background: var(--jennie-red); }
+    .member-rose .vote-community-progress-fill { background: var(--rose-pink); }
+    .member-lisa .vote-community-progress-fill { background: var(--lisa-yellow); }
+
+    .vote-progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      font-weight: 600;
+      color: #71717a;
+      margin-bottom: 20px;
+    }
+
+    .btn-submit-premium {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 10px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      text-align: center;
+      display: block;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .btn-submit-premium:hover {
+      background: rgba(255, 111, 60, 0.1);
+      border-color: #ff6f3c;
+      color: #ff6f3c;
+    }
+
+    .btn-log-vote {
+      background: #ff6f3c !important;
+      color: #fff !important;
+      border: none !important;
+    }
+    .btn-log-vote:hover {
+      box-shadow: 0 0 15px rgba(255, 111, 60, 0.35);
+      background: #ff8554 !important;
+    }
+
+
+    .premium-toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: rgba(18, 18, 18, 0.95);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 111, 60, 0.3);
+      color: #fff;
+      border-radius: 8px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 10000;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s;
+    }
+
+    .premium-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast-icon {
+      color: #ff6f3c;
+      font-size: 16px;
+    }
+
+    .toast-msg {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.25px;
+    }
+
+
+    @media (max-width: 1150px) {
+      .desktop-only {
+        display: none !important;
+      }
+      #userProfile span {
+        display: none !important;
+      }
+
+      .premium-header-nav {
+        padding: 12px 20px !important;
+      }
+      .nav-links-container {
+        display: none !important;
+      }
+      .premium-menu-toggle-btn {
+        display: flex !important;
+      }
+      main {
+        padding: 75px 0 40px 0 !important;
+      }
+      .premium-dashboard-container {
+        padding: 0 15px !important;
+      }
+
+      .premium-hero-card {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 20px;
+        gap: 15px;
+      }
+      .hero-stats-row {
+        width: 100%;
+        display: flex;
+        gap: 15px;
+      }
+      .hero-stat-box {
+        flex-grow: 1;
+        min-width: 0;
+        padding: 12px 10px;
+      }
+
+      .dashboard-filters-bar {
+        padding: 12px !important;
+      }
+      .filter-tabs {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .voting-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+
+      .brand-text {
+        font-size: 11px !important;
+        letter-spacing: 1px !important;
+      }
+      .premium-badge {
+        font-size: 8px !important;
+        padding: 1px 4px !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .voting-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .premium-dashboard-container {
+        padding: 0 10px !important;
+      }
+      .premium-hero-title {
+        font-size: 20px;
+      }
+      .premium-hero-desc {
+        font-size: 11px;
+      }
+      .hero-stat-num {
+        font-size: 18px;
+      }
+      .hero-stat-label {
+        font-size: 8px;
+      }
+
+    }
+  </style>
+</head>
+<body>
+
+
+  <nav class="premium-header-nav" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 100; background: rgba(15,15,15,0.45); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 15px 40px; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s;">
+    <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+      <a href="premium.html" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
+        <img src="images/logo.jpg" alt="Logo" style="width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1);">
+        <span class="brand-text" style="font-family: 'Cinzel', serif; font-size: 13px; font-weight: bold; letter-spacing: 1.5px; color: #fff; text-transform: uppercase; white-space: nowrap; display: flex; align-items: center;">
+          BLACKPINK CRAVE
+          <span class="premium-badge" style="color: #ff6f3c; font-size: 8.5px; font-weight: bold; font-family: 'Inter', sans-serif; letter-spacing: 0.5px; margin-left: 6px; border: 1px solid rgba(255, 111, 60, 0.35); padding: 2px 5px; border-radius: 3px; background: rgba(255, 111, 60, 0.05); display: inline-block;">PREMIUM</span>
+        </span>
+      </a>
+    </div>
+
+    <div class="nav-links-container" style="display: flex; gap: 30px; align-items: center;">
+      <a href="premium_goals.html" class="premium-nav-link">Streaming Goals</a>
+      <a href="premium_schedules.html" class="premium-nav-link">Schedules</a>
+      <a href="premium_votings.html" class="premium-nav-link" style="color: #ff6f3c;">Votings</a>
+      <a href="premium_playlists.html" class="premium-nav-link">Streams</a>
+      <a href="premium_stats.html" class="premium-nav-link">Charts</a>
+      <a href="premium_videos.html" class="premium-nav-link">MVs</a>
+      <a href="premium_quiz.html" class="premium-nav-link">Quiz</a>
+      <a href="premium_about.html" class="premium-nav-link">About</a>
+    </div>
+
+
+    <div style="display: flex; align-items: center; gap: 15px;">
+
+      <div id="userProfile" style="display: flex; align-items: center; gap: 8px;">
+
+      </div>
+
+
+      <button onclick="handleLogout()" class="premium-nav-signout-btn desktop-only">Sign Out</button>
+
+
+      <button class="premium-menu-toggle-btn mobile-only" id="menuToggleBtn" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+
+  <div class="mobile-menu-backdrop" id="mobileMenuBackdrop" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.4s;"></div>
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay" style="position: fixed; top: 0; right: -280px; width: 280px; height: 100%; background: rgba(10, 10, 10, 0.75); border-left: 1px solid rgba(255, 111, 60, 0.15); z-index: 1001; padding: 40px 30px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);; overflow-y: auto;">
+    <div style="width: 100%;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; width: 100%;">
+        <span style="font-family: 'Cinzel', serif; font-size: 13px; font-weight: bold; letter-spacing: 1px; color: #fff;">PREMIUM MENU</span>
+        <button id="mobileMenuCloseBtn" style="background: none; border: none; color: #ff6f3c; font-size: 26px; cursor: pointer; line-height: 1; transition: transform 0.3s; transform-origin: center;">&times;</button>
+      </div>
+      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 20px;">
+        <li><a href="premium_goals.html" style="color: #d4d4d8; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; display: block;">Streaming Goals</a></li>
+        <li><a href="premium_schedules.html" style="color: #d4d4d8; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; display: block;">Schedules</a></li>
+        <li><a href="premium_votings.html" style="color: #ff6f3c; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; display: block;">Votings</a></li>
+        <li><a href="premium_playlists.html" style="color: #d4d4d8; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; display: block;">Streams</a></li>
+        <li><a href="premium_stats.html" style="color: #d4d4d8; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; display: block;">Charts</a></li>
+        <li><a href="premium_videos.html" style="color: #d4d4d8; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; display: block;">MVs</a></li>
+        <li><a href="premium_quiz.html" style="color: #d4d4d8; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; display: block;">Quiz</a></li>
+        <li><a href="premium_about.html" style="color: #d4d4d8; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; display: block;">About</a></li>
+      </ul>
+    </div>
+
+    <div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 20px;">
+      <div id="mobileUserProfile" style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+
+      </div>
+      <button onclick="handleLogout()" class="mobile-menu-signout-btn">Sign Out</button>
+    </div>
+  </div>
+
+
+  <main style="flex-grow: 1; padding: 90px 0 40px 0; z-index: 10; width: 100%;">
+    <div class="premium-dashboard-container">
+
+
+      <section class="premium-hero-card">
+        <div>
+          <h2 class="premium-hero-title">Premium Votings Center</h2>
+          <p class="premium-hero-desc">Vote for BLACKPINK and individual members in domestic music shows, global award nominations, and fan army polls. Track your logged contributions.</p>
+        </div>
+        <div class="hero-stats-row">
+          <div class="hero-stat-box">
+            <span class="hero-stat-num" id="votingsCount">0</span>
+            <span class="hero-stat-label">Active Polls</span>
+          </div>
+          <div class="hero-stat-box">
+            <span class="hero-stat-num" id="personalVotesCounter">0</span>
+            <span class="hero-stat-label">Your Votes Logged</span>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="dashboard-filters-bar">
+        <div class="filter-tabs" id="artistFilterGroup">
+          <button class="filter-tab active" data-artist="all">All Members</button>
+          <button class="filter-tab" data-artist="group">BLACKPINK</button>
+          <button class="filter-tab" data-artist="jisoo">Jisoo</button>
+          <button class="filter-tab" data-artist="jennie">Jennie</button>
+          <button class="filter-tab" data-artist="rose">Rosé</button>
+          <button class="filter-tab" data-artist="lisa">Lisa</button>
+        </div>
+      </section>
+
+
+      <section class="voting-grid" id="votingGrid">
+
+      </section>
+
+
+    </div>
+  </main>
+
+
+  <div class="premium-toast" id="toastBox">
+    <span class="toast-icon">✨</span>
+    <span class="toast-msg" id="toastMessage">Contribution logged!</span>
+  </div>
+
+  <script src="script.js?v=6"></script>
+  <script>
+    function handleLogout() {
+      localStorage.removeItem('crave_premium_logged_in');
+      sessionStorage.removeItem('premium_modal_dismissed');
+      window.location.href = 'index.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+      const menuToggle = document.getElementById('menuToggleBtn');
+      const menuClose = document.getElementById('mobileMenuCloseBtn');
+      const menuOverlay = document.getElementById('mobileMenuOverlay');
+      const menuBackdrop = document.getElementById('mobileMenuBackdrop');
+
+      if (menuToggle && menuOverlay && menuBackdrop) {
+        menuToggle.addEventListener('click', () => {
+          menuOverlay.style.right = '0';
+          menuBackdrop.style.opacity = '1';
+          menuBackdrop.style.pointerEvents = 'auto';
+          document.body.style.overflow = 'hidden';
+        });
+      }
+
+      const closeMenu = () => {
+        if (menuOverlay && menuBackdrop) {
+          menuOverlay.style.right = '-280px';
+          menuBackdrop.style.opacity = '0';
+          menuBackdrop.style.pointerEvents = 'none';
+          document.body.style.overflow = 'auto';
+        }
+      };
+
+      if (menuClose) menuClose.addEventListener('click', closeMenu);
+      if (menuBackdrop) menuBackdrop.addEventListener('click', closeMenu);
+
+
+      const userProfile = document.getElementById('userProfile');
+      const mobileUserProfile = document.getElementById('mobileUserProfile');
+      const userName = localStorage.getItem('crave_premium_user_name') || 'Premium User';
+      const userAvatar = localStorage.getItem('crave_premium_user_avatar');
+
+      const firstName = userName.split(' ')[0];
+
+      let avatarHtml = `<div style="width: 28px; height: 28px; border-radius: 50%; background: #ff6f3c; color: #fff; font-size: 11px; font-weight: bold; display: flex; align-items: center; justify-content: center; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1);">${userName.charAt(0)}</div>`;
+
+      if (userAvatar) {
+        avatarHtml = `<img src="${userAvatar}" alt="${userName}" style="width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); object-fit: cover;">`;
+      }
+
+      if (userProfile) {
+        userProfile.innerHTML = `
+          ${avatarHtml}
+          <span style="font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.85); letter-spacing: 0.5px;">Welcome, <span style="color: #ff6f3c; font-weight: 700;">${firstName}</span>!</span>
+        `;
+      }
+      if (mobileUserProfile) {
+        mobileUserProfile.innerHTML = `
+          ${avatarHtml}
+          <span style="font-size: 12px; font-weight: 600; color: #fff; letter-spacing: 0.5px;">Welcome, ${firstName}!</span>
+        `;
+      }
+
+
+      let allVotings = [];
+      let currentArtistFilter = 'all';
+
+
+      let loggedVotes = parseInt(localStorage.getItem('crave_premium_logged_votes') || '0', 10);
+      updatePersonalVotesScore();
+
+
+      async function fetchVotings() {
+        try {
+          const res = await fetch('config.json');
+          if (!res.ok) return;
+          const config = await res.json();
+          const rawVotings = config.votings || [];
+
+
+          allVotings = rawVotings.map((item, index) => {
+            let member = 'group';
+            const txt = (item.nomination || item.name || '').toLowerCase();
+            if (txt.includes('lisa')) member = 'lisa';
+            else if (txt.includes('jennie')) member = 'jennie';
+            else if (txt.includes('rose') || txt.includes('rosé')) member = 'rose';
+            else if (txt.includes('jisoo')) member = 'jisoo';
+
+
+            const communityProgress = Math.min(95, Math.max(25, 35 + (index * 17) % 55));
+            const totalVotesSim = 12405 + (index * 4205) % 18502;
+
+            return {
+              id: item.id || (200000 + index),
+              name: item.name,
+              nomination: item.nomination,
+              date: item.date || 'Ongoing Poll',
+              link: item.link || 'https://mnetplus.net/',
+              member: member,
+              communityProgress: communityProgress,
+              totalVotesSim: totalVotesSim
+            };
+          });
+
+
+          if (allVotings.length === 0) {
+            allVotings = [
+              { id: 1, name: "Show! Music Core", nomination: "ROSÉ - APT.", date: "Ongoing Event", link: "https://mnetplus.net/", member: "rose", communityProgress: 76, totalVotesSim: 15430 },
+              { id: 2, name: "Inkigayo Weekly Poll", nomination: "LISA - Rockstar", date: "Closing in 3 days", link: "https://starpass.co.kr/", member: "lisa", communityProgress: 62, totalVotesSim: 12402 },
+              { id: 3, name: "Billboard Fan Choice", nomination: "BLACKPINK - Group Category", date: "Closes July 31, 2026", link: "https://www.billboard.com/", member: "group", communityProgress: 88, totalVotesSim: 45020 }
+            ];
+          }
+
+          document.getElementById('votingsCount').textContent = allVotings.length;
+          renderVotings();
+        } catch (err) {
+          console.error('Error fetching votings data:', err);
+        }
+      }
+
+
+      function getFilteredVotings() {
+        if (currentArtistFilter === 'all') return allVotings;
+        return allVotings.filter(item => item.member.toLowerCase() === currentArtistFilter);
+      }
+
+
+      function renderVotings() {
+        const grid = document.getElementById('votingGrid');
+        if (!grid) return;
+
+        const list = getFilteredVotings();
+        grid.innerHTML = '';
+
+        if (list.length === 0) {
+          grid.innerHTML = `
+            <div style="text-align: center; padding: 45px; grid-column: span 3; border: 1px dashed rgba(255,255,255,0.08); border-radius: 12px; color: #71717a;">
+              No ongoing voting polls found for the selected member filter.
+            </div>
+          `;
+          return;
+        }
+
+        list.forEach(item => {
+          const card = document.createElement('div');
+          card.className = `premium-voting-card member-${item.member}`;
+
+          card.innerHTML = `
+            <div>
+              <span class="voting-status-badge active-badge">Ongoing Poll</span>
+              <h3 class="voting-card-title">${item.name}</h3>
+              <p class="voting-card-nomination">${item.nomination}</p>
+              <p class="voting-card-enddate">Deadline: ${item.date}</p>
+            </div>
+
+            <div>
+              <a href="${item.link}" target="_blank" class="btn-submit-premium btn-log-vote" data-id="${item.id}" data-name="${item.name}">Vote Now</a>
+              <button class="btn-submit-premium track-vote-trigger" data-id="${item.id}" data-name="${item.name}" data-nomination="${item.nomination}">
+                I Voted (Log Action)
+              </button>
+              <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent('Supporting ' + item.nomination + ' on ' + item.name + '! Join the voting at https://blackpinkcrave.com/')}" target="_blank" class="btn-submit-premium" style="font-size: 10px; margin-bottom: 0;">Share on X</a>
+            </div>
+          `;
+
+          grid.appendChild(card);
+        });
+
+
+        grid.querySelectorAll('.track-vote-trigger').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const name = btn.getAttribute('data-name');
+            const nomination = btn.getAttribute('data-nomination');
+
+
+            loggedVotes++;
+            localStorage.setItem('crave_premium_logged_votes', loggedVotes);
+            updatePersonalVotesScore();
+
+            showToast(`💖 Logged! Thank you for voting for ${nomination} on ${name}!`);
+          });
+        });
+      }
+
+      function updatePersonalVotesScore() {
+        const votesEl = document.getElementById('personalVotesCounter');
+        if (votesEl) {
+          votesEl.textContent = loggedVotes;
+        }
+      }
+
+
+      function showToast(message) {
+        const toast = document.getElementById('toastBox');
+        const toastMsg = document.getElementById('toastMessage');
+        if (toast && toastMsg) {
+          toastMsg.textContent = message;
+          toast.classList.add('show');
+          setTimeout(() => {
+            toast.classList.remove('show');
+          }, 3000);
+        }
+      }
+
+
+      const tabs = document.querySelectorAll('#artistFilterGroup .filter-tab');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          currentArtistFilter = tab.getAttribute('data-artist');
+          renderVotings();
+        });
+      });
+
+
+      fetchVotings();
+    });
+  </script>
+</body>
+</html>
