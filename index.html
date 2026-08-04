@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BLACKPINK CRAVE</title>
+  
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  
+  <link rel="stylesheet" href="style.css?v=24">
+  <style>
+    
+    .promo-side-widget {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 9999;
+      width: 320px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .promo-side-widget.closed {
+      transform: translateY(50px) scale(0.9);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .promo-modal-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.6);
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.85;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .promo-modal-close:hover {
+      opacity: 1;
+      background-color: var(--accent-color);
+      color: #000;
+      transform: scale(1.1) rotate(90deg);
+    }
+    .promo-carousel-container {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+    }
+    .promo-carousel-wrapper {
+      position: relative;
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .promo-slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      box-sizing: border-box;
+    }
+    .promo-slide-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+    .promo-slide-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .promo-slide:hover .promo-slide-bg img {
+      transform: scale(1.06);
+    }
+    .promo-slide-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.2) 100%);
+      z-index: 2;
+    }
+    .promo-content {
+      position: relative;
+      z-index: 3;
+      padding: 20px;
+      text-align: left;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .promo-tag {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent-color);
+      margin-bottom: 6px;
+    }
+    .promo-title {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      line-height: 1.3;
+      font-weight: 400;
+      margin: 0 0 6px 0;
+      color: #fff;
+    }
+    .promo-subtitle {
+      font-size: 11px;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 15px;
+      line-height: 1.4;
+    }
+    .promo-action-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .promo-btn {
+      border: 1px solid var(--accent-color);
+      background-color: var(--accent-color);
+      color: #000;
+      padding: 8px 16px;
+      text-transform: uppercase;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      display: inline-block;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(224, 86, 36, 0.3);
+    }
+    .promo-btn:hover {
+      background-color: transparent;
+      color: var(--accent-color);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(224, 86, 36, 0.5);
+    }
+    .promo-btn:active {
+      transform: translateY(0);
+    }
+    .promo-date {
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+    .promo-carousel-nav {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 5;
+      background: rgba(0,0,0,0.5);
+      padding: 3px 8px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .promo-nav-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.8;
+      transition: all 0.2s ease;
+    }
+    .promo-nav-btn:hover {
+      opacity: 1;
+      color: var(--accent-color);
+      transform: scale(1.2);
+    }
+    .promo-indicators {
+      display: flex;
+      gap: 4px;
+    }
+    .promo-ind {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: rgba(255,255,255,0.4);
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .promo-ind.active {
+      background-color: var(--accent-color);
+    }
+
+    @media (max-width: 480px) {
+      .promo-side-widget {
+        bottom: 15px;
+        right: 15px;
+        width: calc(100vw - 30px);
+        height: 90px;
+        flex-direction: row;
+        align-items: center;
+      }
+      .promo-carousel-container {
+        aspect-ratio: auto;
+        height: 100%;
+        width: 100%;
+      }
+      .promo-slide {
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        height: 100%;
+        padding: 10px;
+      }
+      .promo-slide-bg {
+        position: relative;
+        width: 70px;
+        height: 70px;
+        flex-shrink: 0;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .promo-slide-overlay {
+        display: none;
+      }
+      .promo-content {
+        padding: 0 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+      }
+      .promo-tag {
+        font-size: 7px;
+        margin-bottom: 2px;
+      }
+      .promo-title {
+        font-size: 14px;
+        margin: 0;
+        color: var(--text-color);
+      }
+      .promo-subtitle {
+        display: none;
+      }
+      .promo-action-row {
+        margin-top: 4px;
+        justify-content: flex-start;
+        gap: 10px;
+      }
+      .promo-btn {
+        padding: 6px 12px;
+        font-size: 8px;
+      }
+      .promo-date {
+        font-size: 8px;
+        color: var(--text-muted);
+      }
+      .promo-modal-close {
+        top: 5px;
+        right: 5px;
+        width: 22px;
+        height: 22px;
+        font-size: 14px;
+        background: var(--border-color);
+        color: var(--text-color);
+      }
+      .promo-carousel-nav {
+        top: 5px;
+        left: 5px;
+        padding: 2px 6px;
+      }
+      .promo-nav-btn {
+        font-size: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  
+  <div id="promoSideWidget" class="promo-side-widget closed">
+    <button class="promo-modal-close" onclick="closePromoModal()">&times;</button>
+    <div class="promo-carousel-container">
+      <div class="promo-carousel-wrapper" id="promoCarouselWrapper">
+        
+      </div>
+    </div>
+    
+    <div class="promo-carousel-nav" id="promoCarouselNav" style="display: none;">
+      <button class="promo-nav-btn prev" onclick="navigatePromo(-1)">&larr;</button>
+      <div class="promo-indicators" id="promoIndicators"></div>
+      <button class="promo-nav-btn next" onclick="navigatePromo(1)">&rarr;</button>
+    </div>
+  </div>
+
+  <nav>
+    <div class="nav-container">
+      <div class="logo"><a href="index.html?v=2"><img src="images/logo.jpg" alt="Logo" class="logo-img"><span>BLACKPINK CRAVE</span></a></div>
+      <div class="nav-right desktop-only">
+        <ul class="nav-links">
+          <li><a href="index.html#active-streaming-goals">Streaming Goals</a></li>
+          <li><a href="index.html#members">Members</a></li>
+          <li><a href="schedules.html?v=5">Schedules</a></li>
+          <li><a href="videos.html?v=5">Videos</a></li>
+          <li><a href="votings.html?v=5">Votings</a></li>
+          <li><a href="anniversary.html?v=5">Anniversary</a></li>
+          <li><a href="about.html?v=5">About</a></li>
+          
+        </ul>
+        
+        
+      </div>
+      
+      <button class="menu-toggle-btn mobile-only" id="menuToggleBtn" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <button onclick="toggleTheme()" class="emoji-theme-btn" id="themeToggleBtn" title="Toggle Light/Dark Mode">☀️</button>
+    </div>
+  </nav>
+
+  
+  <div class="mobile-menu-backdrop" id="mobileMenuBackdrop" onclick="closeMobileMenu()"></div>
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <button class="mobile-menu-close" id="mobileMenuCloseBtn">&times;</button>
+    <ul class="mobile-menu-links">
+      <li><a href="index.html#active-streaming-goals" onclick="closeMobileMenu()">Streaming Goals</a></li>
+      <li>
+        <a href="index.html#members" onclick="closeMobileMenu()">Members</a>
+        <ul class="mobile-submenu">
+          <li><a href="jisoo.html">Jisoo</a></li>
+          <li><a href="jennie.html">Jennie</a></li>
+          <li><a href="rose.html">Rosé</a></li>
+          <li><a href="lisa.html">Lisa</a></li>
+        </ul>
+      </li>
+      <li><a href="schedules.html" onclick="closeMobileMenu()">Schedules</a></li>
+      <li><a href="videos.html" onclick="closeMobileMenu()">Videos</a></li>
+      <li><a href="votings.html" onclick="closeMobileMenu()">Votings</a></li>
+      <li><a href="anniversary.html" onclick="closeMobileMenu()">Anniversary</a></li>
+      <li><a href="about.html" onclick="closeMobileMenu()">About</a></li>
+    </ul>
+  </div>
+
+  
+  
+  <div class="anniversary-top-bar" id="anniversaryTopBar">
+    <div class="anniversary-bar-content">
+      <div class="anniversary-title">
+        <span class="anniversary-sparkle">✦</span>
+        <span>BLACKPINK 10TH ANNIVERSARY COUNTDOWN</span>
+      </div>
+      <div class="anniversary-timer" id="anniversaryTimer">
+        <div class="timer-unit"><span id="annDays">00</span><small>D</small></div>
+        <div class="timer-unit"><span id="annHours">00</span><small>H</small></div>
+        <div class="timer-unit"><span id="annMins">00</span><small>M</small></div>
+        <div class="timer-unit"><span id="annSecs">00</span><small>S</small></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero" id="home">
+    <div class="hero-slider" id="heroSlider">
+      <div class="slider-track" id="sliderTrack">
+        
+        <div class="hero-slide active" data-index="0">
+          <div class="slide-image-container">
+            <img src="images/slide_stats.jpg" alt="BLACKPINK Stats" class="slide-image">
+          </div>
+          <div class="slide-text-container">
+            <h2 class="slide-title">Who is BLACKPINK?</h2>
+            <p class="slide-desc">Blackpink is a record-breaking South Korean girl group featuring members Jisoo, Jennie, Rosé, and Lisa. Debuting in 2016, they became a global music phenomenon by fusing fierce hip-hop with catchy pop hooks. They are historic Coachella headliners and major luxury fashion icons who dominate the global charts.</p>
+          </div>
+        </div>
+
+        
+        <div class="hero-slide" data-index="1">
+          <div class="slide-image-container">
+            <img src="images/slide_jisoo.jpg" alt="JISOO" class="slide-image">
+          </div>
+          <div class="slide-text-container">
+            <p class="slide-tag">J I S O O</p>
+            <p class="slide-desc">Jisoo is Blackpink's lead vocalist who debuted with the group in 2016. She is celebrated for her husky vocals, her chart-topping solo hit "Flower," and her prominent acting roles. A massive style icon, she also serves as a premier global ambassador for Dior.</p>
+          </div>
+        </div>
+
+        
+        <div class="hero-slide" data-index="2">
+          <div class="slide-image-container">
+            <img src="images/slide_jennie.jpg" alt="JENNIE" class="slide-image">
+          </div>
+          <div class="slide-text-container">
+            <p class="slide-tag">J E N N I E</p>
+            <p class="slide-desc">Jennie is Blackpink's versatile main rapper known for her fierce stage presence and vocals. She pioneered the group's solo music with her hit "Solo" and runs her own label, Odd Atelier. She heavily influences the high-fashion world as a global ambassador for Chanel.</p>
+          </div>
+        </div>
+
+        
+        <div class="hero-slide" data-index="3">
+          <div class="slide-image-container">
+            <img src="images/slide_rose.jpg" alt="ROSÉ" class="slide-image">
+          </div>
+          <div class="slide-text-container">
+            <p class="slide-tag">R O S É</p>
+            <p class="slide-desc">Rosé is the Korean-New Zealand main vocalist of Blackpink, recognized for her distinct, emotional voice. She made history with her successful solo tracks and continues to release acclaimed individual music. She is also a prominent global ambassador for luxury powerhouses Saint Laurent and Tiffany & Co.</p>
+          </div>
+        </div>
+
+        
+        <div class="hero-slide" data-index="4">
+          <div class="slide-image-container">
+            <img src="images/slide_lisa.jpg" alt="LISA" class="slide-image">
+          </div>
+          <div class="slide-text-container">
+            <p class="slide-tag">L I S A</p>
+            <p class="slide-desc">Lisa is Blackpink's Thai main dancer, celebrated globally for her sharp choreography and rap verses. She broke multiple records with her solo music, runs her own company LLOUD, and acts in The White Lotus. She dominates high fashion as a global ambassador for Louis Vuitton.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    
+    <div class="slider-controls">
+      <button class="slider-arrow prev-arrow">&#8592;</button>
+      <div class="slider-indicators">
+        <span class="indicator active" onclick="goToSlide(0)">01</span>
+        <span class="indicator" onclick="goToSlide(1)">02</span>
+        <span class="indicator" onclick="goToSlide(2)">03</span>
+        <span class="indicator" onclick="goToSlide(3)">04</span>
+        <span class="indicator" onclick="goToSlide(4)">05</span>
+      </div>
+      <button class="slider-arrow next-arrow">&#8594;</button>
+    </div>
+  </section>
+
+  <section id="new-release-showcase" class="new-release-section">
+    <div class="section-header">
+      <p class="section-num">01.5 / Spotlight</p>
+      <h2 class="section-title">New Music</h2>
+    </div>
+    <div class="new-release-card">
+      <div class="new-release-media">
+        <iframe id="newReleasePlayer" src="" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="new-release-bar">
+        <div class="new-release-bar-content">
+          <div class="new-release-info">
+            <span class="new-release-tag">NEW RELEASE OUT NOW</span>
+            <h2 class="new-release-title" id="newReleaseTitle">Loading Title...</h2>
+          </div>
+          <div class="new-release-buttons">
+            <a href="#" id="newReleaseSpotify" target="_blank" class="stream-link-btn spotify">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424c-.18.295-.563.387-.857.207-2.377-1.454-5.37-1.783-8.894-.982-.336.076-.67-.135-.746-.472-.076-.336.135-.67.472-.746 3.852-.878 7.144-.505 9.818 1.132.295.18.387.563.207.861zm1.224-2.724c-.226.367-.707.487-1.074.26-2.72-1.672-6.87-2.157-10.076-1.182-.413.125-.848-.107-.973-.52-.125-.413.107-.848.52-.973 3.666-1.112 8.237-.57 11.343 1.343.366.226.486.707.26 1.072zm.105-2.836C14.492 8.76 8.705 8.567 5.36 9.582c-.522.158-1.076-.143-1.235-.665-.158-.522.143-1.076.665-1.235 3.837-1.164 10.222-.943 14.167 1.402.47.28.622.89.342 1.36-.28.47-.89.622-1.36.342z"/></svg>
+              <span>Spotify</span>
+            </a>
+            <a href="#" id="newReleaseApple" target="_blank" class="stream-link-btn apple">
+              <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h6V3h-8zm-2 16c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+              <span>Apple Music</span>
+            </a>
+            <a href="#" id="newReleaseYtMusic" target="_blank" class="stream-link-btn ytmusic">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+              <span>YouTube Music</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="live-analytics" class="live-analytics-section">
+    <div class="analytics-container">
+      <div class="section-header">
+        <div>
+          <p class="section-num">01.6 / Live Statistics</p>
+          <h2 class="section-title">Blink Analytics</h2>
+        </div>
+        <p class="section-link" id="statsLastUpdated" style="border: none; text-transform: uppercase; font-size: 10px; opacity: 0.65; cursor: default;">
+          Syncing Live Data...
+        </p>
+      </div>
+
+      <div class="spotify-artists-comparison-list" id="spotifyComparisonListContainer">
+      </div>
+
+      <h3 id="active-streaming-goals" class="goals-dashboard-title" style="margin-top: 60px;">Active Streaming Goals</h3>
+      <div class="live-goals-grid" id="liveGoalsGridContainer">
+      </div>
+    </div>
+  </section>
+
+  <section id="members">
+    <div class="section-header">
+      <p class="section-num">02 / Members</p>
+      <h2 class="section-title">The Quartet</h2>
+    </div>
+
+    <div class="members-container">
+      <a href="jisoo.html?v=5" class="member-column">
+        <img src="images/member_jisoo.jpg" alt="JISOO" class="member-img">
+        <div class="member-overlay">
+          <h3 class="member-name">JISOO</h3>
+          <p class="member-role" style="color: #ffccb8;">Enter Profile &rarr;</p>
+        </div>
+      </a>
+      <a href="jennie.html?v=5" class="member-column">
+        <img src="images/member_jennie.jpg" alt="JENNIE" class="member-img">
+        <div class="member-overlay">
+          <h3 class="member-name">JENNIE</h3>
+          <p class="member-role" style="color: #ffccb8;">Enter Profile &rarr;</p>
+        </div>
+      </a>
+      <a href="rose.html?v=5" class="member-column">
+        <img src="images/member_rose.jpg" alt="ROSÉ" class="member-img">
+        <div class="member-overlay">
+          <h3 class="member-name">ROSÉ</h3>
+          <p class="member-role" style="color: #ffccb8;">Enter Profile &rarr;</p>
+        </div>
+      </a>
+      <a href="lisa.html?v=5" class="member-column">
+        <img src="images/member_lisa.jpg" alt="LISA" class="member-img">
+        <div class="member-overlay">
+          <h3 class="member-name">LISA</h3>
+          <p class="member-role" style="color: #ffccb8;">Enter Profile &rarr;</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo"><img src="images/logo.jpg" alt="Logo" class="logo-img" style="width: 24px; height: 24px;"><span>BLACKPINK CRAVE</span></div>
+    <div class="footer-copy">&copy; 2026 BLACKPINK CRAVE Designed for BLINKs</div>
+    
+  
+      
+      <p class="footer-disclaimer" style="font-size: 11px; opacity: 0.45; max-width: 600px; margin: 15px auto 0 auto; line-height: 1.6; font-family: var(--font-sans); text-transform: none; letter-spacing: 0px;">
+        BLACKPINK CRAVE is an independent fan-run platform and is not affiliated with YG Entertainment. All content is for informational and entertainment purposes only.
+      </p>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/blackpinkofficial/" target="_blank" title="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+        <a href="https://twitter.com/BLACKPINK" target="_blank" title="Twitter / X"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"></path><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path></svg></a>
+        <a href="https://www.tiktok.com/@bp_tiktok" target="_blank" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg></a>
+        <a href="https://www.youtube.com/@BLACKPINK" target="_blank" title="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="5" ry="5"></rect><path d="M10 15l5-3-5-3v6z"></path></svg></a>
+        <a href="https://open.spotify.com/artist/41MozSoPIsD1dJM0CLPjZF" target="_blank" title="Spotify"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 11.5c2.5-1.5 5.5-1.5 8 0"></path><path d="M9 14c2-1 4-1 6 0"></path><path d="M7 9c3-2 7-2 10 0"></path></svg></a>
+      </div>
+    
+      <div style="margin-top: 25px; opacity: 0.25; font-size: 8px; text-align: center;">
+        <a href="login.html?v=5" style="color: var(--text-color); text-decoration: none; font-family: var(--font-sans); letter-spacing: 1px; font-weight: 500;">🔒 TEAM ACCESS</a>
+      </div>
+    </footer>
+
+  <script src="script.js?v=6"></script>
+
+  <script>
+    const slider = document.getElementById('heroSlider');
+    const track = document.getElementById('sliderTrack');
+    const slides = document.querySelectorAll('.hero-slide');
+    const indicators = document.querySelectorAll('.indicator');
+
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+    let startTranslate = 0;
+    let currentTranslate = 0;
+    let currentSlideIndex = 0;
+    let autoSlideInterval = setInterval(nextSlide, 3500);
+
+    slider.addEventListener('mousedown', dragStart);
+    slider.addEventListener('mousemove', dragMove);
+    slider.addEventListener('mouseup', dragEnd);
+    slider.addEventListener('mouseleave', dragEnd);
+
+    slider.addEventListener('touchstart', dragStart, { passive: true });
+    slider.addEventListener('touchmove', dragMove, { passive: true });
+    slider.addEventListener('touchend', dragEnd);
+
+    function dragStart(e) {
+      clearInterval(autoSlideInterval);
+      isDragging = true;
+      startX = getPositionX(e);
+      slider.style.cursor = 'grabbing';
+      track.style.transition = 'none';
+      startTranslate = -currentSlideIndex * slider.offsetWidth;
+    }
+
+    function dragMove(e) {
+      if (!isDragging) return;
+      currentX = getPositionX(e);
+      const diff = currentX - startX;
+      currentTranslate = startTranslate + diff;
+      track.style.transform = `translateX(${currentTranslate}px)`;
+    }
+
+    function dragEnd() {
+      if (!isDragging) return;
+      isDragging = false;
+      slider.style.cursor = 'grab';
+      
+      const movedBy = currentTranslate - startTranslate;
+      const threshold = slider.offsetWidth * 0.15;
+
+      track.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+
+      if (movedBy < -threshold && currentSlideIndex < slides.length - 1) {
+        currentSlideIndex += 1;
+      } else if (movedBy > threshold && currentSlideIndex > 0) {
+        currentSlideIndex -= 1;
+      }
+      
+      showSlide(currentSlideIndex);
+      autoSlideInterval = setInterval(nextSlide, 3500);
+    }
+
+    function getPositionX(e) {
+      return e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+    }
+
+    function showSlide(index) {
+      currentSlideIndex = index;
+      const offset = -currentSlideIndex * slider.offsetWidth;
+      track.style.transform = `translateX(${offset}px)`;
+
+      slides.forEach((slide, i) => {
+        if (i === currentSlideIndex) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+
+      indicators.forEach((indicator, i) => {
+        if (i === currentSlideIndex) {
+          indicator.classList.add('active');
+        } else {
+          indicator.classList.remove('active');
+        }
+      });
+    }
+
+    function nextSlide() {
+      if (currentSlideIndex >= slides.length - 1) {
+        currentSlideIndex = 0;
+      } else {
+        currentSlideIndex += 1;
+      }
+      track.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+      showSlide(currentSlideIndex);
+    }
+
+    function prevSlide() {
+      if (currentSlideIndex <= 0) {
+        currentSlideIndex = slides.length - 1;
+      } else {
+        currentSlideIndex -= 1;
+      }
+      track.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+      showSlide(currentSlideIndex);
+    }
+
+    function goToSlide(index) {
+      clearInterval(autoSlideInterval);
+      track.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+      showSlide(index);
+      autoSlideInterval = setInterval(nextSlide, 3500);
+    }
+
+    window.addEventListener('resize', () => {
+      track.style.transition = 'none';
+      showSlide(currentSlideIndex);
+    });
+
+    document.querySelector('.prev-arrow').addEventListener('click', (e) => {
+      e.stopPropagation();
+      clearInterval(autoSlideInterval);
+      prevSlide();
+      autoSlideInterval = setInterval(nextSlide, 3500);
+    });
+
+    document.querySelector('.next-arrow').addEventListener('click', (e) => {
+      e.stopPropagation();
+      clearInterval(autoSlideInterval);
+      nextSlide();
+    });
+
+    function loadSchedules() {
+      const grid = document.getElementById('schedulesGrid');
+      if (!grid) return;
+
+      let schedules = [
+        { id: 1, event: "LISA - Global Citizen Festival Performance", date: "September 27, 2026", category: "Performance", link: "https://www.globalcitizen.org/" },
+        { id: 2, event: "JENNIE - Chanel Spring/Summer Fashion Week", date: "October 1, 2026", category: "Fashion", link: "https://www.chanel.com/" },
+        { id: 3, event: "ROSÉ - Album Pre-release Single", date: "Late 2026", category: "Music", link: "index.html#live-analytics" }
+      ];
+
+      const overrides = localStorage.getItem('crave_schedules');
+      if (overrides) {
+        schedules = JSON.parse(overrides);
+      }
+
+      grid.innerHTML = '';
+      if (schedules.length === 0) {
+        grid.innerHTML = '<p style="opacity: 0.5; font-style: italic; font-size: 13px; grid-column: 1/-1; text-align: center;">No upcoming schedules listed.</p>';
+        return;
+      }
+
+      schedules.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'schedule-card';
+        
+        card.innerHTML = `
+          <div>
+            <div class="schedule-badge">${item.category}</div>
+            <div class="schedule-date" style="margin-top: 15px;">${item.date}</div>
+            <h3 class="schedule-title" style="margin-top: 10px;">${item.event}</h3>
+          </div>
+          ${item.link && item.link !== '#' ? `
+            <a href="${item.link}" target="_blank" class="schedule-link-btn">
+              Learn More &rarr;
+            </a>
+          ` : ''}
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    let activePromos = [];
+    let currentPromoIdx = 0;
+
+    function closePromoModal() {
+      const widget = document.getElementById('promoSideWidget');
+      if (widget) {
+        widget.classList.add('closed');
+        sessionStorage.setItem('crave_promo_closed', 'true');
+      }
+    }
+
+    function showPromoSlide(idx) {
+      const wrapper = document.getElementById('promoCarouselWrapper');
+      if (!wrapper) return;
+      currentPromoIdx = idx;
+      wrapper.style.transform = `translateX(-${currentPromoIdx * 100}%)`;
+      
+      const indicators = document.querySelectorAll('.promo-ind');
+      indicators.forEach((ind, i) => {
+        if (i === currentPromoIdx) ind.classList.add('active');
+        else ind.classList.remove('active');
+      });
+    }
+
+    function navigatePromo(dir) {
+      let target = currentPromoIdx + dir;
+      if (target < 0) target = activePromos.length - 1;
+      if (target >= activePromos.length) target = 0;
+      showPromoSlide(target);
+    }
+
+    function loadPromoModal() {
+      const stored = localStorage.getItem('crave_promos_data');
+      if (!stored) return;
+      
+      const allPromos = JSON.parse(stored);
+      activePromos = allPromos.filter(p => p.enabled);
+      
+      if (activePromos.length === 0) return;
+      
+      const wrapper = document.getElementById('promoCarouselWrapper');
+      const nav = document.getElementById('promoCarouselNav');
+      const indicators = document.getElementById('promoIndicators');
+      if (!wrapper) return;
+      
+      wrapper.innerHTML = '';
+      
+      activePromos.forEach(promo => {
+        let imgSrc = promo.coverImg;
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+          if (imgSrc.startsWith('images/promo_')) {
+            const user = localStorage.getItem('crave_gh_user') || 'blackpinkbase4';
+            const repo = localStorage.getItem('crave_gh_repo') || 'blackpinkcrave.com';
+            const branch = localStorage.getItem('crave_gh_branch') || 'main';
+            imgSrc = `https://raw.githubusercontent.com/${user}/${repo}/${branch}/${promo.coverImg}`;
+          }
+        }
+        
+        const slide = document.createElement('div');
+        slide.className = 'promo-slide';
+        
+        slide.innerHTML = `
+          <div class="promo-slide-bg">
+            <img src="${imgSrc}" alt="${promo.title}">
+          </div>
+          <div class="promo-slide-overlay"></div>
+          <div class="promo-content">
+            <div class="promo-tag">${promo.issueTag}</div>
+            <h2 class="promo-title">${promo.title}</h2>
+            <p class="promo-subtitle">${promo.subtitle}</p>
+            <div class="promo-action-row">
+              <a href="${promo.presaveLink}" target="_blank" class="promo-btn">Pre-Save</a>
+              <div class="promo-date">${promo.releaseDate}</div>
+            </div>
+          </div>
+        `;
+        wrapper.appendChild(slide);
+      });
+      
+      if (activePromos.length > 1) {
+        if (nav) nav.style.display = 'flex';
+        if (indicators) {
+          indicators.innerHTML = '';
+          activePromos.forEach((_, idx) => {
+            const ind = document.createElement('div');
+            ind.className = 'promo-ind' + (idx === 0 ? ' active' : '');
+            ind.onclick = () => showPromoSlide(idx);
+            indicators.appendChild(ind);
+          });
+        }
+      } else {
+        if (nav) nav.style.display = 'none';
+      }
+      
+      if (!sessionStorage.getItem('crave_promo_closed')) {
+        const widget = document.getElementById('promoSideWidget');
+        if (widget) widget.classList.remove('closed');
+      }
+    }
+
+    function loadNewRelease() {
+      const stored = localStorage.getItem('crave_new_release_data');
+      const section = document.getElementById('new-release-showcase');
+      if (!stored || !section) return;
+
+      const data = JSON.parse(stored);
+      if (!data.enabled) {
+        section.style.display = 'none';
+        return;
+      }
+
+      section.style.display = 'block';
+      const player = document.getElementById('newReleasePlayer');
+      const title = document.getElementById('newReleaseTitle');
+      const btnSpotify = document.getElementById('newReleaseSpotify');
+      const btnApple = document.getElementById('newReleaseApple');
+      const btnYtMusic = document.getElementById('newReleaseYtMusic');
+
+      if (player && (!player.getAttribute('src') || player.getAttribute('src') === '')) {
+        player.src = `https://www.youtube.com/embed/${data.ytId}?autoplay=1&mute=1&rel=0`;
+      }
+      if (title) title.textContent = data.title;
+      if (btnSpotify) btnSpotify.href = data.spotify || '#';
+      if (btnApple) btnApple.href = data.apple || '#';
+      if (btnYtMusic) btnYtMusic.href = data.youtubeMusic || '#';
+    }
+
+    async function loadLiveAnalytics() {
+      try {
+        const response = await fetch('stats_database.json');
+        if (!response.ok) return;
+        const db = await response.json();
+        window.analyticsDb = db;
+
+        const lastUpdatedEl = document.getElementById('statsLastUpdated');
+        if (lastUpdatedEl && db.lastUpdated) {
+          const date = new Date(db.lastUpdated);
+          lastUpdatedEl.textContent = `Last Sync: ${date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}, ${date.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}`;
+        }
+
+        const compContainer = document.getElementById('spotifyComparisonListContainer');
+        if (compContainer && db.artists) {
+          compContainer.innerHTML = '';
+          const artistKeys = ['blackpink', 'jisoo', 'jennie', 'rose', 'lisa'];
+          
+          artistKeys.forEach(key => {
+            const artist = db.artists[key];
+            if (!artist) return;
+            
+            const card = document.createElement('div');
+            card.className = 'custom-artist-row-card';
+            card.style.cursor = 'pointer';
+            card.style.transition = 'transform 0.3s ease, border-color 0.3s ease';
+            
+            card.onmouseenter = () => {
+              card.style.transform = 'translateY(-3px)';
+              card.style.borderColor = 'var(--accent-color)';
+            };
+            card.onmouseleave = () => {
+              card.style.transform = 'translateY(0)';
+              card.style.borderColor = 'var(--border-color)';
+            };
+            
+            card.onclick = (e) => {
+              if (e.target.tagName !== 'A') {
+                window.location.href = `solo_${key}.html`;
+              }
+            };
+            
+            card.innerHTML = `
+              <div class="row-left">
+                <div class="row-avatar-frame">
+                  <img src="${artist.image}" alt="${artist.name}" class="row-avatar-img">
+                </div>
+                <div class="row-info">
+                  <h4 class="row-artist-name">${artist.name}</h4>
+                  <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 4px;">
+                    <a href="${artist.profileUrl}" target="_blank" class="row-badge-link">Spotify Profile</a>
+                    <span style="opacity: 0.3; font-size: 10px;">•</span>
+                    <a href="solo_${key}.html" class="row-badge-link" style="color: var(--accent-color); font-weight: 600;">Enter Discography &rarr;</a>
+                  </div>
+                </div>
+              </div>
+              <div class="row-metrics">
+                <div class="row-metric-box">
+                  <span class="row-metric-lbl">Monthly Listeners</span>
+                  <span class="row-metric-num" data-target="${artist.listeners}">0</span>
+                  <span class="row-metric-trend">↑ LIVE</span>
+                </div>
+                <div class="row-metric-box">
+                  <span class="row-metric-lbl">Total Followers</span>
+                  <span class="row-metric-num" data-target="${artist.followers}">0</span>
+                  <span class="row-metric-trend">↑ LIVE</span>
+                </div>
+                <div class="row-metric-box">
+                  <span class="row-metric-lbl">Total Streams</span>
+                  <span class="row-metric-num" data-target="${artist.streams}">0</span>
+                  <span class="row-metric-trend">↑ +${artist.dailyGain.toLocaleString()} Today</span>
+                </div>
+              </div>
+            `;
+            compContainer.appendChild(card);
+          });
+        }
+
+        const goalsGrid = document.getElementById('liveGoalsGridContainer');
+        if (goalsGrid && db.goals) {
+          goalsGrid.innerHTML = '';
+          db.goals.forEach((goal, idx) => {
+            const current = goal.streams || 0;
+            const target = goal.target || 100000000;
+            const pct = Math.min((current / target) * 100, 100).toFixed(2);
+            let etaText = 'Goal Achieved! 🎉';
+            if (goal.dailyGain > 0 && target > current) {
+              const daysLeft = Math.ceil((target - current) / goal.dailyGain);
+              etaText = `~ ${daysLeft} Days Left`;
+            }
+
+            const card = document.createElement('div');
+            card.className = 'custom-unique-goal-card';
+            
+            let artistKey = goal.artist.toLowerCase();
+            if (artistKey === 'rosé') {
+              artistKey = 'rose';
+            }
+            let coverImg = 'images/disco_group.jpg';
+            if (artistKey !== 'blackpink' && artistKey !== 'group') {
+              coverImg = `images/disco_${artistKey}.jpg`;
+            }
+
+            card.innerHTML = `
+              <div class="goal-card-layout">
+                <div class="goal-card-left">
+                  <div class="goal-cover-frame">
+                    <img src="${coverImg}" alt="${goal.title}" class="goal-cover-img">
+                  </div>
+                  <div class="goal-left-streams-box">
+                    <span class="left-streams-label">Total Streams</span>
+                    <span class="left-streams-val">${current.toLocaleString()}</span>
+                  </div>
+                </div>
+                <div class="goal-card-right">
+                  <span class="campaign-status-label">Active Stream Goal</span>
+                  <h4 class="goal-track-title">${goal.title}</h4>
+                  <div class="goal-track-artist">${goal.artist}</div>
+
+                  <div class="goal-live-label">Spotify Live Streams</div>
+                  <div class="goal-progress-bar-container">
+                    <div class="goal-progress-bg">
+                      <div class="goal-progress-fill" data-pct="${pct}" style="width: 0%;">
+                        <span class="goal-progress-knob"></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="goal-progress-values">
+                    <span class="val-current">${current.toLocaleString()} / ${(target/1000000).toFixed(0)}M</span>
+                    <span class="val-pct">${pct}%</span>
+                  </div>
+
+                  <div class="campaign-metrics-panel">
+                    <div class="metric-row">
+                      <span class="metric-label">Added Today</span>
+                      <span class="metric-value">+${(goal.dailyGain || 0).toLocaleString()} streams</span>
+                    </div>
+                    <div class="metric-row">
+                      <span class="metric-label">Estimated Time Left</span>
+                      <span class="metric-value">${etaText}</span>
+                    </div>
+                  </div>
+
+                  <a href="${goal.spotify || '#'}" target="_blank" class="stream-spotify-btn-unique">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424c-.18.295-.563.387-.857.207-2.377-1.454-5.37-1.783-8.894-.982-.336.076-.67-.135-.746-.472-.076-.336.135-.67.472-.746 3.852-.878 7.144-.505 9.818 1.132.295.18.387.563.207.861zm1.224-2.724c-.226.367-.707.487-1.074.26-2.72-1.672-6.87-2.157-10.076-1.182-.413.125-.848-.107-.973-.52-.125-.413.107-.848.52-.973 3.666-1.112 8.237-.57 11.343 1.343.366.226.486.707.26 1.072zm.105-2.836C14.492 8.76 8.705 8.567 5.36 9.582c-.522.158-1.076-.143-1.235-.665-.158-.522.143-1.076.665-1.235 3.837-1.164 10.222-.943 14.167 1.402.47.28.622.89.342 1.36-.28.47-.89.622-1.36.342z"/></svg>
+                    <span>Stream On Spotify</span>
+                  </a>
+                </div>
+              </div>
+            `;
+
+            goalsGrid.appendChild(card);
+          });
+
+          setTimeout(() => {
+            document.querySelectorAll('.goal-progress-fill').forEach(fill => {
+              const targetPct = fill.getAttribute('data-pct');
+              fill.style.width = targetPct + '%';
+            });
+          }, 100);
+        }
+
+        animateUniqueOdometer();
+      } catch (err) {
+        
+      }
+    }
+
+    function animateUniqueOdometer() {
+      const counts = document.querySelectorAll('.row-metric-num');
+      counts.forEach(el => {
+        const target = parseInt(el.getAttribute('data-target'), 10);
+        let start = 0;
+        const duration = 1500;
+        const startTime = performance.now();
+
+        function updateVal(now) {
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const ease = progress * (2 - progress);
+          const current = Math.floor(ease * target);
+          
+          el.textContent = current.toLocaleString();
+
+          if (progress < 1) {
+            requestAnimationFrame(updateVal);
+          } else {
+            el.textContent = target.toLocaleString();
+          }
+        }
+        requestAnimationFrame(updateVal);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadSchedules();
+      loadPromoModal();
+      loadNewRelease();
+      loadLiveAnalytics();
+    });
+  </script>
+</body>
+</html>
