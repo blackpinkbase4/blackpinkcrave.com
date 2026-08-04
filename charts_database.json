@@ -1,0 +1,2003 @@
+{
+  "lastUpdated": "2026-08-04T08:53:24.968851",
+  "artists": {
+    "blackpink": {
+      "name": "BLACKPINK",
+      "songs": {
+        "JUMP": {
+          "spotify": [
+            {
+              "pos": 117,
+              "region": "South Korea",
+              "change": "="
+            },
+            {
+              "pos": 184,
+              "region": "Singapore",
+              "change": "-4"
+            },
+            {
+              "pos": 194,
+              "region": "Taiwan",
+              "change": "-18"
+            }
+          ],
+          "apple_music": [
+            {
+              "pos": 40,
+              "region": "Singapore",
+              "change": "+9"
+            },
+            {
+              "pos": 81,
+              "region": "Taiwan",
+              "change": "-7"
+            },
+            {
+              "pos": 118,
+              "region": "Malaysia",
+              "change": "-9"
+            },
+            {
+              "pos": 150,
+              "region": "Macau",
+              "change": "-3"
+            },
+            {
+              "pos": 165,
+              "region": "Hong Kong",
+              "change": "-8"
+            },
+            {
+              "pos": 167,
+              "region": "Laos",
+              "change": "NE"
+            },
+            {
+              "pos": 185,
+              "region": "Cambodia",
+              "change": "NE"
+            }
+          ]
+        },
+        "Champion": {
+          "itunes": [
+            {
+              "pos": 71,
+              "region": "United States",
+              "change": "+100"
+            }
+          ]
+        },
+        "GO": {
+          "apple_music": [
+            {
+              "pos": 121,
+              "region": "Singapore",
+              "change": "+5"
+            },
+            {
+              "pos": 169,
+              "region": "Laos",
+              "change": "NE"
+            },
+            {
+              "pos": 185,
+              "region": "Macau",
+              "change": "-12"
+            },
+            {
+              "pos": 185,
+              "region": "Taiwan",
+              "change": "-21"
+            },
+            {
+              "pos": 193,
+              "region": "Cambodia",
+              "change": "-56"
+            }
+          ]
+        },
+        "마지막처럼": {
+          "apple_music": [
+            {
+              "pos": 119,
+              "region": "South Korea",
+              "change": "="
+            }
+          ]
+        },
+        "뛰어(JUMP)": {
+          "apple_music": [
+            {
+              "pos": 120,
+              "region": "South Korea",
+              "change": "="
+            }
+          ]
+        },
+        "Shut Down": {
+          "apple_music": [
+            {
+              "pos": 195,
+              "region": "South Korea",
+              "change": "+1"
+            }
+          ],
+          "itunes": [
+            {
+              "pos": 20,
+              "region": "Nepal",
+              "change": "="
+            },
+            {
+              "pos": 148,
+              "region": "Philippines",
+              "change": "NE"
+            }
+          ]
+        },
+        "Kill This Love": {
+          "itunes": [
+            {
+              "pos": 6,
+              "region": "Philippines",
+              "change": "-1"
+            },
+            {
+              "pos": 60,
+              "region": "Vietnam",
+              "change": "+118"
+            }
+          ]
+        },
+        "Pink Venom": {
+          "itunes": [
+            {
+              "pos": 36,
+              "region": "Nepal",
+              "change": "="
+            },
+            {
+              "pos": 64,
+              "region": "Cape Verde",
+              "change": "+2"
+            }
+          ]
+        },
+        "How You Like That": {
+          "itunes": [
+            {
+              "pos": 26,
+              "region": "Laos",
+              "change": "-1"
+            }
+          ]
+        },
+        "As If It's Your Last": {
+          "spotify": [
+            {
+              "pos": 192,
+              "region": "South Korea",
+              "change": "+4"
+            }
+          ]
+        }
+      }
+    },
+    "jisoo": {
+      "name": "JISOO",
+      "songs": {
+        "EYES CLOSED": {
+          "apple_music": [
+            {
+              "pos": 7,
+              "region": "Bhutan",
+              "change": "+148"
+            }
+          ]
+        },
+        "earthquake": {
+          "itunes": [
+            {
+              "pos": 77,
+              "region": "Malaysia",
+              "change": "NE"
+            },
+            {
+              "pos": 193,
+              "region": "Hong Kong",
+              "change": "NE"
+            }
+          ]
+        }
+      }
+    },
+    "jennie": {
+      "name": "JENNIE",
+      "songs": {
+        "Less than a Lover": {
+          "spotify": [
+            {
+              "pos": 1,
+              "region": "Taiwan",
+              "change": "="
+            },
+            {
+              "pos": 3,
+              "region": "South Korea",
+              "change": "="
+            },
+            {
+              "pos": 5,
+              "region": "Singapore",
+              "change": "="
+            },
+            {
+              "pos": 9,
+              "region": "Hong Kong",
+              "change": "="
+            },
+            {
+              "pos": 17,
+              "region": "Malaysia",
+              "change": "-2"
+            },
+            {
+              "pos": 45,
+              "region": "Vietnam",
+              "change": "-12"
+            },
+            {
+              "pos": 49,
+              "region": "Thailand",
+              "change": "-18"
+            },
+            {
+              "pos": 83,
+              "region": "United Arab Emirates",
+              "change": "-11"
+            },
+            {
+              "pos": 86,
+              "region": "Worldwide",
+              "change": "-7"
+            },
+            {
+              "pos": 103,
+              "region": "Philippines",
+              "change": "-29"
+            },
+            {
+              "pos": 186,
+              "region": "Saudi Arabia",
+              "change": "-40"
+            }
+          ],
+          "apple_music": [
+            {
+              "pos": 1,
+              "region": "Taiwan",
+              "change": "="
+            },
+            {
+              "pos": 2,
+              "region": "Bhutan",
+              "change": "+1"
+            },
+            {
+              "pos": 2,
+              "region": "Hong Kong",
+              "change": "="
+            },
+            {
+              "pos": 3,
+              "region": "Mongolia",
+              "change": "+1"
+            },
+            {
+              "pos": 4,
+              "region": "Laos",
+              "change": "-1"
+            },
+            {
+              "pos": 4,
+              "region": "Macau",
+              "change": "-1"
+            },
+            {
+              "pos": 6,
+              "region": "Cambodia",
+              "change": "+3"
+            },
+            {
+              "pos": 7,
+              "region": "Myanmar",
+              "change": "+3"
+            },
+            {
+              "pos": 7,
+              "region": "Singapore",
+              "change": "="
+            },
+            {
+              "pos": 9,
+              "region": "Thailand",
+              "change": "="
+            },
+            {
+              "pos": 10,
+              "region": "China",
+              "change": "+3"
+            },
+            {
+              "pos": 11,
+              "region": "Malaysia",
+              "change": "="
+            },
+            {
+              "pos": 18,
+              "region": "Vietnam",
+              "change": "+1"
+            },
+            {
+              "pos": 21,
+              "region": "Indonesia",
+              "change": "+1"
+            },
+            {
+              "pos": 34,
+              "region": "Kyrgyzstan",
+              "change": "-5"
+            },
+            {
+              "pos": 39,
+              "region": "Uzbekistan",
+              "change": "-10"
+            },
+            {
+              "pos": 40,
+              "region": "Kazakhstan",
+              "change": "+3"
+            },
+            {
+              "pos": 46,
+              "region": "Qatar",
+              "change": "+14"
+            },
+            {
+              "pos": 55,
+              "region": "Nepal",
+              "change": "NE"
+            },
+            {
+              "pos": 75,
+              "region": "Philippines",
+              "change": "+1"
+            },
+            {
+              "pos": 88,
+              "region": "Maldives",
+              "change": "-15"
+            },
+            {
+              "pos": 104,
+              "region": "Turkey",
+              "change": "-3"
+            },
+            {
+              "pos": 112,
+              "region": "United Arab Emirates",
+              "change": "-10"
+            },
+            {
+              "pos": 142,
+              "region": "Saudi Arabia",
+              "change": "-4"
+            },
+            {
+              "pos": 160,
+              "region": "Sweden",
+              "change": "+33"
+            },
+            {
+              "pos": 175,
+              "region": "Suriname",
+              "change": "NE"
+            },
+            {
+              "pos": 176,
+              "region": "Norway",
+              "change": "-51"
+            },
+            {
+              "pos": 182,
+              "region": "Japan",
+              "change": "+1"
+            },
+            {
+              "pos": 192,
+              "region": "Belarus",
+              "change": "-76"
+            }
+          ],
+          "itunes": [
+            {
+              "pos": 5,
+              "region": "Qatar",
+              "change": "NE"
+            },
+            {
+              "pos": 5,
+              "region": "Taiwan",
+              "change": "+1"
+            },
+            {
+              "pos": 5,
+              "region": "Thailand",
+              "change": "-2"
+            },
+            {
+              "pos": 9,
+              "region": "Hong Kong",
+              "change": "-4"
+            },
+            {
+              "pos": 12,
+              "region": "Indonesia",
+              "change": "-3"
+            },
+            {
+              "pos": 15,
+              "region": "Laos",
+              "change": "-1"
+            },
+            {
+              "pos": 17,
+              "region": "Vietnam",
+              "change": "-7"
+            },
+            {
+              "pos": 28,
+              "region": "Singapore",
+              "change": "+43"
+            },
+            {
+              "pos": 39,
+              "region": "Philippines",
+              "change": "-20"
+            },
+            {
+              "pos": 52,
+              "region": "Mongolia",
+              "change": "-7"
+            },
+            {
+              "pos": 71,
+              "region": "Lithuania",
+              "change": "-29"
+            },
+            {
+              "pos": 182,
+              "region": "Mexico",
+              "change": "NE"
+            },
+            {
+              "pos": 193,
+              "region": "Australia",
+              "change": "NE"
+            }
+          ],
+          "youtube": [
+            {
+              "pos": 6,
+              "region": "Australia",
+              "change": "RE"
+            },
+            {
+              "pos": 9,
+              "region": "South Korea",
+              "change": "-1"
+            },
+            {
+              "pos": 11,
+              "region": "Hong Kong",
+              "change": "-4"
+            },
+            {
+              "pos": 12,
+              "region": "New Zealand",
+              "change": "RE"
+            },
+            {
+              "pos": 13,
+              "region": "Singapore",
+              "change": "-3"
+            },
+            {
+              "pos": 14,
+              "region": "Canada",
+              "change": "RE"
+            },
+            {
+              "pos": 15,
+              "region": "Taiwan",
+              "change": "-4"
+            },
+            {
+              "pos": 16,
+              "region": "Norway",
+              "change": "RE"
+            },
+            {
+              "pos": 26,
+              "region": "Netherlands",
+              "change": "RE"
+            },
+            {
+              "pos": 27,
+              "region": "Sweden",
+              "change": "RE"
+            },
+            {
+              "pos": 29,
+              "region": "Finland",
+              "change": "RE"
+            },
+            {
+              "pos": 32,
+              "region": "Denmark",
+              "change": "RE"
+            },
+            {
+              "pos": 38,
+              "region": "Iceland",
+              "change": "RE"
+            },
+            {
+              "pos": 39,
+              "region": "Belgium",
+              "change": "RE"
+            },
+            {
+              "pos": 39,
+              "region": "Switzerland",
+              "change": "RE"
+            },
+            {
+              "pos": 41,
+              "region": "United Kingdom",
+              "change": "RE"
+            },
+            {
+              "pos": 43,
+              "region": "Germany",
+              "change": "RE"
+            },
+            {
+              "pos": 47,
+              "region": "Luxembourg",
+              "change": "RE"
+            },
+            {
+              "pos": 52,
+              "region": "Ireland",
+              "change": "RE"
+            },
+            {
+              "pos": 55,
+              "region": "Austria",
+              "change": "RE"
+            },
+            {
+              "pos": 56,
+              "region": "Japan",
+              "change": "RE"
+            },
+            {
+              "pos": 57,
+              "region": "United States",
+              "change": "RE"
+            },
+            {
+              "pos": 58,
+              "region": "France",
+              "change": "RE"
+            },
+            {
+              "pos": 64,
+              "region": "Czech Republic",
+              "change": "RE"
+            },
+            {
+              "pos": 73,
+              "region": "Estonia",
+              "change": "RE"
+            },
+            {
+              "pos": 79,
+              "region": "Ukraine",
+              "change": "RE"
+            },
+            {
+              "pos": 85,
+              "region": "Portugal",
+              "change": "RE"
+            }
+          ]
+        },
+        "Dracula": {
+          "apple_music": [
+            {
+              "pos": 19,
+              "region": "Mongolia",
+              "change": "-2"
+            },
+            {
+              "pos": 27,
+              "region": "Kazakhstan",
+              "change": "="
+            },
+            {
+              "pos": 33,
+              "region": "Cambodia",
+              "change": "-3"
+            },
+            {
+              "pos": 36,
+              "region": "Kyrgyzstan",
+              "change": "-2"
+            },
+            {
+              "pos": 36,
+              "region": "Turkmenistan",
+              "change": "NE"
+            },
+            {
+              "pos": 46,
+              "region": "France",
+              "change": "-6"
+            },
+            {
+              "pos": 53,
+              "region": "Ukraine",
+              "change": "+2"
+            },
+            {
+              "pos": 54,
+              "region": "Sweden",
+              "change": "+2"
+            },
+            {
+              "pos": 58,
+              "region": "Singapore",
+              "change": "+18"
+            },
+            {
+              "pos": 62,
+              "region": "Germany",
+              "change": "+1"
+            },
+            {
+              "pos": 62,
+              "region": "Switzerland",
+              "change": "+7"
+            },
+            {
+              "pos": 68,
+              "region": "Laos",
+              "change": "NE"
+            },
+            {
+              "pos": 78,
+              "region": "Estonia",
+              "change": "+39"
+            },
+            {
+              "pos": 80,
+              "region": "Austria",
+              "change": "+4"
+            },
+            {
+              "pos": 82,
+              "region": "Bahrain",
+              "change": "+79"
+            },
+            {
+              "pos": 85,
+              "region": "Myanmar",
+              "change": "NE"
+            },
+            {
+              "pos": 86,
+              "region": "Belgium",
+              "change": "+5"
+            },
+            {
+              "pos": 87,
+              "region": "Malaysia",
+              "change": "+9"
+            },
+            {
+              "pos": 89,
+              "region": "Poland",
+              "change": "-5"
+            },
+            {
+              "pos": 94,
+              "region": "Cyprus",
+              "change": "+35"
+            },
+            {
+              "pos": 94,
+              "region": "Sri Lanka",
+              "change": "+48"
+            },
+            {
+              "pos": 94,
+              "region": "United Arab Emirates",
+              "change": "="
+            },
+            {
+              "pos": 96,
+              "region": "Armenia",
+              "change": "+46"
+            },
+            {
+              "pos": 107,
+              "region": "Fiji",
+              "change": "+7"
+            },
+            {
+              "pos": 109,
+              "region": "Latvia",
+              "change": "-20"
+            },
+            {
+              "pos": 111,
+              "region": "Australia",
+              "change": "+1"
+            },
+            {
+              "pos": 111,
+              "region": "Vietnam",
+              "change": "+10"
+            },
+            {
+              "pos": 124,
+              "region": "Qatar",
+              "change": "+69"
+            },
+            {
+              "pos": 132,
+              "region": "Indonesia",
+              "change": "+7"
+            },
+            {
+              "pos": 133,
+              "region": "Luxembourg",
+              "change": "+61"
+            },
+            {
+              "pos": 139,
+              "region": "United Kingdom",
+              "change": "+5"
+            },
+            {
+              "pos": 142,
+              "region": "Slovakia",
+              "change": "+50"
+            },
+            {
+              "pos": 150,
+              "region": "Norway",
+              "change": "+19"
+            },
+            {
+              "pos": 155,
+              "region": "Spain",
+              "change": "-9"
+            },
+            {
+              "pos": 166,
+              "region": "Saudi Arabia",
+              "change": "+17"
+            },
+            {
+              "pos": 171,
+              "region": "Finland",
+              "change": "-23"
+            },
+            {
+              "pos": 175,
+              "region": "Bhutan",
+              "change": "NE"
+            },
+            {
+              "pos": 179,
+              "region": "Mauritius",
+              "change": "NE"
+            },
+            {
+              "pos": 180,
+              "region": "Ireland",
+              "change": "+2"
+            },
+            {
+              "pos": 182,
+              "region": "Hungary",
+              "change": "NE"
+            },
+            {
+              "pos": 190,
+              "region": "New Zealand",
+              "change": "NE"
+            },
+            {
+              "pos": 190,
+              "region": "Turkey",
+              "change": "NE"
+            },
+            {
+              "pos": 193,
+              "region": "Macau",
+              "change": "NE"
+            },
+            {
+              "pos": 197,
+              "region": "Thailand",
+              "change": "NE"
+            }
+          ],
+          "itunes": [
+            {
+              "pos": 5,
+              "region": "Moldova",
+              "change": "NE"
+            },
+            {
+              "pos": 12,
+              "region": "Laos",
+              "change": "-1"
+            },
+            {
+              "pos": 23,
+              "region": "Canada",
+              "change": "+6"
+            },
+            {
+              "pos": 23,
+              "region": "Sweden",
+              "change": "NE"
+            },
+            {
+              "pos": 29,
+              "region": "Mongolia",
+              "change": "-7"
+            },
+            {
+              "pos": 40,
+              "region": "Qatar",
+              "change": "-14"
+            },
+            {
+              "pos": 42,
+              "region": "France",
+              "change": "-2"
+            },
+            {
+              "pos": 57,
+              "region": "Thailand",
+              "change": "+27"
+            },
+            {
+              "pos": 62,
+              "region": "India",
+              "change": "-43"
+            },
+            {
+              "pos": 65,
+              "region": "Australia",
+              "change": "+32"
+            },
+            {
+              "pos": 66,
+              "region": "United States",
+              "change": "+12"
+            },
+            {
+              "pos": 72,
+              "region": "Bolivia",
+              "change": "-12"
+            },
+            {
+              "pos": 74,
+              "region": "Germany",
+              "change": "-17"
+            },
+            {
+              "pos": 125,
+              "region": "Spain",
+              "change": "-50"
+            },
+            {
+              "pos": 149,
+              "region": "United Kingdom",
+              "change": "-103"
+            },
+            {
+              "pos": 161,
+              "region": "Italy",
+              "change": "NE"
+            },
+            {
+              "pos": 195,
+              "region": "Hong Kong",
+              "change": "NE"
+            }
+          ]
+        },
+        "One Of The Girls": {
+          "spotify": [
+            {
+              "pos": 42,
+              "region": "United Arab Emirates",
+              "change": "+16"
+            },
+            {
+              "pos": 48,
+              "region": "Malaysia",
+              "change": "+2"
+            },
+            {
+              "pos": 67,
+              "region": "Singapore",
+              "change": "+10"
+            },
+            {
+              "pos": 74,
+              "region": "Worldwide",
+              "change": "+10"
+            },
+            {
+              "pos": 92,
+              "region": "Kazakhstan",
+              "change": "+2"
+            },
+            {
+              "pos": 95,
+              "region": "Saudi Arabia",
+              "change": "+19"
+            },
+            {
+              "pos": 115,
+              "region": "Cyprus",
+              "change": "+18"
+            },
+            {
+              "pos": 147,
+              "region": "Thailand",
+              "change": "-3"
+            },
+            {
+              "pos": 151,
+              "region": "Vietnam",
+              "change": "-4"
+            },
+            {
+              "pos": 152,
+              "region": "Bulgaria",
+              "change": "+18"
+            },
+            {
+              "pos": 160,
+              "region": "Germany",
+              "change": "+26"
+            },
+            {
+              "pos": 164,
+              "region": "Lithuania",
+              "change": "NE"
+            },
+            {
+              "pos": 177,
+              "region": "Romania",
+              "change": "+18"
+            }
+          ],
+          "apple_music": [
+            {
+              "pos": 31,
+              "region": "Cambodia",
+              "change": "="
+            },
+            {
+              "pos": 36,
+              "region": "Mongolia",
+              "change": "-6"
+            },
+            {
+              "pos": 45,
+              "region": "Laos",
+              "change": "-14"
+            },
+            {
+              "pos": 57,
+              "region": "Kazakhstan",
+              "change": "+6"
+            },
+            {
+              "pos": 62,
+              "region": "Mauritius",
+              "change": "+11"
+            },
+            {
+              "pos": 66,
+              "region": "Myanmar",
+              "change": "+103"
+            },
+            {
+              "pos": 68,
+              "region": "Libya",
+              "change": "-67"
+            },
+            {
+              "pos": 72,
+              "region": "Kyrgyzstan",
+              "change": "-5"
+            },
+            {
+              "pos": 124,
+              "region": "Vietnam",
+              "change": "+5"
+            },
+            {
+              "pos": 127,
+              "region": "Malaysia",
+              "change": "+14"
+            },
+            {
+              "pos": 132,
+              "region": "Tajikistan",
+              "change": "+29"
+            },
+            {
+              "pos": 143,
+              "region": "Uzbekistan",
+              "change": "NE"
+            },
+            {
+              "pos": 159,
+              "region": "Maldives",
+              "change": "+15"
+            },
+            {
+              "pos": 166,
+              "region": "Sri Lanka",
+              "change": "-43"
+            },
+            {
+              "pos": 172,
+              "region": "Thailand",
+              "change": "-4"
+            },
+            {
+              "pos": 174,
+              "region": "Qatar",
+              "change": "+7"
+            },
+            {
+              "pos": 180,
+              "region": "Poland",
+              "change": "NE"
+            },
+            {
+              "pos": 182,
+              "region": "United Arab Emirates",
+              "change": "+8"
+            },
+            {
+              "pos": 183,
+              "region": "Lebanon",
+              "change": "NE"
+            },
+            {
+              "pos": 195,
+              "region": "India",
+              "change": "+3"
+            }
+          ],
+          "itunes": [
+            {
+              "pos": 14,
+              "region": "Cambodia",
+              "change": "-10"
+            },
+            {
+              "pos": 34,
+              "region": "Argentina",
+              "change": "NE"
+            },
+            {
+              "pos": 52,
+              "region": "United Arab Emirates",
+              "change": "NE"
+            },
+            {
+              "pos": 134,
+              "region": "India",
+              "change": "NE"
+            }
+          ]
+        },
+        "Dracula - JENNIE Remix": {
+          "spotify": [
+            {
+              "pos": 32,
+              "region": "France",
+              "change": "="
+            },
+            {
+              "pos": 45,
+              "region": "Luxembourg",
+              "change": "-1"
+            },
+            {
+              "pos": 47,
+              "region": "United Arab Emirates",
+              "change": "-1"
+            },
+            {
+              "pos": 52,
+              "region": "Belgium",
+              "change": "-2"
+            },
+            {
+              "pos": 60,
+              "region": "Singapore",
+              "change": "-3"
+            },
+            {
+              "pos": 66,
+              "region": "Cyprus",
+              "change": "-2"
+            },
+            {
+              "pos": 71,
+              "region": "Switzerland",
+              "change": "+2"
+            },
+            {
+              "pos": 76,
+              "region": "Worldwide",
+              "change": "="
+            },
+            {
+              "pos": 80,
+              "region": "Ukraine",
+              "change": "-6"
+            },
+            {
+              "pos": 85,
+              "region": "Kazakhstan",
+              "change": "="
+            },
+            {
+              "pos": 89,
+              "region": "Slovakia",
+              "change": "-10"
+            },
+            {
+              "pos": 96,
+              "region": "Germany",
+              "change": "+12"
+            },
+            {
+              "pos": 104,
+              "region": "Canada",
+              "change": "-16"
+            },
+            {
+              "pos": 112,
+              "region": "Poland",
+              "change": "-10"
+            },
+            {
+              "pos": 117,
+              "region": "Bulgaria",
+              "change": "-11"
+            },
+            {
+              "pos": 118,
+              "region": "Latvia",
+              "change": "+11"
+            },
+            {
+              "pos": 136,
+              "region": "Hungary",
+              "change": "+1"
+            },
+            {
+              "pos": 136,
+              "region": "Saudi Arabia",
+              "change": "+5"
+            },
+            {
+              "pos": 140,
+              "region": "Lithuania",
+              "change": "="
+            },
+            {
+              "pos": 146,
+              "region": "Austria",
+              "change": "+16"
+            },
+            {
+              "pos": 153,
+              "region": "Hong Kong",
+              "change": "-6"
+            },
+            {
+              "pos": 160,
+              "region": "Malaysia",
+              "change": "-13"
+            },
+            {
+              "pos": 162,
+              "region": "Israel",
+              "change": "-19"
+            },
+            {
+              "pos": 170,
+              "region": "Estonia",
+              "change": "+4"
+            },
+            {
+              "pos": 176,
+              "region": "Portugal",
+              "change": "-9"
+            },
+            {
+              "pos": 188,
+              "region": "United Kingdom",
+              "change": "-9"
+            },
+            {
+              "pos": 190,
+              "region": "Finland",
+              "change": "NE"
+            },
+            {
+              "pos": 200,
+              "region": "Ireland",
+              "change": "-21"
+            }
+          ]
+        },
+        "like JENNIE": {
+          "spotify": [
+            {
+              "pos": 136,
+              "region": "Singapore",
+              "change": "-11"
+            },
+            {
+              "pos": 145,
+              "region": "Taiwan",
+              "change": "-19"
+            },
+            {
+              "pos": 167,
+              "region": "Hong Kong",
+              "change": "-14"
+            }
+          ],
+          "apple_music": [
+            {
+              "pos": 50,
+              "region": "Singapore",
+              "change": "+10"
+            },
+            {
+              "pos": 51,
+              "region": "Taiwan",
+              "change": "+2"
+            },
+            {
+              "pos": 53,
+              "region": "Malaysia",
+              "change": "+5"
+            },
+            {
+              "pos": 58,
+              "region": "Cambodia",
+              "change": "+17"
+            },
+            {
+              "pos": 63,
+              "region": "Macau",
+              "change": "+17"
+            },
+            {
+              "pos": 105,
+              "region": "Hong Kong",
+              "change": "+2"
+            },
+            {
+              "pos": 120,
+              "region": "Mongolia",
+              "change": "-2"
+            },
+            {
+              "pos": 171,
+              "region": "China",
+              "change": "+11"
+            },
+            {
+              "pos": 171,
+              "region": "Philippines",
+              "change": "+22"
+            },
+            {
+              "pos": 171,
+              "region": "Vietnam",
+              "change": "+27"
+            }
+          ],
+          "itunes": [
+            {
+              "pos": 130,
+              "region": "Thailand",
+              "change": "NE"
+            }
+          ]
+        },
+        "Handlebars": {
+          "apple_music": [
+            {
+              "pos": 49,
+              "region": "Laos",
+              "change": "+13"
+            },
+            {
+              "pos": 104,
+              "region": "Philippines",
+              "change": "+1"
+            },
+            {
+              "pos": 123,
+              "region": "Thailand",
+              "change": "+6"
+            },
+            {
+              "pos": 140,
+              "region": "Cambodia",
+              "change": "+12"
+            },
+            {
+              "pos": 161,
+              "region": "Singapore",
+              "change": "+30"
+            },
+            {
+              "pos": 173,
+              "region": "Bhutan",
+              "change": "-110"
+            }
+          ],
+          "itunes": [
+            {
+              "pos": 82,
+              "region": "Thailand",
+              "change": "+13"
+            }
+          ]
+        },
+        "Seoul City": {
+          "apple_music": [
+            {
+              "pos": 61,
+              "region": "Mongolia",
+              "change": "+31"
+            },
+            {
+              "pos": 158,
+              "region": "Laos",
+              "change": "NE"
+            },
+            {
+              "pos": 162,
+              "region": "Cambodia",
+              "change": "NE"
+            }
+          ],
+          "itunes": [
+            {
+              "pos": 58,
+              "region": "Indonesia",
+              "change": "NE"
+            }
+          ]
+        },
+        "You & Me": {
+          "apple_music": [
+            {
+              "pos": 163,
+              "region": "Laos",
+              "change": "NE"
+            },
+            {
+              "pos": 181,
+              "region": "Taiwan",
+              "change": "+8"
+            },
+            {
+              "pos": 194,
+              "region": "Macau",
+              "change": "NE"
+            },
+            {
+              "pos": 196,
+              "region": "Cambodia",
+              "change": "NE"
+            }
+          ]
+        },
+        "Love Hangover": {
+          "apple_music": [
+            {
+              "pos": 83,
+              "region": "Laos",
+              "change": "NE"
+            }
+          ],
+          "itunes": [
+            {
+              "pos": 18,
+              "region": "Laos",
+              "change": "-1"
+            }
+          ]
+        },
+        "Damn Right": {
+          "apple_music": [
+            {
+              "pos": 118,
+              "region": "Laos",
+              "change": "+54"
+            },
+            {
+              "pos": 199,
+              "region": "Cambodia",
+              "change": "-12"
+            }
+          ]
+        },
+        "Mantra": {
+          "apple_music": [
+            {
+              "pos": 192,
+              "region": "Cambodia",
+              "change": "+1"
+            }
+          ]
+        }
+      }
+    },
+    "rose": {
+      "name": "ROSE",
+      "songs": {
+        "APT.": {
+          "spotify": [
+            {
+              "pos": 52,
+              "region": "Singapore",
+              "change": "+2"
+            },
+            {
+              "pos": 86,
+              "region": "United Arab Emirates",
+              "change": "+8"
+            },
+            {
+              "pos": 92,
+              "region": "Taiwan",
+              "change": "-6"
+            },
+            {
+              "pos": 94,
+              "region": "Hong Kong",
+              "change": "-2"
+            },
+            {
+              "pos": 114,
+              "region": "Worldwide",
+              "change": "-9"
+            },
+            {
+              "pos": 115,
+              "region": "Switzerland",
+              "change": "+4"
+            },
+            {
+              "pos": 123,
+              "region": "Belgium",
+              "change": "+5"
+            },
+            {
+              "pos": 129,
+              "region": "Canada",
+              "change": "-3"
+            },
+            {
+              "pos": 145,
+              "region": "Australia",
+              "change": "-34"
+            },
+            {
+              "pos": 154,
+              "region": "Germany",
+              "change": "-6"
+            },
+            {
+              "pos": 164,
+              "region": "New Zealand",
+              "change": "-44"
+            },
+            {
+              "pos": 173,
+              "region": "United Kingdom",
+              "change": "-9"
+            },
+            {
+              "pos": 181,
+              "region": "Norway",
+              "change": "+16"
+            }
+          ],
+          "apple_music": [
+            {
+              "pos": 32,
+              "region": "Singapore",
+              "change": "-5"
+            },
+            {
+              "pos": 42,
+              "region": "Malaysia",
+              "change": "="
+            },
+            {
+              "pos": 47,
+              "region": "Libya",
+              "change": "NE"
+            },
+            {
+              "pos": 56,
+              "region": "Taiwan",
+              "change": "-8"
+            },
+            {
+              "pos": 72,
+              "region": "Macau",
+              "change": "-20"
+            },
+            {
+              "pos": 78,
+              "region": "Austria",
+              "change": "-12"
+            },
+            {
+              "pos": 79,
+              "region": "Luxembourg",
+              "change": "-16"
+            },
+            {
+              "pos": 81,
+              "region": "Germany",
+              "change": "-6"
+            },
+            {
+              "pos": 86,
+              "region": "Hong Kong",
+              "change": "-5"
+            },
+            {
+              "pos": 86,
+              "region": "Netherlands",
+              "change": "+3"
+            },
+            {
+              "pos": 91,
+              "region": "United Arab Emirates",
+              "change": "="
+            },
+            {
+              "pos": 102,
+              "region": "Australia",
+              "change": "-13"
+            },
+            {
+              "pos": 115,
+              "region": "New Zealand",
+              "change": "-24"
+            },
+            {
+              "pos": 115,
+              "region": "Switzerland",
+              "change": "-7"
+            },
+            {
+              "pos": 117,
+              "region": "Nepal",
+              "change": "NE"
+            },
+            {
+              "pos": 135,
+              "region": "United Kingdom",
+              "change": "-15"
+            },
+            {
+              "pos": 138,
+              "region": "Sweden",
+              "change": "+35"
+            },
+            {
+              "pos": 154,
+              "region": "Czech Republic",
+              "change": "-26"
+            },
+            {
+              "pos": 169,
+              "region": "Norway",
+              "change": "-3"
+            },
+            {
+              "pos": 175,
+              "region": "Mauritius",
+              "change": "-42"
+            },
+            {
+              "pos": 178,
+              "region": "Slovakia",
+              "change": "-37"
+            },
+            {
+              "pos": 178,
+              "region": "Uzbekistan",
+              "change": "-28"
+            },
+            {
+              "pos": 180,
+              "region": "Belgium",
+              "change": "+4"
+            },
+            {
+              "pos": 189,
+              "region": "Fiji",
+              "change": "NE"
+            },
+            {
+              "pos": 196,
+              "region": "Qatar",
+              "change": "-21"
+            }
+          ],
+          "itunes": [
+            {
+              "pos": 16,
+              "region": "Mauritius",
+              "change": "-15"
+            },
+            {
+              "pos": 26,
+              "region": "Netherlands",
+              "change": "+69"
+            },
+            {
+              "pos": 29,
+              "region": "Slovakia",
+              "change": "NE"
+            },
+            {
+              "pos": 42,
+              "region": "Indonesia",
+              "change": "+50"
+            },
+            {
+              "pos": 48,
+              "region": "Portugal",
+              "change": "NE"
+            },
+            {
+              "pos": 53,
+              "region": "Australia",
+              "change": "+4"
+            },
+            {
+              "pos": 79,
+              "region": "United Kingdom",
+              "change": "+84"
+            },
+            {
+              "pos": 85,
+              "region": "Mongolia",
+              "change": "-3"
+            },
+            {
+              "pos": 105,
+              "region": "Austria",
+              "change": "NE"
+            },
+            {
+              "pos": 119,
+              "region": "Germany",
+              "change": "NE"
+            },
+            {
+              "pos": 138,
+              "region": "France",
+              "change": "-95"
+            },
+            {
+              "pos": 162,
+              "region": "Denmark",
+              "change": "NE"
+            },
+            {
+              "pos": 175,
+              "region": "United States",
+              "change": "+16"
+            },
+            {
+              "pos": 177,
+              "region": "Mexico",
+              "change": "NE"
+            },
+            {
+              "pos": 183,
+              "region": "Canada",
+              "change": "NE"
+            },
+            {
+              "pos": 192,
+              "region": "Nigeria",
+              "change": "-125"
+            },
+            {
+              "pos": 195,
+              "region": "Italy",
+              "change": "NE"
+            }
+          ],
+          "youtube": [
+            {
+              "pos": 16,
+              "region": "Australia",
+              "change": "="
+            },
+            {
+              "pos": 16,
+              "region": "Iceland",
+              "change": "+4"
+            },
+            {
+              "pos": 18,
+              "region": "Belgium",
+              "change": "-1"
+            },
+            {
+              "pos": 18,
+              "region": "New Zealand",
+              "change": "="
+            },
+            {
+              "pos": 18,
+              "region": "Singapore",
+              "change": "+2"
+            },
+            {
+              "pos": 19,
+              "region": "Luxembourg",
+              "change": "-2"
+            },
+            {
+              "pos": 35,
+              "region": "South Korea",
+              "change": "RE"
+            }
+          ]
+        },
+        "toxic till the end": {
+          "spotify": [
+            {
+              "pos": 62,
+              "region": "Taiwan",
+              "change": "-14"
+            },
+            {
+              "pos": 82,
+              "region": "South Korea",
+              "change": "-1"
+            },
+            {
+              "pos": 141,
+              "region": "Hong Kong",
+              "change": "-8"
+            },
+            {
+              "pos": 174,
+              "region": "Singapore",
+              "change": "+2"
+            }
+          ],
+          "apple_music": [
+            {
+              "pos": 80,
+              "region": "Taiwan",
+              "change": "-2"
+            },
+            {
+              "pos": 137,
+              "region": "Laos",
+              "change": "-15"
+            },
+            {
+              "pos": 139,
+              "region": "Hong Kong",
+              "change": "+19"
+            },
+            {
+              "pos": 147,
+              "region": "Cambodia",
+              "change": "+20"
+            },
+            {
+              "pos": 151,
+              "region": "Singapore",
+              "change": "+39"
+            },
+            {
+              "pos": 180,
+              "region": "Macau",
+              "change": "-30"
+            }
+          ]
+        },
+        "drinks or coffee": {
+          "itunes": [
+            {
+              "pos": 76,
+              "region": "Thailand",
+              "change": "NE"
+            }
+          ]
+        },
+        "number one girl": {
+          "apple_music": [
+            {
+              "pos": 104,
+              "region": "Cambodia",
+              "change": "+2"
+            },
+            {
+              "pos": 182,
+              "region": "Malaysia",
+              "change": "NE"
+            }
+          ],
+          "itunes": [
+            {
+              "pos": 6,
+              "region": "Cambodia",
+              "change": "NE"
+            }
+          ]
+        }
+      }
+    },
+    "lisa": {
+      "name": "LISA",
+      "songs": {
+        "Bad Angel": {
+          "itunes": [
+            {
+              "pos": 83,
+              "region": "Thailand",
+              "change": "+16"
+            }
+          ]
+        },
+        "LALISA": {
+          "itunes": [
+            {
+              "pos": 11,
+              "region": "Micronesia",
+              "change": "="
+            },
+            {
+              "pos": 63,
+              "region": "Niger",
+              "change": "="
+            },
+            {
+              "pos": 64,
+              "region": "Gambia",
+              "change": "="
+            },
+            {
+              "pos": 69,
+              "region": "Laos",
+              "change": "+18"
+            }
+          ]
+        },
+        "Goals": {
+          "itunes": [
+            {
+              "pos": 2,
+              "region": "Venezuela",
+              "change": "NE"
+            }
+          ]
+        },
+        "Lifestyle": {
+          "itunes": [
+            {
+              "pos": 3,
+              "region": "Venezuela",
+              "change": "NE"
+            }
+          ]
+        },
+        "Rockstar": {
+          "spotify": [
+            {
+              "pos": 122,
+              "region": "Thailand",
+              "change": "-10"
+            }
+          ],
+          "itunes": [
+            {
+              "pos": 76,
+              "region": "Laos",
+              "change": "+19"
+            }
+          ]
+        },
+        "SG": {
+          "itunes": [
+            {
+              "pos": 27,
+              "region": "Nepal",
+              "change": "="
+            },
+            {
+              "pos": 73,
+              "region": "Laos",
+              "change": "+18"
+            }
+          ]
+        },
+        "MONEY": {
+          "itunes": [
+            {
+              "pos": 67,
+              "region": "Laos",
+              "change": "+18"
+            }
+          ]
+        },
+        "Moonlit Floor": {
+          "itunes": [
+            {
+              "pos": 78,
+              "region": "Laos",
+              "change": "+18"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

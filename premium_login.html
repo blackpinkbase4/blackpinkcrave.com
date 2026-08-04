@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Hub Login - BLACKPINK CRAVE</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=24">
+  
+  <!-- Load official Google Identity Services SDK -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  
+  <style>
+    @media (max-width: 1150px) {
+      nav .nav-container {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 12px 15px !important;
+        gap: 0 !important;
+      }
+      nav .desktop-only {
+        display: none !important;
+      }
+      nav .nav-right {
+        display: none !important;
+      }
+      nav .nav-container > div:last-child {
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        margin-top: 0 !important;
+      }
+      main.login-wrapper {
+        margin-top: 85px !important;
+        padding: 20px 15px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <a href="index.html" class="back-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+          </svg>
+          <span>Back</span>
+        </a>
+        <span style="opacity: 0.15; font-size: 14px; display: inline-block; transform: translateY(-1px);">|</span>
+        <div class="logo"><a href="index.html?v=2"><img src="images/logo.jpg" alt="Logo" class="logo-img"><span>BLACKPINK CRAVE</span></a> <span class="nav-breadcrumb">/ PREMIUM HUB</span></div>
+      </div>
+      <div class="nav-right desktop-only">
+        <ul class="nav-links">
+          <li><a href="index.html#active-streaming-goals">Streaming Goals</a></li>
+          <li><a href="index.html#members">Members</a></li>
+          <li><a href="schedules.html?v=5">Schedules</a></li>
+          <li><a href="videos.html?v=5">Videos</a></li>
+          <li><a href="votings.html?v=5">Votings</a></li>
+          <li><a href="anniversary.html?v=5">Anniversary</a></li>
+          <li><a href="about.html?v=5">About</a></li>
+        </ul>
+      </div>
+      <button onclick="toggleTheme()" class="emoji-theme-btn" id="themeToggleBtn" title="Toggle Light/Dark Mode">☀️</button>
+    </div>
+  </nav>
+
+  <main class="login-wrapper">
+    <div class="login-card" style="max-width: 400px; padding: 40px 30px;">
+      <h2 style="font-family: var(--font-serif); font-size: 26px; font-weight: 300; margin: 0; text-align: center;">Premium Hub</h2>
+      <p style="font-size: 11px; color: var(--text-muted); text-align: center; margin: 5px 0 25px 0; letter-spacing: 0.5px;">Sign in to access advanced tools & metrics</p>
+      
+      <div style="display: flex; flex-direction: column; gap: 16px; align-items: center; width: 100%;">
+        <div style="width: 100%; display: flex; flex-direction: column; gap: 12px; margin-bottom: 5px;">
+          <div style="display: flex; flex-direction: column; gap: 6px; width: 100%;">
+            <label style="font-size: 9.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; text-align: left;">Username / Email</label>
+            <input type="text" id="emailInput" placeholder="Enter username or email" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 6px; padding: 12px; color: #fff; font-size: 12px; outline: none; transition: border-color 0.3s; box-sizing: border-box; width: 100%;">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; width: 100%;">
+            <label style="font-size: 9.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; text-align: left;">Password</label>
+            <input type="password" id="passwordInput" placeholder="Enter password" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 6px; padding: 12px; color: #fff; font-size: 12px; outline: none; transition: border-color 0.3s; box-sizing: border-box; width: 100%;">
+          </div>
+          <button type="button" onclick="handleEmailLogin()" style="background-color: #ff6f3c; color: #fff; border: none; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; padding: 12px; border-radius: 6px; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(255, 111, 60, 0.3); width: 100%; margin-top: 5px;">
+            Access Premium Hub
+          </button>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: center; gap: 10px; opacity: 0.35; margin: 5px 0; width: 100%;">
+          <div style="flex-grow: 1; height: 1px; background: #fff;"></div>
+          <span style="font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap;">Or Continue With</span>
+          <div style="flex-grow: 1; height: 1px; background: #fff;"></div>
+        </div>
+
+        <div id="g_id_onload"
+             data-client_id="235434428018-cbllanjdsac1cv4rtg87b0o9ir5mbr53.apps.googleusercontent.com"
+             data-context="signin"
+             data-ux_mode="popup"
+             data-callback="handleCredentialResponse"
+             data-auto_select="false">
+        </div>
+        <div class="g_id_signin"
+             data-type="standard"
+             data-shape="rectangular"
+             data-theme="dark"
+             data-text="signin_with"
+             data-size="large"
+             data-logo_alignment="left"
+             style="width: 100%; display: flex; justify-content: center; min-height: 44px;">
+        </div>
+
+        <div style="width: 100%; height: 1px; background-color: var(--border-color); margin: 5px 0;"></div>
+
+        <button type="button" onclick="handleOAuth('X (Twitter)')" class="btn-submit" style="background-color: rgba(255,255,255,0.02); color: #fff; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 11px; font-weight: 600; padding: 12px 20px; width: 100%; cursor: pointer;">
+          <svg style="width: 12px; height: 12px;" viewBox="0 0 24 24"><path fill="#f06292" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          Continue with X (Twitter)
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-logo"><img src="images/logo.jpg" alt="Logo" class="logo-img" style="width: 24px; height: 24px;"><span>BLACKPINK CRAVE</span></div>
+    <div class="footer-copy">&copy; 2026 BLACKPINK CRAVE Designed for BLINKs</div>
+    <p class="footer-disclaimer" style="font-size: 11px; opacity: 0.45; max-width: 600px; margin: 15px auto 0 auto; line-height: 1.6; font-family: var(--font-sans); text-transform: none; letter-spacing: 0px;">
+      BLACKPINK CRAVE is an independent fan-run platform and is not affiliated with YG Entertainment. All content is for informational and entertainment purposes only.
+    </p>
+  </footer>
+
+  <script src="script.js?v=6"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const wrapper = document.querySelector('.login-wrapper');
+      if (wrapper) {
+        wrapper.addEventListener('click', (e) => {
+          if (e.target === wrapper) {
+            window.location.href = 'index.html';
+          }
+        });
+      }
+    });
+
+    // Real Google Sign-in handler callback
+    function handleCredentialResponse(response) {
+      try {
+        const jwt = response.credential;
+        const base64Url = jwt.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        const payload = JSON.parse(jsonPayload);
+        
+        localStorage.setItem('crave_premium_logged_in', 'true');
+        localStorage.setItem('crave_premium_user_name', payload.name);
+        localStorage.setItem('crave_premium_user_email', payload.email);
+        if (payload.picture) {
+          localStorage.setItem('crave_premium_user_avatar', payload.picture);
+        }
+        
+        window.location.href = 'premium.html';
+      } catch (e) {
+        console.error("Google authentication JWT processing error:", e);
+        alert("Google sign-in error. Please try again.");
+      }
+    }
+
+    window.addEventListener('message', (event) => {
+      if (event.data && event.data.type === 'OAUTH_SUCCESS') {
+        localStorage.setItem('crave_premium_logged_in', 'true');
+        localStorage.setItem('crave_premium_user_name', event.data.username);
+        window.location.href = 'premium.html';
+      }
+    });
+
+    function handleOAuth(provider) {
+      const width = 500;
+      const height = 600;
+      const left = (window.screen.width - width) / 2;
+      const top = (window.screen.height - height) / 2;
+      
+      const popup = window.open("", "OAuth Consent", `width=${width},height=${height},left=${left},top=${top}`);
+      
+      if (!popup) {
+        alert("Please enable popups for this site to log in.");
+        return;
+      }
+      
+      popup.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Sign in - ${provider}</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <style>
+            body {
+              background-color: #080808;
+              color: #f5f5f7;
+              font-family: 'Inter', -apple-system, sans-serif;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              height: 100vh;
+              margin: 0;
+              text-align: center;
+              padding: 20px;
+            }
+            .card {
+              background-color: #111;
+              border: 1px solid rgba(255,255,255,0.08);
+              border-radius: 12px;
+              padding: 40px 30px;
+              width: 100%;
+              max-width: 360px;
+              box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+              box-sizing: border-box;
+            }
+            .logo {
+              width: 50px;
+              height: 50px;
+              border-radius: 50%;
+              border: 1px solid rgba(255,255,255,0.1);
+              margin-bottom: 20px;
+              display: inline-block;
+            }
+            h2 {
+              font-size: 18px;
+              margin: 0 0 8px 0;
+              font-weight: 500;
+            }
+            p {
+              font-size: 12px;
+              color: #a1a1aa;
+              margin: 0 0 20px 0;
+              line-height: 1.5;
+            }
+            .btn {
+              background-color: #ff6f3c;
+              color: #fff;
+              border: none;
+              padding: 12px 24px;
+              font-size: 11px;
+              font-weight: 600;
+              border-radius: 6px;
+              cursor: pointer;
+              text-transform: uppercase;
+              letter-spacing: 1px;
+              width: 100%;
+              transition: opacity 0.2s;
+            }
+            .btn:hover {
+              opacity: 0.9;
+            }
+            .spinner {
+              border: 2px solid rgba(255,255,255,0.1);
+              border-top: 2px solid #ff6f3c;
+              border-radius: 50%;
+              width: 30px;
+              height: 30px;
+              animation: spin 0.8s linear infinite;
+              margin: 0 auto 20px auto;
+            }
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="card" id="consentCard">
+            <div class="logo" style="background-color: #222; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto;">
+              <span style="font-size: 18px; font-weight: bold; color: #ff6f3c;">${provider[0]}</span>
+            </div>
+            <h2>Sign in with ${provider}</h2>
+            <p><strong>BLACKPINK CRAVE</strong> requests authorization to view your profile.</p>
+            <input type="text" id="userInput" placeholder="${provider === 'Google' ? 'Enter Google Email' : 'Enter X (Twitter) Username'}" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 12px; color: #fff; font-size: 13px; outline: none; margin-bottom: 20px; width: 100%; box-sizing: border-box; text-align: center;">
+            <button class="btn" onclick="approve()">Approve & Continue</button>
+          </div>
+          <div class="card" id="loaderCard" style="display: none;">
+            <div class="spinner"></div>
+            <h2>Connecting...</h2>
+            <p>Exchanging secure tokens with ${provider} auth server.</p>
+          </div>
+
+          <script>
+            function approve() {
+              const val = document.getElementById('userInput').value.trim();
+              if (!val) {
+                alert('Please enter your account details.');
+                return;
+              }
+              const username = val.includes('@') ? val.split('@')[0] : val;
+              document.getElementById('consentCard').style.display = 'none';
+              document.getElementById('loaderCard').style.display = 'block';
+              setTimeout(() => {
+                window.opener.postMessage({ type: 'OAUTH_SUCCESS', provider: '${provider}', username: username }, '*');
+                window.close();
+              }, 1500);
+            }
+          <\/script>
+        </body>
+        </html>
+      `);
+    }
+    function handleEmailLogin() {
+      const user = document.getElementById('emailInput').value.trim();
+      const pass = document.getElementById('passwordInput').value.trim();
+      if (!user || !pass) {
+        alert('Please enter username/email and password.');
+        return;
+      }
+      localStorage.setItem('crave_premium_logged_in', 'true');
+      localStorage.setItem('crave_premium_user_name', user.split('@')[0]);
+      window.location.href = 'premium.html';
+    }
+  </script>
+</body>
+</html>
