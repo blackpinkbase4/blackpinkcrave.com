@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROSÉ Profile - Premium Hub</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=24">
+  
+  <script>
+    // Guard route: restrict to authenticated premium users
+    if (localStorage.getItem('crave_premium_logged_in') !== 'true') {
+      window.location.href = 'premium_login.html';
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #000000 !important;
+      color: #f5f5f7 !important;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+      background: #000000 !important;
+    }
+
+    /* Back link button standard styling with baby pink theme */
+    .premium-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(15,15,15,0.6);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.8);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 10px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      cursor: pointer;
+      backdrop-filter: blur(5px);
+      transition: all 0.3s;
+      width: fit-content;
+    }
+    .premium-back-btn:hover {
+      border-color: rgba(244, 114, 182, 0.4);
+      color: #f472b6;
+      background: rgba(244, 114, 182, 0.05);
+      box-shadow: 0 0 15px rgba(244, 114, 182, 0.1);
+    }
+
+    /* SNS premium links grid buttons styling with baby pink theme */
+    .sns-link {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: #a1a1aa;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 12px 20px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .sns-link:hover {
+      background: rgba(244, 114, 182, 0.12);
+      border-color: rgba(244, 114, 182, 0.4);
+      color: #f472b6;
+      box-shadow: 0 0 15px rgba(244, 114, 182, 0.15);
+      transform: translateY(-2px);
+    }
+
+    /* Custom Facts Scrollbar */
+    .facts-list-box::-webkit-scrollbar {
+      width: 5px;
+    }
+    .facts-list-box::-webkit-scrollbar-track {
+      background: rgba(0,0,0,0.1);
+    }
+    .facts-list-box::-webkit-scrollbar-thumb {
+      background: rgba(244, 114, 182, 0.2);
+      border-radius: 4px;
+    }
+    .facts-list-box::-webkit-scrollbar-thumb:hover {
+      background: rgba(244, 114, 182, 0.4);
+    }
+
+    .fact-item {
+      font-size: 12px;
+      line-height: 1.6;
+      color: #d4d4d8;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .fact-bullet {
+      color: #f472b6;
+      font-weight: bold;
+    }
+
+    /* Mobile Responsive Optimizations */
+    @media (max-width: 1150px) {
+      /* Reduce brand text size on smaller devices */
+      .brand-text {
+        font-size: 11px !important;
+        letter-spacing: 1px !important;
+      }
+      .premium-badge {
+        font-size: 8px !important;
+        padding: 1px 4px !important;
+      }
+      body {
+        background: #000000 !important;
+      }
+      header {
+        padding: 15px 20px 0 20px !important;
+      }
+      main {
+        padding: 15px 0 !important;
+        display: block !important; /* Stack naturally to remove vertical centering empty gaps */
+      }
+      .profile-container {
+        flex-direction: column !important;
+        gap: 20px !important;
+        padding: 0 15px !important;
+        margin: 10px auto 30px auto !important;
+      }
+      .media-panel, .info-panel {
+        min-width: 100% !important;
+        width: 100% !important;
+        padding: 25px 20px !important;
+      }
+      .profile-avatar {
+        width: 150px !important;
+        height: 150px !important;
+        margin-bottom: 15px !important;
+      }
+      h1 {
+        font-size: 26px !important;
+      }
+      .social-links-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr 1fr !important;
+        gap: 8px !important;
+      }
+      .social-links-grid a {
+        text-align: center;
+        padding: 10px !important;
+        font-size: 9px !important;
+      }
+      .spec-list {
+        padding: 15px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Section with Nav Back button -->
+  <header style="padding: 30px 40px 0 40px; z-index: 10;">
+    <a href="premium.html" class="premium-back-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+      </svg>
+      Back to Hub
+    </a>
+  </header>
+
+  <!-- Clean Canvas Workspace Layout -->
+  <main style="flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 20px 25px; z-index: 10; overflow-y: auto;">
+    
+    <div class="profile-container" style="display: flex; gap: 40px; max-width: 1200px; width: 100%; align-items: stretch; flex-wrap: wrap; margin-bottom: 40px;">
+      
+      <!-- Left Panel: Media & Stats -->
+      <div class="media-panel" style="flex: 1; min-width: 320px; display: flex; flex-direction: column; align-items: center; background: rgba(15,15,15,0.45); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 40px; backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); box-shadow: 0 20px 50px rgba(0,0,0,0.6); text-align: center;">
+         <div class="profile-avatar" style="width: 220px; height: 220px; border-radius: 50%; overflow: hidden; border: 2px solid #f472b6; box-shadow: 0 15px 35px rgba(244,114,182,0.25); margin-bottom: 30px;">
+           <img src="images/disco_rose.jpg" alt="ROSÉ" style="width: 100%; height: 100%; object-fit: cover;">
+         </div>
+         <h1 style="font-family: 'Cinzel', serif; font-size: 34px; font-weight: 500; letter-spacing: 3px; margin: 0 0 10px 0; color: #fff; text-shadow: 0 0 10px rgba(244,114,182,0.1);">ROSÉ</h1>
+         <p style="font-size: 11px; font-weight: bold; letter-spacing: 2px; color: #f472b6; text-transform: uppercase; margin-bottom: 30px;">Main Vocalist, Lead Dancer</p>
+         
+         <!-- Details list table -->
+         <div class="spec-list" style="width: 100%; text-align: left; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; padding: 20px; box-sizing: border-box; margin-bottom: 30px;">
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; margin-bottom: 8px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">Birth Name</span>
+             <span style="color: #fff; font-weight: 500;">Roseanne Park</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; margin-bottom: 8px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">Korean Name</span>
+             <span style="color: #fff; font-weight: 500;">Park Chae-young (박채영)</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; margin-bottom: 8px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">Birthday</span>
+             <span style="color: #fff; font-weight: 500;">February 11, 1997</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; margin-bottom: 8px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">Zodiac Sign</span>
+             <span style="color: #fff; font-weight: 500;">Aquarius</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; margin-bottom: 8px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">Height & Weight</span>
+             <span style="color: #fff; font-weight: 500;">168.7 cm • 44 kg</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; margin-bottom: 8px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">Blood Type</span>
+             <span style="color: #fff; font-weight: 500;">B</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; margin-bottom: 8px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">MBTI Type</span>
+             <span style="color: #fff; font-weight: 500;">ENFP</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">Animal Sign</span>
+             <span style="color: #fff; font-weight: 500;">Ox (Year) / Squirrel</span>
+           </div>
+         </div>
+
+         <!-- Social links -->
+         
+          
+          <div class="social-links-grid" style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; width: 100%;">
+           <a href="https://www.instagram.com/roses_are_rosie/" target="_blank" class="sns-link" style="flex: 1; min-width: 100px; padding: 10px; text-align: center; font-size: 9px;">Instagram</a>
+           <a href="https://www.youtube.com/channel/UCBo1hnzxV9rz3WVsv__Rn1g" target="_blank" class="sns-link" style="flex: 1; min-width: 100px; padding: 10px; text-align: center; font-size: 9px;">YouTube</a>
+           <a href="https://www.tiktok.com/@roses_are_rosie" target="_blank" class="sns-link" style="flex: 1; min-width: 100px; padding: 10px; text-align: center; font-size: 9px;">TikTok</a>
+         </div>
+      </div>
+      
+      <!-- Right Panel: Career Highlights & Facts -->
+      <div class="info-panel" style="flex: 2; min-width: 320px; background: rgba(15,15,15,0.45); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 40px; backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); box-shadow: 0 20px 50px rgba(0,0,0,0.6); display: flex; flex-direction: column; justify-content: space-between;">
+         
+         <div style="margin-bottom: 30px;">
+           <h2 style="font-family: 'Cinzel', serif; font-size: 16px; color: #f472b6; letter-spacing: 2px; text-transform: uppercase; margin: 0 0 20px 0; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px;">
+             <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #f472b6;"></span>
+             ROSÉ Career Highlights
+           </h2>
+           
+           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+             <div style="background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; padding: 15px;">
+               <p style="font-size: 9px; font-weight: bold; color: #f472b6; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 4px 0;">Solo Debut</p>
+               <p style="font-size: 12px; color: #fff; margin: 0;">March 12, 2021 with single album "-R-"</p>
+             </div>
+             <div style="background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; padding: 15px;">
+               <p style="font-size: 9px; font-weight: bold; color: #f472b6; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 4px 0;">Solo Labels</p>
+               <p style="font-size: 12px; color: #fff; margin: 0;">Signed with THEBLACKLABEL & ATLANTIC RECORDS</p>
+             </div>
+             <div style="background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; padding: 15px;">
+               <p style="font-size: 9px; font-weight: bold; color: #f472b6; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 4px 0;">Fashion Ambassador</p>
+               <p style="font-size: 12px; color: #fff; margin: 0;">First Yves Saint Laurent Global Ambassador in 59 years</p>
+             </div>
+             <div style="background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; padding: 15px;">
+               <p style="font-size: 9px; font-weight: bold; color: #f472b6; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 4px 0;">Social Milestone</p>
+               <p style="font-size: 12px; color: #fff; margin: 0;">First K-Pop female idol to reach 1M likes on IG with Lisa</p>
+             </div>
+           </div>
+         </div>
+
+         <div style="margin-bottom: 30px;">
+           <h2 style="font-family: 'Cinzel', serif; font-size: 16px; color: #f472b6; letter-spacing: 2px; text-transform: uppercase; margin: 0 0 20px 0; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px;">
+             <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #f472b6;"></span>
+             ROSÉ Facts
+           </h2>
+           
+           <div class="facts-list-box" style="max-height: 250px; overflow-y: auto; padding-right: 10px;">
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Born in Auckland, New Zealand, and raised in Melbourne, Australia. Attended Canterbury Girls Secondary College.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Has an older sister named Alice. Moved to Korea in May 2012.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Placed first in YG auditions held in Australia. Trained for 4 years and 2 months.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Has a famous adopted rescue dog named Hank.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Pre-debut, she was a cheerleader and sang in church choirs in Australia.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Famous for her signature vocal color and slim waist (24 inches wide).</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Nicknamed "BLACKPINK's Goddess" and "Pasta".</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Can speak fluent Korean, English, and Japanese.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Collaborated with G-Dragon for the track 'Without You' in 2012. GD highly praised her unique voice.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Plays the piano and the guitar, and has a strong passion for drawing.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She is left-handed.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Loves kimchi stew, peppers, and mangoes. Hates avocados, describing them as mushy and weird.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She is very sensitive and cries very easily.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Her favorite color is blue, and her favorite number is 5.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Can twist her hands in 360 degrees and talk even with her mouth closed.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Has a pet orange fish named Joo-hwang.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Her role model is Gummy. Close friends with Twice's Chaeyoung & Tzuyu, and Red Velvet's Joy & Yeri.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Best friends with Ladies' Code's Ashley Choi and Girl's Day's Hyeri.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Seungri compared her to Taeyang, noting her strong vocal soul.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>MCed and performed acoustic stages at SBS Gayo Daejun 2016 alongside Jihyo (Twice), Chanyeol (EXO), and 10cm.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Appeared on the King of Masked Singer.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Close to Yves Saint Laurent artistic director Anthony Vaccarello.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>If she were a guy, she would date Jisoo because Jisoo makes her laugh.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Good at archery. Her solo ELLE magazine cover was one of the highest-selling female issues in history.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Signed with THEBLACKLABEL and ATLANTIC RECORDS for solo promotions in 2024.</span></div>
+           </div>
+         </div>
+
+         <div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+           <div>
+             <p style="font-size: 9px; font-weight: bold; color: #f472b6; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 6px 0;">ROSÉ's Ideal Type</p>
+             <p style="font-size: 12px; font-style: italic; color: #a1a1aa; margin: 0;">
+               "Someone nice and genuine, with a good / unique voice. She said there are many sunbaenims with great voices, but among them, Big Bang stand out. She also mentioned Gong Yoo as a celebrity close to her ideal type."
+             </p>
+           </div>
+           <div style="font-size: 10px; opacity: 0.35; letter-spacing: 0.5px; padding-top: 5px;">
+             Source: <a href="https://kprofiles.com/" target="_blank" style="color: inherit; text-decoration: underline;">KProfiles</a>
+           </div>
+         </div>
+
+      </div>
+      
+    </div>
+    
+  </main>
+</body>
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JISOO Profile - Premium Hub</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=24">
+  
+  <script>
+    // Guard route: restrict to authenticated premium users
+    if (localStorage.getItem('crave_premium_logged_in') !== 'true') {
+      window.location.href = 'premium_login.html';
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #000000 !important;
+      color: #f5f5f7 !important;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+      background: #000000 !important;
+    }
+
+    /* Back link button standard styling with purple theme */
+    .premium-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(15,15,15,0.6);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.8);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 10px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      cursor: pointer;
+      backdrop-filter: blur(5px);
+      transition: all 0.3s;
+      width: fit-content;
+    }
+    .premium-back-btn:hover {
+      border-color: rgba(168, 85, 247, 0.4);
+      color: #a855f7;
+      background: rgba(168, 85, 247, 0.05);
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.1);
+    }
+
+    /* SNS premium links grid buttons styling with purple theme */
+    .sns-link {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: #a1a1aa;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 12px 20px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .sns-link:hover {
+      background: rgba(168, 85, 247, 0.12);
+      border-color: rgba(168, 85, 247, 0.4);
+      color: #a855f7;
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.15);
+      transform: translateY(-2px);
+    }
+
+    /* Custom Facts Scrollbar */
+    .facts-list-box::-webkit-scrollbar {
+      width: 5px;
+    }
+    .facts-list-box::-webkit-scrollbar-track {
+      background: rgba(0,0,0,0.1);
+    }
+    .facts-list-box::-webkit-scrollbar-thumb {
+      background: rgba(168, 85, 247, 0.2);
+      border-radius: 4px;
+    }
+    .facts-list-box::-webkit-scrollbar-thumb:hover {
+      background: rgba(168, 85, 247, 0.4);
+    }
+
+    .fact-item {
+      font-size: 12px;
+      line-height: 1.6;
+      color: #d4d4d8;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .fact-bullet {
+      color: #a855f7;
+      font-weight: bold;
+    }
+
+    .drama-item, .movie-item {
+      font-size: 12.5px;
+      color: #fff;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.02);
+      padding-bottom: 6px;
+    }
+    .drama-title {
+      font-weight: 500;
+    }
+    .drama-meta {
+      font-size: 11px;
+      color: #71717a;
+    }
+
+    /* Mobile Responsive Optimizations */
+    @media (max-width: 1150px) {
+      /* Reduce brand text size on smaller devices */
+      .brand-text {
+        font-size: 11px !important;
+        letter-spacing: 1px !important;
+      }
+      .premium-badge {
+        font-size: 8px !important;
+        padding: 1px 4px !important;
+      }
+      body {
+        background: #000000 !important;
+      }
+      header {
+        padding: 15px 20px 0 20px !important;
+      }
+      main {
+        padding: 15px 0 !important;
+        display: block !important; /* Stack naturally to remove vertical centering empty gaps */
+      }
+      .profile-container {
+        flex-direction: column !important;
+        gap: 20px !important;
+        padding: 0 15px !important;
+        margin: 10px auto 30px auto !important;
+      }
+      .media-panel, .info-panel {
+        min-width: 100% !important;
+        width: 100% !important;
+        padding: 25px 20px !important;
+      }
+      .profile-avatar {
+        width: 150px !important;
+        height: 150px !important;
+        margin-bottom: 15px !important;
+      }
+      h1 {
+        font-size: 26px !important;
+      }
+      .social-links-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr 1fr !important;
+        gap: 8px !important;
+      }
+      .social-links-grid a {
+        text-align: center;
+        padding: 10px !important;
+        font-size: 9px !important;
+      }
+      .spec-list {
+        padding: 15px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Section with Nav Back button -->
+  <header style="padding: 30px 40px 0 40px; z-index: 10;">
+    <a href="premium.html" class="premium-back-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+      </svg>
+      Back to Hub
+    </a>
+  </header>
+
+  <!-- Clean Canvas Workspace Layout -->
+  <main style="flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 20px 25px; z-index: 10; overflow-y: auto;">
+    
+    <div class="profile-container" style="display: flex; gap: 40px; max-width: 1200px; width: 100%; align-items: stretch; flex-wrap: wrap; margin-bottom: 40px;">
+      
+      <!-- Left Panel: Media & Stats -->
+      <div class="media-panel" style="flex: 1; min-width: 320px; display: flex; flex-direction: column; align-items: center; background: rgba(15,15,15,0.45); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 40px; backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); box-shadow: 0 20px 50px rgba(0,0,0,0.6); text-align: center;">
+         <div class="profile-avatar" style="width: 220px; height: 220px; border-radius: 50%; overflow: hidden; border: 2px solid #a855f7; box-shadow: 0 15px 35px rgba(168,85,247,0.25); margin-bottom: 30px;">
+           <img src="images/disco_jisoo.jpg" alt="JISOO" style="width: 100%; height: 100%; object-fit: cover;">
+         </div>
+         <h1 style="font-family: 'Cinzel', serif; font-size: 34px; font-weight: 500; letter-spacing: 3px; margin: 0 0 10px 0; color: #fff; text-shadow: 0 0 10px rgba(168,85,247,0.1);">JISOO</h1>
+         <p style="font-size: 11px; font-weight: bold; letter-spacing: 2px; color: #a855f7; text-transform: uppercase; margin-bottom: 30px;">Lead Vocalist, Visual</p>
+         
+         <!-- Details list table -->
+         <div class="spec-list" style="width: 100%; text-align: left; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; padding: 20px; box-sizing: border-box; margin-bottom: 30px;">
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; margin-bottom: 8px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">Birth Name</span>
+             <span style="color: #fff; font-weight: 500;">Kim Ji-soo (김지수)</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; margin-bottom: 8px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">English Name</span>
+             <span style="color: #fff; font-weight: 500;">Veronica Kim</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; margin-bottom: 8px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">Birthday</span>
+             <span style="color: #fff; font-weight: 500;">January 3, 1995</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; margin-bottom: 8px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">Zodiac Sign</span>
+             <span style="color: #fff; font-weight: 500;">Capricorn</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; margin-bottom: 8px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">Height & Weight</span>
+             <span style="color: #fff; font-weight: 500;">162 cm • 44 kg</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; margin-bottom: 8px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">Blood Type</span>
+             <span style="color: #fff; font-weight: 500;">A</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; margin-bottom: 8px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">MBTI Type</span>
+             <span style="color: #fff; font-weight: 500;">INTJ</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">Animal Sign</span>
+             <span style="color: #fff; font-weight: 500;">Dog (Year) / Bunny</span>
+           </div>
+         </div>
+
+         <!-- Social links -->
+         
+          
+          <div class="social-links-grid" style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; width: 100%;">
+           <a href="https://www.instagram.com/sooyaaa__/" target="_blank" class="sns-link" style="flex: 1; min-width: 100px; padding: 10px; text-align: center;">Instagram</a>
+           <a href="https://youtube.com/@sooyaaa__" target="_blank" class="sns-link" style="flex: 1; min-width: 100px; padding: 10px; text-align: center;">YouTube</a>
+           <a href="https://m.weibo.cn/u/7458000931" target="_blank" class="sns-link" style="flex: 1; min-width: 100px; padding: 10px; text-align: center;">Weibo</a>
+         </div>
+      </div>
+      
+      <!-- Right Panel: Filmography & Facts -->
+      <div class="info-panel" style="flex: 2; min-width: 320px; background: rgba(15,15,15,0.45); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 40px; backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); box-shadow: 0 20px 50px rgba(0,0,0,0.6); display: flex; flex-direction: column; justify-content: space-between;">
+         
+         <div style="margin-bottom: 30px;">
+           <h2 style="font-family: 'Cinzel', serif; font-size: 16px; color: #a855f7; letter-spacing: 2px; text-transform: uppercase; margin: 0 0 20px 0; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px;">
+             <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #a855f7;"></span>
+             JISOO Filmography
+           </h2>
+           
+           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 30px; margin-bottom: 25px;">
+             <div>
+               <p style="font-size: 10px; font-weight: bold; color: #a855f7; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 12px 0;">Drama Series</p>
+               <div class="drama-item"><span class="drama-title">Boyfriend on Demand</span><span class="drama-meta">Netflix / 2026</span></div>
+               <div class="drama-item"><span class="drama-title">Newtopia</span><span class="drama-meta">Coupang Play / 2025</span></div>
+               <div class="drama-item"><span class="drama-title">Snowdrop</span><span class="drama-meta">JTBC / 2021-22</span></div>
+               <div class="drama-item"><span class="drama-title">Arthdal Chronicles</span><span class="drama-meta">tvN / 2019</span></div>
+               <div class="drama-item"><span class="drama-title">The Producers</span><span class="drama-meta">KBS2 / 2015</span></div>
+             </div>
+             <div>
+               <p style="font-size: 10px; font-weight: bold; color: #a855f7; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 12px 0;">Movies</p>
+               <div class="movie-item"><span class="drama-title">The Prophet: Omniscient Reader</span><span class="drama-meta">2025</span></div>
+               <div class="movie-item"><span class="drama-title">Dr Cheon and Lost Talisman</span><span class="drama-meta">2023</span></div>
+             </div>
+           </div>
+         </div>
+
+         <div style="margin-bottom: 30px;">
+           <h2 style="font-family: 'Cinzel', serif; font-size: 16px; color: #a855f7; letter-spacing: 2px; text-transform: uppercase; margin: 0 0 20px 0; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px;">
+             <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #a855f7;"></span>
+             JISOO Facts
+           </h2>
+           
+           <div class="facts-list-box" style="max-height: 250px; overflow-y: auto; padding-right: 10px;">
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She was born in Gunpo, Gyeonggi Province, South Korea.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She is the youngest, with an older brother and sister.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Her nicknames include Chi Choo and Jichu.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She trained for 5 years at YG Entertainment (since July 2011).</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She has a fun, "4D personality".</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She likes giving random nicknames to people.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Jennie says Jisoo is the mood maker of the group.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She loves telling dad jokes.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She invented the greeting "yeong-ann" (reversed "annyeong").</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She can play the piano and the drums, but not the guitar.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She speaks Korean, Japanese, and basic Chinese.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She understands English very well, but is shy to speak it.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She was popular in school for her beauty and kindness.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Her audition song was Lee Eun Mi's "I Have A Lover".</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Jisoo is scared of heights.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She would date Rosé if she was a guy.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Her lips turn into a heart shape when she smiles.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Her lips are her favorite facial feature.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She hates shopping because she gets easily confused about what to buy.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Close friends with Twice's Nayeon, Red Velvet's Seulgi, aespa's Karina, and Girls' Day's Hyeri.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Friends with WJSN's Bona and GFRIEND's Sowon.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She MC'd on Inkigayo with GOT7's Jinyoung and NCT's Doyoung.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Made cameo appearances on KBS's 'The Producers' and tvN's 'Arthdal Chronicles'.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Acted in HI SUHYUN's 'I'm Different' MV and Epik High's 'Spoiler + Happen Ending' MV.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Appeared in CF campaigns for Samsonite, Smart Uniform, LG, and Nikon.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She really loves Pikachu and owns a lot of Pikachu merchandise.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She sleeps with Snoopy and bunny plushies.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She is an avid reader and likes PC gaming.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Known for rarely crying at award shows, preferring to cry in private.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Loves the color purple.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Has a pet dog named Dalgom.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Plays games like "Overwatch" with Jennie.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Not scared of ghost or scary stories. Likes Harry Potter and Tom Hardy.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Made her solo debut on March 31, 2023 with the single album "ME".</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Her "FLOWER" MV gained 10M views in 3 hours, and 45M views in 24 hours.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Officially established her own agency, BLISSOO, on February 21, 2024.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Signed with US label Warner Music in January 2025.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Released her 1st mini album "Amortage" on February 14, 2025.</span></div>
+           </div>
+         </div>
+
+         <div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+           <div>
+             <p style="font-size: 9px; font-weight: bold; color: #a855f7; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 6px 0;">JISOO's Ideal Type</p>
+             <p style="font-size: 12px; font-style: italic; color: #a1a1aa; margin: 0;">
+               "Someone who knows to acknowledge. Acknowledging something different from themselves shows that they have a big heart."
+             </p>
+           </div>
+           <div style="font-size: 10px; opacity: 0.35; letter-spacing: 0.5px; padding-top: 5px;">
+             Source: <a href="https://kprofiles.com/" target="_blank" style="color: inherit; text-decoration: underline;">KProfiles</a>
+           </div>
+         </div>
+
+      </div>
+      
+    </div>
+    
+  </main>
+</body>
+</html>

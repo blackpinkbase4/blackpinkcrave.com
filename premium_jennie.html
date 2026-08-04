@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JENNIE Profile - Premium Hub</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=24">
+  
+  <script>
+    // Guard route: restrict to authenticated premium users
+    if (localStorage.getItem('crave_premium_logged_in') !== 'true') {
+      window.location.href = 'premium_login.html';
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #000000 !important;
+      color: #f5f5f7 !important;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+      background: #000000 !important;
+    }
+
+    /* Back link button standard styling with ruby red theme */
+    .premium-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(15,15,15,0.6);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.8);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 10px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      cursor: pointer;
+      backdrop-filter: blur(5px);
+      transition: all 0.3s;
+      width: fit-content;
+    }
+    .premium-back-btn:hover {
+      border-color: rgba(225, 29, 72, 0.4);
+      color: #e11d48;
+      background: rgba(225, 29, 72, 0.05);
+      box-shadow: 0 0 15px rgba(225, 29, 72, 0.1);
+    }
+
+    /* SNS premium links grid buttons styling with ruby red theme */
+    .sns-link {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: #a1a1aa;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 12px 20px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .sns-link:hover {
+      background: rgba(225, 29, 72, 0.12);
+      border-color: rgba(225, 29, 72, 0.4);
+      color: #e11d48;
+      box-shadow: 0 0 15px rgba(225, 29, 72, 0.15);
+      transform: translateY(-2px);
+    }
+
+    /* Custom Facts Scrollbar */
+    .facts-list-box::-webkit-scrollbar {
+      width: 5px;
+    }
+    .facts-list-box::-webkit-scrollbar-track {
+      background: rgba(0,0,0,0.1);
+    }
+    .facts-list-box::-webkit-scrollbar-thumb {
+      background: rgba(225, 29, 72, 0.2);
+      border-radius: 4px;
+    }
+    .facts-list-box::-webkit-scrollbar-thumb:hover {
+      background: rgba(225, 29, 72, 0.4);
+    }
+
+    .fact-item {
+      font-size: 12px;
+      line-height: 1.6;
+      color: #d4d4d8;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .fact-bullet {
+      color: #e11d48;
+      font-weight: bold;
+    }
+
+    /* Mobile Responsive Optimizations */
+    @media (max-width: 1150px) {
+      /* Reduce brand text size on smaller devices */
+      .brand-text {
+        font-size: 11px !important;
+        letter-spacing: 1px !important;
+      }
+      .premium-badge {
+        font-size: 8px !important;
+        padding: 1px 4px !important;
+      }
+      body {
+        background: #000000 !important;
+      }
+      header {
+        padding: 15px 20px 0 20px !important;
+      }
+      main {
+        padding: 15px 0 !important;
+        display: block !important; /* Stack naturally to remove vertical centering empty gaps */
+      }
+      .profile-container {
+        flex-direction: column !important;
+        gap: 20px !important;
+        padding: 0 15px !important;
+        margin: 10px auto 30px auto !important;
+      }
+      .media-panel, .info-panel {
+        min-width: 100% !important;
+        width: 100% !important;
+        padding: 25px 20px !important;
+      }
+      .profile-avatar {
+        width: 150px !important;
+        height: 150px !important;
+        margin-bottom: 15px !important;
+      }
+      h1 {
+        font-size: 26px !important;
+      }
+      .social-links-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr 1fr !important;
+        gap: 8px !important;
+      }
+      .social-links-grid a {
+        text-align: center;
+        padding: 10px !important;
+        font-size: 9px !important;
+      }
+      .spec-list {
+        padding: 15px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Section with Nav Back button -->
+  <header style="padding: 30px 40px 0 40px; z-index: 10;">
+    <a href="premium.html" class="premium-back-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+      </svg>
+      Back to Hub
+    </a>
+  </header>
+
+  <!-- Clean Canvas Workspace Layout -->
+  <main style="flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 20px 25px; z-index: 10; overflow-y: auto;">
+    
+    <div class="profile-container" style="display: flex; gap: 40px; max-width: 1200px; width: 100%; align-items: stretch; flex-wrap: wrap; margin-bottom: 40px;">
+      
+      <!-- Left Panel: Media & Stats -->
+      <div class="media-panel" style="flex: 1; min-width: 320px; display: flex; flex-direction: column; align-items: center; background: rgba(15,15,15,0.45); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 40px; backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); box-shadow: 0 20px 50px rgba(0,0,0,0.6); text-align: center;">
+         <div class="profile-avatar" style="width: 220px; height: 220px; border-radius: 50%; overflow: hidden; border: 2px solid #e11d48; box-shadow: 0 15px 35px rgba(225,29,72,0.25); margin-bottom: 30px;">
+           <img src="images/disco_jennie.jpg" alt="JENNIE" style="width: 100%; height: 100%; object-fit: cover;">
+         </div>
+         <h1 style="font-family: 'Cinzel', serif; font-size: 34px; font-weight: 500; letter-spacing: 3px; margin: 0 0 10px 0; color: #fff; text-shadow: 0 0 10px rgba(225,29,72,0.1);">JENNIE</h1>
+         <p style="font-size: 11px; font-weight: bold; letter-spacing: 2px; color: #e11d48; text-transform: uppercase; margin-bottom: 30px;">Main Rapper, Lead Vocalist</p>
+         
+         <!-- Details list table -->
+         <div class="spec-list" style="width: 100%; text-align: left; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; padding: 20px; box-sizing: border-box; margin-bottom: 30px;">
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; margin-bottom: 8px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">Birth Name</span>
+             <span style="color: #fff; font-weight: 500;">Kim Jennie (김제니)</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; margin-bottom: 8px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">English Name</span>
+             <span style="color: #fff; font-weight: 500;">Jennie Ruby Jane</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; margin-bottom: 8px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">Birthday</span>
+             <span style="color: #fff; font-weight: 500;">January 16, 1996</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; margin-bottom: 8px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">Zodiac Sign</span>
+             <span style="color: #fff; font-weight: 500;">Capricorn</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; margin-bottom: 8px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">Height & Weight</span>
+             <span style="color: #fff; font-weight: 500;">163 cm • 45 kg</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; margin-bottom: 8px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">Blood Type</span>
+             <span style="color: #fff; font-weight: 500;">B</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 8px; margin-bottom: 8px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">MBTI Type</span>
+             <span style="color: #fff; font-weight: 500;">INFJ</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; font-size: 11.5px;">
+             <span style="color: #71717a; font-weight: bold; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px;">Animal Sign</span>
+             <span style="color: #fff; font-weight: 500;">Pig (Year) / Bear</span>
+           </div>
+         </div>
+
+         <!-- Social links -->
+         
+          
+          <div class="social-links-grid" style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; width: 100%;">
+           <a href="https://www.instagram.com/jennierubyjane/" target="_blank" class="sns-link" style="flex: 1; min-width: 100px; padding: 10px; text-align: center; font-size: 9px;">Instagram</a>
+           <a href="https://www.youtube.com/channel/UCNYi_zGmR519r5gYdOKLTjQ" target="_blank" class="sns-link" style="flex: 1; min-width: 100px; padding: 10px; text-align: center; font-size: 9px;">YouTube</a>
+           <a href="https://www.tiktok.com/@jennierubyjane" target="_blank" class="sns-link" style="flex: 1; min-width: 100px; padding: 10px; text-align: center; font-size: 9px;">TikTok</a>
+         </div>
+      </div>
+      
+      <!-- Right Panel: Career & Facts -->
+      <div class="info-panel" style="flex: 2; min-width: 320px; background: rgba(15,15,15,0.45); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 40px; backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); box-shadow: 0 20px 50px rgba(0,0,0,0.6); display: flex; flex-direction: column; justify-content: space-between;">
+         
+         <div style="margin-bottom: 30px;">
+           <h2 style="font-family: 'Cinzel', serif; font-size: 16px; color: #e11d48; letter-spacing: 2px; text-transform: uppercase; margin: 0 0 20px 0; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px;">
+             <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #e11d48;"></span>
+             JENNIE Career Highlights
+           </h2>
+           
+           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+             <div style="background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; padding: 15px;">
+               <p style="font-size: 9px; font-weight: bold; color: #e11d48; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 4px 0;">Solo Debut</p>
+               <p style="font-size: 12px; color: #fff; margin: 0;">November 12, 2018 with "SOLO"</p>
+             </div>
+             <div style="background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; padding: 15px;">
+               <p style="font-size: 9px; font-weight: bold; color: #e11d48; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 4px 0;">Agency</p>
+               <p style="font-size: 12px; color: #fff; margin: 0;">Founded OA (ODD ATELIER) in Nov 2023</p>
+             </div>
+             <div style="background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; padding: 15px;">
+               <p style="font-size: 9px; font-weight: bold; color: #e11d48; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 4px 0;">Acting Debut</p>
+               <p style="font-size: 12px; color: #fff; margin: 0;">HBO Series 'The Idol' (2023)</p>
+             </div>
+             <div style="background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; padding: 15px;">
+               <p style="font-size: 9px; font-weight: bold; color: #e11d48; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 4px 0;">Upcoming Release</p>
+               <p style="font-size: 12px; color: #fff; margin: 0;">1st Full Album "RUBY" (March 7, 2025)</p>
+             </div>
+           </div>
+         </div>
+
+         <div style="margin-bottom: 30px;">
+           <h2 style="font-family: 'Cinzel', serif; font-size: 16px; color: #e11d48; letter-spacing: 2px; text-transform: uppercase; margin: 0 0 20px 0; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px;">
+             <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #e11d48;"></span>
+             JENNIE Facts
+           </h2>
+           
+           <div class="facts-list-box" style="max-height: 250px; overflow-y: auto; padding-right: 10px;">
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Born in Bundang, Seongnam, South Korea. She has no siblings.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She lived and studied in Auckland, New Zealand for 5 years at ACG Parnell College.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Known as the 'YG Princess' in the group.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Nicknames include "Human Chanel", "Mandukie" (cheeks resemble a dumpling), and "NiNi".</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She trained for 5 years and 11 months (starting August 2010).</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Fluent in Korean, Japanese, and English.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Loves milk-flavored ice cream and Korean foods (especially soybean paste stew).</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Her favorite colors are black and pink, and her favorite number is 1.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She gets motion sickness easily.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Has two puppies named Kai and Kuma.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Can play the piano and the flute.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Voted as the best cook in the group, although she admitted she's actually not good at it.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Her favorite animals are chinchillas and capybaras.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She has a hidden talent of speaking in a "baby voice" and enjoys using satoori (dialect).</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Close friends with Twice's Nayeon, Red Velvet's Irene, Yerin, and Melody Day's Chahee.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Preferring sexy guys over cute ones, she said if she were a guy she would date Jisoo because she makes her laugh.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She is the fashion icon of the group, regularly invited to luxury fashion events worldwide.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Pre-debut, she acted in G-Dragon's 'That XX' MV and was featured in GD's 'Black', Lee Hi's 'Special', and Seungri's 'GG Be'.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She likes whiskey because it is the most cost-efficient drink and she prefers to sip it slowly.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She is the only member who does not eat cilantro because she dislikes it.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Admitted she is the type to fall in love easily.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>House Ambassador for Chanel, Global Ambassador for Hera, Calvin Klein Jeans, and Gentle Monster.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>She is the first KPOP idol to grace the covers of Korea's Top 6 magazines (ELLE, Cosmopolitan, Harper's Bazaar, W, Vogue, and Marie Claire).</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Had a temporary "Stay Strong" tattoo on her wrist during pre-debut to keep holding onto her dream.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Founded her own independent label, OA (ODD ATELIER), on November 7, 2023.</span></div>
+             <div class="fact-item"><span class="fact-bullet">✦</span><span>Partnered with Columbia Records in September 2024 for her solo global promotions.</span></div>
+           </div>
+         </div>
+
+         <div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+           <div>
+             <p style="font-size: 9px; font-weight: bold; color: #e11d48; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 6px 0;">JENNIE's Ideal Type</p>
+             <p style="font-size: 12px; font-style: italic; color: #a1a1aa; margin: 0;">
+               "Someone who is a hard worker."
+             </p>
+           </div>
+           <div style="font-size: 10px; opacity: 0.35; letter-spacing: 0.5px; padding-top: 5px;">
+             Source: <a href="https://kprofiles.com/" target="_blank" style="color: inherit; text-decoration: underline;">KProfiles</a>
+           </div>
+         </div>
+
+      </div>
+      
+    </div>
+    
+  </main>
+</body>
+</html>
