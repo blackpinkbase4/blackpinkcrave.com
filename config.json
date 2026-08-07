@@ -298,8 +298,8 @@
     "youtubeMusic": "https://music.youtube.com/search?q=BLACKPINK+GO"
   },
   "anniversary": {
-    "enabled": false,
-    "videoUrl": "https://www.youtube.com/watch?v=vneSYRvdvuU",
+    "enabled": true,
+    "videoUrl": "videos/anniversary.mp4",
     "bgSongUrl": "music/stay.mp3"
   }
 }
