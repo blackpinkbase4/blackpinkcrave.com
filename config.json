@@ -299,7 +299,7 @@
   },
   "anniversary": {
     "enabled": true,
-    "videoUrl": "videos/anniversary.mp4",
+    "videoUrl": "https://youtu.be/3fg8pyLKvXE?si=wBGfbRww1WeqeQ2k",
     "bgSongUrl": "music/stay.mp3"
   }
 }
