@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BLACKPINK CRAVE</title>
+  
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  
+  <link rel="stylesheet" href="style.css?v=54">
+  <style>
+    
+    .promo-side-widget {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 9999;
+      width: 320px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .promo-side-widget.closed {
+      transform: translateY(50px) scale(0.9);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .promo-modal-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.6);
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.85;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .promo-modal-close:hover {
+      opacity: 1;
+      background-color: var(--accent-color);
+      color: #000;
+      transform: scale(1.1) rotate(90deg);
+    }
+    .promo-carousel-container {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+    }
+    .promo-carousel-wrapper {
+      position: relative;
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .promo-slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      box-sizing: border-box;
+    }
+    .promo-slide-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+    .promo-slide-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .promo-slide:hover .promo-slide-bg img {
+      transform: scale(1.06);
+    }
+    .promo-slide-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.2) 100%);
+      z-index: 2;
+    }
+    .promo-content {
+      position: relative;
+      z-index: 3;
+      padding: 20px;
+      text-align: left;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .promo-tag {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent-color);
+      margin-bottom: 6px;
+    }
+    .promo-title {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      line-height: 1.3;
+      font-weight: 400;
+      margin: 0 0 6px 0;
+      color: #fff;
+    }
+    .promo-subtitle {
+      font-size: 11px;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 15px;
+      line-height: 1.4;
+    }
+    .promo-action-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .promo-btn {
+      border: 1px solid var(--accent-color);
+      background-color: var(--accent-color);
+      color: #000;
+      padding: 8px 16px;
+      text-transform: uppercase;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      display: inline-block;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(224, 86, 36, 0.3);
+    }
+    .promo-btn:hover {
+      background-color: transparent;
+      color: var(--accent-color);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(224, 86, 36, 0.5);
+    }
+    .promo-btn:active {
+      transform: translateY(0);
+    }
+    .promo-date {
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+    .promo-carousel-nav {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 5;
+      background: rgba(0,0,0,0.5);
+      padding: 3px 8px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .promo-nav-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.8;
+      transition: all 0.2s ease;
+    }
+    .promo-nav-btn:hover {
+      opacity: 1;
+      color: var(--accent-color);
+      transform: scale(1.2);
+    }
+    .promo-indicators {
+      display: flex;
+      gap: 4px;
+    }
+    .promo-ind {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: rgba(255,255,255,0.4);
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .promo-ind.active {
+      background-color: var(--accent-color);
+    }
+
+    @media (max-width: 480px) {
+      .promo-side-widget {
+        bottom: 15px;
+        right: 15px;
+        width: calc(100vw - 30px);
+        height: 90px;
+        flex-direction: row;
+        align-items: center;
+      }
+      .promo-carousel-container {
+        aspect-ratio: auto;
+        height: 100%;
+        width: 100%;
+      }
+      .promo-slide {
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        height: 100%;
+        padding: 10px;
+      }
+      .promo-slide-bg {
+        position: relative;
+        width: 70px;
+        height: 70px;
+        flex-shrink: 0;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .promo-slide-overlay {
+        display: none;
+      }
+      .promo-content {
+        padding: 0 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+      }
+      .promo-tag {
+        font-size: 7px;
+        margin-bottom: 2px;
+      }
+      .promo-title {
+        font-size: 14px;
+        margin: 0;
+        color: var(--text-color);
+      }
+      .promo-subtitle {
+        display: none;
+      }
+      .promo-action-row {
+        margin-top: 4px;
+        justify-content: flex-start;
+        gap: 10px;
+      }
+      .promo-btn {
+        padding: 6px 12px;
+        font-size: 8px;
+      }
+      .promo-date {
+        font-size: 8px;
+        color: var(--text-muted);
+      }
+      .promo-modal-close {
+        top: 5px;
+        right: 5px;
+        width: 22px;
+        height: 22px;
+        font-size: 14px;
+        background: var(--border-color);
+        color: var(--text-color);
+      }
+      .promo-carousel-nav {
+        top: 5px;
+        left: 5px;
+        padding: 2px 6px;
+      }
+      .promo-nav-btn {
+        font-size: 8px;
+      }
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</head>
+<body>
+
+  
+  <div id="promoSideWidget" class="promo-side-widget closed">
+    <button class="promo-modal-close" onclick="closePromoModal()">&times;</button>
+    <div class="promo-carousel-container">
+      <div class="promo-carousel-wrapper" id="promoCarouselWrapper">
+        
+      </div>
+    </div>
+    
+    <div class="promo-carousel-nav" id="promoCarouselNav" style="display: none;">
+      <button class="promo-nav-btn prev" onclick="navigatePromo(-1)">&larr;</button>
+      <div class="promo-indicators" id="promoIndicators"></div>
+      <button class="promo-nav-btn next" onclick="navigatePromo(1)">&rarr;</button>
+    </div>
+  </div>
+
+  <nav>
+    <div class="nav-container">
+      <div class="logo"><a href="index.html?v=2"><img src="images/logo.jpg" alt="Logo" class="logo-img"><span>BLACKPINK CRAVE</span></a></div>
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <button onclick="toggleTheme()" class="emoji-theme-btn" id="themeToggleBtn" title="Toggle Light/Dark Mode">☀️</button>
+        <button class="hamburger-btn" onclick="toggleMobileMenu()" style="background: none; border: none; color: var(--text-color); font-size: 24px; cursor: pointer; padding: 0; line-height: 1; display: none;" title="Open Menu">☰</button>
+      </div>
+    </div>
+  </nav>
+  <div id="mobileMenu" style="display: none; position: fixed; top: 60px; left: 0; width: 100%; background-color: var(--card-bg); border-bottom: 1px solid var(--border-color); z-index: 2999; padding: 20px; box-sizing: border-box; flex-direction: column; gap: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: background-color var(--transition-speed), border-color var(--transition-speed);">
+    <a href="index.html" style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-color); text-decoration: none; transition: color var(--transition-speed);">Home</a>
+    <a href="index.html#members-section" style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-color); text-decoration: none; transition: color var(--transition-speed);">Members</a>
+    <a href="index.html#news-section" style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-color); text-decoration: none; transition: color var(--transition-speed);">Daily Updates</a>
+    <a href="admin.html" style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-color); text-decoration: none; transition: color var(--transition-speed);">Admin Portal</a>
+  </div>
+
+
+  <section class="hero" id="home" style="position: relative; overflow: hidden; background: var(--bg-color); transition: background-color var(--transition-speed);">
+    <div class="hero-container" style="width: 100%; height: 100%; overflow: hidden; position: relative;">
+      <div style="width: 100%; height: 100%; position: relative;">
+        <img id="heroMainImg" src="images/slide_stats.jpg" alt="BLACKPINK" style="width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: filter var(--transition-speed); filter: brightness(0.85);">
+        
+        <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(0,0,0,0.35); text-align: center; padding: 24px; box-sizing: border-box;">
+          <div class="hero-logo-box" style="border: 2px solid var(--accent-color); padding: 6px 20px; font-family: var(--font-brand); color: var(--accent-color); font-size: 14px; font-weight: 500; letter-spacing: 4px; display: inline-block; margin-bottom: 24px; text-transform: uppercase; transition: border-color var(--transition-speed), color var(--transition-speed); background-color: rgba(0, 0, 0, 0.2); box-shadow: 0 0 20px rgba(0,0,0,0.2);">BLACKPINK</div>
+          <h2 class="hero-title" style="font-family: var(--font-serif); font-size: 38px; font-weight: 400; color: #fff; margin: 0; text-shadow: 0 2px 10px rgba(0,0,0,0.5); max-width: 700px; line-height: 1.3; font-style: italic;">the biggest girl group in the world</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-wave-container" style="position: absolute; bottom: 0; left: 0; width: 100%; overflow: hidden; line-height: 0; z-index: 10;">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none" style="position: relative; display: block; width: calc(100% + 1.3px); height: 80px;">
+        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V0C26.9,8.75,55.05,17,83,23.63,166.88,43.51,254.08,68.91,321.39,56.44Z" style="fill: var(--bg-color); transition: fill var(--transition-speed);"></path>
+      </svg>
+    </div>
+  </section>
+
+  <section id="members-section" style="padding: 100px 24px; background-color: var(--bg-color); transition: background-color var(--transition-speed); text-align: center;">
+    <div class="members-list-container" style="display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; max-width: 1300px; margin: 0 auto; align-items: flex-start;">
+      
+      <a href="solo_blackpink.html" class="floating-member-card" style="display: flex; flex-direction: column; align-items: center; width: 230px; text-decoration: none; color: inherit; margin-top: 0; position: relative;">
+        <div class="floating-circle" style="width: 220px; height: 220px; border-radius: 50%; overflow: hidden; border: 3px solid var(--accent-color); box-shadow: 0 10px 25px rgba(0,0,0,0.1); transition: transform 0.3s, border-color var(--transition-speed), box-shadow 0.3s; animation: float-jisoo 6s ease-in-out infinite;">
+          <img src="images/slide_stats.jpg" alt="BLACKPINK" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="member-name-label" style="text-align: center;">
+          <span style="font-family: var(--font-sans); color: var(--accent-color); font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; transition: color var(--transition-speed); display: block;">BLACKPINK</span>
+          <span style="font-family: var(--font-sans); font-size: 8px; opacity: 0.75; font-weight: 600; color: var(--accent-color); letter-spacing: 1px; text-transform: uppercase; display: block; margin-top: 4px;">Enter Profile</span>
+        </div>
+      </a>
+
+      <a href="solo_jisoo.html" class="floating-member-card" style="display: flex; flex-direction: column; align-items: center; width: 230px; text-decoration: none; color: inherit; margin-top: 40px; position: relative;">
+        <div class="floating-circle" style="width: 220px; height: 220px; border-radius: 50%; overflow: hidden; border: 3px solid var(--accent-color); box-shadow: 0 10px 25px rgba(0,0,0,0.1); transition: transform 0.3s, border-color var(--transition-speed), box-shadow 0.3s; animation: float-jennie 5s ease-in-out infinite;">
+          <img src="images/disco_jisoo.jpg" alt="JISOO" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="member-name-label" style="text-align: center;">
+          <span style="font-family: var(--font-sans); color: var(--accent-color); font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; transition: color var(--transition-speed); display: block;">JISOO</span>
+          <span style="font-family: var(--font-sans); font-size: 8px; opacity: 0.75; font-weight: 600; color: var(--accent-color); letter-spacing: 1px; text-transform: uppercase; display: block; margin-top: 4px;">Enter Profile</span>
+        </div>
+      </a>
+
+      <a href="solo_jennie.html" class="floating-member-card" style="display: flex; flex-direction: column; align-items: center; width: 230px; text-decoration: none; color: inherit; margin-top: 0; position: relative;">
+        <div class="floating-circle" style="width: 220px; height: 220px; border-radius: 50%; overflow: hidden; border: 3px solid var(--accent-color); box-shadow: 0 10px 25px rgba(0,0,0,0.1); transition: transform 0.3s, border-color var(--transition-speed), box-shadow 0.3s; animation: float-rose 7s ease-in-out infinite;">
+          <img src="images/disco_jennie.jpg" alt="JENNIE" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="member-name-label" style="text-align: center;">
+          <span style="font-family: var(--font-sans); color: var(--accent-color); font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; transition: color var(--transition-speed); display: block;">JENNIE</span>
+          <span style="font-family: var(--font-sans); font-size: 8px; opacity: 0.75; font-weight: 600; color: var(--accent-color); letter-spacing: 1px; text-transform: uppercase; display: block; margin-top: 4px;">Enter Profile</span>
+        </div>
+      </a>
+
+      <a href="solo_rose.html" class="floating-member-card" style="display: flex; flex-direction: column; align-items: center; width: 230px; text-decoration: none; color: inherit; margin-top: 40px; position: relative;">
+        <div class="floating-circle" style="width: 220px; height: 220px; border-radius: 50%; overflow: hidden; border: 3px solid var(--accent-color); box-shadow: 0 10px 25px rgba(0,0,0,0.1); transition: transform 0.3s, border-color var(--transition-speed), box-shadow 0.3s; animation: float-lisa 5.5s ease-in-out infinite;">
+          <img src="images/disco_rose.jpg" alt="ROSÉ" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="member-name-label" style="text-align: center;">
+          <span style="font-family: var(--font-sans); color: var(--accent-color); font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; transition: color var(--transition-speed); display: block;">ROSÉ</span>
+          <span style="font-family: var(--font-sans); font-size: 8px; opacity: 0.75; font-weight: 600; color: var(--accent-color); letter-spacing: 1px; text-transform: uppercase; display: block; margin-top: 4px;">Enter Profile</span>
+        </div>
+      </a>
+
+      <a href="solo_lisa.html" class="floating-member-card" style="display: flex; flex-direction: column; align-items: center; width: 230px; text-decoration: none; color: inherit; margin-top: 0; position: relative;">
+        <div class="floating-circle" style="width: 220px; height: 220px; border-radius: 50%; overflow: hidden; border: 3px solid var(--accent-color); box-shadow: 0 10px 25px rgba(0,0,0,0.1); transition: transform 0.3s, border-color var(--transition-speed), box-shadow 0.3s; animation: float-jisoo 6.5s ease-in-out infinite;">
+          <img src="images/disco_lisa.jpg" alt="LISA" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="member-name-label" style="text-align: center;">
+          <span style="font-family: var(--font-sans); color: var(--accent-color); font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; transition: color var(--transition-speed); display: block;">LISA</span>
+          <span style="font-family: var(--font-sans); font-size: 8px; opacity: 0.75; font-weight: 600; color: var(--accent-color); letter-spacing: 1px; text-transform: uppercase; display: block; margin-top: 4px;">Enter Profile</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <section id="news-section" style="padding: 60px 24px 100px 24px; background-color: var(--bg-color); transition: background-color var(--transition-speed);">
+    <h2 style="font-family: var(--font-brand); font-size: 28px; font-weight: 500; letter-spacing: 4px; color: var(--accent-color); margin-bottom: 60px; text-transform: uppercase; text-align: center; transition: color var(--transition-speed);">Daily Updates</h2>
+    <div id="news-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 32px; max-width: 1300px; margin: 0 auto; align-items: stretch;"></div>
+  </section>
+
+  <script src="script.js?v=6"></script>
+
+  <script>
+    function goToSlide(index) {
+      const heroImg = document.getElementById('heroMainImg');
+      if (heroImg) {
+        heroImg.src = 'images/slide_stats.jpg';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      db.collection('news').orderBy('timestamp', 'desc').get()
+        .then(snapshot => {
+          const grid = document.getElementById('news-grid');
+          if (grid) {
+            grid.innerHTML = '';
+            snapshot.forEach(doc => {
+              const art = doc.data();
+              const artId = doc.id;
+              const card = document.createElement('a');
+              card.href = `news.html?id=${artId}`;
+              card.className = 'news-card-link';
+              card.style.cssText = 'display: flex; flex-direction: column; text-decoration: none; color: inherit; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;';
+              const cardThumbnail = art.image || (art.youtube ? `https://img.youtube.com/vi/${art.youtube}/hqdefault.jpg` : 'images/slide_stats.jpg');
+              card.innerHTML = `
+                <div style="width: 100%; height: 260px; overflow: hidden; position: relative; background-color: #000;">
+                  <img src="${cardThumbnail}" style="width: 100%; height: 100%; object-fit: cover; filter: blur(12px) brightness(0.6); position: absolute; top: 0; left: 0; transform: scale(1.1); pointer-events: none;" class="news-card-bg-blur">
+                  <img src="${cardThumbnail}" alt="${art.title}" style="width: 100%; height: 100%; object-fit: contain; position: relative; z-index: 2; transition: transform 0.5s ease;" class="news-card-img">
+                  ${art.youtube ? `
+                    <div class="video-play-indicator" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px; background: rgba(255, 255, 255, 0.15); -webkit-backdrop-filter: blur(10px) saturate(180%); backdrop-filter: blur(10px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.35); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); transition: all 0.3s ease; z-index: 10;">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" style="margin-left: 3px; color: #ffffff;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </div>
+                  ` : ''}
+                </div>
+                <div style="padding: 20px; display: flex; flex-direction: column; flex-grow: 1;">
+                  <span style="font-family: var(--font-sans); font-size: 10px; color: var(--accent-color); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; transition: color var(--transition-speed);">${art.date}</span>
+                  <h3 style="font-family: var(--font-brand); font-size: 16px; font-weight: 500; color: var(--text-color); margin: 0 0 10px 0; line-height: 1.4; transition: color var(--transition-speed);">${art.title}</h3>
+                  <p style="font-size: 13px; color: var(--text-muted); margin: 0 0 20px 0; line-height: 1.6; flex-grow: 1;">${art.snippet}</p>
+                  <div style="font-family: var(--font-sans); font-size: 10px; color: var(--accent-color); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 4px; margin-top: auto; transition: color var(--transition-speed);">
+                    <span>Enter to read more</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                  </div>
+                </div>
+              `;
+              grid.appendChild(card);
+            });
+          }
+        })
+        .catch(err => console.error('Error loading news grid:', err));
+    });
+      function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      if (menu) {
+        if (menu.style.display === 'flex') {
+          menu.style.display = 'none';
+        } else {
+          menu.style.display = 'flex';
+        }
+      }
+    }
+
+    function toggleTwitterWidget() {
+      const container = document.getElementById('twitterWidgetContainer');
+      const btn = document.getElementById('twitterFloatingBtn');
+      const tip = document.getElementById('twitterFallbackTip');
+      if (container) {
+        if (container.style.display === 'flex') {
+          container.style.display = 'none';
+          if (btn) btn.style.transform = 'scale(1)';
+        } else {
+          container.style.display = 'flex';
+          if (btn) btn.style.transform = 'scale(0.9)';
+          if (typeof twttr !== 'undefined' && twttr.widgets) {
+            twttr.widgets.load(container);
+            if (tip) tip.style.display = 'none';
+          } else {
+            if (tip) {
+              tip.innerHTML = '⚠️ X/Twitter widget is blocked by your browser\'s AdBlocker or Shields. Please disable blockers/shields for localhost to view the feed.';
+              tip.style.color = '#fc3c44';
+              tip.style.borderColor = '#fc3c44';
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <div id="twitterWidgetContainer" style="position: fixed; bottom: 80px; right: 20px; width: 340px; height: 500px; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: none; flex-direction: column; z-index: 3000; transition: background-color var(--transition-speed), border-color var(--transition-speed);">
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--border-color); background-color: var(--bg-color);">
+      <span style="font-family: var(--font-sans); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-color);">Live Updates</span>
+      <button onclick="toggleTwitterWidget()" style="background: none; border: none; font-size: 20px; color: var(--text-color); cursor: pointer; padding: 0; line-height: 1;">&times;</button>
+    </div>
+    <div style="flex-grow: 1; overflow-y: auto; padding: 15px; background-color: var(--card-bg); display: flex; flex-direction: column; align-items: stretch;">
+      <div id="twitterFallbackTip" style="font-family: var(--font-sans); font-size: 11px; opacity: 0.7; text-align: center; margin-bottom: 15px; padding: 10px; border: 1px dashed var(--border-color); border-radius: 8px; color: var(--text-color);">
+        Connecting to X/Twitter live stream... If updates do not load, please check if your browser's AdBlock extension is blocking social trackers.
+      </div>
+      <a class="twitter-timeline" data-height="350" data-theme="light" href="https://twitter.com/BLACKPINKSCRAVE?ref_src=twsrc%5Etfw">Tweets by BLACKPINKSCRAVE</a>
+      <a href="https://x.com/BLACKPINKSCRAVE" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 15px; padding: 12px; border-radius: 8px; background-color: #000000; border: 1px solid var(--border-color); color: #ffffff; text-decoration: none; font-family: var(--font-sans); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'" class="twitter-direct-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="color: #fff;"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        Open in X / Twitter
+      </a>
+    </div>
+  </div>
+
+  <button id="twitterFloatingBtn" onclick="toggleTwitterWidget()" style="position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background-color: #ffffff; border: 1px solid var(--border-color); color: #000000; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); z-index: 3000; transition: transform 0.3s, background-color var(--transition-speed), border-color var(--transition-speed);" title="Show X/Twitter Feed">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="color: #000000;"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+  </button>
+
+</body>
+</html>

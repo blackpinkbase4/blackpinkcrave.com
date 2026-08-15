@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News - CRAVE</title>
+  <link rel="stylesheet" href="style.css?v=54">
+  <style>
+    .article-container {
+      padding: 140px 24px 80px 24px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .article-hero {
+      width: 100%;
+      height: auto;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 40px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+      background-color: rgba(0,0,0,0.02);
+    }
+    .article-hero img {
+      width: 100%;
+      height: auto;
+      max-height: 550px;
+      display: block;
+      object-fit: contain;
+    }
+    .meta-line {
+      display: flex;
+      gap: 20px;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent-color);
+      margin-bottom: 20px;
+      transition: color var(--transition-speed);
+    }
+    @media (max-width: 768px) {
+      .article-container {
+        padding: 100px 16px 40px 16px;
+      }
+      #articleTitle {
+        font-size: 24px !important;
+        margin-bottom: 20px !important;
+      }
+      .article-hero {
+        margin-bottom: 24px;
+        max-height: 300px;
+      }
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+</head>
+<body style="background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 0;">
+
+  <nav>
+    <div class="nav-container">
+      <div style="display: flex; align-items: center;">
+        <a href="index.html" class="nav-back-link" style="text-decoration: none; color: var(--text-color); font-size: 18px; font-weight: bold; margin-right: 12px; display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border-color); background-color: var(--card-bg); transition: all 0.3s;" title="Go Back">←</a>
+        <div class="logo"><a href="index.html" style="text-decoration: none; color: inherit;"><span>BLACKPINK</span> CRAVE</a></div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <button onclick="toggleTheme()" class="emoji-theme-btn" id="themeToggleBtn" title="Toggle Light/Dark Mode">☀️</button>
+        <button class="hamburger-btn" onclick="toggleMobileMenu()" style="background: none; border: none; color: var(--text-color); font-size: 24px; cursor: pointer; padding: 0; line-height: 1; display: none;" title="Open Menu">☰</button>
+      </div>
+    </div>
+  </nav>
+  <div id="mobileMenu" style="display: none; position: fixed; top: 60px; left: 0; width: 100%; background-color: var(--card-bg); border-bottom: 1px solid var(--border-color); z-index: 2999; padding: 20px; box-sizing: border-box; flex-direction: column; gap: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: background-color var(--transition-speed), border-color var(--transition-speed);">
+    <a href="index.html" style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-color); text-decoration: none; transition: color var(--transition-speed);">Home</a>
+    <a href="index.html#members-section" style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-color); text-decoration: none; transition: color var(--transition-speed);">Members</a>
+    <a href="index.html#news-section" style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-color); text-decoration: none; transition: color var(--transition-speed);">Daily Updates</a>
+    <a href="admin.html" style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-color); text-decoration: none; transition: color var(--transition-speed);">Admin Portal</a>
+  </div>
+
+  <main class="article-container">
+    <div class="article-hero" id="articleHeroContainer">
+      <img id="articleImg" src="" alt="Article Banner">
+    </div>
+    <div class="meta-line">
+      <span id="articleDate">--</span>
+    </div>
+    <h1 id="articleTitle" style="font-family: var(--font-brand); font-size: 36px; font-weight: 500; letter-spacing: 1px; color: var(--text-color); margin: 0 0 30px 0;">Loading...</h1>
+
+    <div id="articleContent" style="margin-bottom: 40px;"></div>
+
+    <div id="sourceContainer" style="margin-bottom: 30px; font-family: var(--font-sans); font-size: 13px; color: var(--text-color); display: none;">
+      Source: <a id="sourceLink" href="" target="_blank" style="color: var(--accent-color); font-weight: 700; text-decoration: none; transition: color var(--transition-speed);"></a>
+    </div>
+    <div id="spotifyContainer" style="display: none;"></div>
+    <div id="youtubeContainer" style="display: none;"></div>
+    <div id="galleryContainer" style="display: none;"></div>
+  </main>
+
+  <script src="script.js?v=6"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const articleId = params.get('id');
+      
+      db.collection('news').doc(articleId).get()
+        .then(doc => {
+          if (doc.exists) {
+            const article = doc.data();
+            document.title = article.title + ' - CRAVE';
+            document.getElementById('articleTitle').textContent = article.title;
+            document.getElementById('articleDate').textContent = article.date;
+            const heroContainer = document.getElementById('articleHeroContainer');
+            if (article.cardType === 'video' && article.youtube) {
+              heroContainer.innerHTML = `
+                <div class="video-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%;">
+                  <iframe src="https://www.youtube.com/embed/${article.youtube}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" allowfullscreen></iframe>
+                </div>
+              `;
+              heroContainer.style.background = 'none';
+              heroContainer.style.boxShadow = 'none';
+              heroContainer.style.height = 'auto';
+              heroContainer.style.maxHeight = 'none';
+            } else {
+              const articleImg = article.image || (article.youtube ? `https://img.youtube.com/vi/${article.youtube}/hqdefault.jpg` : 'images/slide_stats.jpg');
+              document.getElementById('articleImg').src = articleImg;
+            }
+            document.getElementById('articleContent').innerHTML = article.content.split('\n').map(p => `<p style="line-height: 1.8; margin-bottom: 20px; font-size: 15px; opacity: 0.9;">${p}</p>`).join('');
+            
+            if (article.sourceName && article.sourceUrl) {
+              const sc = document.getElementById('sourceContainer');
+              const sl = document.getElementById('sourceLink');
+              if (sc && sl) {
+                sl.href = article.sourceUrl;
+                sl.textContent = article.sourceName;
+                sc.style.display = 'block';
+              }
+            }
+            
+            if (article.spotify) {
+              const spot = document.getElementById('spotifyContainer');
+              spot.style.display = 'block';
+              spot.innerHTML = `<iframe src="${article.spotify}" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="border-radius: 12px; margin-bottom: 30px; border: none;"></iframe>`;
+            }
+            if (article.youtube && article.cardType !== 'video') {
+              const yt = document.getElementById('youtubeContainer');
+              yt.style.display = 'block';
+              yt.innerHTML = `
+                <div class="video-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 12px; margin-bottom: 30px; border: 1px solid var(--border-color); box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
+                  <iframe src="https://www.youtube.com/embed/${article.youtube}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" allowfullscreen></iframe>
+                </div>
+              `;
+            }
+            if (article.gallery) {
+              const gal = document.getElementById('galleryContainer');
+              gal.style.display = 'block';
+              const imgArray = article.gallery.split(',');
+              gal.innerHTML = `
+                <h3 style="font-family: var(--font-brand); font-size: 18px; font-weight: 500; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase;">Image Gallery</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px;">
+                  ${imgArray.map(imgUrl => `
+                    <div style="border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 1.5; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+                      <img src="${imgUrl.trim()}" style="width: 100%; height: 100%; object-fit: contain; background-color: rgba(0,0,0,0.02);">
+                    </div>
+                  `).join('')}
+                </div>
+              `;
+            }
+          } else {
+            document.getElementById('articleTitle').textContent = 'Article Not Found';
+          }
+        })
+        .catch(err => console.error(err));
+    });
+      function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      if (menu) {
+        if (menu.style.display === 'flex') {
+          menu.style.display = 'none';
+        } else {
+          menu.style.display = 'flex';
+        }
+      }
+    }
+  </script>
+</body>
+</html>
