@@ -271,7 +271,7 @@ function VmaVotingContent() {
       <section className="space-y-6">
         <div className="text-center space-y-1">
           <span className="font-mono text-xs font-bold uppercase tracking-widest text-vma-mint">
-            OFFICIAL MTV VMA BALLOT
+            OFFICIAL NOIR STAN AWARDS BALLOT
           </span>
           <h1 className="text-3xl sm:text-5xl font-heading font-black uppercase text-white tracking-tight">
             VOTE BY CATEGORY
