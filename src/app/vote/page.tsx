@@ -63,8 +63,8 @@ function VmaVotingContent() {
       try {
         setLoading(true);
         const [settingsRes, catsRes] = await Promise.all([
-          fetch("/api/settings"),
-          fetch("/api/categories"),
+          fetch("/api/settings", { cache: "no-store" }),
+          fetch("/api/categories", { cache: "no-store" }),
         ]);
 
         const sData = await settingsRes.json();
@@ -97,7 +97,10 @@ function VmaVotingContent() {
 
     async function loadNominees() {
       try {
-        const res = await fetch(`/api/nominees?categoryId=${expandedCategoryId}&finalistsOnly=true`);
+        const res = await fetch(
+          `/api/nominees?categoryId=${expandedCategoryId}&finalistsOnly=true`,
+          { cache: "no-store" }
+        );
         const data = await res.json();
         if (data?.nominees) {
           setCategoryNominees((prev) => ({ ...prev, [expandedCategoryId as string]: data.nominees }));
@@ -113,7 +116,8 @@ function VmaVotingContent() {
     if (!catId) return;
     try {
       const res = await fetch(
-        `/api/voter-balance?username=${encodeURIComponent(token || "")}&categoryId=${encodeURIComponent(catId)}`
+        `/api/voter-balance?username=${encodeURIComponent(token || "")}&categoryId=${encodeURIComponent(catId)}`,
+        { cache: "no-store" }
       );
       const data = await res.json();
       if (data && typeof data.votes_remaining === "number") {

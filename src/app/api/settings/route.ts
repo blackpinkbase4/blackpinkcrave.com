@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { getEventSettings } from "@/lib/supabase/db";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export async function GET() {
   try {
     const settings = await getEventSettings();
