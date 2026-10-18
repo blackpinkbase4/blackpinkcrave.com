@@ -72,10 +72,10 @@ export default function AdminPage() {
   const loadData = useCallback(async () => {
     try {
       const [sRes, cRes, nRes, rRes] = await Promise.all([
-        fetch("/api/admin/settings"),
-        fetch("/api/admin/categories"),
-        fetch("/api/admin/nominees"),
-        fetch("/api/admin/results"),
+        fetch("/api/admin/settings", { cache: "no-store" }),
+        fetch("/api/admin/categories", { cache: "no-store" }),
+        fetch("/api/admin/nominees", { cache: "no-store" }),
+        fetch("/api/admin/results", { cache: "no-store" }),
       ]);
 
       const [sData, cData, nData, rData] = await Promise.all([
@@ -88,14 +88,12 @@ export default function AdminPage() {
       if (sData?.settings) setSettings(sData.settings);
       if (cData?.categories) {
         setCategories(cData.categories);
-        if (!selectedCatId && cData.categories.length > 0) {
-          setSelectedCatId(cData.categories[0].id);
-        }
+        setSelectedCatId((prev) => prev || (cData.categories.length > 0 ? cData.categories[0].id : ""));
       }
       if (nData?.nominees) setNominees(nData.nominees);
       if (rData?.results) setResults(rData.results);
     } catch {}
-  }, [selectedCatId]);
+  }, []);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -225,6 +223,39 @@ export default function AdminPage() {
       setError("Network error while creating category");
     } finally {
       setAddingCat(false);
+    }
+  };
+
+  // Delete category
+  const handleDeleteCategory = async (id: string) => {
+    const cat = categories.find((c) => c.id === id);
+    if (!confirm(`Are you sure you want to delete category "${cat?.title || id}"? All nominations in this category will also be removed. This cannot be undone.`)) {
+      return;
+    }
+    playClickSound();
+    try {
+      const res = await fetch("/api/admin/categories", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "delete", id }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setError(data.error || "Failed to delete category");
+      } else {
+        playVoteSuccessSound();
+        setNotice(`Category deleted successfully.`);
+        setCategories((prev) => {
+          const next = prev.filter((c) => c.id !== id);
+          if (selectedCatId === id) {
+            setSelectedCatId(next.length > 0 ? next[0].id : "");
+          }
+          return next;
+        });
+        loadData();
+      }
+    } catch {
+      setError("Network error deleting category");
     }
   };
 
@@ -626,6 +657,18 @@ export default function AdminPage() {
                 <Plus className="w-3.5 h-3.5" />
                 <span>Add Category</span>
               </button>
+
+              {categories.length > 0 && selectedCatId && (
+                <button
+                  type="button"
+                  onClick={() => handleDeleteCategory(selectedCatId)}
+                  className="px-3.5 py-2 rounded-xl bg-crimson-950/60 hover:bg-crimson-900 border border-crimson-500/40 text-crimson-300 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-sm"
+                  title="Delete this category"
+                >
+                  <Trash2 className="w-3.5 h-3.5 text-crimson-400" />
+                  <span>Delete</span>
+                </button>
+              )}
             </div>
 
             {/* THE REQUESTED ROLL RANDOM 8 BUTTON */}

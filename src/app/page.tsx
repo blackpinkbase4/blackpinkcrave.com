@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { TrophyGraphic } from "@/components/TrophyGraphic";
 import { HomeNominationForm } from "@/components/HomeNominationForm";
+import WinnersPage from "./winners/page";
 import { getEventSettings, getCategories, getNominees } from "@/lib/supabase/db";
 
 const ICON_MAP: Record<string, React.ElementType> = {
@@ -35,12 +36,20 @@ const ICON_MAP: Record<string, React.ElementType> = {
   Trophy,
 };
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function HomePage() {
-  const settings = await getEventSettings();
-  const categories = await getCategories(false);
-  const nominees = await getNominees(undefined, false);
+  const [settings, categories, nominees] = await Promise.all([
+    getEventSettings(),
+    getCategories(false),
+    getNominees(undefined, false),
+  ]);
+
+  // When admin publishes winners, make the Winners Podium the front page!
+  if (settings.winners_published) {
+    return <WinnersPage />;
+  }
 
   return (
     <div className="space-y-24 py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10">
@@ -84,6 +93,17 @@ export default async function HomePage() {
           >
             <Vote className={`w-4 h-4 ${settings.nominations_open ? "text-vma-mint" : "text-noir-950"}`} />
             <span>ENTER VOTING BOOTH</span>
+          </Link>
+        </div>
+
+        {/* Rules & FAQ Link */}
+        <div className="pt-1">
+          <Link
+            href="/rules"
+            className="inline-flex items-center gap-1.5 font-mono text-xs text-chrome-400 hover:text-vma-mint uppercase tracking-wider transition-colors"
+          >
+            <span>OFFICIAL RULES & CONDUCT</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
       </section>

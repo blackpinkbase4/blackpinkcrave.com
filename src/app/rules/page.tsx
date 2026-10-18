@@ -10,13 +10,9 @@ import {
   AlertTriangle,
   ArrowRight,
 } from "lucide-react";
-import { getEventSettings } from "@/lib/supabase/db";
+export const dynamic = "force-dynamic";
 
-export const revalidate = 60;
-
-export default async function RulesPage() {
-  const settings = await getEventSettings();
-
+export default function RulesPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
       {/* Page Header */}
@@ -94,45 +90,12 @@ export default async function RulesPage() {
           </div>
         </section>
 
-        {/* Rule 3: Anti-Abuse Measures */}
-        <section className="p-6 sm:p-8 rounded-3xl glass-panel border border-white/10 shadow-card-noir space-y-4">
-          <div className="flex items-center space-x-3 text-crimson-500">
-            <Bot className="w-6 h-6" />
-            <h2 className="text-xl font-extrabold uppercase text-white tracking-wide">
-              3. Anti-Abuse, Rate Limiting & Bot Defense
-            </h2>
-          </div>
-          <div className="space-y-3 text-xs sm:text-sm text-chrome-300 leading-relaxed">
-            <p>
-              To maintain fair play and protect server resources, our architecture deploys:
-            </p>
-            <ul className="list-disc pl-5 space-y-1.5 text-chrome-300">
-              <li>
-                <strong className="text-white">IP Rate Limiting:</strong> Enforces burst protection
-                against script spamming and rapid automated submissions.
-              </li>
-              <li>
-                <strong className="text-white">Anonymized IP Clustering:</strong> Hashed IP tracking to
-                detect bot syndicates while preserving user privacy.
-              </li>
-              <li>
-                <strong className="text-white">Configurable CAPTCHA:</strong> Optional Cloudflare
-                Turnstile or reCAPTCHA integration when enabled by the admin.
-              </li>
-              <li>
-                <strong className="text-white">Audit Logging:</strong> Server-side recording of all
-                administrative alterations and suspect activity spikes.
-              </li>
-            </ul>
-          </div>
-        </section>
-
-        {/* Rule 4: Voting Windows, Embargo & Ties */}
+        {/* Rule 3: Voting Windows & Embargo */}
         <section className="p-6 sm:p-8 rounded-3xl glass-panel border border-white/10 shadow-card-noir space-y-4">
           <div className="flex items-center space-x-3 text-crimson-500">
             <Lock className="w-6 h-6" />
             <h2 className="text-xl font-extrabold uppercase text-white tracking-wide">
-              4. Voting Window, Results Embargo & Tie Handling
+              3. Voting Window & Results Embargo
             </h2>
           </div>
           <div className="space-y-3 text-xs sm:text-sm text-chrome-300 leading-relaxed">
@@ -145,21 +108,15 @@ export default async function RulesPage() {
               <strong className="text-white">Results Embargo:</strong> Live vote tallies and winner
               identities are strictly locked and encrypted until manual publication during the official ceremony broadcast.
             </p>
-            <p>
-              <strong className="text-white">Tie Resolution Protocol:</strong> In the event that two or
-              more nominees receive the exact same first-place vote total, both will be officially
-              declared <strong className="text-white">Co-Winners</strong>. We never silently invent
-              artificial tie-breaking criteria.
-            </p>
           </div>
         </section>
 
-        {/* Independent Fan-Event Legal Disclaimer */}
+        {/* Rule 4: Independent Fan-Event Legal Disclaimer */}
         <section className="p-6 sm:p-8 rounded-3xl bg-noir-900 border border-white/10 space-y-4">
           <div className="flex items-center space-x-3 text-chrome-400">
             <ShieldAlert className="w-6 h-6 text-crimson-500" />
             <h2 className="text-xl font-extrabold uppercase text-white tracking-wide">
-              6. Independent Fan-Event Disclaimer
+              4. Independent Fan-Event Disclaimer
             </h2>
           </div>
           <p className="text-xs sm:text-sm text-chrome-400 leading-relaxed">

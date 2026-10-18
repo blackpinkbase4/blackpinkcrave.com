@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { verifyAdminSession } from "@/lib/auth";
 import { updateEventSettings, getEventSettings } from "@/lib/supabase/db";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export async function POST(req: NextRequest) {
   if (!verifyAdminSession(req)) {
     return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
