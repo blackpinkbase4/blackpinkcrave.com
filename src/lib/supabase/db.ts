@@ -302,7 +302,13 @@ export async function getNominees(
 ): Promise<Nominee[]> {
   const supabase = getServerSupabase();
   if (supabase) {
-    let query = supabase.from("nominees").select("*").order("created_at", { ascending: true });
+    // When querying all 143+ nominees without a category filter, avoid selecting massive uncompressed base64 avatar strings.
+    // This saves 99% bandwidth (preventing Free Plan egress exhaustion) and prevents statement timeouts.
+    const selectFields = categoryId
+      ? "*"
+      : "id, category_id, x_username, display_name, is_finalist, created_at";
+
+    let query = supabase.from("nominees").select(selectFields).order("created_at", { ascending: true });
     if (categoryId) {
       query = query.eq("category_id", categoryId);
     }
@@ -311,7 +317,10 @@ export async function getNominees(
     }
     const { data, error } = await query;
     if (!error && data) {
-      return data as Nominee[];
+      return data as unknown as Nominee[];
+    }
+    if (error) {
+      console.error("[getNominees] Supabase query error:", error.message);
     }
   }
 

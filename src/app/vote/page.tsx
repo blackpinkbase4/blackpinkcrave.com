@@ -33,7 +33,7 @@ function VmaVotingContent() {
   const [expandedCategoryId, setExpandedCategoryId] = useState<string | null>(null);
   const [categoryNominees, setCategoryNominees] = useState<Record<string, Nominee[]>>({});
   const [loading, setLoading] = useState(true);
-  const [eventOpen, setEventOpen] = useState(true);
+  const [eventOpen, setEventOpen] = useState(false);
 
   // Voter Username & Confirmation State
   const [inputHandle, setInputHandle] = useState("");
@@ -303,6 +303,15 @@ function VmaVotingContent() {
   };
 
   const nominees = expandedCategoryId ? categoryNominees[expandedCategoryId] || [] : [];
+
+  if (loading) {
+    return (
+      <div className="max-w-4xl mx-auto py-28 px-4 text-center space-y-4 font-mono">
+        <div className="w-12 h-12 rounded-full border-2 border-vma-mint border-t-transparent animate-spin mx-auto" />
+        <p className="text-xs uppercase tracking-widest text-chrome-400">Loading Official Ballot...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">

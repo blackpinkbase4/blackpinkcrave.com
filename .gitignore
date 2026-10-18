@@ -35,3 +35,6 @@ Thumbs.db
 # Editor directories
 .vscode/
 .idea/
+
+# Local backups
+backup*.json

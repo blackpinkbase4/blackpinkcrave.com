@@ -5,8 +5,8 @@ import {
   createCategory,
   updateCategory,
   deleteCategory,
-  getNominees,
 } from "@/lib/supabase/db";
+import { getServerSupabase } from "@/lib/supabase/client";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -18,11 +18,18 @@ export async function GET(req: NextRequest) {
 
   try {
     const categories = await getCategories(true);
-    const nominees = await getNominees(undefined, true);
+    
+    // Lightweight count query without heavy avatar blobs
+    const supabase = getServerSupabase();
+    let nomineeCounts: { category_id: string }[] = [];
+    if (supabase) {
+      const { data } = await supabase.from("nominees").select("category_id");
+      if (data) nomineeCounts = data;
+    }
 
     const enriched = categories.map((cat) => ({
       ...cat,
-      nominee_count: nominees.filter((n) => n.category_id === cat.id).length,
+      nominee_count: nomineeCounts.filter((n) => n.category_id === cat.id).length,
     }));
 
     return NextResponse.json({ categories: enriched });

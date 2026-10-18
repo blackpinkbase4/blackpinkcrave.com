@@ -101,6 +101,23 @@ export default function AdminPage() {
     }
   }, [isAuthenticated, loadData]);
 
+  // Lazy-load detailed category nominees with avatars for selected category in Tab 2
+  useEffect(() => {
+    if (isAuthenticated && selectedCatId) {
+      fetch(`/api/admin/nominees?categoryId=${encodeURIComponent(selectedCatId)}`, { cache: "no-store" })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?.nominees && data.nominees.length > 0) {
+            setNominees((prev) => {
+              const others = prev.filter((n) => n.category_id !== selectedCatId);
+              return [...others, ...data.nominees];
+            });
+          }
+        })
+        .catch(() => {});
+    }
+  }, [isAuthenticated, selectedCatId]);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setAuthError("");
