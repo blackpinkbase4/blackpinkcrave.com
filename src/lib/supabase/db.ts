@@ -302,8 +302,8 @@ export async function getNominees(
 ): Promise<Nominee[]> {
   const supabase = getServerSupabase();
   if (supabase) {
-    // Keep nominee queries lightweight (no massive base64) to ensure database connection slots remain 100% free for instant vote submissions
-    const selectFields = "id, category_id, x_username, display_name, is_finalist, created_at";
+    // All avatars are now high-speed Cloud CDN URLs (tiny ~70 bytes each), keeping queries instant
+    const selectFields = "id, category_id, x_username, display_name, avatar_url, is_finalist, created_at";
 
     let query = supabase.from("nominees").select(selectFields).order("created_at", { ascending: true });
     if (categoryId) {
