@@ -648,11 +648,18 @@ export async function getCategoryResults(
 
   const supabase = getServerSupabase();
   if (supabase) {
-    const { data, error } = await supabase
-      .from("votes")
-      .select("nominee_id, category_id, vote_count");
-    if (!error && data) {
-      votes = data;
+    // Paginate through all votes in 1000-row chunks to capture all votes beyond 1000 limit
+    let from = 0;
+    const step = 1000;
+    while (true) {
+      const { data, error } = await supabase
+        .from("votes")
+        .select("nominee_id, category_id, vote_count")
+        .range(from, from + step - 1);
+      if (error || !data || data.length === 0) break;
+      votes = votes.concat(data);
+      if (data.length < step) break;
+      from += step;
     }
   } else {
     votes = fallbackState.votes;

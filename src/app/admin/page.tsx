@@ -101,6 +101,15 @@ export default function AdminPage() {
     }
   }, [isAuthenticated, loadData]);
 
+  // Auto-refresh results every 8 seconds on Live Standings tab for real-time tracking
+  useEffect(() => {
+    if (!isAuthenticated || activeTab !== "results") return;
+    const timer = setInterval(() => {
+      loadData();
+    }, 8000);
+    return () => clearInterval(timer);
+  }, [isAuthenticated, activeTab, loadData]);
+
   // Lazy-load detailed category nominees with avatars for selected category in Tab 2
   useEffect(() => {
     if (isAuthenticated && selectedCatId) {
@@ -379,19 +388,24 @@ export default function AdminPage() {
 
   const categoryNominees = nominees.filter((n) => n.category_id === selectedCatId);
   const categoryFinalists = categoryNominees.filter((n) => n.is_finalist);
+  const grandTotalVotes = results.reduce((sum, c) => sum + (c.total_votes || 0), 0);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 font-mono">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
         <div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2.5">
             <h1 className="text-2xl sm:text-3xl font-heading font-black uppercase text-white tracking-tight">
               ADMIN CONTROL ROOM
             </h1>
             <span className="px-2.5 py-0.5 rounded-full bg-vma-mint/20 text-vma-mint border border-vma-mint/40 text-[10px] font-bold uppercase">
               MASTER DESK
             </span>
+            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-vma-mint/10 border border-vma-mint/40 text-vma-mint text-xs font-bold shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-vma-mint animate-pulse" />
+              <span>LIVE TOTAL: <strong className="text-white font-black">{grandTotalVotes.toLocaleString()}</strong> VOTES</span>
+            </div>
           </div>
           <p className="text-xs text-chrome-400 mt-1">
             Manage the 4 ceremony stages: Nominations &rarr; Top 8 Curation &rarr; Live Voting &rarr; Winner Reveal.
@@ -784,8 +798,41 @@ export default function AdminPage() {
           TAB 3: LIVE STANDINGS & RESULTS
           ========================================================================= */}
       {activeTab === "results" && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {results.map((cat) => (
+        <div className="space-y-6">
+          {/* Real-time Grand Total Banner */}
+          <div className="p-6 rounded-2xl bg-gradient-to-r from-noir-900 via-vma-cardDark to-noir-900 border border-vma-mint/40 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-vma-mint">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-vma-mint/20 border border-vma-mint/50 flex items-center justify-center text-vma-mint shadow-sm shrink-0">
+                <Trophy className="w-6 h-6" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="font-heading font-black text-lg sm:text-xl text-white uppercase tracking-tight">
+                    GRAND TOTAL VOTES ACROSS ALL CATEGORIES
+                  </h3>
+                  <span className="flex items-center gap-1.5 text-[10px] px-2.5 py-0.5 rounded-full bg-vma-mint/20 text-vma-mint border border-vma-mint/40 font-bold uppercase">
+                    <span className="w-1.5 h-1.5 rounded-full bg-vma-mint animate-pulse" />
+                    LIVE REAL-TIME
+                  </span>
+                </div>
+                <p className="text-xs text-chrome-400 font-mono mt-0.5">
+                  Full un-capped vote tally dynamically calculated across every submitted ballot
+                </p>
+              </div>
+            </div>
+
+            <div className="text-center sm:text-right shrink-0">
+              <div className="text-3xl sm:text-5xl font-heading font-black text-vma-mint tracking-tight">
+                {grandTotalVotes.toLocaleString()}
+              </div>
+              <span className="text-[10px] uppercase font-bold text-chrome-400 tracking-wider">
+                Total Vote Credits Cast
+              </span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {results.map((cat) => (
             <div key={cat.category_id} className="p-5 rounded-2xl bg-vma-cardDark border border-vma-border space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-white/10 pb-3 gap-2">
                 <div>
@@ -872,6 +919,7 @@ export default function AdminPage() {
               </div>
             </div>
           ))}
+          </div>
         </div>
       )}
 
