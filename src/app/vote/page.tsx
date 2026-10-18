@@ -215,12 +215,24 @@ function VmaVotingContent() {
     }, 3000);
   };
 
-  // Toggle category accordion
+  // Toggle category accordion with smooth anchor alignment
   const handleToggleCategory = (catId: string) => {
     playClickSound();
+    const willOpen = expandedCategoryId !== catId;
     setExpandedCategoryId((prev) => (prev === catId ? null : catId));
     setSubmitSuccess(null);
     setSubmitError(null);
+
+    if (willOpen) {
+      setTimeout(() => {
+        const el = document.getElementById(`category-${catId}`);
+        if (el) {
+          const yOffset = -24;
+          const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+        }
+      }, 60);
+    }
   };
 
   // Current category credits
@@ -490,6 +502,7 @@ function VmaVotingContent() {
               return (
                 <div
                   key={cat.id}
+                  id={`category-${cat.id}`}
                   className={`rounded-2xl transition-all border ${
                     isExpanded
                       ? "bg-vma-cardDark border-vma-mint shadow-2xl"
