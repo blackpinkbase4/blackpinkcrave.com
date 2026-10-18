@@ -23,6 +23,20 @@ import {
 import { Category, Nominee } from "@/types";
 import { playClickSound, playVoteSuccessSound } from "@/lib/sound";
 
+function fallbackCopyText(text: string) {
+  try {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.left = "-9999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textArea);
+  } catch {}
+}
+
 function VmaVotingContent() {
   const searchParams = useSearchParams();
   const initialCategoryParam = searchParams.get("category");
@@ -177,15 +191,27 @@ function VmaVotingContent() {
     }
   };
 
-  // Copy shareable nominee link
+  // Robust clipboard copy with fallback for mobile in-app browsers
   const handleCopyNomineeLink = (catId: string, nomId: string) => {
     playClickSound();
     const url = `${window.location.origin}/vote?category=${catId}&nominee=${nomId}`;
-    if (navigator?.clipboard) {
-      navigator.clipboard.writeText(url);
+    try {
+      if (navigator?.clipboard?.writeText) {
+        navigator.clipboard.writeText(url).catch(() => {
+          fallbackCopyText(url);
+        });
+      } else {
+        fallbackCopyText(url);
+      }
+    } catch {
+      fallbackCopyText(url);
     }
     setCopiedNomineeId(nomId);
-    setTimeout(() => setCopiedNomineeId(null), 3000);
+    setSubmitSuccess("Link copied to clipboard! Share it to get votes!");
+    setTimeout(() => {
+      setCopiedNomineeId((prev) => (prev === nomId ? null : prev));
+      setSubmitSuccess((prev) => (prev?.includes("Link copied") ? null : prev));
+    }, 3000);
   };
 
   // Toggle category accordion
@@ -564,19 +590,23 @@ function VmaVotingContent() {
                                       <button
                                         type="button"
                                         onClick={() => handleCopyNomineeLink(cat.id, nominee.id)}
-                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-noir-900/90 hover:bg-vma-mint hover:text-noir-950 border border-white/20 hover:border-vma-mint text-[11px] font-mono font-bold text-chrome-300 transition-all shadow-md active:scale-95 cursor-pointer"
+                                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-mono font-bold transition-all shadow-md active:scale-95 cursor-pointer select-none ${
+                                          copiedNomineeId === nominee.id
+                                            ? "bg-vma-mint text-noir-950 border border-vma-mint shadow-vma-mint scale-105"
+                                            : "bg-noir-900/90 text-chrome-300 border border-white/20 hover:border-vma-mint hover:text-white"
+                                        }`}
                                         title="Copy link to share in DMs or on timeline"
                                       >
                                         {copiedNomineeId === nominee.id ? (
-                                          <>
-                                            <Check className="w-3 h-3 text-vma-mint" />
-                                            <span className="text-vma-mint font-black">COPIED!</span>
-                                          </>
+                                          <span className="flex items-center gap-1 text-noir-950 font-black">
+                                            <Check className="w-3.5 h-3.5 stroke-[3] text-noir-950" />
+                                            <span>COPIED!</span>
+                                          </span>
                                         ) : (
-                                          <>
-                                            <Share2 className="w-3 h-3 text-vma-mint" />
+                                          <span className="flex items-center gap-1">
+                                            <Share2 className="w-3.5 h-3.5 text-vma-mint" />
                                             <span>SHARE</span>
-                                          </>
+                                          </span>
                                         )}
                                       </button>
                                     </div>

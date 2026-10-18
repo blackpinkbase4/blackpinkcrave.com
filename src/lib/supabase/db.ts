@@ -302,9 +302,9 @@ export async function getNominees(
 ): Promise<Nominee[]> {
   const supabase = getServerSupabase();
   if (supabase) {
-    // When querying all 143+ nominees without a category filter, avoid selecting massive uncompressed base64 avatar strings.
-    // This saves 99% bandwidth (preventing Free Plan egress exhaustion) and prevents statement timeouts.
-    const selectFields = categoryId
+    // When querying all 143+ raw submissions without category/finalist filters, avoid selecting heavy avatar blobs.
+    // When querying finalists for the voting booth or a single category, include all fields (including avatar_url).
+    const selectFields = (categoryId || onlyFinalists)
       ? "*"
       : "id, category_id, x_username, display_name, is_finalist, created_at";
 
