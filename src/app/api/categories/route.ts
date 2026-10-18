@@ -15,7 +15,16 @@ export async function GET() {
       nominee_count: allNominees.filter((n) => n.category_id === cat.id).length,
     }));
 
-    return NextResponse.json({ categories: enriched });
+    return NextResponse.json(
+      { categories: enriched },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+          "CDN-Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+          "Netlify-CDN-Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+        },
+      }
+    );
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Internal error";
     return NextResponse.json({ error: message }, { status: 500 });

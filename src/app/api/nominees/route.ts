@@ -11,7 +11,16 @@ export async function GET(req: NextRequest) {
     const finalistsOnly = searchParams.get("finalistsOnly") !== "false"; // Default true for voting
 
     const nominees = await getNominees(categoryId, finalistsOnly);
-    return NextResponse.json({ nominees });
+    return NextResponse.json(
+      { nominees },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+          "CDN-Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+          "Netlify-CDN-Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+        },
+      }
+    );
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Internal error";
     return NextResponse.json({ error: message }, { status: 500 });
