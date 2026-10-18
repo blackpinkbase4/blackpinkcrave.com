@@ -302,11 +302,8 @@ export async function getNominees(
 ): Promise<Nominee[]> {
   const supabase = getServerSupabase();
   if (supabase) {
-    // When categoryId is specified, we fetch only that category's ~15 nominees with full avatar_url in 0.3s.
-    // When categoryId is omitted, we fetch all 201 nominees metadata to prevent statement timeouts on 500MB payloads.
-    const selectFields = categoryId
-      ? "*"
-      : "id, category_id, x_username, display_name, is_finalist, created_at";
+    // Keep nominee queries lightweight (no massive base64) to ensure database connection slots remain 100% free for instant vote submissions
+    const selectFields = "id, category_id, x_username, display_name, is_finalist, created_at";
 
     let query = supabase.from("nominees").select(selectFields).order("created_at", { ascending: true });
     if (categoryId) {

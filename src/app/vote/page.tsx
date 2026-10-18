@@ -158,22 +158,6 @@ function VmaVotingContent() {
     }
   }, [effectiveVoter, expandedCategoryId, fetchBalance]);
 
-  // Fetch detailed nominees with full avatars for the currently expanded category
-  useEffect(() => {
-    if (expandedCategoryId) {
-      fetch(`/api/nominees?categoryId=${encodeURIComponent(expandedCategoryId)}&finalistsOnly=true`, { cache: "no-store" })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data?.nominees && data.nominees.length > 0) {
-            setCategoryNominees((prev) => ({
-              ...prev,
-              [expandedCategoryId]: data.nominees,
-            }));
-          }
-        })
-        .catch(() => {});
-    }
-  }, [expandedCategoryId]);
 
   // Deep-link scroll to nominee
   useEffect(() => {
