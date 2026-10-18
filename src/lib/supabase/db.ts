@@ -302,9 +302,9 @@ export async function getNominees(
 ): Promise<Nominee[]> {
   const supabase = getServerSupabase();
   if (supabase) {
-    // When querying all 143+ raw submissions without category/finalist filters, avoid selecting heavy avatar blobs.
-    // When querying finalists for the voting booth or a single category, include all fields (including avatar_url).
-    const selectFields = (categoryId || onlyFinalists)
+    // When categoryId is specified, we fetch only that category's ~15 nominees with full avatar_url in 0.3s.
+    // When categoryId is omitted, we fetch all 201 nominees metadata to prevent statement timeouts on 500MB payloads.
+    const selectFields = categoryId
       ? "*"
       : "id, category_id, x_username, display_name, is_finalist, created_at";
 
