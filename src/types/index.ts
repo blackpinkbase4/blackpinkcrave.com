@@ -4,6 +4,9 @@ export interface EventSettings {
   tagline: string;
   nominations_open: boolean;
   nominees_visible?: boolean; // Controls whether public /nominees roster is open
+  music_url?: string; // Current ceremony soundtrack URL
+  music_title?: string; // Track name / artist
+  music_enabled?: boolean; // Whether audio autoplay is active
   voting_open: boolean;
   voting_deadline: string;
   display_timezone: string;

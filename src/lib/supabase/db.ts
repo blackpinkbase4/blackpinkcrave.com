@@ -159,10 +159,28 @@ export async function getEventSettings(): Promise<EventSettings> {
 
     if (!error && data) {
       const s = data as EventSettings;
-      // Derive nominees_visible from reveal_date_display if column not in DB
+      // Parse JSON from reveal_date_display if available
+      let meta: {
+        nominees_visible?: boolean;
+        music_url?: string;
+        music_title?: string;
+        music_enabled?: boolean;
+      } = {};
+
+      try {
+        if (s.reveal_date_display && s.reveal_date_display.startsWith("{")) {
+          meta = JSON.parse(s.reveal_date_display);
+        } else if (s.reveal_date_display === "NOMINEES_VISIBLE:true") {
+          meta = { nominees_visible: true };
+        }
+      } catch {}
+
       return {
         ...s,
-        nominees_visible: s.nominees_visible ?? (s.reveal_date_display === "NOMINEES_VISIBLE:true"),
+        nominees_visible: s.nominees_visible ?? meta.nominees_visible ?? false,
+        music_url: meta.music_url || "",
+        music_title: meta.music_title || "",
+        music_enabled: meta.music_enabled ?? false,
       };
     }
   }
@@ -177,14 +195,22 @@ export async function updateEventSettings(
   const supabase = getServerSupabase();
   const timestamp = new Date().toISOString();
 
-  // If nominees_visible is being updated, store it safely in reveal_date_display to avoid PGRST204
+  // Load current settings to preserve existing metadata
+  const current = await getEventSettings();
+
+  const meta = {
+    nominees_visible: updates.nominees_visible !== undefined ? updates.nominees_visible : (current.nominees_visible ?? false),
+    music_url: updates.music_url !== undefined ? updates.music_url : (current.music_url ?? ""),
+    music_title: updates.music_title !== undefined ? updates.music_title : (current.music_title ?? ""),
+    music_enabled: updates.music_enabled !== undefined ? updates.music_enabled : (current.music_enabled ?? false),
+  };
+
   const sanitizedUpdates: Record<string, unknown> = { ...updates };
-  if (updates.nominees_visible !== undefined) {
-    sanitizedUpdates.reveal_date_display = updates.nominees_visible
-      ? "NOMINEES_VISIBLE:true"
-      : "NOMINEES_VISIBLE:false";
-    delete sanitizedUpdates.nominees_visible;
-  }
+  sanitizedUpdates.reveal_date_display = JSON.stringify(meta);
+  delete sanitizedUpdates.nominees_visible;
+  delete sanitizedUpdates.music_url;
+  delete sanitizedUpdates.music_title;
+  delete sanitizedUpdates.music_enabled;
 
   if (supabase) {
     const { data, error } = await supabase
@@ -202,9 +228,10 @@ export async function updateEventSettings(
     const result = data as EventSettings;
     return {
       ...result,
-      nominees_visible: updates.nominees_visible !== undefined
-        ? updates.nominees_visible
-        : (result.reveal_date_display === "NOMINEES_VISIBLE:true"),
+      nominees_visible: meta.nominees_visible,
+      music_url: meta.music_url,
+      music_title: meta.music_title,
+      music_enabled: meta.music_enabled,
     };
   }
 

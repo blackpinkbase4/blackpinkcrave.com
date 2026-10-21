@@ -25,6 +25,10 @@ import {
   Plus,
   X,
   Crown,
+  Music,
+  Volume2,
+  VolumeX,
+  Upload,
 } from "lucide-react";
 import { Category, Nominee, EventSettings, CategoryWinnerResult } from "@/types";
 import { playClickSound, playVoteSuccessSound } from "@/lib/sound";
@@ -37,6 +41,13 @@ export default function AdminPage() {
 
   // Tab: "stages" | "nominees" | "results"
   const [activeTab, setActiveTab] = useState<"stages" | "nominees" | "results">("stages");
+
+  // Audio Soundtrack state
+  const [songTitle, setSongTitle] = useState("");
+  const [songUrl, setSongUrl] = useState("");
+  const [songEnabled, setSongEnabled] = useState(false);
+  const [uploadingSong, setUploadingSong] = useState(false);
+  const [savingSong, setSavingSong] = useState(false);
 
   // Data
   const [settings, setSettings] = useState<EventSettings | null>(null);
@@ -245,6 +256,55 @@ export default function AdminPage() {
       setError("Error approving all nominees");
     } finally {
       setActionLoading(false);
+    }
+  };
+
+  // Audio upload handler
+  const handleUploadAudio = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingSong(true);
+    setError(null);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/admin/audio", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setError(data.error || "Failed to upload audio file");
+      } else {
+        setSongUrl(data.url);
+        if (!songTitle.trim()) {
+          setSongTitle(file.name.replace(/\.[^/.]+$/, ""));
+        }
+        setNotice("Audio file uploaded to Supabase Storage! Click 'SAVE SOUNDTRACK' to apply.");
+      }
+    } catch {
+      setError("Error uploading audio file");
+    } finally {
+      setUploadingSong(false);
+    }
+  };
+
+  const handleSaveSoundtrack = async () => {
+    setSavingSong(true);
+    setError(null);
+    playClickSound();
+    try {
+      await handleUpdateSettings({
+        music_url: songUrl.trim(),
+        music_title: songTitle.trim(),
+        music_enabled: songEnabled,
+      });
+      playVoteSuccessSound();
+      setNotice("Ceremony soundtrack updated successfully!");
+    } catch {
+      setError("Failed to save soundtrack settings");
+    } finally {
+      setSavingSong(false);
     }
   };
 
