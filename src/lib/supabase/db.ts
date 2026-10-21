@@ -148,7 +148,14 @@ const fallbackState = globalStore.__noirFallbackState;
 // ==========================================
 // 1. EVENT SETTINGS
 // ==========================================
-export async function getEventSettings(): Promise<EventSettings> {
+let cachedSettings: EventSettings | null = null;
+let cachedSettingsExpiry = 0;
+
+export async function getEventSettings(forceFresh = false): Promise<EventSettings> {
+  const now = Date.now();
+  if (!forceFresh && cachedSettings && now < cachedSettingsExpiry) {
+    return cachedSettings;
+  }
   const supabase = getServerSupabase();
   if (supabase) {
     const { data, error } = await supabase
@@ -175,13 +182,16 @@ export async function getEventSettings(): Promise<EventSettings> {
         }
       } catch {}
 
-      return {
+      const finalSettings = {
         ...s,
         nominees_visible: s.nominees_visible ?? meta.nominees_visible ?? false,
         music_url: meta.music_url || "",
         music_title: meta.music_title || "",
         music_enabled: meta.music_enabled ?? false,
       };
+      cachedSettings = finalSettings;
+      cachedSettingsExpiry = now + 15000;
+      return finalSettings;
     }
   }
 
@@ -189,11 +199,14 @@ export async function getEventSettings(): Promise<EventSettings> {
 }
 
 export async function updateEventSettings(
+
   updates: Partial<EventSettings>,
   adminIp?: string
 ): Promise<EventSettings> {
   const supabase = getServerSupabase();
   const timestamp = new Date().toISOString();
+  cachedSettings = null;
+  cachedSettingsExpiry = 0;
 
   // Load current settings to preserve existing metadata
   const current = await getEventSettings();
@@ -408,14 +421,19 @@ export async function submitNomination(nominee: {
 
   const supabase = getServerSupabase();
   if (supabase) {
-    const { data, error } = await supabase.from("nominees").insert([newNominee]).select().single();
+    // Only select essential metadata to avoid returning the entire image payload over the wire
+    const { data, error } = await supabase
+      .from("nominees")
+      .insert([newNominee])
+      .select("id, category_id, x_username, display_name, created_at, is_finalist")
+      .single();
     if (error) {
       if (error.code === "23505") {
         throw new Error(`@${normalizedUser} has already been nominated in this category.`);
       }
       throw new Error(error.message);
     }
-    return data as Nominee;
+    return { ...newNominee, ...data } as Nominee;
   }
 
   // Fallback
@@ -693,6 +711,8 @@ export async function submitVotes(
   }
 
   const timestamp = new Date().toISOString();
+  cachedSettings = null;
+  cachedSettingsExpiry = 0;
   for (const item of allocations) {
     fallbackState.votes.push({
       id: `vote_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`,

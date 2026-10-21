@@ -96,7 +96,12 @@ export default function AdminPage() {
         rRes.json(),
       ]);
 
-      if (sData?.settings) setSettings(sData.settings);
+      if (sData?.settings) {
+        setSettings(sData.settings);
+        if (sData.settings.music_url !== undefined) setSongUrl(sData.settings.music_url || "");
+        if (sData.settings.music_title !== undefined) setSongTitle(sData.settings.music_title || "");
+        if (sData.settings.music_enabled !== undefined) setSongEnabled(Boolean(sData.settings.music_enabled));
+      }
       if (cData?.categories) {
         setCategories(cData.categories);
         setSelectedCatId((prev) => prev || (cData.categories.length > 0 ? cData.categories[0].id : ""));
@@ -912,7 +917,7 @@ export default function AdminPage() {
                   {songUrl ? `✓ Audio Loaded: ${songUrl}` : "⚠ Paste your Catbox link or click Upload MP3"}
                 </span>
                 {songUrl && (
-                  <audio src={songUrl} controls className="h-8 max-w-[200px]" preload="none" />
+                  <audio src={songUrl} controls className="h-8 max-w-[200px]" preload="metadata" />
                 )}
               </div>
               <button

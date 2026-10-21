@@ -39,7 +39,13 @@ export function AudioPlayer() {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const startAudio = () => {
+    const startAudio = (e: MouseEvent | TouchEvent) => {
+      // If user directly clicked or tapped on the player toggle button, let toggleSound handle it
+      const target = e.target as HTMLElement | null;
+      if (target && target.closest("[data-audio-player-btn]")) {
+        return;
+      }
+
       if (!audioRef.current) return;
       audioRef.current.muted = false;
       audioRef.current
@@ -48,6 +54,7 @@ export function AudioPlayer() {
           setIsPlaying(true);
         })
         .catch(() => {});
+
       window.removeEventListener("click", startAudio);
       window.removeEventListener("touchstart", startAudio);
     };
@@ -61,8 +68,8 @@ export function AudioPlayer() {
       });
 
     // Listen on window for first tap or click anywhere on the page
-    window.addEventListener("click", startAudio, { once: true });
-    window.addEventListener("touchstart", startAudio, { once: true });
+    window.addEventListener("click", startAudio);
+    window.addEventListener("touchstart", startAudio);
 
     return () => {
       window.removeEventListener("click", startAudio);
@@ -71,6 +78,7 @@ export function AudioPlayer() {
   }, [musicUrl, musicEnabled]);
 
   const toggleSound = (e: React.MouseEvent) => {
+    e.preventDefault();
     e.stopPropagation();
     const audio = audioRef.current;
     if (!audio) return;
@@ -106,6 +114,7 @@ export function AudioPlayer() {
         playsInline
         preload="auto"
         onPlay={() => setIsPlaying(true)}
+        onPlaying={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
         onError={() => {
           console.warn("Audio element failed to load source:", musicUrl);
@@ -115,13 +124,14 @@ export function AudioPlayer() {
 
       <button
         type="button"
+        data-audio-player-btn="true"
         onClick={toggleSound}
         className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-full bg-noir-950/95 backdrop-blur-md border border-white/20 text-white shadow-2xl hover:border-vma-mint transition-all text-xs font-mono group cursor-pointer active:scale-95"
         title={isPlaying ? "Click to mute/pause" : "Click to play song"}
         aria-label="Toggle Ceremony Soundtrack"
       >
         {isPlaying ? (
-          <Volume2 className="w-4 h-4 text-vma-mint shrink-0" />
+          <Volume2 className="w-4 h-4 text-vma-mint shrink-0 animate-pulse" />
         ) : (
           <VolumeX className="w-4 h-4 text-rose-400 shrink-0" />
         )}

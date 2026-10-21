@@ -41,6 +41,26 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700;800;900&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;700;800&display=swap"
           rel="stylesheet"
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                function purgeNetlify() {
+                  var sel = 'netlify-drawer, [data-netlify-drawer], #netlify-badge, .netlify-badge, iframe[src*="netlify"], div[class*="feedback-drawer"], div[id*="feedback-drawer"]';
+                  document.querySelectorAll(sel).forEach(function(el) { el.remove(); });
+                }
+                if (document.readyState === 'loading') {
+                  document.addEventListener('DOMContentLoaded', purgeNetlify);
+                } else {
+                  purgeNetlify();
+                }
+                if (window.MutationObserver) {
+                  new MutationObserver(purgeNetlify).observe(document.documentElement, { childList: true, subtree: true });
+                }
+              })();
+            `,
+          }}
+        />
       </head>
       <body className="bg-noir-950 text-white min-h-screen flex flex-col font-sans selection:bg-vma-mint selection:text-noir-950 relative overflow-x-hidden">
         {/* Master Navigation & App Content */}

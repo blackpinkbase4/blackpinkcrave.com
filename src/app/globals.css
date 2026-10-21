@@ -171,9 +171,13 @@ netlify-drawer,
 .netlify-badge,
 [data-testid="netlify-badge"],
 iframe[src*="netlify"],
-div[class*="netlify-drawer"],
+div[class*="netlify"],
+div[id*="netlify"],
 div[class*="feedback-drawer"],
-div[aria-label="Netlify Feedback"] {
+div[id*="feedback-drawer"],
+div[aria-label*="Netlify"],
+button[aria-label*="Netlify"],
+a[href*="netlify.com"] {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;

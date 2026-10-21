@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getNominees, submitVotes, getVoterBalance } from "@/lib/supabase/db";
-import { validateXUsername, validateAllocations } from "@/lib/validation";
+import { submitVotes } from "@/lib/supabase/db";
+import { validateXUsername } from "@/lib/validation";
 import { checkRateLimit, hashClientIp } from "@/lib/rate-limit";
 import { VoteSubmissionRequest } from "@/types";
 
@@ -85,39 +85,40 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 5. Check remaining balance for this user & category
-    const balance = await getVoterBalance(normalizedUser, category_id);
-    if (balance.votes_remaining <= 0) {
+    // 5. Fast in-memory validation of allocations
+    if (!Array.isArray(allocations) || allocations.length === 0) {
       return NextResponse.json(
-        {
-          success: false,
-          error: "You have already cast all 10 votes in this category.",
-          remaining_votes: 0,
-        },
+        { success: false, error: "Please allocate at least 1 vote before submitting." },
         { status: 400 }
       );
     }
 
-    // 6. Fetch active nominees for this category and validate allocations
-    const categoryNominees = await getNominees(category_id, false);
-    const allocationValidation = validateAllocations(
-      allocations,
-      balance.votes_remaining,
-      categoryNominees
-    );
+    let totalRequested = 0;
+    for (const alloc of allocations) {
+      if (!alloc.nominee_id || typeof alloc.nominee_id !== "string") {
+        return NextResponse.json(
+          { success: false, error: "Invalid nominee specified in votes." },
+          { status: 400 }
+        );
+      }
+      const v = Math.floor(Number(alloc.votes));
+      if (isNaN(v) || v <= 0) {
+        return NextResponse.json(
+          { success: false, error: "Votes must be positive whole numbers." },
+          { status: 400 }
+        );
+      }
+      totalRequested += v;
+    }
 
-    if (!allocationValidation.isValid) {
+    if (totalRequested > 10) {
       return NextResponse.json(
-        {
-          success: false,
-          error: allocationValidation.error,
-          remaining_votes: balance.votes_remaining,
-        },
+        { success: false, error: "You cannot cast more than 10 votes in a category." },
         { status: 400 }
       );
     }
 
-    // 7. Atomic submission in Supabase or atomic fallback
+    // 6. Direct atomic submission (single fast PostgreSQL RPC with row-level locks)
     const result = await submitVotes(
       normalizedUser,
       category_id,
