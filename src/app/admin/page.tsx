@@ -307,17 +307,21 @@ export default function AdminPage() {
   };
 
   const handleSaveSoundtrack = async () => {
+    if (!songUrl.trim()) {
+      setError("Please paste an Audio URL (such as your Catbox link) or upload an MP3 file first before saving!");
+      return;
+    }
     setSavingSong(true);
     setError(null);
     playClickSound();
     try {
       await handleUpdateSettings({
         music_url: songUrl.trim(),
-        music_title: songTitle.trim(),
+        music_title: (songTitle.trim() || "XG - GALA"),
         music_enabled: songEnabled,
       });
       playVoteSuccessSound();
-      setNotice("Ceremony soundtrack updated successfully!");
+      setNotice("Ceremony soundtrack saved and activated successfully!");
     } catch {
       setError("Failed to save soundtrack settings");
     } finally {
@@ -903,9 +907,14 @@ export default function AdminPage() {
 
             {/* Save Button */}
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-white/10">
-              <span className="text-[11px] text-chrome-500 font-mono truncate max-w-xs">
-                {songUrl ? `Loaded: ${songUrl.slice(0, 45)}...` : "No audio loaded yet."}
-              </span>
+              <div className="flex items-center gap-3">
+                <span className={`text-[11px] font-mono truncate max-w-xs ${songUrl ? "text-emerald-400 font-bold" : "text-amber-400 font-semibold"}`}>
+                  {songUrl ? `✓ Audio Loaded: ${songUrl}` : "⚠ Paste your Catbox link or click Upload MP3"}
+                </span>
+                {songUrl && (
+                  <audio src={songUrl} controls className="h-8 max-w-[200px]" preload="none" />
+                )}
+              </div>
               <button
                 type="button"
                 disabled={savingSong || uploadingSong}
