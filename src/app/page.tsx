@@ -60,7 +60,7 @@ export default async function HomePage() {
 
         {/* Trophy Illustration */}
         <div className="py-2 relative">
-          <TrophyGraphic className="w-48 h-56 sm:w-60 sm:h-72 mx-auto" />
+          <TrophyGraphic className="w-64 h-72 sm:w-80 sm:h-96 mx-auto" />
         </div>
 
         {/* Quick Action Buttons */}
