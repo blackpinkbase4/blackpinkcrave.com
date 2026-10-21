@@ -160,3 +160,27 @@ body {
   background: #e11d48;
   border-radius: 2px;
 }
+
+
+/* =========================================================================
+   HIDE NETLIFY BADGE, DRAWER & PREVIEW OVERLAYS
+   ========================================================================= */
+netlify-drawer,
+[data-netlify-drawer],
+#netlify-badge,
+.netlify-badge,
+[data-testid="netlify-badge"],
+iframe[src*="netlify"],
+div[class*="netlify-drawer"],
+div[class*="feedback-drawer"],
+div[aria-label="Netlify Feedback"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  position: absolute !important;
+  clip: rect(0, 0, 0, 0) !important;
+  z-index: -9999 !important;
+}

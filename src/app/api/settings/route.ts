@@ -15,9 +15,9 @@ export async function GET() {
       },
       {
         headers: {
-          "Cache-Control": "public, s-maxage=10, stale-while-revalidate=30",
-          "CDN-Cache-Control": "public, s-maxage=10, stale-while-revalidate=30",
-          "Netlify-CDN-Cache-Control": "public, s-maxage=10, stale-while-revalidate=30",
+          "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+          "CDN-Cache-Control": "no-store",
+          "Netlify-CDN-Cache-Control": "no-store",
         },
       }
     );

@@ -259,31 +259,48 @@ export default function AdminPage() {
     }
   };
 
-  // Audio upload handler
+  // Audio upload handler: Direct-to-Supabase upload via signed URL (bypasses Netlify 6MB body limit!)
   const handleUploadAudio = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploadingSong(true);
     setError(null);
+    setNotice(null);
     try {
-      const formData = new FormData();
-      formData.append("file", file);
+      // Step 1: Request signed upload URL from admin API (lightweight JSON, < 1KB)
       const res = await fetch("/api/admin/audio", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ filename: file.name }),
       });
       const data = await res.json();
-      if (!res.ok || !data.success) {
-        setError(data.error || "Failed to upload audio file");
-      } else {
-        setSongUrl(data.url);
-        if (!songTitle.trim()) {
-          setSongTitle(file.name.replace(/\.[^/.]+$/, ""));
-        }
-        setNotice("Audio file uploaded to Supabase Storage! Click 'SAVE SOUNDTRACK' to apply.");
+      if (!res.ok || !data.success || !data.signedUrl) {
+        throw new Error(data.error || "Failed to initialize audio upload");
       }
-    } catch {
-      setError("Error uploading audio file");
+
+      // Step 2: Upload audio file directly from browser to Supabase Storage CDN
+      const uploadRes = await fetch(data.signedUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": file.type || "audio/mpeg",
+        },
+        body: file,
+      });
+
+      if (!uploadRes.ok) {
+        throw new Error("Direct storage upload failed. Please try again.");
+      }
+
+      setSongUrl(data.publicUrl);
+      const cleanTitle = file.name.replace(/\.[^/.]+$/, "");
+      if (!songTitle.trim()) {
+        setSongTitle(cleanTitle);
+      }
+      playVoteSuccessSound();
+      setNotice("Audio uploaded directly to Supabase Storage! Click 'SAVE SOUNDTRACK' to activate it.");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Error uploading audio file";
+      setError(msg);
     } finally {
       setUploadingSong(false);
     }
@@ -822,18 +839,23 @@ export default function AdminPage() {
               </div>
 
               {/* Enable / Disable Toggle */}
-              <button
-                type="button"
-                onClick={() => setSongEnabled(!songEnabled)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider border transition-all cursor-pointer flex items-center gap-2 ${
-                  songEnabled
-                    ? "bg-emerald-500/20 border-emerald-400 text-emerald-300 shadow-sm"
-                    : "bg-noir-900 border-white/10 text-chrome-500"
-                }`}
-              >
-                {songEnabled ? <Volume2 className="w-4 h-4 text-emerald-400" /> : <VolumeX className="w-4 h-4" />}
-                <span>{songEnabled ? "SOUNDTRACK ACTIVE" : "SOUNDTRACK MUTED"}</span>
-              </button>
+              <div className="flex flex-col items-end gap-1">
+                <button
+                  type="button"
+                  onClick={() => setSongEnabled(!songEnabled)}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider border transition-all cursor-pointer flex items-center gap-2 ${
+                    songEnabled
+                      ? "bg-emerald-500/20 border-emerald-400 text-emerald-300 shadow-sm"
+                      : "bg-rose-950/40 border-rose-500/40 text-rose-300"
+                  }`}
+                >
+                  {songEnabled ? <Volume2 className="w-4 h-4 text-emerald-400" /> : <VolumeX className="w-4 h-4 text-rose-400" />}
+                  <span>{songEnabled ? "SOUNDTRACK: ACTIVE (PLAYS ON SITE)" : "SOUNDTRACK: MUTED (OFF)"}</span>
+                </button>
+                <span className="text-[10px] text-chrome-500 font-mono">
+                  {songEnabled ? "Fans will hear this music when visiting" : "Music is completely silenced across the site"}
+                </span>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
