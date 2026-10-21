@@ -3,6 +3,7 @@ export interface EventSettings {
   event_name: string;
   tagline: string;
   nominations_open: boolean;
+  nominees_visible?: boolean; // Controls whether public /nominees roster is open
   voting_open: boolean;
   voting_deadline: string;
   display_timezone: string;

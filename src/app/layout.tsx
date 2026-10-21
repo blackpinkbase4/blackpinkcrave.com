@@ -4,11 +4,12 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "NOIR STAN AWARDS '26 — MTV VMA STYLE CEREMONY",
+  title: "NOIR GALA '26 — MTV VMA STYLE CEREMONY",
   description:
     "ONE TIMELINE. EVERY FANDOM. The premier community-run Stan Twitter awards event inspired by the cinematic broadcast energy of the MTV Video Music Awards. Vote for your favorite creators, fanbases, and editors.",
   keywords: [
-    "Noir Stan Awards",
+    "Noir Gala '26",
+    "Noir Gala",
     "Stan Twitter Awards",
     "VMA Stan Awards",
     "MTV Awards Style",
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
     "One Timeline Every Fandom",
   ],
   openGraph: {
-    title: "NOIR STAN AWARDS '26",
+    title: "NOIR GALA '26",
     description: "ONE TIMELINE. EVERY FANDOM. Cast your 10 split votes now.",
     type: "website",
   },

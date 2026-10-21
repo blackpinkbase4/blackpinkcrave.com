@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
       "event_name",
       "tagline",
       "nominations_open",
+      "nominees_visible",
       "voting_open",
       "voting_deadline",
       "display_timezone",

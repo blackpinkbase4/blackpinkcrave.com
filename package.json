@@ -1,7 +1,7 @@
 {
-  "name": "noir-stan-awards-26",
+  "name": "noir-gala-26",
   "version": "1.0.0",
-  "description": "Noir Stan Awards '26 — Community Stan Twitter Awards Event (One Timeline. Every Fandom.)",
+  "description": "Noir Gala '26 — Community Stan Twitter Awards Event (One Timeline. Every Fandom.)",
   "private": true,
   "scripts": {
     "dev": "next dev",

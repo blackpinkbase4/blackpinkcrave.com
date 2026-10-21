@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Category } from "@/types";
 import { playClickSound, playVoteSuccessSound } from "@/lib/sound";
+import { optimizeImageFile } from "@/lib/image-optimizer";
 
 export default function NominatePage() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -57,29 +58,32 @@ export default function NominatePage() {
     loadData();
   }, []);
 
-  // Handle image upload from computer / phone
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const [optimizing, setOptimizing] = useState(false);
+  const [optimizedSize, setOptimizedSize] = useState<number | null>(null);
+
+  // Handle image upload with automatic client-side canvas compression
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 3 * 1024 * 1024) {
-      setErrorMessage("Image file must be under 3MB.");
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64 = reader.result as string;
-      setAvatarUrl(base64);
-      setPhotoPreview(base64);
+    try {
+      setOptimizing(true);
       setErrorMessage(null);
-    };
-    reader.readAsDataURL(file);
+      const { dataUrl, sizeKb } = await optimizeImageFile(file, 600, 600, 0.82);
+      setAvatarUrl(dataUrl);
+      setPhotoPreview(dataUrl);
+      setOptimizedSize(sizeKb);
+    } catch {
+      setErrorMessage("Could not process image. Please try a different photo.");
+    } finally {
+      setOptimizing(false);
+    }
   };
 
   const handleUrlChange = (url: string) => {
     setAvatarUrl(url);
     setPhotoPreview(url.trim() || null);
+    setOptimizedSize(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -89,6 +93,11 @@ export default function NominatePage() {
 
     if (!categoryId || !xUsername.trim() || !displayName.trim()) {
       setErrorMessage("Please fill in the category, X username, and display name.");
+      return;
+    }
+
+    if (!avatarUrl.trim()) {
+      setErrorMessage("A profile photo is mandatory to submit a nomination.");
       return;
     }
 
@@ -117,6 +126,7 @@ export default function NominatePage() {
         setDisplayName("");
         setAvatarUrl("");
         setPhotoPreview(null);
+        setOptimizedSize(null);
       }
     } catch {
       setErrorMessage("Network error. Please try again.");

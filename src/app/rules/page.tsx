@@ -25,7 +25,7 @@ export default function RulesPage() {
           VOTING RULES & FAQ
         </h1>
         <p className="text-xs sm:text-sm text-chrome-300 max-w-xl mx-auto">
-          Comprehensive guidelines governing the 2026 Noir Stan Awards voting process, integrity
+          Comprehensive guidelines governing the 2026 Noir Gala '26 voting process, integrity
           safeguards, and identity disclosures.
         </p>
       </div>
@@ -120,7 +120,7 @@ export default function RulesPage() {
             </h2>
           </div>
           <p className="text-xs sm:text-sm text-chrome-400 leading-relaxed">
-            Noir Stan Awards &#39;26 is an independent, non-commercial fan-organized initiative
+            Noir Gala '26 &#39;26 is an independent, non-commercial fan-organized initiative
             honoring Stan Twitter creators, editors, update accounts, and fanbases across K-pop, Western
             music, films, anime, and pop culture. We are not affiliated with, endorsed by, or sponsored
             by MTV, Paramount Global, X Corp. (formerly Twitter), Billboard, or any music artists,

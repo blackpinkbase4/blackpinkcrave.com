@@ -118,9 +118,10 @@ interface GlobalFallbackState {
 const defaultFallbackState: GlobalFallbackState = {
   settings: {
     id: "noir_2026_settings",
-    event_name: "Noir Stan Awards '26",
+    event_name: "Noir Gala '26",
     tagline: "ONE TIMELINE. EVERY FANDOM.",
     nominations_open: true,
+    nominees_visible: false,
     voting_open: false, // Starts in nomination phase
     voting_deadline: "2026-10-18T23:59:59Z",
     display_timezone: "America/New_York",
@@ -157,7 +158,12 @@ export async function getEventSettings(): Promise<EventSettings> {
       .single();
 
     if (!error && data) {
-      return data as EventSettings;
+      const s = data as EventSettings;
+      // Derive nominees_visible from reveal_date_display if column not in DB
+      return {
+        ...s,
+        nominees_visible: s.nominees_visible ?? (s.reveal_date_display === "NOMINEES_VISIBLE:true"),
+      };
     }
   }
 
@@ -171,10 +177,19 @@ export async function updateEventSettings(
   const supabase = getServerSupabase();
   const timestamp = new Date().toISOString();
 
+  // If nominees_visible is being updated, store it safely in reveal_date_display to avoid PGRST204
+  const sanitizedUpdates: Record<string, unknown> = { ...updates };
+  if (updates.nominees_visible !== undefined) {
+    sanitizedUpdates.reveal_date_display = updates.nominees_visible
+      ? "NOMINEES_VISIBLE:true"
+      : "NOMINEES_VISIBLE:false";
+    delete sanitizedUpdates.nominees_visible;
+  }
+
   if (supabase) {
     const { data, error } = await supabase
       .from("event_settings")
-      .update({ ...updates, updated_at: timestamp })
+      .update({ ...sanitizedUpdates, updated_at: timestamp })
       .eq("id", "noir_2026_settings")
       .select()
       .single();
@@ -184,7 +199,13 @@ export async function updateEventSettings(
     }
 
     await logAuditAction("UPDATE_SETTINGS", updates, adminIp);
-    return data as EventSettings;
+    const result = data as EventSettings;
+    return {
+      ...result,
+      nominees_visible: updates.nominees_visible !== undefined
+        ? updates.nominees_visible
+        : (result.reveal_date_display === "NOMINEES_VISIBLE:true"),
+    };
   }
 
   fallbackState.settings = {
@@ -452,6 +473,43 @@ export async function toggleFinalistStatus(
   fallbackState.nominees[idx].is_finalist = isFinalist;
   await logAuditAction("TOGGLE_FINALIST", { nomineeId, isFinalist }, adminIp);
   return fallbackState.nominees[idx];
+}
+
+/**
+ * Admin: Approve All Nominees (mark as finalists)
+ * Can be scoped to a single category or across all categories
+ */
+export async function approveAllNominees(
+  categoryId?: string,
+  adminIp?: string
+): Promise<number> {
+  const supabase = getServerSupabase();
+  if (supabase) {
+    let query = supabase.from("nominees").update({ is_finalist: true });
+    if (categoryId && categoryId !== "all") {
+      query = query.eq("category_id", categoryId);
+    } else {
+      query = query.neq("id", "none"); // matches all rows
+    }
+    const { data, error } = await query.select("id");
+    if (error) throw new Error(error.message);
+    const count = data ? data.length : 0;
+    await logAuditAction("APPROVE_ALL_NOMINEES", { categoryId: categoryId || "all", count }, adminIp);
+    return count;
+  }
+
+  // Fallback
+  let count = 0;
+  for (const n of fallbackState.nominees) {
+    if (!categoryId || categoryId === "all" || n.category_id === categoryId) {
+      if (!n.is_finalist) {
+        n.is_finalist = true;
+        count++;
+      }
+    }
+  }
+  await logAuditAction("APPROVE_ALL_NOMINEES", { categoryId: categoryId || "all", count }, adminIp);
+  return count;
 }
 
 export async function deleteNominee(id: string, adminIp?: string): Promise<boolean> {

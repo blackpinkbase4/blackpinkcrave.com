@@ -391,12 +391,12 @@ function VmaVotingContent() {
         </div>
       ) : (
         /* =========================================================================
-            OFFICIAL NOIR STAN AWARDS CATEGORY ACCORDION LIST (SHOWN ONLY WHEN VOTING IS OPEN)
+            OFFICIAL NOIR GALA '26 CATEGORY ACCORDION LIST (SHOWN ONLY WHEN VOTING IS OPEN)
             ========================================================================= */
         <section className="space-y-6">
           <div className="text-center space-y-1">
             <span className="font-mono text-xs font-bold uppercase tracking-widest text-vma-mint">
-              OFFICIAL NOIR STAN AWARDS BALLOT
+              OFFICIAL NOIR GALA '26 BALLOT
             </span>
             <h1 className="text-3xl sm:text-5xl font-heading font-black uppercase text-white tracking-tight">
               VOTE BY CATEGORY

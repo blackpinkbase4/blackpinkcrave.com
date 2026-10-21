@@ -6,7 +6,8 @@ import {
   deleteNominee,
   rollRandomFinalists,
   toggleFinalistStatus,
-} from "@/lib/supabase/db";
+  approveAllNominees,
+} from '@/lib/supabase/db';
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -54,6 +55,12 @@ export async function POST(req: NextRequest) {
       }
       const updated = await toggleFinalistStatus(id, data.is_finalist, ip);
       return NextResponse.json({ success: true, nominee: updated });
+    }
+
+    // 2b. Approve All Nominees (Category or Global)
+    if (action === "approve_all") {
+      const count = await approveAllNominees(category_id, ip);
+      return NextResponse.json({ success: true, count });
     }
 
     // 3. Create nominee

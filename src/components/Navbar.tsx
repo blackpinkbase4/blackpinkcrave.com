@@ -11,11 +11,14 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [votingOpen, setVotingOpen] = useState<boolean | null>(null);
 
+  const [settings, setSettings] = useState<any>(null);
+
   useEffect(() => {
     fetch("/api/settings")
       .then((res) => res.json())
       .then((data) => {
         if (data?.settings) {
+          setSettings(data.settings);
           setVotingOpen(data.settings.voting_open);
         }
       })
@@ -25,6 +28,7 @@ export function Navbar() {
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/nominate", label: "Nominate" },
+    { href: "/nominees", label: "Nominees" },
     { href: "/vote", label: "Vote", highlight: true },
     { href: "/winners", label: "Winners" },
     { href: "/rules", label: "Rules" },
@@ -41,7 +45,7 @@ export function Navbar() {
           className="flex items-center space-x-2 group whitespace-nowrap"
         >
           <span className="font-heading font-black text-base sm:text-xl text-white tracking-tight uppercase">
-            NOIR STAN AWARDS
+            NOIR GALA
           </span>
           <span className="font-mono text-vma-mint font-black text-sm sm:text-lg">
             &#39;26

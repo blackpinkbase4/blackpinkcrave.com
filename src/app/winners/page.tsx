@@ -47,7 +47,7 @@ export default function WinnersPage() {
 
   const handleShareToX = (categoryTitle: string, winner: NomineeResult) => {
     playClickSound();
-    const text = `🏆 OFFICIAL WINNER! Huge congratulations to @${winner.x_username} for taking home ${categoryTitle} at the Noir Stan Awards '26! #NoirStanAwards #OneTimelineEveryFandom`;
+    const text = `🏆 OFFICIAL WINNER! Huge congratulations to @${winner.x_username} for taking home ${categoryTitle} at the Noir Gala '26! #NoirGala26 #OneTimelineEveryFandom`;
     const url = window.location.href;
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
     window.open(twitterUrl, "_blank", "noopener,noreferrer");
@@ -85,7 +85,7 @@ export default function WinnersPage() {
 
       ctx.fillStyle = "#7bf1a8";
       ctx.font = "bold 28px 'JetBrains Mono', monospace";
-      ctx.fillText("● OFFICIAL WINNER CEREMONY // NOIR STAN AWARDS '26", 60, 110);
+      ctx.fillText("● OFFICIAL WINNER CEREMONY // NOIR GALA '26", 60, 110);
 
       // 3. Category Title
       ctx.fillStyle = "#ffffff";

@@ -212,6 +212,42 @@ export default function AdminPage() {
     }
   };
 
+  // Approve all nominees (either for selected category or all categories)
+  const handleApproveAll = async (catId?: string) => {
+    const isAllCategories = !catId || catId === "all";
+    const targetCategoryTitle = categories.find((c) => c.id === catId)?.title;
+    const confirmMsg = isAllCategories
+      ? `Are you sure you want to approve ALL ${nominees.length} community submissions across ALL categories to the live voting ballot?`
+      : `Are you sure you want to approve all ${categoryNominees.length} community submissions in "${targetCategoryTitle || "this category"}" to the live voting ballot?`;
+
+    if (!confirm(confirmMsg)) return;
+
+    setNotice(null);
+    setError(null);
+    setActionLoading(true);
+    playClickSound();
+
+    try {
+      const res = await fetch("/api/admin/nominees", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "approve_all", category_id: isAllCategories ? "all" : catId }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setError(data.error || "Failed to approve nominees");
+      } else {
+        playVoteSuccessSound();
+        setNotice(`✓ Approved all submissions (${data.count || 0}) as official finalists!`);
+        loadData();
+      }
+    } catch {
+      setError("Error approving all nominees");
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
   // Create new category
   const handleCreateCategory = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -492,7 +528,17 @@ export default function AdminPage() {
                 }`}
               >
                 <span className={`w-2 h-2 rounded-full ${settings.nominations_open ? "bg-vma-mint animate-pulse" : "bg-chrome-600"}`} />
-                1. Nominations: {settings.nominations_open ? "OPEN" : "CLOSED"}
+                1. Submissions: {settings.nominations_open ? "OPEN" : "CLOSED"}
+              </span>
+              <span
+                className={`px-3 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wide flex items-center gap-1.5 ${
+                  settings.nominees_visible
+                    ? "bg-vma-mint/20 border-vma-mint text-vma-mint shadow-vma-mint"
+                    : "bg-noir-900 border-white/10 text-chrome-500"
+                }`}
+              >
+                <span className={`w-2 h-2 rounded-full ${settings.nominees_visible ? "bg-vma-mint animate-pulse" : "bg-chrome-600"}`} />
+                2. Nominees: {settings.nominees_visible ? "SHOWING" : "HIDDEN"}
               </span>
               <span
                 className={`px-3 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wide flex items-center gap-1.5 ${
@@ -502,7 +548,7 @@ export default function AdminPage() {
                 }`}
               >
                 <span className={`w-2 h-2 rounded-full ${settings.voting_open ? "bg-vma-mint animate-pulse" : "bg-chrome-600"}`} />
-                2. Live Voting: {settings.voting_open ? "OPEN" : "CLOSED"}
+                3. Voting: {settings.voting_open ? "OPEN" : "CLOSED"}
               </span>
               <span
                 className={`px-3 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wide flex items-center gap-1.5 ${
@@ -512,12 +558,12 @@ export default function AdminPage() {
                 }`}
               >
                 <span className={`w-2 h-2 rounded-full ${settings.winners_published ? "bg-vma-mint animate-pulse" : "bg-chrome-600"}`} />
-                3. Winners: {settings.winners_published ? "REVEALED" : "SEALED"}
+                4. Winners: {settings.winners_published ? "REVEALED" : "SEALED"}
               </span>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Stage 1: Nominations */}
             <div
               className={`p-6 rounded-2xl bg-vma-cardDark border transition-all space-y-4 shadow-xl ${
@@ -537,24 +583,24 @@ export default function AdminPage() {
                   </span>
                 )}
               </div>
-              <h3 className="text-lg font-heading font-black text-white uppercase">NOMINATION SUBMISSIONS</h3>
+              <h3 className="text-base font-heading font-black text-white uppercase">1. SUBMISSIONS</h3>
               <p className="text-xs text-chrome-400">
-                When open, public visitors can submit handles and profile photos at <code className="text-vma-mint">/nominate</code> and on the homepage.
+                Fans submit handles and profile photos at <code className="text-vma-mint">/nominate</code>.
               </p>
 
               <div className="p-4 rounded-xl bg-noir-900 border border-white/10 space-y-3">
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-chrome-400 font-semibold">STATUS:</span>
                   <span className={settings.nominations_open ? "text-vma-mint font-black" : "text-chrome-400 font-bold"}>
-                    {settings.nominations_open ? "ACCEPTING NOMINEES" : "SUBMISSIONS PAUSED"}
+                    {settings.nominations_open ? "ACCEPTING ENTRIES" : "PAUSED"}
                   </span>
                 </div>
                 <button
                   type="button"
                   onClick={() => handleUpdateSettings({ nominations_open: !settings.nominations_open })}
-                  className={`w-full py-3 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                  className={`w-full py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center gap-2 ${
                     settings.nominations_open
-                      ? "bg-noir-800 hover:bg-rose-950/80 text-rose-300 border border-rose-500/50 hover:border-rose-400 shadow-md"
+                      ? "bg-noir-800 hover:bg-rose-950/80 text-rose-300 border border-rose-500/50 shadow-md"
                       : "bg-vma-mint hover:bg-vma-mintHover text-noir-950 shadow-vma-mint"
                   }`}
                 >
@@ -563,14 +609,59 @@ export default function AdminPage() {
               </div>
             </div>
 
-            {/* Stage 2: Live Voting */}
+            {/* Stage 2: Show Nominees Roster */}
+            <div
+              className={`p-6 rounded-2xl bg-vma-cardDark border transition-all space-y-4 shadow-xl ${
+                settings.nominees_visible ? "border-vma-mint/60 shadow-vma-mint" : "border-vma-border"
+              }`}
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-bold text-vma-mint uppercase tracking-widest">STAGE 2</span>
+                {settings.nominees_visible ? (
+                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-300 text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    PUBLIC ROSTER
+                  </span>
+                ) : (
+                  <span className="px-2.5 py-0.5 rounded-full bg-white/5 border border-white/15 text-chrome-500 text-[10px] font-bold uppercase tracking-wider">
+                    LOCKED / OFF
+                  </span>
+                )}
+              </div>
+              <h3 className="text-base font-heading font-black text-white uppercase">2. SHOW NOMINEES</h3>
+              <p className="text-xs text-chrome-400">
+                Displays the approved nominees under each category at <code className="text-vma-mint">/nominees</code>.
+              </p>
+
+              <div className="p-4 rounded-xl bg-noir-900 border border-white/10 space-y-3">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-chrome-400 font-semibold">STATUS:</span>
+                  <span className={settings.nominees_visible ? "text-vma-mint font-black" : "text-chrome-400 font-bold"}>
+                    {settings.nominees_visible ? "ROSTER LIVE" : "ROSTER HIDDEN"}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleUpdateSettings({ nominees_visible: !settings.nominees_visible })}
+                  className={`w-full py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                    settings.nominees_visible
+                      ? "bg-noir-800 hover:bg-rose-950/80 text-rose-300 border border-rose-500/50 shadow-md"
+                      : "bg-vma-mint hover:bg-vma-mintHover text-noir-950 shadow-vma-mint"
+                  }`}
+                >
+                  {settings.nominees_visible ? "✕ HIDE NOMINEES" : "✓ SHOW NOMINEES"}
+                </button>
+              </div>
+            </div>
+
+            {/* Stage 3: Live Voting */}
             <div
               className={`p-6 rounded-2xl bg-vma-cardDark border transition-all space-y-4 shadow-xl ${
                 settings.voting_open ? "border-vma-mint/60 shadow-vma-mint" : "border-vma-border"
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-bold text-vma-mint uppercase tracking-widest">STAGE 2 & 3</span>
+                <span className="text-[10px] font-bold text-vma-mint uppercase tracking-widest">STAGE 3</span>
                 {settings.voting_open ? (
                   <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-300 text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -582,28 +673,28 @@ export default function AdminPage() {
                   </span>
                 )}
               </div>
-              <h3 className="text-lg font-heading font-black text-white uppercase">LIVE VOTING BOOTH</h3>
+              <h3 className="text-base font-heading font-black text-white uppercase">3. LIVE VOTING</h3>
               <p className="text-xs text-chrome-400">
-                When open, the VMA ballot is live at <code className="text-vma-mint">/vote</code> for the approved Top 8 finalists.
+                The VMA ballot is live at <code className="text-vma-mint">/vote</code> for approved finalists.
               </p>
 
               <div className="p-4 rounded-xl bg-noir-900 border border-white/10 space-y-3">
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-chrome-400 font-semibold">STATUS:</span>
                   <span className={settings.voting_open ? "text-vma-mint font-black" : "text-chrome-400 font-bold"}>
-                    {settings.voting_open ? "BALLOT LIVE ON AIR" : "BALLOT PAUSED"}
+                    {settings.voting_open ? "BALLOT LIVE" : "VOTING PAUSED"}
                   </span>
                 </div>
                 <button
                   type="button"
                   onClick={() => handleUpdateSettings({ voting_open: !settings.voting_open })}
-                  className={`w-full py-3 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                  className={`w-full py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center gap-2 ${
                     settings.voting_open
-                      ? "bg-noir-800 hover:bg-rose-950/80 text-rose-300 border border-rose-500/50 hover:border-rose-400 shadow-md"
+                      ? "bg-noir-800 hover:bg-rose-950/80 text-rose-300 border border-rose-500/50 shadow-md"
                       : "bg-vma-mint hover:bg-vma-mintHover text-noir-950 shadow-vma-mint"
                   }`}
                 >
-                  {settings.voting_open ? "✕ CLOSE LIVE VOTING" : "✓ OPEN LIVE VOTING"}
+                  {settings.voting_open ? "✕ CLOSE VOTING" : "✓ OPEN VOTING"}
                 </button>
               </div>
             </div>
@@ -619,36 +710,36 @@ export default function AdminPage() {
                 {settings.winners_published ? (
                   <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-300 text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    WINNERS REVEALED
+                    REVEALED
                   </span>
                 ) : (
                   <span className="px-2.5 py-0.5 rounded-full bg-white/5 border border-white/15 text-chrome-500 text-[10px] font-bold uppercase tracking-wider">
-                    SEALED EMBARGO
+                    SEALED
                   </span>
                 )}
               </div>
-              <h3 className="text-lg font-heading font-black text-white uppercase">WINNER REVEAL VAULT</h3>
+              <h3 className="text-base font-heading font-black text-white uppercase">4. WINNER PODIUM</h3>
               <p className="text-xs text-chrome-400">
-                When published, the winners and downloadable victory cards are revealed at <code className="text-vma-mint">/winners</code>.
+                Certified winners and victory cards are revealed at <code className="text-vma-mint">/winners</code>.
               </p>
 
               <div className="p-4 rounded-xl bg-noir-900 border border-white/10 space-y-3">
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-chrome-400 font-semibold">STATUS:</span>
                   <span className={settings.winners_published ? "text-vma-mint font-black" : "text-chrome-400 font-bold"}>
-                    {settings.winners_published ? "WINNERS REVEALED" : "SEALED UNDER EMBARGO"}
+                    {settings.winners_published ? "REVEALED LIVE" : "SEALED"}
                   </span>
                 </div>
                 <button
                   type="button"
                   onClick={() => handleUpdateSettings({ winners_published: !settings.winners_published })}
-                  className={`w-full py-3 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                  className={`w-full py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center gap-2 ${
                     settings.winners_published
-                      ? "bg-noir-800 hover:bg-amber-950/80 text-amber-300 border border-amber-500/50 hover:border-amber-400 shadow-md"
+                      ? "bg-noir-800 hover:bg-amber-950/80 text-amber-300 border border-amber-500/50 shadow-md"
                       : "bg-vma-mint hover:bg-vma-mintHover text-noir-950 shadow-vma-mint"
                   }`}
                 >
-                  {settings.winners_published ? "🔒 HIDE / EMBARGO RESULTS" : "👑 APPROVE & REVEAL WINNERS"}
+                  {settings.winners_published ? "🔒 HIDE WINNERS" : "👑 REVEAL WINNERS"}
                 </button>
               </div>
             </div>
@@ -702,16 +793,41 @@ export default function AdminPage() {
               )}
             </div>
 
-            {/* THE REQUESTED ROLL RANDOM 8 BUTTON */}
-            <button
-              type="button"
-              disabled={actionLoading || categoryNominees.length === 0}
-              onClick={() => handleRollRandom8(selectedCatId)}
-              className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-vma-mint hover:bg-vma-mintHover disabled:opacity-40 text-noir-950 font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-vma-mint transition-all"
-            >
-              <Dices className="w-4 h-4" />
-              <span>🎲 ROLL RANDOM 8 FINALISTS</span>
-            </button>
+            {/* Action Buttons: APPROVE ALL + Roll Random 8 */}
+            <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
+              <button
+                type="button"
+                disabled={actionLoading || categoryNominees.length === 0}
+                onClick={() => handleApproveAll(selectedCatId)}
+                className="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 disabled:opacity-40 text-noir-950 font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 transition-all cursor-pointer"
+                title="Approve all community submissions in this category as finalists for the ballot"
+              >
+                <CheckCircle2 className="w-4 h-4" />
+                <span>✓ APPROVE CATEGORY ({categoryNominees.length})</span>
+              </button>
+
+              <button
+                type="button"
+                disabled={actionLoading || nominees.length === 0}
+                onClick={() => handleApproveAll("all")}
+                className="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-vma-mint hover:bg-vma-mintHover disabled:opacity-40 text-noir-950 font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-vma-mint transition-all cursor-pointer"
+                title="Approve ALL community submissions across ALL categories in one click"
+              >
+                <Sparkles className="w-4 h-4" />
+                <span>⚡ APPROVE ALL ({nominees.length}) GLOBALLY</span>
+              </button>
+
+              <button
+                type="button"
+                disabled={actionLoading || categoryNominees.length === 0}
+                onClick={() => handleRollRandom8(selectedCatId)}
+                className="w-full sm:w-auto px-3.5 py-2.5 rounded-xl bg-noir-800 hover:bg-noir-700 border border-white/20 disabled:opacity-40 text-chrome-300 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                title="Randomly pick 8 finalists for this category"
+              >
+                <Dices className="w-3.5 h-3.5" />
+                <span>ROLL 8</span>
+              </button>
+            </div>
           </div>
 
           <div className="text-xs text-chrome-400">

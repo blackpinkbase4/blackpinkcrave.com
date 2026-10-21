@@ -24,7 +24,7 @@ export function Footer() {
           Admin
         </Link>
       </div>
-      <div>&copy; 2026 Noir Stan Awards &bull; One Timeline. Every Fandom.</div>
+      <div>&copy; 2026 Noir Gala '26 &bull; One Timeline. Every Fandom.</div>
     </footer>
   );
 }

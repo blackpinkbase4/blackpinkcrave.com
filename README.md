@@ -1,4 +1,4 @@
-# NOIR STAN AWARDS '26 🏆
+# NOIR GALA '26 🏆
 > **ONE TIMELINE. EVERY FANDOM.**
 > Inspired by the cinematic atmosphere of the MTV Video Music Awards, celebrating Stan Twitter creators, fanbases, update accounts, video editors, and icons across every fandom.
 
@@ -6,7 +6,7 @@
 
 ## 1. Project Overview
 
-The **Noir Stan Awards '26** is a full-stack web application designed for a premier community-run awards ceremony. Built with Next.js (App Router), TypeScript, Tailwind CSS, and Supabase PostgreSQL, the platform delivers a cinematic noir aesthetic (deep black backgrounds, crimson-red accents, and metallic chrome typography) paired with a high-integrity voting system.
+The **Noir Gala '26** is a full-stack web application designed for a premier community-run awards ceremony. Built with Next.js (App Router), TypeScript, Tailwind CSS, and Supabase PostgreSQL, the platform delivers a cinematic noir aesthetic (deep black backgrounds, crimson-red accents, and metallic chrome typography) paired with a high-integrity voting system.
 
 ### Key Highlights
 - **Friction-Free Username-Only Voting:** Voters simply enter their X (Twitter) handle (e.g., `@example`). No passwords, magic links, or emails required.
@@ -125,7 +125,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
    - `SUPABASE_SERVICE_ROLE_KEY`
    - `ADMIN_SECRET`
-   - `NEXT_PUBLIC_APP_URL` (set to your Netlify URL, e.g. `https://noir-stan-awards-26.netlify.app`)
+   - `NEXT_PUBLIC_APP_URL` (set to your Netlify URL, e.g. `https://noir-gala-26.netlify.app`)
 6. Click **Deploy Site**.
 
 ---
@@ -169,4 +169,4 @@ npm run build
 
 ## 9. Legal & Community Disclaimer
 
-**Noir Stan Awards '26** is an independent, non-commercial fan-organized initiative celebrating timeline culture across all music, cinema, anime, and pop culture fandoms. We are not affiliated with, endorsed by, or partnered with MTV, Paramount Global, X Corp. (formerly Twitter), Billboard, or any music artists, labels, or agencies. All trademarks, handles, and avatars belong to their respective creators.
+**Noir Gala '26** is an independent, non-commercial fan-organized initiative celebrating timeline culture across all music, cinema, anime, and pop culture fandoms. We are not affiliated with, endorsed by, or partnered with MTV, Paramount Global, X Corp. (formerly Twitter), Billboard, or any music artists, labels, or agencies. All trademarks, handles, and avatars belong to their respective creators.

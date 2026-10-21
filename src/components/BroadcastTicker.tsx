@@ -19,7 +19,7 @@ export function BroadcastTicker() {
 
   const tickerText = [
     "🔴 LIVE CEREMONY FEED",
-    "NOIR STAN AWARDS '26",
+    "NOIR GALA '26",
     "ONE TIMELINE. EVERY FANDOM.",
     "10 VOTES PER CATEGORY",
     "SPLIT OR STACK YOUR VOTES",

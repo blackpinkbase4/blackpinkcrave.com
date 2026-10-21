@@ -52,7 +52,7 @@ export async function GET(req: NextRequest) {
       status: 200,
       headers: {
         "Content-Type": "text/csv; charset=utf-8",
-        "Content-Disposition": `attachment; filename="noir-stan-awards-2026-results-${Date.now()}.csv"`,
+        "Content-Disposition": `attachment; filename="noir-gala-26-2026-results-${Date.now()}.csv"`,
       },
     });
   } catch (error: unknown) {

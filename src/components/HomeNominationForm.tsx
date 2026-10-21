@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Sparkles, CheckCircle2, AlertCircle, Upload, Camera, ArrowRight } from "lucide-react";
 import { Category } from "@/types";
 import { playClickSound, playVoteSuccessSound } from "@/lib/sound";
+import { optimizeImageFile } from "@/lib/image-optimizer";
 
 export function HomeNominationForm({
   categories,
@@ -22,23 +23,18 @@ export function HomeNominationForm({
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 3 * 1024 * 1024) {
-      setErrorMessage("Image file must be under 3MB.");
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64 = reader.result as string;
-      setAvatarUrl(base64);
-      setPhotoPreview(base64);
+    try {
       setErrorMessage(null);
-    };
-    reader.readAsDataURL(file);
+      const { dataUrl } = await optimizeImageFile(file, 600, 600, 0.82);
+      setAvatarUrl(dataUrl);
+      setPhotoPreview(dataUrl);
+    } catch {
+      setErrorMessage("Could not process image. Please try a different photo.");
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
