@@ -804,6 +804,97 @@ export default function AdminPage() {
               </div>
             </div>
           </div>
+
+          {/* GALA DAILY SOUNDTRACK MANAGER CARD */}
+          <div className="p-6 rounded-2xl bg-vma-cardDark border border-vma-border space-y-5 shadow-2xl">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div className="space-y-1">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-vma-mint/10 border border-vma-mint/30 text-vma-mint text-[11px] font-bold uppercase tracking-wider">
+                  <Music className="w-3.5 h-3.5" />
+                  <span>CEREMONY AUDIO / SONG OF THE DAY</span>
+                </div>
+                <h3 className="text-lg font-heading font-black text-white uppercase">
+                  DAILY GALA SOUNDTRACK
+                </h3>
+                <p className="text-xs text-chrome-400 font-mono">
+                  Plays in the background across the site on first click. Users can mute or unmute anytime with 1 tap.
+                </p>
+              </div>
+
+              {/* Enable / Disable Toggle */}
+              <button
+                type="button"
+                onClick={() => setSongEnabled(!songEnabled)}
+                className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider border transition-all cursor-pointer flex items-center gap-2 ${
+                  songEnabled
+                    ? "bg-emerald-500/20 border-emerald-400 text-emerald-300 shadow-sm"
+                    : "bg-noir-900 border-white/10 text-chrome-500"
+                }`}
+              >
+                {songEnabled ? <Volume2 className="w-4 h-4 text-emerald-400" /> : <VolumeX className="w-4 h-4" />}
+                <span>{songEnabled ? "SOUNDTRACK ACTIVE" : "SOUNDTRACK MUTED"}</span>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              {/* Song Title & Artist */}
+              <div className="space-y-1.5">
+                <label className="block text-xs font-mono font-bold uppercase tracking-wider text-chrome-300">
+                  Track Name / Artist Display
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. APT. - ROSÉ & Bruno Mars"
+                  value={songTitle}
+                  onChange={(e) => setSongTitle(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl bg-noir-900 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-vma-mint placeholder-chrome-600"
+                />
+              </div>
+
+              {/* Audio URL or Direct File Upload */}
+              <div className="space-y-1.5">
+                <label className="block text-xs font-mono font-bold uppercase tracking-wider text-chrome-300">
+                  Audio URL (MP3 stream or direct link)
+                </label>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="url"
+                    placeholder="https://.../song.mp3"
+                    value={songUrl}
+                    onChange={(e) => setSongUrl(e.target.value)}
+                    className="flex-1 px-4 py-2.5 rounded-xl bg-noir-900 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-vma-mint placeholder-chrome-600"
+                  />
+                  <label className="px-3.5 py-2.5 rounded-xl bg-noir-800 hover:bg-noir-700 border border-white/20 text-chrome-300 text-xs font-bold uppercase tracking-wider cursor-pointer flex items-center gap-1.5 transition-all whitespace-nowrap">
+                    <Upload className="w-3.5 h-3.5" />
+                    <span>{uploadingSong ? "Uploading..." : "Upload MP3"}</span>
+                    <input
+                      type="file"
+                      accept="audio/*"
+                      onChange={handleUploadAudio}
+                      className="hidden"
+                      disabled={uploadingSong}
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            {/* Save Button */}
+            <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-white/10">
+              <span className="text-[11px] text-chrome-500 font-mono truncate max-w-xs">
+                {songUrl ? `Loaded: ${songUrl.slice(0, 45)}...` : "No audio loaded yet."}
+              </span>
+              <button
+                type="button"
+                disabled={savingSong || uploadingSong}
+                onClick={handleSaveSoundtrack}
+                className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-vma-mint hover:bg-vma-mintHover disabled:opacity-40 text-noir-950 font-black text-xs uppercase tracking-wider shadow-vma-mint transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <Music className="w-4 h-4" />
+                <span>{savingSong ? "SAVING..." : "SAVE SOUNDTRACK"}</span>
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
