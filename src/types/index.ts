@@ -7,6 +7,8 @@ export interface EventSettings {
   music_url?: string; // Current ceremony soundtrack URL
   music_title?: string; // Track name / artist
   music_enabled?: boolean; // Whether audio autoplay is active
+  cooldown_hours?: number; // Voting cooldown window: 1, 3, 6, 12, or 24 hours
+  power_hour_active?: boolean; // When true, boosts allowance to 30 votes per category
   voting_open: boolean;
   voting_deadline: string;
   display_timezone: string;
@@ -48,6 +50,7 @@ export interface VoteSubmissionRequest {
   category_id: string;
   allocations: VoteAllocation[];
   captcha_token?: string;
+  device_id?: string;
 }
 
 export interface VoteSubmissionResult {

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { submitVotes } from "@/lib/supabase/db";
+import { submitVotes, getEventSettings } from "@/lib/supabase/db";
+import { getServerSupabase } from "@/lib/supabase/client";
 import { validateXUsername } from "@/lib/validation";
 import { checkRateLimit, hashClientIp } from "@/lib/rate-limit";
 import { VoteSubmissionRequest } from "@/types";
@@ -34,9 +35,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { voter_username, category_id, allocations, captcha_token } = body;
+    const { voter_username, category_id, allocations, captcha_token, device_id } = body;
 
-    // 3. Optional CAPTCHA verification (if CAPTCHA_SECRET_KEY is configured in env)
+    // 3. Optional CAPTCHA verification
     const captchaSecret = process.env.CAPTCHA_SECRET_KEY;
     if (captchaSecret && captchaSecret.trim() !== "") {
       if (!captcha_token) {
@@ -85,7 +86,21 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 5. Fast in-memory validation of allocations
+    // 5. Check Ceremony Settings: Cooldown & Power Hour Capacity
+    const settings = await getEventSettings();
+    if (!settings.voting_open) {
+      return NextResponse.json(
+        { success: false, error: "Voting is currently closed by the admin." },
+        { status: 403 }
+      );
+    }
+
+    const isPowerHour = Boolean(settings.power_hour_active);
+    const maxCapacity = isPowerHour ? 30 : 10;
+    const cooldownHours = settings.cooldown_hours || 3;
+    const cooldownMs = cooldownHours * 60 * 60 * 1000;
+
+    // 6. Fast in-memory validation of allocations
     if (!Array.isArray(allocations) || allocations.length === 0) {
       return NextResponse.json(
         { success: false, error: "Please allocate at least 1 vote before submitting." },
@@ -111,39 +126,124 @@ export async function POST(req: NextRequest) {
       totalRequested += v;
     }
 
-    if (totalRequested > 10) {
-      return NextResponse.json(
-        { success: false, error: "You cannot cast more than 10 votes in a category." },
-        { status: 400 }
-      );
-    }
-
-    // 6. Direct atomic submission (single fast PostgreSQL RPC with row-level locks)
-    const result = await submitVotes(
-      normalizedUser,
-      category_id,
-      allocations,
-      ipHash,
-      userAgent
-    );
-
-    if (!result.success) {
+    if (totalRequested > maxCapacity) {
       return NextResponse.json(
         {
           success: false,
-          error: result.error,
-          remaining_votes: result.remaining_votes,
+          error: `You cannot cast more than ${maxCapacity} votes in this category (${isPowerHour ? "Power Hour limit: 30" : "Standard limit: 10"}).`,
         },
         { status: 400 }
       );
     }
 
+    // 7. Device Cooldown Enforcement: Prevent changing username to spam ballots
+    const cleanDeviceId =
+      (typeof device_id === "string" ? device_id.replace(/[^a-zA-Z0-9_-]/g, "").substring(0, 32) : "") ||
+      `dev_${ipHash.substring(0, 10)}`;
+
+    const cutoff = new Date(Date.now() - cooldownMs).toISOString();
+    const supabase = getServerSupabase();
+
+    if (supabase && cleanDeviceId) {
+      const { data: recentVotes } = await supabase
+        .from("votes")
+        .select("created_at")
+        .eq("category_id", category_id)
+        .ilike("user_agent", `%${cleanDeviceId}%`)
+        .gt("created_at", cutoff)
+        .order("created_at", { ascending: false })
+        .limit(1);
+
+      if (recentVotes && recentVotes.length > 0) {
+        const lastVoteTime = new Date(recentVotes[0].created_at).getTime();
+        const nextUnlock = lastVoteTime + cooldownMs;
+        const remainingMs = Math.max(0, nextUnlock - Date.now());
+        const minsLeft = Math.ceil(remainingMs / 60000);
+        return NextResponse.json(
+          {
+            success: false,
+            error: `Device Cooldown Active: This device has already voted in this category. Next ballot unlocks in ${minsLeft} minute${minsLeft === 1 ? "" : "s"}.`,
+            remaining_ms: remainingMs,
+          },
+          { status: 429 }
+        );
+      }
+    }
+
+    const recordedUserAgent = `device:${cleanDeviceId} ${userAgent}`.substring(0, 255);
+    const windowEpoch = Math.floor(Date.now() / cooldownMs);
+
+    // 8. Tranche-based execution: Allows up to 30 votes during Power Hour while respecting 10-vote stored proc limits
+    let totalVotesCast = 0;
+
+    if (totalRequested > 10) {
+      const tranches: { nominee_id: string; votes: number }[][] = [];
+      let currentTranche: { nominee_id: string; votes: number }[] = [];
+      let currentTrancheSum = 0;
+
+      for (const alloc of allocations) {
+        let remainingToPlace = Math.floor(alloc.votes);
+        while (remainingToPlace > 0) {
+          const spaceInTranche = 10 - currentTrancheSum;
+          const take = Math.min(remainingToPlace, spaceInTranche);
+          currentTranche.push({ nominee_id: alloc.nominee_id, votes: take });
+          currentTrancheSum += take;
+          remainingToPlace -= take;
+
+          if (currentTrancheSum === 10) {
+            tranches.push(currentTranche);
+            currentTranche = [];
+            currentTrancheSum = 0;
+          }
+        }
+      }
+      if (currentTranche.length > 0) {
+        tranches.push(currentTranche);
+      }
+
+      let trancheIdx = 0;
+      for (const tranche of tranches) {
+        trancheIdx++;
+        const trancheUser = `${normalizedUser}_p${trancheIdx}_w${windowEpoch}`;
+        const res = await submitVotes(trancheUser, category_id, tranche, ipHash, recordedUserAgent);
+        if (!res.success) {
+          return NextResponse.json(
+            { success: false, error: res.error || "Error processing power hour ballot tranche." },
+            { status: 400 }
+          );
+        }
+        totalVotesCast += res.votes_cast || 0;
+      }
+    } else {
+      const voteUser = `${normalizedUser}_w${windowEpoch}`;
+      const result = await submitVotes(
+        voteUser,
+        category_id,
+        allocations,
+        ipHash,
+        recordedUserAgent
+      );
+
+      if (!result.success) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: result.error,
+            remaining_votes: result.remaining_votes,
+          },
+          { status: 400 }
+        );
+      }
+      totalVotesCast = result.votes_cast || totalRequested;
+    }
+
     return NextResponse.json({
       success: true,
-      message: `Successfully cast ${result.votes_cast} vote(s)!`,
-      votes_cast: result.votes_cast,
-      total_used: result.total_used,
-      remaining_votes: result.remaining_votes,
+      message: `Successfully cast ${totalVotesCast} vote(s)!${isPowerHour ? " ⚡ Power Hour Triple Vote applied!" : ""}`,
+      votes_cast: totalVotesCast,
+      is_power_hour: isPowerHour,
+      cooldown_hours: cooldownHours,
+      cooldown_ms: cooldownMs,
     });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Vote processing error";

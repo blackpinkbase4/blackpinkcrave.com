@@ -172,6 +172,8 @@ export async function getEventSettings(forceFresh = false): Promise<EventSetting
         music_url?: string;
         music_title?: string;
         music_enabled?: boolean;
+        cooldown_hours?: number;
+        power_hour_active?: boolean;
       } = {};
 
       try {
@@ -188,6 +190,8 @@ export async function getEventSettings(forceFresh = false): Promise<EventSetting
         music_url: meta.music_url || "",
         music_title: meta.music_title || "",
         music_enabled: meta.music_enabled ?? false,
+        cooldown_hours: typeof meta.cooldown_hours === "number" ? meta.cooldown_hours : 3,
+        power_hour_active: Boolean(meta.power_hour_active),
       };
       cachedSettings = finalSettings;
       cachedSettingsExpiry = now + 15000;
@@ -216,6 +220,8 @@ export async function updateEventSettings(
     music_url: updates.music_url !== undefined ? updates.music_url : (current.music_url ?? ""),
     music_title: updates.music_title !== undefined ? updates.music_title : (current.music_title ?? ""),
     music_enabled: updates.music_enabled !== undefined ? updates.music_enabled : (current.music_enabled ?? false),
+    cooldown_hours: updates.cooldown_hours !== undefined ? updates.cooldown_hours : (current.cooldown_hours ?? 3),
+    power_hour_active: updates.power_hour_active !== undefined ? updates.power_hour_active : (current.power_hour_active ?? false),
   };
 
   const sanitizedUpdates: Record<string, unknown> = { ...updates };
@@ -224,6 +230,8 @@ export async function updateEventSettings(
   delete sanitizedUpdates.music_url;
   delete sanitizedUpdates.music_title;
   delete sanitizedUpdates.music_enabled;
+  delete sanitizedUpdates.cooldown_hours;
+  delete sanitizedUpdates.power_hour_active;
 
   if (supabase) {
     const { data, error } = await supabase
@@ -245,6 +253,8 @@ export async function updateEventSettings(
       music_url: meta.music_url,
       music_title: meta.music_title,
       music_enabled: meta.music_enabled,
+      cooldown_hours: meta.cooldown_hours,
+      power_hour_active: meta.power_hour_active,
     };
   }
 

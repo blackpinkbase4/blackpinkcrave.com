@@ -6,9 +6,18 @@ import { isSoundEnabled, toggleSound, playClickSound } from "@/lib/sound";
 
 export function BroadcastTicker() {
   const [sfxOn, setSfxOn] = useState(true);
+  const [isPowerHour, setIsPowerHour] = useState(false);
 
   useEffect(() => {
     setSfxOn(isSoundEnabled());
+    fetch("/api/settings", { cache: "no-store" })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.settings?.power_hour_active) {
+          setIsPowerHour(true);
+        }
+      })
+      .catch(() => {});
   }, []);
 
   const handleToggleSfx = () => {
@@ -18,10 +27,10 @@ export function BroadcastTicker() {
   };
 
   const tickerText = [
-    "🔴 LIVE CEREMONY FEED",
+    isPowerHour ? "⚡ VMA POWER HOUR ACTIVE: 30 VOTES PER CATEGORY (TRIPLE VOTES)!" : "🔴 LIVE CEREMONY FEED",
     "NOIR GALA '26",
     "ONE TIMELINE. EVERY FANDOM.",
-    "10 VOTES PER CATEGORY",
+    isPowerHour ? "⚡ 30 VOTES PER CATEGORY LIVE NOW" : "10 VOTES PER CATEGORY",
     "SPLIT OR STACK YOUR VOTES",
     "ZERO EMAIL / OAUTH REQUIRED",
     "HONORING EDITORS, CHARTS, FANBASES & MEME LORDS ACROSS ALL STANTWT",

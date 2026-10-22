@@ -29,6 +29,8 @@ import {
   Volume2,
   VolumeX,
   Upload,
+  Zap,
+  Hourglass,
 } from "lucide-react";
 import { Category, Nominee, EventSettings, CategoryWinnerResult } from "@/types";
 import { playClickSound, playVoteSuccessSound } from "@/lib/sound";
@@ -48,6 +50,11 @@ export default function AdminPage() {
   const [songEnabled, setSongEnabled] = useState(false);
   const [uploadingSong, setUploadingSong] = useState(false);
   const [savingSong, setSavingSong] = useState(false);
+
+  // VMA Voting Rules: Cooldown Window & Power Hour
+  const [cooldownHours, setCooldownHours] = useState<number>(3);
+  const [powerHourActive, setPowerHourActive] = useState<boolean>(false);
+  const [updatingRules, setUpdatingRules] = useState(false);
 
   // Data
   const [settings, setSettings] = useState<EventSettings | null>(null);
@@ -101,6 +108,8 @@ export default function AdminPage() {
         if (sData.settings.music_url !== undefined) setSongUrl(sData.settings.music_url || "");
         if (sData.settings.music_title !== undefined) setSongTitle(sData.settings.music_title || "");
         if (sData.settings.music_enabled !== undefined) setSongEnabled(Boolean(sData.settings.music_enabled));
+        if (sData.settings.cooldown_hours !== undefined) setCooldownHours(sData.settings.cooldown_hours);
+        if (sData.settings.power_hour_active !== undefined) setPowerHourActive(Boolean(sData.settings.power_hour_active));
       }
       if (cData?.categories) {
         setCategories(cData.categories);
@@ -331,6 +340,37 @@ export default function AdminPage() {
       setError("Failed to save soundtrack settings");
     } finally {
       setSavingSong(false);
+    }
+  };
+
+  const handleUpdateCooldown = async (hours: number) => {
+    setCooldownHours(hours);
+    playClickSound();
+    setUpdatingRules(true);
+    try {
+      await handleUpdateSettings({ cooldown_hours: hours });
+      playVoteSuccessSound();
+      setNotice(`Voting cooldown set to ${hours} hour${hours === 1 ? "" : "s"}!`);
+    } catch {
+      setError("Failed to update cooldown window");
+    } finally {
+      setUpdatingRules(false);
+    }
+  };
+
+  const handleTogglePowerHour = async () => {
+    const nextState = !powerHourActive;
+    setPowerHourActive(nextState);
+    playClickSound();
+    setUpdatingRules(true);
+    try {
+      await handleUpdateSettings({ power_hour_active: nextState });
+      playVoteSuccessSound();
+      setNotice(nextState ? "⚡ VMA POWER HOUR ACTIVATED! Voters now receive 30 votes per category!" : "VMA Power Hour ended. Standard 10 votes restored.");
+    } catch {
+      setError("Failed to toggle Power Hour");
+    } finally {
+      setUpdatingRules(false);
     }
   };
 
@@ -827,6 +867,96 @@ export default function AdminPage() {
                 >
                   {settings.winners_published ? "🔒 HIDE WINNERS" : "👑 REVEAL WINNERS"}
                 </button>
+              </div>
+            </div>
+          </div>
+
+          {/* VMA POWER HOUR & DEVICE COOLDOWN MANAGER CARD */}
+          <div className="p-6 rounded-2xl bg-vma-cardDark border border-vma-border space-y-6 shadow-2xl relative overflow-hidden">
+            {powerHourActive && (
+              <div className="absolute top-0 right-0 left-0 h-1 bg-gradient-to-r from-amber-500 via-vma-mint to-amber-400 animate-pulse" />
+            )}
+
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="space-y-1">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[11px] font-bold uppercase tracking-wider">
+                  <Zap className="w-3.5 h-3.5 text-amber-400 animate-bounce" />
+                  <span>VMA VOTING RULES & POWER BOOST</span>
+                </div>
+                <h3 className="text-lg font-heading font-black text-white uppercase flex items-center gap-2">
+                  <span>VOTING COOLDOWN & POWER HOUR</span>
+                  {powerHourActive && (
+                    <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-amber-500 text-noir-950 font-black animate-pulse">
+                      TRIPLE VOTES (30) LIVE
+                    </span>
+                  )}
+                </h3>
+                <p className="text-xs text-chrome-400 font-mono">
+                  Controls how frequently fans can recast their ballot per device, plus on-demand 30-Vote Power Hours.
+                </p>
+              </div>
+
+              {/* Power Hour Master Toggle */}
+              <button
+                type="button"
+                disabled={updatingRules}
+                onClick={handleTogglePowerHour}
+                className={`px-5 py-3 rounded-xl text-xs font-black uppercase tracking-wider border transition-all cursor-pointer flex items-center gap-2.5 shadow-lg active:scale-95 ${
+                  powerHourActive
+                    ? "bg-gradient-to-r from-amber-500 to-amber-400 text-noir-950 border-amber-300 shadow-amber-500/30 animate-pulse"
+                    : "bg-noir-900 hover:bg-noir-800 text-chrome-300 border-white/20 hover:border-amber-400"
+                }`}
+                title="Toggle 30-vote power hour"
+              >
+                <Zap className={`w-4 h-4 ${powerHourActive ? "text-noir-950 fill-noir-950" : "text-amber-400"}`} />
+                <span>{powerHourActive ? "⚡ POWER HOUR ACTIVE (30 VOTES)" : "START POWER HOUR (30 VOTES)"}</span>
+              </button>
+            </div>
+
+            {/* Grid Controls: Dropdown & Status */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-white/10">
+              {/* Cooldown Window Dropdown */}
+              <div className="p-4 rounded-xl bg-noir-900/80 border border-white/10 space-y-2">
+                <label className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-chrome-300">
+                  <Hourglass className="w-3.5 h-3.5 text-vma-mint" />
+                  <span>Device Cooldown Reset Window</span>
+                </label>
+                <select
+                  disabled={updatingRules}
+                  value={cooldownHours}
+                  onChange={(e) => handleUpdateCooldown(Number(e.target.value))}
+                  className="w-full px-4 py-2.5 rounded-xl bg-noir-950 border border-white/20 text-white font-mono text-xs focus:outline-none focus:border-vma-mint cursor-pointer"
+                >
+                  <option value={1}>1 Hour (Hourly Drops — Max Timeline Hype)</option>
+                  <option value={3}>3 Hours (Standard Fair Play — Recommended)</option>
+                  <option value={6}>6 Hours (Semi-Daily Reset)</option>
+                  <option value={12}>12 Hours (Twice Daily Reset)</option>
+                  <option value={24}>24 Hours (Official MTV VMA Daily Reset)</option>
+                </select>
+                <p className="text-[11px] text-chrome-500 font-mono">
+                  Fans must wait this long after casting votes before their device unlocks another ballot.
+                </p>
+              </div>
+
+              {/* Power Hour Status Card */}
+              <div className="p-4 rounded-xl bg-noir-900/80 border border-white/10 space-y-2 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between text-xs font-mono">
+                    <span className="text-chrome-400 font-bold uppercase">CURRENT BALLOT CAPACITY:</span>
+                    <span className={`font-black ${powerHourActive ? "text-amber-300 text-sm" : "text-vma-mint"}`}>
+                      {powerHourActive ? "30 VOTES / CATEGORY" : "10 VOTES / CATEGORY"}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-chrome-400 font-mono mt-1">
+                    {powerHourActive
+                      ? "⚡ TRIPLE VOTES ARE ACTIVE! Every category accepts 30 votes instead of 10."
+                      : "Standard ballot limit: 10 votes per category per cooldown cycle."}
+                  </p>
+                </div>
+                <div className="text-[10px] text-chrome-500 font-mono flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                  <span>Fair play active: device locking prevents username-switching exploits.</span>
+                </div>
               </div>
             </div>
           </div>

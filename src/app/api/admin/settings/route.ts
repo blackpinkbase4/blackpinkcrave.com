@@ -23,6 +23,8 @@ export async function POST(req: NextRequest) {
       "music_url",
       "music_title",
       "music_enabled",
+      "cooldown_hours",
+      "power_hour_active",
       "voting_open",
       "voting_deadline",
       "display_timezone",

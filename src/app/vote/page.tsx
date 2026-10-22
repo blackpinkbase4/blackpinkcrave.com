@@ -19,8 +19,10 @@ import {
   Copy,
   Check,
   ArrowRight,
+  Zap,
+  Hourglass,
 } from "lucide-react";
-import { Category, Nominee } from "@/types";
+import { Category, Nominee, EventSettings } from "@/types";
 import { playClickSound, playVoteSuccessSound } from "@/lib/sound";
 
 function fallbackCopyText(text: string) {
@@ -48,6 +50,28 @@ function VmaVotingContent() {
   const [categoryNominees, setCategoryNominees] = useState<Record<string, Nominee[]>>({});
   const [loading, setLoading] = useState(true);
   const [eventOpen, setEventOpen] = useState(false);
+  const [eventSettings, setEventSettings] = useState<EventSettings | null>(null);
+
+  // VMA Device Cooldowns & Power Hour
+  const [categoryCooldowns, setCategoryCooldowns] = useState<Record<string, number>>({});
+  const [now, setNow] = useState<number>(Date.now());
+
+  // 1-second interval to tick down all active cooldown timers
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatCountdown = (ms: number) => {
+    const totalSec = Math.max(0, Math.floor(ms / 1000));
+    const hours = Math.floor(totalSec / 3600);
+    const mins = Math.floor((totalSec % 3600) / 60);
+    const secs = totalSec % 60;
+    if (hours > 0) {
+      return `${hours.toString().padStart(2, "0")}h ${mins.toString().padStart(2, "0")}m ${secs.toString().padStart(2, "0")}s`;
+    }
+    return `${mins.toString().padStart(2, "0")}m ${secs.toString().padStart(2, "0")}s`;
+  };
 
   // Voter Username & Confirmation State
   const [inputHandle, setInputHandle] = useState("");
@@ -72,6 +96,10 @@ function VmaVotingContent() {
         setVoterUsername(savedUser);
         setInputHandle(savedUser);
         setIsHandleSubmitted(true);
+      }
+      const savedCooldowns = localStorage.getItem("noir_category_cooldowns");
+      if (savedCooldowns) {
+        setCategoryCooldowns(JSON.parse(savedCooldowns));
       }
     } catch {
       token = `voter_${Math.random().toString(36).substring(2, 10)}`;
@@ -107,6 +135,7 @@ function VmaVotingContent() {
         ]);
 
         if (sData?.settings) {
+          setEventSettings(sData.settings);
           setEventOpen(Boolean(sData.settings.voting_open));
         }
 
@@ -235,15 +264,30 @@ function VmaVotingContent() {
     }
   };
 
+  // VMA Power Hour & Cooldown calculations
+  const isPowerHour = Boolean(eventSettings?.power_hour_active);
+  const maxBallotCapacity = isPowerHour ? 30 : 10;
+
+  // Active Category Cooldown State
+  const activeUnlockAt = expandedCategoryId ? categoryCooldowns[expandedCategoryId] || 0 : 0;
+  const isCurrentCategoryInCooldown = activeUnlockAt > now;
+  const currentCategoryCooldownMs = isCurrentCategoryInCooldown ? activeUnlockAt - now : 0;
+
   // Current category credits
-  const currentRemaining = balances[expandedCategoryId || ""] ?? 10;
+  const rawRemaining = balances[expandedCategoryId || ""] ?? maxBallotCapacity;
+  const currentRemaining = isCurrentCategoryInCooldown ? 0 : rawRemaining;
   const currentPending = pendingAllocations[expandedCategoryId || ""] || {};
   const currentPendingTotal = Object.values(currentPending).reduce((sum, v) => sum + (v || 0), 0);
-  const remainingAfterPending = currentRemaining - currentPendingTotal;
+  const remainingAfterPending = Math.max(0, currentRemaining - currentPendingTotal);
 
   // Change vote (+ or -)
   const handleVoteChange = (nomineeId: string, delta: number) => {
     if (!expandedCategoryId) return;
+
+    if (isCurrentCategoryInCooldown) {
+      setSubmitError(`Category locked in cooldown. Next ballot unlocks in ${formatCountdown(currentCategoryCooldownMs)}.`);
+      return;
+    }
 
     if (!isHandleSubmitted || !voterUsername.trim()) {
       setSubmitError("Please enter and submit your Twitter / X handle above first before voting!");
@@ -256,7 +300,7 @@ function VmaVotingContent() {
     if (nextVal < 0) return;
 
     if (delta > 0 && remainingAfterPending <= 0) {
-      setSubmitError(`No remaining vote credits left in this category (10/10 limit reached).`);
+      setSubmitError(`No remaining vote credits left in this category (${maxBallotCapacity}/${maxBallotCapacity} limit reached).`);
       return;
     }
 
@@ -283,6 +327,12 @@ function VmaVotingContent() {
       return;
     }
     if (!expandedCategoryId) return;
+
+    if (isCurrentCategoryInCooldown) {
+      setSubmitError(`This category is currently in cooldown. Next ballot unlocks in ${formatCountdown(currentCategoryCooldownMs)}.`);
+      return;
+    }
+
     if (currentPendingTotal <= 0) {
       setSubmitError("Please allocate at least 1 vote credit before submitting.");
       return;
@@ -305,23 +355,43 @@ function VmaVotingContent() {
           voter_username: voter,
           category_id: expandedCategoryId,
           allocations: allocationsArray,
+          device_id: voterToken,
         }),
       });
 
       const data = await res.json();
       if (!res.ok || !data.success) {
         setSubmitError(data.error || "Failed to submit votes.");
-        if (typeof data.remaining_votes === "number") {
+        if (data.remaining_ms) {
+          const unlockTimestamp = Date.now() + data.remaining_ms;
+          setCategoryCooldowns((prev) => {
+            const next = { ...prev, [expandedCategoryId]: unlockTimestamp };
+            try {
+              localStorage.setItem("noir_category_cooldowns", JSON.stringify(next));
+            } catch {}
+            return next;
+          });
+          setBalances((prev) => ({ ...prev, [expandedCategoryId]: 0 }));
+        } else if (typeof data.remaining_votes === "number") {
           setBalances((prev) => ({ ...prev, [expandedCategoryId]: data.remaining_votes }));
         }
       } else {
         playVoteSuccessSound();
-        setSubmitSuccess(`Success! Cast ${data.votes_cast} vote credit(s) for this category.`);
+        setSubmitSuccess(`Success! Cast ${data.votes_cast} vote credit(s) for this category.${isPowerHour ? " ⚡ Power Hour Triple Vote applied!" : ""}`);
         // Clear pending allocations for this category
         setPendingAllocations((prev) => ({ ...prev, [expandedCategoryId]: {} }));
-        if (typeof data.remaining_votes === "number") {
-          setBalances((prev) => ({ ...prev, [expandedCategoryId]: data.remaining_votes }));
-        }
+
+        // Lock device into cooldown for this category
+        const cooldownH = data.cooldown_hours || eventSettings?.cooldown_hours || 3;
+        const unlockTimestamp = Date.now() + cooldownH * 3600 * 1000;
+        setCategoryCooldowns((prev) => {
+          const next = { ...prev, [expandedCategoryId]: unlockTimestamp };
+          try {
+            localStorage.setItem("noir_category_cooldowns", JSON.stringify(next));
+          } catch {}
+          return next;
+        });
+        setBalances((prev) => ({ ...prev, [expandedCategoryId]: 0 }));
 
         // Confetti explosion
         try {
@@ -330,7 +400,7 @@ function VmaVotingContent() {
             particleCount: 90,
             spread: 75,
             origin: { y: 0.6 },
-            colors: ["#7bf1a8", "#5eead4", "#ffffff", "#10b981"],
+            colors: ["#7bf1a8", "#5eead4", "#ffffff", "#10b981", "#fbbf24"],
           });
         } catch {}
       }
@@ -364,9 +434,36 @@ function VmaVotingContent() {
           CAST YOUR VOTES
         </h1>
         <p className="text-xs sm:text-sm text-chrome-400 font-mono max-w-xl mx-auto">
-          Every fan gets 10 votes per category. Split or stack your credits across your favorite finalists below!
+          {isPowerHour
+            ? "⚡ VMA POWER HOUR ACTIVE: Every fan receives 30 votes per category! Split or stack across your favorites below!"
+            : "Every fan gets 10 votes per category. Split or stack your credits across your favorite finalists below!"}
         </p>
       </section>
+
+      {/* VMA POWER HOUR LIVE BANNER */}
+      {isPowerHour && (
+        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-500/20 via-vma-mint/20 to-amber-500/20 border-2 border-amber-400 text-amber-200 font-mono shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4 animate-pulse">
+          <div className="flex items-center gap-3.5">
+            <div className="w-10 h-10 rounded-xl bg-amber-400 text-noir-950 flex items-center justify-center font-black text-xl shadow-lg shrink-0">
+              <Zap className="w-6 h-6 fill-noir-950 text-noir-950" />
+            </div>
+            <div className="space-y-0.5 text-left">
+              <div className="font-heading font-black text-base sm:text-lg text-white tracking-wide uppercase flex items-center gap-2">
+                <span>⚡ VMA POWER HOUR IS LIVE!</span>
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-400 text-noir-950 font-black uppercase">
+                  TRIPLE VOTES
+                </span>
+              </div>
+              <p className="text-xs text-amber-300 font-medium">
+                Votes are TRIPLED: Every fan receives <strong className="text-white font-black underline">30 VOTES PER CATEGORY</strong> during this Power Hour!
+              </p>
+            </div>
+          </div>
+          <span className="px-3.5 py-1.5 rounded-full bg-noir-950 border border-amber-400 text-amber-300 text-xs font-black tracking-wider uppercase whitespace-nowrap">
+            CAPACITY: 30 VOTES
+          </span>
+        </div>
+      )}
 
       {/* Voting Closed Notice */}
       {!eventOpen ? (
@@ -472,7 +569,7 @@ function VmaVotingContent() {
                   </span>
                 </div>
                 <span className="font-mono text-xs text-chrome-300">
-                  10 votes available per category &darr;
+                  {isPowerHour ? "⚡ 30 votes available per category ↓" : "10 votes available per category ↓"}
                 </span>
               </div>
             </div>
@@ -497,7 +594,10 @@ function VmaVotingContent() {
           <div className="space-y-4">
             {categories.map((cat) => {
               const isExpanded = expandedCategoryId === cat.id;
-              const remaining = balances[cat.id] ?? 10;
+              const catUnlockAt = categoryCooldowns[cat.id] || 0;
+              const isCatInCooldown = catUnlockAt > now;
+              const catRemainingMs = isCatInCooldown ? catUnlockAt - now : 0;
+              const remaining = isCatInCooldown ? 0 : (balances[cat.id] ?? maxBallotCapacity);
 
               return (
                 <div
@@ -526,11 +626,21 @@ function VmaVotingContent() {
                       )}
                     </div>
 
-                    {/* Subtitle: "10/10 votes remaining" */}
-                    <div className="font-mono text-xs sm:text-sm text-chrome-400 font-semibold tracking-wider">
-                      <span>
-                        <strong className="text-vma-mint">{remaining}</strong>/10 votes remaining
-                      </span>
+                    {/* Subtitle: Cooldown countdown OR Votes remaining */}
+                    <div className="font-mono text-xs sm:text-sm font-semibold tracking-wider">
+                      {isCatInCooldown ? (
+                        <span className="text-amber-400 flex items-center justify-center gap-1.5 animate-pulse">
+                          <Hourglass className="w-3.5 h-3.5 text-amber-400" />
+                          <span>COOLDOWN: Next votes unlock in {formatCountdown(catRemainingMs)}</span>
+                        </span>
+                      ) : (
+                        <span className="text-chrome-400">
+                          <strong className={isPowerHour ? "text-amber-300 font-black text-sm" : "text-vma-mint"}>
+                            {remaining}
+                          </strong>
+                          /{maxBallotCapacity} votes remaining {isPowerHour && "⚡"}
+                        </span>
+                      )}
                     </div>
                   </button>
 
@@ -633,7 +743,7 @@ function VmaVotingContent() {
                                   <button
                                     type="button"
                                     aria-label="Subtract vote"
-                                    disabled={currentVal <= 0}
+                                    disabled={isCurrentCategoryInCooldown || currentVal <= 0}
                                     onClick={() => handleVoteChange(nominee.id, -1)}
                                     className="w-12 h-12 rounded-full bg-noir-800 hover:bg-noir-700 border border-white/15 text-white flex items-center justify-center disabled:opacity-30 disabled:hover:bg-noir-800 transition-colors shadow-md active:scale-95"
                                   >
@@ -654,7 +764,7 @@ function VmaVotingContent() {
                                   <button
                                     type="button"
                                     aria-label="Add vote"
-                                    disabled={remainingAfterPending <= 0}
+                                    disabled={isCurrentCategoryInCooldown || remainingAfterPending <= 0}
                                     onClick={() => handleVoteChange(nominee.id, 1)}
                                     className="w-12 h-12 rounded-full bg-vma-mint hover:bg-vma-mintHover text-noir-950 flex items-center justify-center disabled:opacity-30 disabled:hover:bg-vma-mint transition-transform shadow-vma-mint active:scale-95 font-bold"
                                   >
@@ -671,27 +781,51 @@ function VmaVotingContent() {
                       {nominees.length > 0 && (
                         <div className="p-4 rounded-2xl bg-noir-900 border border-white/15 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono">
                           <div className="text-left text-xs text-chrome-300">
-                            Pending submission:{" "}
-                            <strong className="text-white font-bold">{currentPendingTotal}</strong>{" "}
-                            vote(s). Remaining after submit:{" "}
-                            <strong className="text-vma-mint font-bold">{remainingAfterPending}</strong>/10
+                            {isCurrentCategoryInCooldown ? (
+                              <span className="text-amber-400 font-bold flex items-center gap-1.5 animate-pulse">
+                                <Hourglass className="w-3.5 h-3.5 text-amber-400" />
+                                <span>Device Cooldown Active: Next votes unlock in {formatCountdown(currentCategoryCooldownMs)}</span>
+                              </span>
+                            ) : (
+                              <span>
+                                Pending submission: <strong className="text-white font-bold">{currentPendingTotal}</strong>{" "}
+                                vote(s). Remaining after submit:{" "}
+                                <strong className={isPowerHour ? "text-amber-300 font-bold" : "text-vma-mint font-bold"}>
+                                  {remainingAfterPending}
+                                </strong>
+                                /{maxBallotCapacity} {isPowerHour && "⚡"}
+                              </span>
+                            )}
                           </div>
 
                           <button
                             type="button"
-                            disabled={!eventOpen || currentPendingTotal <= 0 || isSubmitting}
+                            disabled={!eventOpen || isCurrentCategoryInCooldown || currentPendingTotal <= 0 || isSubmitting}
                             onClick={handleSubmitCategoryVotes}
-                            className="w-full sm:w-auto px-8 py-3 rounded-full bg-vma-mint hover:bg-vma-mintHover disabled:opacity-30 text-noir-950 font-heading font-black text-xs uppercase tracking-widest shadow-vma-mint transition-all flex items-center justify-center gap-2"
+                            className={`w-full sm:w-auto px-8 py-3 rounded-full font-heading font-black text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${
+                              isCurrentCategoryInCooldown
+                                ? "bg-noir-800 text-chrome-500 border border-white/10 cursor-not-allowed opacity-60"
+                                : isPowerHour
+                                ? "bg-amber-400 hover:bg-amber-300 text-noir-950 shadow-lg shadow-amber-400/30 active:scale-95 cursor-pointer"
+                                : "bg-vma-mint hover:bg-vma-mintHover text-noir-950 shadow-vma-mint active:scale-95 cursor-pointer"
+                            }`}
                           >
                             {isSubmitting ? (
                               <>
                                 <RefreshCw className="w-4 h-4 animate-spin" />
                                 <span>SUBMITTING BALLOT...</span>
                               </>
+                            ) : isCurrentCategoryInCooldown ? (
+                              <>
+                                <Hourglass className="w-4 h-4 text-amber-400" />
+                                <span>NEXT BALLOT IN {formatCountdown(currentCategoryCooldownMs)}</span>
+                              </>
                             ) : (
                               <>
                                 <Vote className="w-4 h-4" />
-                                <span>LOCK IN {currentPendingTotal || ""} VOTES</span>
+                                <span>
+                                  LOCK IN {currentPendingTotal ? `${currentPendingTotal} ` : ""}{isPowerHour ? "POWER " : ""}VOTES
+                                </span>
                               </>
                             )}
                           </button>
