@@ -117,35 +117,54 @@ function VmaVotingContent() {
   const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  // Load initial settings, categories, and approved finalists all in parallel
+  // Load initial settings and categories (lightweight, instant)
   useEffect(() => {
     async function loadData() {
       try {
         setLoading(true);
-        const [settingsRes, catsRes, nomsRes] = await Promise.all([
+        const [settingsRes, catsRes] = await Promise.all([
           fetch("/api/settings", { cache: "no-store" }),
           fetch("/api/categories", { cache: "no-store" }),
-          fetch("/api/nominees?finalistsOnly=true", { cache: "no-store" }),
         ]);
 
-        const [sData, cData, nData] = await Promise.all([
+        const [sData, cData] = await Promise.all([
           settingsRes.json(),
           catsRes.json(),
-          nomsRes.json(),
         ]);
 
         if (sData?.settings) {
           setEventSettings(sData.settings);
           setEventOpen(Boolean(sData.settings.voting_open));
-        }
 
-        if (nData?.nominees) {
-          const grouped: Record<string, Nominee[]> = {};
-          for (const nom of nData.nominees) {
-            if (!grouped[nom.category_id]) grouped[nom.category_id] = [];
-            grouped[nom.category_id].push(nom);
+          // Priority #3: Game theory clean slate - if Power Hour is active, waive all local cooldowns!
+          if (sData.settings.power_hour_active) {
+            setCategoryCooldowns({});
+            try {
+              localStorage.removeItem("noir_category_cooldowns");
+            } catch {}
+          } else if (typeof sData.settings.cooldown_hours === "number") {
+            // Recalibrate existing active cooldowns if admin changed cooldown window
+            const maxMs = sData.settings.cooldown_hours * 3600 * 1000;
+            setCategoryCooldowns((prev) => {
+              const adjusted: Record<string, number> = {};
+              let changed = false;
+              for (const [cat, unlockTime] of Object.entries(prev)) {
+                const remaining = unlockTime - Date.now();
+                if (remaining > maxMs) {
+                  adjusted[cat] = Date.now() + maxMs;
+                  changed = true;
+                } else {
+                  adjusted[cat] = unlockTime;
+                }
+              }
+              if (changed) {
+                try {
+                  localStorage.setItem("noir_category_cooldowns", JSON.stringify(adjusted));
+                } catch {}
+              }
+              return adjusted;
+            });
           }
-          setCategoryNominees(grouped);
         }
 
         if (cData?.categories && cData.categories.length > 0) {
@@ -163,6 +182,31 @@ function VmaVotingContent() {
     }
     loadData();
   }, [initialCategoryParam]);
+
+  // On-demand fetch of nominees for only the expanded category (instant ~50ms)
+  useEffect(() => {
+    if (!expandedCategoryId) return;
+    const catId: string = expandedCategoryId;
+    if (categoryNominees[catId]) return; // Cached locally
+
+    async function loadExpandedNominees() {
+      try {
+        const res = await fetch(`/api/nominees?categoryId=${encodeURIComponent(catId)}&finalistsOnly=true`, { cache: "no-store" });
+        const data = await res.json();
+        if (data?.nominees) {
+          setCategoryNominees((prev) => {
+            const next = { ...prev };
+            next[catId] = data.nominees;
+            return next;
+          });
+        }
+      } catch (err) {
+        console.error("Failed to fetch nominees for expanded category:", err);
+      }
+    }
+
+    loadExpandedNominees();
+  }, [expandedCategoryId, categoryNominees]);
 
   // Fetch remaining balance for a category
   const fetchBalance = useCallback(async (tokenOrUser: string, catId: string) => {

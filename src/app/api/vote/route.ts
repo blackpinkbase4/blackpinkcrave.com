@@ -144,7 +144,8 @@ export async function POST(req: NextRequest) {
     const cutoff = new Date(Date.now() - cooldownMs).toISOString();
     const supabase = getServerSupabase();
 
-    if (supabase && cleanDeviceId) {
+    // Priority #3: When Power Hour is active, device cooldown is waived so all voters globally can cast their 30 votes!
+    if (!isPowerHour && supabase && cleanDeviceId) {
       const { data: recentVotes } = await supabase
         .from("votes")
         .select("created_at")

@@ -92,13 +92,28 @@ export default function NominatePage() {
     setErrorMessage(null);
     setSuccessMessage(null);
 
-    if (!categoryId || !xUsername.trim() || !displayName.trim()) {
-      setErrorMessage("Please fill in the category, X username, and display name.");
+    const selectedCat = categories.find((c) => c.id === categoryId);
+    const catTitle = selectedCat?.title?.toLowerCase() || "";
+    const isMusic = catTitle.includes("song") || catTitle.includes("album") || catTitle.includes("track");
+    const isArtist = !isMusic && (catTitle.includes("artist") || catTitle.includes("idol") || catTitle.includes("group") || catTitle.includes("soloist"));
+
+    if (!categoryId) {
+      setErrorMessage("Please select a category.");
+      return;
+    }
+
+    if (!displayName.trim()) {
+      setErrorMessage(isMusic ? "Please enter the Song / Album Title." : isArtist ? "Please enter the Artist / Group Name." : "Please enter the Display Name.");
+      return;
+    }
+
+    if (!isMusic && !isArtist && !xUsername.trim()) {
+      setErrorMessage("Please enter the X (Twitter) Username.");
       return;
     }
 
     if (!avatarUrl.trim()) {
-      setErrorMessage("A profile photo is mandatory to submit a nomination.");
+      setErrorMessage(isMusic ? "A cover artwork image is mandatory." : "A photo is mandatory to submit a nomination.");
       return;
     }
 
@@ -111,7 +126,7 @@ export default function NominatePage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           category_id: categoryId,
-          x_username: xUsername.trim(),
+          x_username: xUsername.trim() || displayName.trim().toLowerCase().replace(/[^a-z0-9_]/g, "").slice(0, 15) || "music",
           display_name: displayName.trim(),
           avatar_url: avatarUrl.trim() || null,
         }),
@@ -214,80 +229,142 @@ export default function NominatePage() {
           </select>
         </div>
 
-        {/* 2. X Username */}
-        <div className="space-y-1.5">
-          <label className="block text-xs font-mono font-bold uppercase tracking-wider text-chrome-300">
-            2. X (Twitter) Username
-          </label>
-          <div className="relative">
-            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-chrome-500 font-mono text-sm">
-              @
-            </span>
-            <input
-              type="text"
-              placeholder="e.g. chartdata"
-              value={xUsername}
-              onChange={(e) => setXUsername(e.target.value)}
-              className="w-full pl-8 pr-4 py-3 rounded-xl bg-noir-900 border border-white/10 text-white placeholder-chrome-600 font-mono text-xs focus:outline-none focus:border-vma-mint"
-            />
-          </div>
-        </div>
+        {(() => {
+          const selectedCat = categories.find((c) => c.id === categoryId);
+          const catTitle = selectedCat?.title?.toLowerCase() || "";
+          const icon = selectedCat?.icon || "";
+          const isMusic = icon === "Music" || catTitle.includes("song") || catTitle.includes("album") || catTitle.includes("track");
+          const isArtist = !isMusic && (icon === "Mic" || catTitle.includes("artist") || catTitle.includes("idol") || catTitle.includes("group") || catTitle.includes("soloist"));
 
-        {/* 3. Display Name */}
-        <div className="space-y-1.5">
-          <label className="block text-xs font-mono font-bold uppercase tracking-wider text-chrome-300">
-            3. Nominee Display Name
-          </label>
-          <input
-            type="text"
-            placeholder="e.g. Pop Base"
-            value={displayName}
-            onChange={(e) => setDisplayName(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl bg-noir-900 border border-white/10 text-white placeholder-chrome-600 font-mono text-xs focus:outline-none focus:border-vma-mint"
-          />
-        </div>
+          return (
+            <>
+              {/* Dynamic Field 2 & 3 */}
+              {isMusic ? (
+                <>
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-mono font-bold uppercase tracking-wider text-chrome-300">
+                      2. Song / Album Title
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. APT. or Short n' Sweet"
+                      value={displayName}
+                      onChange={(e) => {
+                        setDisplayName(e.target.value);
+                        if (!xUsername) setXUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, "").slice(0, 15) || "music");
+                      }}
+                      className="w-full px-4 py-3 rounded-xl bg-noir-900 border border-white/10 text-white placeholder-chrome-600 font-mono text-xs focus:outline-none focus:border-vma-mint"
+                    />
+                  </div>
 
-        {/* 4. Profile Picture */}
-        <div className="space-y-2">
-          <label className="block text-xs font-mono font-bold uppercase tracking-wider text-chrome-300">
-            4. Profile Photo
-          </label>
-
-          <div className="flex flex-col sm:flex-row items-center gap-4">
-            {/* Preview Box */}
-            <div className="w-20 h-20 rounded-xl bg-noir-900 border border-white/15 overflow-hidden flex items-center justify-center shrink-0">
-              {photoPreview ? (
-                /* eslint-disable-next-line @next/next/no-img-element */
-                <img src={photoPreview} alt="Preview" className="w-full h-full object-cover" />
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-mono font-bold uppercase tracking-wider text-chrome-300">
+                      3. Artist / Act Name
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. ROSÉ & Bruno Mars or Sabrina Carpenter"
+                      value={xUsername.startsWith("music") ? "" : xUsername}
+                      onChange={(e) => setXUsername(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl bg-noir-900 border border-white/10 text-white placeholder-chrome-600 font-mono text-xs focus:outline-none focus:border-vma-mint"
+                    />
+                  </div>
+                </>
+              ) : isArtist ? (
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-mono font-bold uppercase tracking-wider text-chrome-300">
+                    2. Artist / Group Name
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. BLACKPINK, Jennie, BTS, or Billie Eilish"
+                    value={displayName}
+                    onChange={(e) => {
+                      setDisplayName(e.target.value);
+                      setXUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, "").slice(0, 15) || "artist");
+                    }}
+                    className="w-full px-4 py-3 rounded-xl bg-noir-900 border border-white/10 text-white placeholder-chrome-600 font-mono text-xs focus:outline-none focus:border-vma-mint"
+                  />
+                </div>
               ) : (
-                <Camera className="w-6 h-6 text-chrome-600" />
+                <>
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-mono font-bold uppercase tracking-wider text-chrome-300">
+                      2. X (Twitter) Username
+                    </label>
+                    <div className="relative">
+                      <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-chrome-500 font-mono text-sm">
+                        @
+                      </span>
+                      <input
+                        type="text"
+                        placeholder="e.g. chartdata"
+                        value={xUsername}
+                        onChange={(e) => setXUsername(e.target.value)}
+                        className="w-full pl-8 pr-4 py-3 rounded-xl bg-noir-900 border border-white/10 text-white placeholder-chrome-600 font-mono text-xs focus:outline-none focus:border-vma-mint"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-mono font-bold uppercase tracking-wider text-chrome-300">
+                      3. Nominee Display Name
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Pop Base"
+                      value={displayName}
+                      onChange={(e) => setDisplayName(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl bg-noir-900 border border-white/10 text-white placeholder-chrome-600 font-mono text-xs focus:outline-none focus:border-vma-mint"
+                    />
+                  </div>
+                </>
               )}
-            </div>
 
-            <div className="flex-1 w-full space-y-2">
-              <label className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-noir-900 border border-white/15 text-chrome-300 hover:text-white cursor-pointer font-mono text-xs transition-colors">
-                <Upload className="w-4 h-4 text-vma-mint" />
-                <span>Upload Photo from Device</span>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileUpload}
-                  className="hidden"
-                />
-              </label>
+              {/* 4. Photo / Artwork Upload */}
+              <div className="space-y-2">
+                <label className="block text-xs font-mono font-bold uppercase tracking-wider text-chrome-300">
+                  {isMusic ? "4. Song / Album Cover Artwork" : isArtist ? "3. Artist Photo" : "4. Profile Photo"}
+                </label>
 
-              <div className="text-[11px] text-chrome-500 font-mono">or paste direct image URL:</div>
+                <div className="flex flex-col sm:flex-row items-center gap-4">
+                  {/* Preview Box */}
+                  <div className="w-20 h-20 rounded-xl bg-noir-900 border border-white/15 overflow-hidden flex items-center justify-center shrink-0">
+                    {photoPreview ? (
+                      /* eslint-disable-next-line @next/next/no-img-element */
+                      <img src={photoPreview} alt="Preview" className="w-full h-full object-cover" />
+                    ) : (
+                      <Camera className="w-6 h-6 text-chrome-600" />
+                    )}
+                  </div>
 
-              <input
-                type="url"
-                placeholder="https://pbs.twimg.com/profile_images/..."
-                value={avatarUrl}
-                onChange={(e) => handleUrlChange(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg bg-noir-900 border border-white/10 text-white placeholder-chrome-600 font-mono text-xs focus:outline-none focus:border-vma-mint"
-              />
-            </div>
-          </div>
-        </div>
+                  <div className="flex-1 w-full space-y-2">
+                    <label className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-noir-900 border border-white/15 text-chrome-300 hover:text-white cursor-pointer font-mono text-xs transition-colors">
+                      <Upload className="w-4 h-4 text-vma-mint" />
+                      <span>{isMusic ? "Upload Cover Art" : "Upload Photo"}</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileUpload}
+                        className="hidden"
+                      />
+                    </label>
+
+                    <div className="text-[11px] text-chrome-500 font-mono">or paste direct image URL:</div>
+
+                    <input
+                      type="url"
+                      placeholder="https://..."
+                      value={avatarUrl}
+                      onChange={(e) => handleUrlChange(e.target.value)}
+                      className="w-full px-3 py-2 rounded-lg bg-noir-900 border border-white/10 text-white placeholder-chrome-600 font-mono text-xs focus:outline-none focus:border-vma-mint"
+                    />
+                  </div>
+                </div>
+              </div>
+            </>
+          );
+        })()}
 
         {/* Submit Button */}
         <button

@@ -373,8 +373,10 @@ export async function getNominees(
 ): Promise<Nominee[]> {
   const supabase = getServerSupabase();
   if (supabase) {
-    // All avatars are now high-speed Cloud CDN URLs (tiny ~70 bytes each), keeping queries instant
-    const selectFields = "id, category_id, x_username, display_name, avatar_url, is_finalist, created_at";
+    // If querying all categories at once (summary/counts), omit heavy avatar_urls to prevent 12.5MB payload timeouts!
+    const selectFields = categoryId
+      ? "id, category_id, x_username, display_name, avatar_url, is_finalist, created_at"
+      : "id, category_id, x_username, display_name, is_finalist, created_at";
 
     let query = supabase.from("nominees").select(selectFields).order("created_at", { ascending: true });
     if (categoryId) {
@@ -592,12 +594,15 @@ export async function getVoterBalance(
   categoryId: string
 ): Promise<VoterBalanceResponse> {
   const username = normalizeXUsername(rawUsername);
+  const settings = await getEventSettings();
+  const maxCapacity = settings.power_hour_active ? 30 : 10;
+
   if (!username) {
     return {
       voter_username: "",
       category_id: categoryId,
       votes_used: 0,
-      votes_remaining: 10,
+      votes_remaining: maxCapacity,
       has_voted: false,
     };
   }
@@ -610,11 +615,12 @@ export async function getVoterBalance(
     });
 
     if (!error && data) {
+      const remaining = typeof data.votes_remaining === "number" ? (settings.power_hour_active ? Math.max(0, 30 - (data.votes_used || 0)) : data.votes_remaining) : maxCapacity;
       return {
         voter_username: username,
         category_id: categoryId,
         votes_used: data.votes_used ?? 0,
-        votes_remaining: data.votes_remaining ?? 10,
+        votes_remaining: remaining,
         has_voted: (data.votes_used ?? 0) > 0,
       };
     }
@@ -628,7 +634,7 @@ export async function getVoterBalance(
     voter_username: username,
     category_id: categoryId,
     votes_used: used,
-    votes_remaining: Math.max(0, 10 - used),
+    votes_remaining: Math.max(0, maxCapacity - used),
     has_voted: used > 0,
   };
 }

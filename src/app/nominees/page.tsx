@@ -24,19 +24,18 @@ export default function NomineesPage() {
   const [loading, setLoading] = useState(true);
   const [previewMediaUrl, setPreviewMediaUrl] = useState<string | null>(null);
 
+  // Load initial settings and categories
   useEffect(() => {
     async function loadData() {
       try {
         setLoading(true);
-        const [settingsRes, catsRes, nomsRes] = await Promise.all([
+        const [settingsRes, catsRes] = await Promise.all([
           fetch("/api/settings", { cache: "no-store" }),
           fetch("/api/categories", { cache: "no-store" }),
-          fetch("/api/nominees?finalistsOnly=true", { cache: "no-store" }),
         ]);
 
         const sData = await settingsRes.json();
         const cData = await catsRes.json();
-        const nData = await nomsRes.json();
 
         if (sData?.settings) {
           setSettings(sData.settings);
@@ -46,19 +45,8 @@ export default function NomineesPage() {
           setCategories(cData.categories);
           setActiveCategoryId(cData.categories[0].id);
         }
-
-        if (nData?.nominees) {
-          const grouped: Record<string, Nominee[]> = {};
-          for (const nom of nData.nominees) {
-            if (!grouped[nom.category_id]) {
-              grouped[nom.category_id] = [];
-            }
-            grouped[nom.category_id].push(nom);
-          }
-          setNomineesByCategory(grouped);
-        }
       } catch (err) {
-        console.error("Failed to load nominees:", err);
+        console.error("Failed to load initial data:", err);
       } finally {
         setLoading(false);
       }
@@ -66,6 +54,29 @@ export default function NomineesPage() {
 
     loadData();
   }, []);
+
+  // On-demand fetch of nominees for ONLY the active category (instant, ~50ms)
+  useEffect(() => {
+    if (!activeCategoryId) return;
+    if (nomineesByCategory[activeCategoryId]) return; // Already cached locally
+
+    async function loadCategoryNominees() {
+      try {
+        const res = await fetch(`/api/nominees?categoryId=${activeCategoryId}&finalistsOnly=true`, { cache: "no-store" });
+        const data = await res.json();
+        if (data?.nominees) {
+          setNomineesByCategory((prev) => ({
+            ...prev,
+            [activeCategoryId]: data.nominees,
+          }));
+        }
+      } catch (err) {
+        console.error("Failed to load nominees for category:", err);
+      }
+    }
+
+    loadCategoryNominees();
+  }, [activeCategoryId, nomineesByCategory]);
 
   const activeCategory = categories.find((c) => c.id === activeCategoryId) || categories[0];
   const allActiveNominees = (activeCategory && nomineesByCategory[activeCategory.id]) || [];

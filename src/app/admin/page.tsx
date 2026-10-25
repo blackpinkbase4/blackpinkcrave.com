@@ -71,6 +71,7 @@ export default function AdminPage() {
   const [showAddCatModal, setShowAddCatModal] = useState(false);
   const [newCatTitle, setNewCatTitle] = useState("");
   const [newCatDesc, setNewCatDesc] = useState("");
+  const [newCatType, setNewCatType] = useState<"account" | "music" | "artist">("account");
   const [addingCat, setAddingCat] = useState(false);
 
   const checkAuth = useCallback(async () => {
@@ -350,7 +351,8 @@ export default function AdminPage() {
     try {
       await handleUpdateSettings({ cooldown_hours: hours });
       playVoteSuccessSound();
-      setNotice(`Voting cooldown set to ${hours} hour${hours === 1 ? "" : "s"}!`);
+      const label = hours < 1 ? `${Math.round(hours * 60)} minutes` : `${hours} hour${hours === 1 ? "" : "s"}`;
+      setNotice(`Voting cooldown set to ${label}!`);
     } catch {
       setError("Failed to update cooldown window");
     } finally {
@@ -364,10 +366,20 @@ export default function AdminPage() {
     playClickSound();
     setUpdatingRules(true);
     try {
-      await handleUpdateSettings({ power_hour_active: nextState });
-      playVoteSuccessSound();
-      setNotice(nextState ? "⚡ VMA POWER HOUR ACTIVATED! Voters now receive 30 votes per category!" : "VMA Power Hour ended. Standard 10 votes restored.");
+      const res = await fetch("/api/admin/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ power_hour_active: nextState }),
+      });
+      const data = await res.json();
+      if (data?.settings) {
+        setSettings(data.settings);
+        setPowerHourActive(Boolean(data.settings.power_hour_active));
+        playVoteSuccessSound();
+        setNotice(nextState ? "⚡ VMA POWER HOUR ACTIVATED! Voters now receive 30 votes per category!" : "VMA Power Hour ended. Standard 10 votes restored.");
+      }
     } catch {
+      setPowerHourActive(!nextState); // Rollback on error
       setError("Failed to toggle Power Hour");
     } finally {
       setUpdatingRules(false);
@@ -391,7 +403,7 @@ export default function AdminPage() {
           data: {
             title: newCatTitle.trim(),
             description: newCatDesc.trim(),
-            icon: "Trophy",
+            icon: newCatType === "music" ? "Music" : newCatType === "artist" ? "Mic" : "Trophy",
           },
         }),
       });
@@ -575,6 +587,30 @@ export default function AdminPage() {
         </div>
 
         <div className="flex items-center space-x-3">
+          {/* Priority #7: 1-Click Purge Test Votes Button */}
+          <button
+            onClick={async () => {
+              if (confirm("⚠️ ARE YOU SURE? This will permanently delete ALL test votes across all categories and reset vote counts to 0!")) {
+                try {
+                  const res = await fetch("/api/admin/purge-votes", { method: "POST" });
+                  const data = await res.json();
+                  if (data.success) {
+                    alert("✅ All test votes successfully wiped to 0!");
+                    window.location.reload();
+                  } else {
+                    alert("Error: " + data.error);
+                  }
+                } catch {
+                  alert("Failed to purge votes.");
+                }
+              }
+            }}
+            className="px-4 py-2 rounded-xl bg-crimson-950/60 border border-crimson-500/50 text-crimson-300 hover:bg-crimson-900 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-colors cursor-pointer"
+          >
+            <Trash2 className="w-4 h-4 text-crimson-400" />
+            <span>Purge Test Votes (Reset 0)</span>
+          </button>
+
           <a
             href="/api/admin/export"
             download
@@ -927,6 +963,7 @@ export default function AdminPage() {
                   onChange={(e) => handleUpdateCooldown(Number(e.target.value))}
                   className="w-full px-4 py-2.5 rounded-xl bg-noir-950 border border-white/20 text-white font-mono text-xs focus:outline-none focus:border-vma-mint cursor-pointer"
                 >
+                  <option value={0.0333}>⚡ 2 Minutes (Testing & Speed Run)</option>
                   <option value={1}>1 Hour (Hourly Drops — Max Timeline Hype)</option>
                   <option value={3}>3 Hours (Standard Fair Play — Recommended)</option>
                   <option value={6}>6 Hours (Semi-Daily Reset)</option>
@@ -1384,11 +1421,39 @@ export default function AdminPage() {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Best Timeline Meme Lord"
+                  placeholder="e.g. Song of the Year or Idol of the Year"
                   value={newCatTitle}
                   onChange={(e) => setNewCatTitle(e.target.value)}
                   className="w-full px-4 py-2.5 rounded-xl bg-noir-900 border border-white/15 text-white text-xs focus:outline-none focus:border-vma-mint"
                 />
+              </div>
+
+              {/* Submission Mode Toggle */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-chrome-300 mb-1.5">
+                  Submission Mode / Form Type
+                </label>
+                <div className="grid grid-cols-3 gap-2">
+                  {[
+                    { id: "account", label: "👤 Stan Account", desc: "Handle + Avatar" },
+                    { id: "music", label: "🎵 Song / Album", desc: "Title + Cover" },
+                    { id: "artist", label: "🎤 Artist / Idol", desc: "Artist + Photo" },
+                  ].map((t) => (
+                    <button
+                      key={t.id}
+                      type="button"
+                      onClick={() => setNewCatType(t.id as "account" | "music" | "artist")}
+                      className={`p-2 rounded-xl border text-left transition-all cursor-pointer ${
+                        newCatType === t.id
+                          ? "bg-vma-mint/20 border-vma-mint text-white"
+                          : "bg-noir-900 border-white/10 text-chrome-500 hover:border-white/20"
+                      }`}
+                    >
+                      <div className="text-xs font-bold">{t.label}</div>
+                      <div className="text-[10px] text-chrome-400 mt-0.5">{t.desc}</div>
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div>
@@ -1396,8 +1461,8 @@ export default function AdminPage() {
                   Short Description
                 </label>
                 <textarea
-                  rows={3}
-                  placeholder="e.g. Honoring the creators behind viral stan tweets, reactions, and memes."
+                  rows={2}
+                  placeholder="e.g. Celebrating the most influential timeline release of 2026."
                   value={newCatDesc}
                   onChange={(e) => setNewCatDesc(e.target.value)}
                   className="w-full px-4 py-2.5 rounded-xl bg-noir-900 border border-white/15 text-white text-xs focus:outline-none focus:border-vma-mint resize-none"

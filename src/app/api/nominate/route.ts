@@ -29,23 +29,35 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { category_id, x_username, display_name, avatar_url } = body;
 
-    if (!category_id || !x_username || !display_name) {
+    if (!category_id || !display_name?.trim()) {
       return NextResponse.json(
-        { error: "Category, X handle, and Display Name are required." },
+        { error: "Category and Display Name / Title are required." },
         { status: 400 }
       );
     }
 
-    const usernameValidation = validateXUsername(x_username);
-    if (!usernameValidation.isValid) {
-      return NextResponse.json({ error: usernameValidation.error }, { status: 400 });
+    // Priority #5: Mandatory photo/visual upload
+    if (!avatar_url || !avatar_url.trim()) {
+      return NextResponse.json(
+        { error: "A photo or cover artwork is mandatory for all nominations." },
+        { status: 400 }
+      );
     }
+
+    // Auto-generate clean handle for music/artists if not a traditional twitter handle
+    let cleanUsername = (x_username || "").trim();
+    if (!cleanUsername) {
+      cleanUsername = display_name.toLowerCase().replace(/[^a-z0-9_]/g, "").slice(0, 15) || "music";
+    }
+
+    const usernameValidation = validateXUsername(cleanUsername);
+    const finalUsername = usernameValidation.isValid ? usernameValidation.normalized : cleanUsername.toLowerCase().replace(/[^a-z0-9_]/g, "").slice(0, 15) || "nominee";
 
     const created = await submitNomination({
       category_id,
-      x_username: usernameValidation.normalized,
+      x_username: finalUsername,
       display_name: display_name.trim(),
-      avatar_url: avatar_url?.trim() || null,
+      avatar_url: avatar_url.trim(),
     });
 
     return NextResponse.json({

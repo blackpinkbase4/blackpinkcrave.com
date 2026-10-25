@@ -40,10 +40,9 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function HomePage() {
-  const [settings, categories, nominees] = await Promise.all([
+  const [settings, categories] = await Promise.all([
     getEventSettings(),
     getCategories(false),
-    getNominees(undefined, false),
   ]);
 
   // When admin publishes winners, make the Winners Podium the front page!

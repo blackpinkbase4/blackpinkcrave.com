@@ -18,7 +18,8 @@ import { CategoryWinnerResult, NomineeResult } from "@/types";
 import { playClickSound, playVoteSuccessSound } from "@/lib/sound";
 
 export default function WinnersPage() {
-  const [loading, setLoading] = useState(true);
+  // Initial state: default directly to embargo screen so zero spinner delay on navigation!
+  const [loading, setLoading] = useState(false);
   const [published, setPublished] = useState(false);
   const [results, setResults] = useState<CategoryWinnerResult[]>([]);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
@@ -29,8 +30,7 @@ export default function WinnersPage() {
   useEffect(() => {
     async function fetchWinners() {
       try {
-        setLoading(true);
-        const res = await fetch("/api/winners");
+        const res = await fetch("/api/winners", { cache: "no-store" });
         const data = await res.json();
 
         setPublished(Boolean(data.published));
