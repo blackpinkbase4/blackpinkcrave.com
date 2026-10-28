@@ -493,9 +493,32 @@ export default function AdminPage() {
     } catch {}
   };
 
-  // Manually pick winner for a category
+  // Manually pick winner for a category (Instant 0ms latency with optimistic update)
   const handleSetCategoryWinner = async (categoryId: string, nomineeId: string | null) => {
     playClickSound();
+
+    // Optimistically update local state immediately so UI responds in 0ms
+    setCategories((prev) =>
+      prev.map((c) => (c.id === categoryId ? { ...c, winner_nominee_id: nomineeId } : c))
+    );
+    setResults((prev) =>
+      prev.map((r) => {
+        if (r.category_id !== categoryId) return r;
+        const matchingNominee = nomineeId ? r.nominees.find((n) => n.nominee_id === nomineeId) : null;
+        return {
+          ...r,
+          manual_winner_id: nomineeId,
+          winners: matchingNominee ? [matchingNominee] : r.nominees.slice(0, 1),
+        };
+      })
+    );
+    playVoteSuccessSound();
+    setNotice(
+      nomineeId
+        ? "👑 Winner manually crowned for this category!"
+        : "Reset winner to highest vote total."
+    );
+
     try {
       const res = await fetch("/api/admin/categories", {
         method: "POST",
@@ -509,14 +532,6 @@ export default function AdminPage() {
       const data = await res.json();
       if (!res.ok || !data.success) {
         setError(data.error || "Failed to set winner");
-      } else {
-        playVoteSuccessSound();
-        setNotice(
-          nomineeId
-            ? "👑 Winner manually crowned for this category!"
-            : "Reset winner to highest vote total."
-        );
-        loadData();
       }
     } catch {
       setError("Error setting category winner");
@@ -1130,17 +1145,28 @@ export default function AdminPage() {
                     };
                     playClickSound();
                     try {
-                      await handleUpdateSettings({ manual_winners: MANUAL_WINNERS });
-                      for (const [catId, nomId] of Object.entries(MANUAL_WINNERS)) {
-                        await fetch("/api/admin/categories", {
-                          method: "POST",
-                          headers: { "Content-Type": "application/json" },
-                          body: JSON.stringify({ action: "set_winner", id: catId, data: { nominee_id: nomId } }),
-                        });
-                      }
+                      // Optimistically update categories in state instantly
+                      setCategories((prev) =>
+                        prev.map((c) =>
+                          MANUAL_WINNERS[c.id]
+                            ? { ...c, winner_nominee_id: MANUAL_WINNERS[c.id] }
+                            : c
+                        )
+                      );
                       playVoteSuccessSound();
                       alert("✅ Successfully loaded and crowned all 12 Host Choice winners!");
-                      loadData();
+
+                      // Parallel persist
+                      await Promise.all([
+                        handleUpdateSettings({ manual_winners: MANUAL_WINNERS }),
+                        ...Object.entries(MANUAL_WINNERS).map(([catId, nomId]) =>
+                          fetch("/api/admin/categories", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ action: "set_winner", id: catId, data: { nominee_id: nomId } }),
+                          })
+                        ),
+                      ]);
                     } catch {
                       alert("Error applying manual winners.");
                     }

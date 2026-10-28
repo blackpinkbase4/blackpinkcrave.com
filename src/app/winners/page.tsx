@@ -70,21 +70,35 @@ export default function WinnersPage() {
     fetchWinners();
   }, []);
 
-  const handleShareToX = (categoryTitle: string, winner: NomineeResult) => {
+  const handleShareToX = (categoryTitle: string, nominee: NomineeResult, rank = 1) => {
     playClickSound();
-    const text = `🏆 OFFICIAL WINNER! Huge congratulations to @${winner.x_username} for taking home ${categoryTitle} at the Noir Gala '26! #NoirGala26 #OneTimelineEveryFandom`;
+    const rankTitle =
+      rank === 1
+        ? "1ST PLACE WINNER 🏆"
+        : rank === 2
+        ? "RUNNER-UP 🥈"
+        : rank === 3
+        ? "3RD PLACE FINALIST 🥉"
+        : `#${rank} FINALIST ★`;
+
+    const text = `Official Noir Gala '26 Accolade! Congratulations to @${nominee.x_username} for taking ${rankTitle} in ${categoryTitle}! #NoirGala26 #OneTimelineEveryFandom`;
     const url = typeof window !== "undefined" ? window.location.origin : "https://blackpinkcrave.com";
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
     window.open(twitterUrl, "_blank", "noopener,noreferrer");
   };
 
   /**
-   * Generates a high-res VMA Winner Award graphic on HTML5 Canvas and downloads as PNG
-   * Clean Option A: Highlights official championship without raw vote debate!
+   * Generates a high-res VMA Award graphic on HTML5 Canvas and downloads as PNG
+   * Supports Winner (1st), Runner-Up (2nd), 3rd Place, and all participating Finalists!
+   * Clean Option A: Highlights official championship and position without raw vote numbers!
    */
-  const handleDownloadWinnerCard = async (categoryTitle: string, winner: NomineeResult) => {
+  const handleDownloadCard = async (
+    categoryTitle: string,
+    nominee: NomineeResult,
+    rank = 1
+  ) => {
     playClickSound();
-    setDownloadingId(winner.nominee_id);
+    setDownloadingId(nominee.nominee_id);
 
     try {
       const canvas = canvasRef.current || document.createElement("canvas");
@@ -93,22 +107,79 @@ export default function WinnersPage() {
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
 
+      const isWinner = rank === 1;
+      const isRunnerUp = rank === 2;
+      const isThird = rank === 3;
+
+      // Color scheme & titles based on standing position
+      const headerTitle = isWinner
+        ? "★ OFFICIAL 2026 WINNER ACCOLADE ★"
+        : isRunnerUp
+        ? "★ OFFICIAL 2026 RUNNER-UP ACCOLADE ★"
+        : isThird
+        ? "★ OFFICIAL 2026 3RD PLACE ACCOLADE ★"
+        : `★ OFFICIAL 2026 FINALIST #${rank} ACCOLADE ★`;
+
+      const pillTitle = isWinner
+        ? "🏆 1ST PLACE WINNER"
+        : isRunnerUp
+        ? "🥈 2ND PLACE / RUNNER-UP"
+        : isThird
+        ? "🥉 3RD PLACE FINALIST"
+        : `★ #${rank} PLACE FINALIST`;
+
+      const pillBg = isWinner
+        ? "#facc15"
+        : isRunnerUp
+        ? "#e2e8f0"
+        : isThird
+        ? "#f97316"
+        : "#38bdf8";
+
+      const pillTextColor = isWinner || isRunnerUp ? "#07080c" : "#ffffff";
+      const borderAccent = isWinner
+        ? "#eab308"
+        : isRunnerUp
+        ? "#94a3b8"
+        : isThird
+        ? "#ea580c"
+        : "#0284c7";
+
+      const standingSubtitle = isWinner
+        ? "OFFICIAL 2026 CATEGORY CHAMPION // VERIFIED BALLOT"
+        : isRunnerUp
+        ? "OFFICIAL 2026 CATEGORY RUNNER-UP // VERIFIED BALLOT"
+        : isThird
+        ? "OFFICIAL 2026 CATEGORY 3RD PLACE // VERIFIED BALLOT"
+        : `OFFICIAL 2026 CATEGORY #${rank} FINALIST // VERIFIED BALLOT`;
+
       // 1. Dark Midnight Background
       ctx.fillStyle = "#07080c";
       ctx.fillRect(0, 0, 1080, 1350);
 
       // 2. Theatrical Stage Gradient & Glow
       const grad = ctx.createRadialGradient(540, 450, 80, 540, 500, 750);
-      grad.addColorStop(0, "rgba(234, 179, 8, 0.25)");
-      grad.addColorStop(0.5, "rgba(225, 29, 72, 0.15)");
+      if (isWinner) {
+        grad.addColorStop(0, "rgba(234, 179, 8, 0.25)");
+        grad.addColorStop(0.5, "rgba(225, 29, 72, 0.15)");
+      } else if (isRunnerUp) {
+        grad.addColorStop(0, "rgba(148, 163, 184, 0.25)");
+        grad.addColorStop(0.5, "rgba(56, 189, 248, 0.12)");
+      } else if (isThird) {
+        grad.addColorStop(0, "rgba(249, 115, 22, 0.25)");
+        grad.addColorStop(0.5, "rgba(180, 83, 9, 0.15)");
+      } else {
+        grad.addColorStop(0, "rgba(56, 189, 248, 0.2)");
+        grad.addColorStop(0.5, "rgba(30, 41, 59, 0.2)");
+      }
       grad.addColorStop(1, "rgba(7, 8, 12, 1)");
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, 1080, 1350);
 
       // 3. Top Header: Noir Gala VMA Branding
-      ctx.fillStyle = "#facc15";
+      ctx.fillStyle = isWinner ? "#facc15" : isRunnerUp ? "#e2e8f0" : isThird ? "#fb923c" : "#38bdf8";
       ctx.font = "bold 26px 'JetBrains Mono', monospace";
-      ctx.fillText("★ OFFICIAL 2026 WINNER ACCOLADE ★", 60, 90);
+      ctx.fillText(headerTitle, 60, 90);
 
       ctx.fillStyle = "#ffffff";
       ctx.font = "900 64px 'Syne', 'Oswald', sans-serif";
@@ -118,26 +189,26 @@ export default function WinnersPage() {
       ctx.fillStyle = "#1e283c";
       ctx.roundRect(60, 190, 960, 75, 16);
       ctx.fill();
-      ctx.strokeStyle = "#38bdf8";
+      ctx.strokeStyle = borderAccent;
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      ctx.fillStyle = "#38bdf8";
+      ctx.fillStyle = isWinner ? "#facc15" : "#38bdf8";
       ctx.font = "bold 32px 'JetBrains Mono', monospace";
       ctx.fillText(`CATEGORY: ${categoryTitle.toUpperCase()}`, 90, 240);
 
-      // 4. Winner Photo Box
+      // 4. Nominee Photo Box
       const photoBoxY = 295;
       const photoBoxW = 960;
       const photoBoxH = 680;
 
-      if (winner.avatar_url) {
+      if (nominee.avatar_url) {
         const img = new Image();
         img.crossOrigin = "anonymous";
         await new Promise((resolve) => {
           img.onload = resolve;
           img.onerror = resolve;
-          img.src = winner.avatar_url!;
+          img.src = nominee.avatar_url!;
         });
 
         if (img.complete && img.naturalWidth > 0) {
@@ -163,34 +234,34 @@ export default function WinnersPage() {
       ctx.fillStyle = photoGrad;
       ctx.fillRect(60, photoBoxY, photoBoxW, photoBoxH);
 
-      // Golden VMA WINNER Stamp inside photo
-      ctx.fillStyle = "#facc15";
-      ctx.fillRect(90, photoBoxY + photoBoxH - 120, 200, 48);
-      ctx.fillStyle = "#07080c";
+      // Position Pill Stamp inside photo
+      ctx.fillStyle = pillBg;
+      ctx.fillRect(90, photoBoxY + photoBoxH - 120, 360, 48);
+      ctx.fillStyle = pillTextColor;
       ctx.font = "900 24px 'Oswald', sans-serif";
-      ctx.fillText("🏆 1ST PLACE WINNER", 105, photoBoxY + photoBoxH - 88);
+      ctx.fillText(pillTitle, 105, photoBoxY + photoBoxH - 88);
 
-      // Winner Name Overlay
+      // Nominee Name Overlay
       ctx.fillStyle = "#ffffff";
       ctx.font = "900 52px 'Syne', 'Oswald', sans-serif";
-      ctx.fillText(winner.display_name, 90, photoBoxY + photoBoxH - 30);
+      ctx.fillText(nominee.display_name, 90, photoBoxY + photoBoxH - 30);
 
       // 5. Bottom Info Bar
       const bottomY = photoBoxY + photoBoxH + 40;
       ctx.fillStyle = "#121722";
       ctx.roundRect(60, bottomY, photoBoxW, 200, 20);
       ctx.fill();
-      ctx.strokeStyle = "#eab308";
+      ctx.strokeStyle = borderAccent;
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      ctx.fillStyle = "#facc15";
+      ctx.fillStyle = isWinner ? "#facc15" : isRunnerUp ? "#e2e8f0" : "#38bdf8";
       ctx.font = "bold 38px 'JetBrains Mono', monospace";
-      ctx.fillText(`@${winner.x_username}`, 100, bottomY + 70);
+      ctx.fillText(`@${nominee.x_username}`, 100, bottomY + 70);
 
       ctx.fillStyle = "#94a3b8";
       ctx.font = "bold 28px 'JetBrains Mono', monospace";
-      ctx.fillText("OFFICIAL 2026 CATEGORY CHAMPION // VERIFIED BALLOT", 100, bottomY + 130);
+      ctx.fillText(standingSubtitle, 100, bottomY + 130);
 
       ctx.fillStyle = "#64748b";
       ctx.font = "20px 'JetBrains Mono', monospace";
@@ -199,7 +270,9 @@ export default function WinnersPage() {
       // Trigger file download
       playVoteSuccessSound();
       const link = document.createElement("a");
-      link.download = `Noir_Gala_2026_Winner_${winner.x_username}.png`;
+      link.download = isWinner
+        ? `Noir_Gala_2026_Winner_${nominee.x_username}.png`
+        : `Noir_Gala_2026_Finalist_Rank${rank}_${nominee.x_username}.png`;
       link.href = canvas.toDataURL("image/png");
       link.click();
     } catch {
@@ -330,15 +403,21 @@ export default function WinnersPage() {
         </div>
       </div>
 
-      {/* Winners Cards Grid (Clean Option A) */}
-      <div className="space-y-14">
+      {/* Winners & Finalists Cards Grid (Clean Option A - No Vote Counts) */}
+      <div className="space-y-16">
         {results.map((category) => {
-          const winners = category.winners;
+          const winners =
+            category.winners && category.winners.length > 0
+              ? category.winners
+              : category.nominees.slice(0, 1);
+
+          const winnerIds = new Set(winners.map((w) => w.nominee_id));
+          const contenders = category.nominees.filter((n) => !winnerIds.has(n.nominee_id));
 
           return (
             <div
               key={category.category_id}
-              className="p-6 sm:p-8 rounded-3xl bg-black/80 border-2 border-amber-400/40 shadow-2xl space-y-6 backdrop-blur-xl"
+              className="p-6 sm:p-8 rounded-3xl bg-black/80 border-2 border-amber-400/40 shadow-2xl space-y-8 backdrop-blur-xl"
             >
               {/* Category Header */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-4">
@@ -355,9 +434,13 @@ export default function WinnersPage() {
                 </div>
               </div>
 
-              {winners.length === 0 ? (
-                <p className="text-xs text-chrome-500 font-mono py-4">Winner accolade announced in ceremony.</p>
-              ) : (
+              {/* 1. Champion Winners (1st Place) */}
+              <div className="space-y-3">
+                <div className="text-[11px] font-mono font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
+                  <Trophy className="w-4 h-4 text-amber-400" />
+                  <span>CROWNED 1ST PLACE CHAMPION</span>
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {winners.map((winner) => (
                     <div
@@ -415,7 +498,7 @@ export default function WinnersPage() {
                       <div className="p-4 bg-black/95 border-t border-amber-400/20 flex flex-col sm:flex-row items-center gap-3">
                         <button
                           type="button"
-                          onClick={() => handleDownloadWinnerCard(category.category_title, winner)}
+                          onClick={() => handleDownloadCard(category.category_title, winner, 1)}
                           disabled={downloadingId === winner.nominee_id}
                           className="w-full py-3 px-4 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-heading font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-vma-gold transition-all"
                         >
@@ -429,7 +512,7 @@ export default function WinnersPage() {
 
                         <button
                           type="button"
-                          onClick={() => handleShareToX(category.category_title, winner)}
+                          onClick={() => handleShareToX(category.category_title, winner, 1)}
                           className="w-full sm:w-auto py-3 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 border border-white/15 transition-colors"
                         >
                           <Share2 className="w-4 h-4 text-amber-300" />
@@ -438,6 +521,145 @@ export default function WinnersPage() {
                       </div>
                     </div>
                   ))}
+                </div>
+              </div>
+
+              {/* 2. All Category Contenders & Runners-Up (Every Participant with Download Card) */}
+              {contenders.length > 0 && (
+                <div className="space-y-4 pt-4 border-t border-white/10">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                    <span className="text-xs font-mono font-bold text-chrome-300 uppercase tracking-widest flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5 text-vma-mint" />
+                      <span>CATEGORY CONTENDERS, RUNNERS-UP & FINALISTS</span>
+                    </span>
+                    <span className="text-[10px] font-mono text-chrome-500">
+                      Cards available for every verified participant
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {contenders.map((nominee, idx) => {
+                      const rank = idx + 2; // Runner-up is #2, 3rd place is #3, etc.
+                      const isRunnerUp = rank === 2;
+                      const isThird = rank === 3;
+
+                      return (
+                        <div
+                          key={nominee.nominee_id}
+                          className={`rounded-2xl overflow-hidden bg-black/85 flex flex-col justify-between border transition-all ${
+                            isRunnerUp
+                              ? "border-slate-400/60 shadow-lg"
+                              : isThird
+                              ? "border-amber-600/60 shadow-lg"
+                              : "border-white/10 hover:border-white/25"
+                          }`}
+                        >
+                          {/* Photo & Rank Pill */}
+                          <div className="relative aspect-[16/10] w-full bg-noir-850 overflow-hidden">
+                            {nominee.avatar_url ? (
+                              /* eslint-disable-next-line @next/next/no-img-element */
+                              <img
+                                src={nominee.avatar_url}
+                                alt={nominee.display_name}
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center bg-noir-800 font-heading font-black text-4xl text-chrome-400">
+                                {nominee.display_name.charAt(0)}
+                              </div>
+                            )}
+
+                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
+
+                            {/* Position Badge */}
+                            <div className="absolute top-2.5 left-2.5 z-10">
+                              {isRunnerUp ? (
+                                <span className="px-2.5 py-0.5 rounded-full bg-slate-200 text-slate-900 font-mono text-[10px] font-black uppercase tracking-wider shadow">
+                                  🥈 #2 • RUNNER-UP
+                                </span>
+                              ) : isThird ? (
+                                <span className="px-2.5 py-0.5 rounded-full bg-amber-600 text-white font-mono text-[10px] font-black uppercase tracking-wider shadow">
+                                  🥉 #3 • 3RD PLACE
+                                </span>
+                              ) : (
+                                <span className="px-2.5 py-0.5 rounded-full bg-white/20 text-chrome-200 font-mono text-[10px] font-black uppercase tracking-wider backdrop-blur-md">
+                                  ★ #{rank} • FINALIST
+                                </span>
+                              )}
+                            </div>
+
+                            {/* Nominee Name Overlay */}
+                            <div className="absolute bottom-2.5 left-3 right-3 z-10">
+                              <h4 className="font-heading font-black text-lg text-white truncate drop-shadow">
+                                {nominee.display_name}
+                              </h4>
+                              <a
+                                href={`https://x.com/${nominee.x_username}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="font-mono text-[11px] text-chrome-300 hover:text-white hover:underline flex items-center gap-1 drop-shadow"
+                              >
+                                <span>@{nominee.x_username}</span>
+                                <ExternalLink className="w-2.5 h-2.5" />
+                              </a>
+                            </div>
+                          </div>
+
+                          {/* Standing Status (NO Vote Numbers) */}
+                          <div className="px-3.5 py-1.5 flex items-center justify-between font-mono text-[11px] border-y border-white/5 bg-black/60">
+                            <span className="text-chrome-400">Ceremony Standing:</span>
+                            <span
+                              className={`font-bold ${
+                                isRunnerUp
+                                  ? "text-slate-300"
+                                  : isThird
+                                  ? "text-amber-500"
+                                  : "text-chrome-300"
+                              }`}
+                            >
+                              {isRunnerUp
+                                ? "RUNNER-UP"
+                                : isThird
+                                ? "3RD PLACE"
+                                : `FINALIST #${rank}`}
+                            </span>
+                          </div>
+
+                          {/* Action Buttons */}
+                          <div className="p-3 bg-black/95 flex items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={() => handleDownloadCard(category.category_title, nominee, rank)}
+                              disabled={downloadingId === nominee.nominee_id}
+                              className={`flex-1 py-2 px-3 rounded-xl font-heading font-black text-[10px] uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all shadow ${
+                                isRunnerUp
+                                  ? "bg-slate-200 hover:bg-white text-slate-900"
+                                  : isThird
+                                  ? "bg-amber-600 hover:bg-amber-500 text-white"
+                                  : "bg-white/10 hover:bg-white/20 text-white border border-white/15"
+                              }`}
+                            >
+                              <Download className="w-3.5 h-3.5" />
+                              <span>
+                                {downloadingId === nominee.nominee_id
+                                  ? "RENDERING..."
+                                  : "DOWNLOAD CARD (PNG)"}
+                              </span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => handleShareToX(category.category_title, nominee, rank)}
+                              className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/15 transition-colors"
+                              title="Share to X"
+                            >
+                              <Share2 className="w-3.5 h-3.5 text-amber-300" />
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               )}
             </div>
