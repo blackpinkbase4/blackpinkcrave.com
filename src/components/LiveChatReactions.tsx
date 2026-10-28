@@ -119,14 +119,14 @@ export const LiveChatReactions: React.FC = () => {
         ))}
       </div>
 
-      {/* Floating Bottom Quick Reaction Bar */}
-      <div className="fixed bottom-12 sm:bottom-6 right-3 sm:right-6 z-40 flex items-center gap-2">
+      {/* Floating Bottom Quick Reaction Bar - Ultra Compact */}
+      <div className="fixed bottom-3 sm:bottom-4 right-2 sm:right-4 z-40 flex items-center gap-1.5">
         {/* Quick Reaction Emojis */}
-        <div className="flex items-center gap-1.5 p-1.5 rounded-full bg-black/85 border border-amber-400/40 backdrop-blur-md shadow-2xl">
+        <div className="flex items-center gap-1 p-1 rounded-full bg-black/90 border border-amber-400/30 backdrop-blur-md shadow-xl">
           <button
             type="button"
             onClick={() => triggerReaction("🏆")}
-            className="w-9 h-9 rounded-full bg-black/60 hover:bg-amber-400/30 text-amber-300 text-lg flex items-center justify-center transition-transform active:scale-125"
+            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-black/50 hover:bg-amber-400/20 text-amber-300 text-sm flex items-center justify-center transition-transform active:scale-125"
             title="Send Trophy"
           >
             🏆
@@ -134,7 +134,7 @@ export const LiveChatReactions: React.FC = () => {
           <button
             type="button"
             onClick={() => triggerReaction("👑")}
-            className="w-9 h-9 rounded-full bg-black/60 hover:bg-amber-400/30 text-amber-300 text-lg flex items-center justify-center transition-transform active:scale-125"
+            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-black/50 hover:bg-amber-400/20 text-amber-300 text-sm flex items-center justify-center transition-transform active:scale-125"
             title="Send Crown"
           >
             👑
@@ -142,7 +142,7 @@ export const LiveChatReactions: React.FC = () => {
           <button
             type="button"
             onClick={() => triggerReaction("🔥")}
-            className="w-9 h-9 rounded-full bg-black/60 hover:bg-rose-500/30 text-rose-400 text-lg flex items-center justify-center transition-transform active:scale-125"
+            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-black/50 hover:bg-rose-500/20 text-rose-400 text-sm flex items-center justify-center transition-transform active:scale-125"
             title="Send Fire"
           >
             🔥
@@ -150,7 +150,7 @@ export const LiveChatReactions: React.FC = () => {
           <button
             type="button"
             onClick={() => triggerReaction("😭")}
-            className="w-9 h-9 rounded-full bg-black/60 hover:bg-sky-400/30 text-sky-400 text-lg flex items-center justify-center transition-transform active:scale-125"
+            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-black/50 hover:bg-sky-400/20 text-sky-400 text-sm flex items-center justify-center transition-transform active:scale-125"
             title="Crying / Happy"
           >
             😭
@@ -158,7 +158,7 @@ export const LiveChatReactions: React.FC = () => {
           <button
             type="button"
             onClick={() => triggerReaction("❤️")}
-            className="w-9 h-9 rounded-full bg-black/60 hover:bg-rose-500/30 text-rose-400 text-lg flex items-center justify-center transition-transform active:scale-125"
+            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-black/50 hover:bg-rose-500/20 text-rose-400 text-sm flex items-center justify-center transition-transform active:scale-125"
             title="Send Love"
           >
             ❤️
@@ -169,63 +169,63 @@ export const LiveChatReactions: React.FC = () => {
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="relative px-3.5 py-2.5 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-black font-heading font-black text-xs uppercase flex items-center gap-1.5 shadow-vma-gold transition-all active:scale-95"
+          className="relative px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-black font-heading font-black text-[10px] sm:text-xs uppercase flex items-center gap-1 shadow-md transition-all active:scale-95"
         >
-          <MessageSquare className="w-4 h-4 fill-current" />
-          <span className="hidden sm:inline">Live Chat</span>
-          <span className="w-2 h-2 rounded-full bg-red-600 animate-ping absolute -top-0.5 -right-0.5" />
+          <MessageSquare className="w-3.5 h-3.5 fill-current" />
+          <span className="hidden sm:inline">Chat</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-ping absolute -top-0.5 -right-0.5" />
         </button>
       </div>
 
-      {/* Docked Live Chat Drawer */}
+      {/* Docked Live Chat Drawer - Significantly Reduced Size */}
       {isOpen && (
-        <div className="fixed bottom-28 sm:bottom-20 right-3 sm:right-6 z-50 w-[92vw] sm:w-96 max-h-[500px] flex flex-col rounded-3xl bg-black/95 border-2 border-amber-400/50 backdrop-blur-2xl shadow-2xl overflow-hidden animate-fade-in">
+        <div className="fixed bottom-14 sm:bottom-16 right-2 sm:right-4 z-50 w-[82vw] max-w-[270px] flex flex-col rounded-2xl bg-black/95 border border-amber-400/40 backdrop-blur-2xl shadow-2xl overflow-hidden animate-fade-in text-[10px]">
           {/* Chat Header */}
-          <div className="p-3.5 border-b border-amber-400/25 bg-black/90 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <h4 className="font-heading font-black text-sm text-white uppercase tracking-tight">
-                Ceremony Live Chat
+          <div className="p-2 px-3 border-b border-amber-400/20 bg-black/95 flex items-center justify-between">
+            <div className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <h4 className="font-heading font-black text-xs text-white uppercase tracking-tight">
+                Live Chat
               </h4>
-              <span className="text-[10px] font-mono text-amber-300 font-bold bg-amber-400/20 px-2 py-0.5 rounded-full">
+              <span className="text-[8px] font-mono text-amber-300 font-bold bg-amber-400/20 px-1.5 py-0.2 rounded-full">
                 LIVE
               </span>
             </div>
             <button
               type="button"
               onClick={() => setIsOpen(false)}
-              className="p-1 rounded-full text-chrome-400 hover:text-white hover:bg-white/10 transition-colors"
+              className="p-0.5 rounded-full text-chrome-400 hover:text-white hover:bg-white/10 transition-colors"
             >
-              <X className="w-4 h-4" />
+              <X className="w-3.5 h-3.5" />
             </button>
           </div>
 
           {/* Messages Feed */}
-          <div className="flex-1 p-3.5 overflow-y-auto space-y-2.5 max-h-[290px] text-xs font-mono">
+          <div className="flex-1 p-2 overflow-y-auto space-y-1.5 max-h-[140px] font-mono leading-relaxed">
             {messages.map((m) => (
               <div
                 key={m.id}
-                className={`p-2.5 rounded-2xl ${
+                className={`p-1.5 px-2 rounded-xl ${
                   m.isAdmin
-                    ? "bg-amber-400/15 border border-amber-400/40 text-amber-200"
+                    ? "bg-amber-400/15 border border-amber-400/30 text-amber-200"
                     : "bg-white/5 border border-white/10 text-white"
                 }`}
               >
-                <div className="flex items-center justify-between text-[10px] text-chrome-400 mb-0.5">
-                  <span className="font-bold flex items-center gap-1 text-amber-300">
+                <div className="flex items-center justify-between text-[9px] text-chrome-400 mb-0.5">
+                  <span className="font-bold flex items-center gap-0.5 text-amber-300 truncate max-w-[140px]">
                     {m.isAdmin && "👑 "}
                     {m.sender}
                   </span>
-                  <span>{m.timestamp}</span>
+                  <span className="text-[8px] shrink-0">{m.timestamp}</span>
                 </div>
-                <p className="text-white break-words text-[11px] leading-relaxed">{m.text}</p>
+                <p className="text-white break-words text-[10px] leading-snug">{m.text}</p>
               </div>
             ))}
             <div ref={chatBottomRef} />
           </div>
 
           {/* Quick Phrases */}
-          <div className="px-3 py-1.5 bg-black/60 border-t border-white/10 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+          <div className="px-2 py-1 bg-black/60 border-t border-white/10 flex items-center gap-1 overflow-x-auto no-scrollbar">
             {quickPhrases.map((phrase) => (
               <button
                 key={phrase}
@@ -233,7 +233,7 @@ export const LiveChatReactions: React.FC = () => {
                 onClick={() => {
                   setInputText(phrase);
                 }}
-                className="px-2.5 py-1 rounded-full bg-white/10 hover:bg-amber-400/20 text-[10px] font-mono text-amber-200 whitespace-nowrap transition-colors"
+                className="px-2 py-0.5 rounded-full bg-white/10 hover:bg-amber-400/20 text-[9px] font-mono text-amber-200 whitespace-nowrap transition-colors"
               >
                 {phrase}
               </button>
@@ -241,20 +241,20 @@ export const LiveChatReactions: React.FC = () => {
           </div>
 
           {/* Chat Input */}
-          <form onSubmit={handleSendMessage} className="p-3 border-t border-amber-400/20 bg-black/90 flex gap-2">
+          <form onSubmit={handleSendMessage} className="p-2 border-t border-amber-400/20 bg-black/90 flex gap-1.5">
             <input
               type="text"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
-              placeholder="Drop a cheer or reaction..."
+              placeholder="Cheer..."
               maxLength={140}
-              className="flex-1 bg-white/5 border border-white/15 rounded-xl px-3 py-2 text-xs font-mono text-white placeholder-chrome-500 focus:outline-none focus:border-amber-400"
+              className="flex-1 bg-white/5 border border-white/15 rounded-lg px-2 py-1 text-[11px] font-mono text-white placeholder-chrome-500 focus:outline-none focus:border-amber-400"
             />
             <button
               type="submit"
-              className="px-3.5 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-heading font-black text-xs uppercase flex items-center justify-center transition-colors shadow-md"
+              className="px-2.5 py-1 rounded-lg bg-amber-400 hover:bg-amber-300 text-black font-heading font-black text-[10px] uppercase flex items-center justify-center transition-colors shadow"
             >
-              <Send className="w-3.5 h-3.5" />
+              <Send className="w-3 h-3" />
             </button>
           </form>
         </div>

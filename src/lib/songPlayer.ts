@@ -1,5 +1,6 @@
 // Global, unified song player for public/song.mp3
-// Guaranteed instant stop when toggled OFF, and seamless across Countdown & Live Premiere
+// Seamless across Countdown & Live Premiere
+// Automatically begins playing with sound on FIRST user click/interaction anywhere on page!
 // NEVER plays on the /admin page
 
 export function isCurrentPageAdmin(): boolean {
@@ -13,13 +14,13 @@ export function isCurrentPageAdmin(): boolean {
 
 class SongPlayer {
   private audio: HTMLAudioElement | null = null;
-  public isMuted: boolean = true; // default muted to comply with modern browser autoplay policies
+  public isMuted: boolean = false;
 
   constructor() {
     if (typeof window !== "undefined") {
-      // Check saved mute preference
       const savedMute = localStorage.getItem("noir_song_muted");
-      this.isMuted = savedMute !== null ? savedMute === "true" : true;
+      // If user has not explicitly muted, default to unmuted (sound ON)
+      this.isMuted = savedMute === "true";
 
       this.audio = new Audio("/song.mp3");
       this.audio.loop = true;
@@ -27,14 +28,9 @@ class SongPlayer {
       this.audio.muted = this.isMuted;
 
       // Sync state on native audio events
-      this.audio.addEventListener("play", () => {
-        this.notify();
-      });
-      this.audio.addEventListener("pause", () => {
-        this.notify();
-      });
+      this.audio.addEventListener("play", () => this.notify());
+      this.audio.addEventListener("pause", () => this.notify());
 
-      // Automatically pause if on admin page or if navigating to admin
       const checkAndHaltIfAdmin = () => {
         if (isCurrentPageAdmin()) {
           this.pause();
@@ -44,24 +40,32 @@ class SongPlayer {
       window.addEventListener("hashchange", checkAndHaltIfAdmin);
       window.addEventListener("popstate", checkAndHaltIfAdmin);
 
-      // NEVER autoplay if on admin page
+      // Never play on admin
       if (isCurrentPageAdmin()) {
         this.pause();
         return;
       }
 
-      // Try playing if user explicitly unmuted previously
+      // Try playing immediately
       if (!this.isMuted) {
         this.audio.play().catch(() => {
-          const unlock = () => {
-            window.removeEventListener("click", unlock);
-            window.removeEventListener("touchstart", unlock);
+          // If browser policy blocks 0-click autoplay, start immediately on first user touch / click anywhere!
+          const unlockAudio = () => {
+            window.removeEventListener("click", unlockAudio);
+            window.removeEventListener("touchstart", unlockAudio);
+            window.removeEventListener("keydown", unlockAudio);
+            window.removeEventListener("pointerdown", unlockAudio);
+
             if (!this.isMuted && !isCurrentPageAdmin() && this.audio && this.audio.paused) {
+              this.audio.muted = false;
               this.audio.play().catch(() => {});
             }
           };
-          window.addEventListener("click", unlock);
-          window.addEventListener("touchstart", unlock);
+
+          window.addEventListener("click", unlockAudio, { passive: true });
+          window.addEventListener("touchstart", unlockAudio, { passive: true });
+          window.addEventListener("keydown", unlockAudio, { passive: true });
+          window.addEventListener("pointerdown", unlockAudio, { passive: true });
         });
       }
     }
@@ -80,7 +84,6 @@ class SongPlayer {
     );
   }
 
-  // Turn song ON
   public play() {
     if (isCurrentPageAdmin()) return;
 
@@ -96,7 +99,6 @@ class SongPlayer {
     this.notify();
   }
 
-  // Turn song OFF (Instantly pauses and mutes)
   public pause() {
     this.isMuted = true;
     try {
@@ -110,7 +112,6 @@ class SongPlayer {
     this.notify();
   }
 
-  // 1-Click Toggle: Instantly turns ON or OFF
   public toggle(): boolean {
     if (isCurrentPageAdmin()) return false;
     if (this.getIsPlaying()) {

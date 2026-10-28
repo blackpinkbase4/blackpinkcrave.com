@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { GlobalSongPlayer } from "@/components/GlobalSongPlayer";
 
 export const metadata: Metadata = {
   title: "NOIR GALA '26 — MTV VMA STYLE CEREMONY",
@@ -68,6 +69,7 @@ export default function RootLayout({
           <main className="flex-1 relative z-10">{children}</main>
           <Footer />
         </div>
+        <GlobalSongPlayer />
       </body>
     </html>
   );

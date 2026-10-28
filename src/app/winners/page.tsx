@@ -283,6 +283,14 @@ export default function WinnersPage() {
           Verified winners across Stan Twitter. Congratulations to the icons who ruled the timeline!
         </p>
 
+        {/* Total Ceremony Votes (Mentioned Only Above at the Top) */}
+        <div className="flex items-center justify-center pt-1 font-mono text-xs">
+          <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 font-bold uppercase tracking-wider shadow-sm">
+            <Trophy className="w-3.5 h-3.5 text-amber-400" />
+            <span>TOTAL VERIFIED BALLOTS: {results.reduce((sum, c) => sum + (c.total_votes || 0), 0).toLocaleString()} VOTES</span>
+          </div>
+        </div>
+
         {/* Global Controls: Play Ceremony Song & Replay Broadcast */}
         <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
           <button

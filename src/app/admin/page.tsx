@@ -1115,18 +1115,18 @@ export default function AdminPage() {
                   type="button"
                   onClick={async () => {
                     const MANUAL_WINNERS: Record<string, string> = {
-                      "best-fanbase": "nom_1792229360249_cj55i",
-                      "best-update": "nom_1792226803501_vi7i2",
-                      "best-voting-streaming": "nom_1792317124691_ywsh6",
-                      "best-charts": "nom_1792256711633_qeblx",
-                      "best-graphics-designer": "nom_1792228583980_g8qvp",
-                      "best-video-editor": "nom_1792228615581_3ij3o",
-                      "funniest-stan": "nom_1792229283667_qb21s",
-                      "best-new-account": "nom_1792226723482_q2qdp",
-                      "most-iconic-account": "nom_1792230173780_cgfrl",
-                      "peoples-choice": "nom_1792229689031_a3zbv",
-                      "best-khia-account": "nom_1792230111270_vh77e",
-                      "best-bts-ender-account": "nom_1792320780502_zluyc",
+                      "best-fanbase": "nom_1792588860026_x88lo", // @notrandomshyt
+                      "best-update": "nom_1792707539164_6ci69", // @vaelisfox
+                      "best-voting-streaming": "nom_1792588874470_1sdcq", // @worldwidejnk
+                      "best-charts": "nom_1792949162985_17xp1", // @blackpinkspotify_chart
+                      "best-graphics-designer": "nom_1792588506582_j9mlo", // @kairoovv
+                      "best-video-editor": "nom_1792588555022_dgta2", // @kairoovv
+                      "funniest-stan": "nom_1792685895609_1ar5x", // @watchumeanbp
+                      "best-new-account": "nom_1792947545617_ncxqy", // @beebratz_
+                      "most-iconic-account": "nom_1792588955643_8001t", // @notrandomshyt
+                      "peoples-choice": "nom_1792588595057_3nrgr", // @kairoovv
+                      "best-khia-account": "nom_1792685960244_viwyu", // @watchumeanbp
+                      "best-bts-ender-account": "nom_1792687783434_lvu0s", // @bichotarae
                     };
                     playClickSound();
                     try {

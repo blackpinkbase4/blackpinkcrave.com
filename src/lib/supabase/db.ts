@@ -215,7 +215,7 @@ export async function getEventSettings(forceFresh = false): Promise<EventSetting
         },
       };
       cachedSettings = finalSettings;
-      cachedSettingsExpiry = now + 15000;
+      cachedSettingsExpiry = now + 1000; // 1 second cache for immediate admin mode sync
       return finalSettings;
     }
   }
@@ -797,7 +797,8 @@ export async function getCategoryResults(
   }
 
   const categories = await getCategories(true);
-  const allNominees = await getNominees(undefined, false, true); // Include avatars for winner cards & broadcast!
+  // Fetch lightweight nominee rows first (no avatar payloads) to avoid Supabase statement timeouts
+  const allNominees = await getNominees(undefined, false, false);
 
   let votes: { nominee_id: string; category_id: string; vote_count: number }[] = [];
 
@@ -835,8 +836,10 @@ export async function getCategoryResults(
 
     const chosenWinnerId = cat.winner_nominee_id || settings.manual_winners?.[cat.id];
     if (chosenWinnerId) {
-      const manualWinner = allNominees.find((n) => n.id === chosenWinnerId);
-      if (manualWinner && !catNominees.some((n) => n.id === chosenWinnerId)) {
+      const manualWinner = allNominees.find(
+        (n) => n.id === chosenWinnerId || n.x_username.toLowerCase() === chosenWinnerId.toLowerCase().replace(/^@/, "")
+      );
+      if (manualWinner && !catNominees.some((n) => n.id === manualWinner.id)) {
         catNominees.unshift(manualWinner);
       }
     }
@@ -871,25 +874,35 @@ export async function getCategoryResults(
 
     if (chosenWinnerId) {
       // Manual winner selection by Admin!
-      const manualWinner = nomineeResults.find((n) => n.nominee_id === chosenWinnerId);
+      const manualWinner = nomineeResults.find(
+        (n) => n.nominee_id === chosenWinnerId || n.x_username.toLowerCase() === chosenWinnerId.toLowerCase().replace(/^@/, "")
+      );
       if (manualWinner) {
         manualWinner.is_winner = true;
         winners = [manualWinner];
         // Move manualWinner to top (index 0) of nomineeResults
-        const others = nomineeResults.filter((n) => n.nominee_id !== chosenWinnerId);
+        const others = nomineeResults.filter((n) => n.nominee_id !== manualWinner.nominee_id);
         nomineeResults.length = 0;
         nomineeResults.push(manualWinner, ...others);
       }
-    } else if (nomineeResults.length > 0 && nomineeResults[0].votes > 0) {
-      const topVotes = nomineeResults[0].votes;
-      winners = nomineeResults.filter((n) => n.votes === topVotes);
-      isTied = winners.length > 1;
+    }
 
-      for (const w of nomineeResults) {
-        if (w.votes === topVotes) {
-          w.is_winner = true;
-          w.is_tied = isTied;
+    // Bulletproof fallback: ensure EVERY category with nominees crowns a winner
+    if (winners.length === 0 && nomineeResults.length > 0) {
+      const topVotes = nomineeResults[0].votes;
+      if (topVotes > 0) {
+        winners = nomineeResults.filter((n) => n.votes === topVotes);
+        isTied = winners.length > 1;
+        for (const w of nomineeResults) {
+          if (w.votes === topVotes) {
+            w.is_winner = true;
+            w.is_tied = isTied;
+          }
         }
+      } else {
+        // If 0 votes cast yet, crown top finalist so cards and download buttons always appear
+        nomineeResults[0].is_winner = true;
+        winners = [nomineeResults[0]];
       }
     }
 
@@ -902,6 +915,43 @@ export async function getCategoryResults(
       winners,
       is_tied: isTied,
     });
+  }
+
+  // Efficiently hydrate high-res avatars ONLY for the finalists and winners
+  if (supabase) {
+    const neededAvatarIds = Array.from(
+      new Set(
+        results.flatMap((r) =>
+          r.winners
+            .map((w) => w.nominee_id)
+            .concat(r.nominees.slice(0, 5).map((n) => n.nominee_id))
+        )
+      )
+    ).filter(Boolean);
+
+    if (neededAvatarIds.length > 0) {
+      for (let i = 0; i < neededAvatarIds.length; i += 50) {
+        const chunk = neededAvatarIds.slice(i, i + 50);
+        const { data: avatarData, error: avatarErr } = await supabase
+          .from("nominees")
+          .select("id, avatar_url")
+          .in("id", chunk);
+
+        if (!avatarErr && avatarData) {
+          const avatarMap = new Map(avatarData.map((a) => [a.id, a.avatar_url]));
+          for (const r of results) {
+            for (const w of r.winners) {
+              const url = avatarMap.get(w.nominee_id);
+              if (url) w.avatar_url = url;
+            }
+            for (const n of r.nominees) {
+              const url = avatarMap.get(n.nominee_id);
+              if (url) n.avatar_url = url;
+            }
+          }
+        }
+      }
+    }
   }
 
   return results;
