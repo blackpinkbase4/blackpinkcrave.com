@@ -232,6 +232,7 @@ export async function updateEventSettings(
   const timestamp = new Date().toISOString();
   cachedSettings = null;
   cachedSettingsExpiry = 0;
+  invalidateCategoryResultsCache();
 
   // Load current settings to preserve existing metadata
   const current = await getEventSettings();
@@ -369,6 +370,7 @@ export async function updateCategory(
       .select()
       .single();
     if (error) throw new Error(error.message);
+    invalidateCategoryResultsCache();
     await logAuditAction("UPDATE_CATEGORY", { id, updates }, adminIp);
     return data as Category;
   }
@@ -763,6 +765,7 @@ export async function submitVotes(
   const timestamp = new Date().toISOString();
   cachedSettings = null;
   cachedSettingsExpiry = 0;
+  invalidateCategoryResultsCache();
   for (const item of allocations) {
     fallbackState.votes.push({
       id: `vote_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`,
@@ -788,12 +791,25 @@ export async function submitVotes(
 // ==========================================
 // 5. RESULTS & WINNERS (EMBARGO PROTECTED)
 // ==========================================
+let cachedCategoryResults: CategoryWinnerResult[] | null = null;
+let cachedCategoryResultsExpiry = 0;
+
+export function invalidateCategoryResultsCache() {
+  cachedCategoryResults = null;
+  cachedCategoryResultsExpiry = 0;
+}
+
 export async function getCategoryResults(
   onlyIfPublished = true
 ): Promise<CategoryWinnerResult[] | null> {
   const settings = await getEventSettings();
   if (onlyIfPublished && !settings.winners_published) {
     return null;
+  }
+
+  const now = Date.now();
+  if (cachedCategoryResults && now < cachedCategoryResultsExpiry) {
+    return cachedCategoryResults;
   }
 
   const categories = await getCategories(true);
@@ -917,7 +933,7 @@ export async function getCategoryResults(
     });
   }
 
-  // Efficiently hydrate high-res avatars for ALL finalists and winners
+  // Efficiently hydrate high-res avatars for ALL finalists and winners in parallel
   if (supabase) {
     const neededAvatarIds = Array.from(
       new Set(
@@ -930,26 +946,42 @@ export async function getCategoryResults(
     ).filter(Boolean);
 
     if (neededAvatarIds.length > 0) {
-      for (let i = 0; i < neededAvatarIds.length; i += 50) {
-        const chunk = neededAvatarIds.slice(i, i + 50);
-        const { data: avatarData, error: avatarErr } = await supabase
-          .from("nominees")
-          .select("id, avatar_url")
-          .in("id", chunk);
+      const chunks: string[][] = [];
+      for (let i = 0; i < neededAvatarIds.length; i += 60) {
+        chunks.push(neededAvatarIds.slice(i, i + 60));
+      }
 
-        if (!avatarErr && avatarData) {
-          const avatarMap = new Map(avatarData.map((a) => [a.id, a.avatar_url]));
-          for (const r of results) {
-            for (const w of r.winners) {
-              const url = avatarMap.get(w.nominee_id);
-              if (url) w.avatar_url = url;
-            }
-            for (const n of r.nominees) {
-              const url = avatarMap.get(n.nominee_id);
-              if (url) n.avatar_url = url;
+      try {
+        const chunkResponses = await Promise.all(
+          chunks.map((chunk) =>
+            supabase
+              .from("nominees")
+              .select("id, avatar_url")
+              .in("id", chunk)
+          )
+        );
+
+        const avatarMap = new Map<string, string | null>();
+        for (const res of chunkResponses) {
+          if (!res.error && res.data) {
+            for (const item of res.data) {
+              avatarMap.set(item.id, item.avatar_url);
             }
           }
         }
+
+        for (const r of results) {
+          for (const w of r.winners) {
+            const url = avatarMap.get(w.nominee_id);
+            if (url) w.avatar_url = url;
+          }
+          for (const n of r.nominees) {
+            const url = avatarMap.get(n.nominee_id);
+            if (url) n.avatar_url = url;
+          }
+        }
+      } catch (err) {
+        console.error("[getCategoryResults] Parallel avatar load error:", err);
       }
     }
   }
@@ -981,6 +1013,10 @@ export async function getCategoryResults(
       }
     }
   }
+
+  // Cache compiled category results for 45 seconds to handle massive traffic spikes with 0ms response
+  cachedCategoryResults = results;
+  cachedCategoryResultsExpiry = Date.now() + 45000;
 
   return results;
 }

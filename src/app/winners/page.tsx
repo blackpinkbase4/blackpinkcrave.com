@@ -59,9 +59,21 @@ export default function WinnersPage() {
   }, []);
 
   useEffect(() => {
+    // 1. Instant client hydration from session cache if available (0ms unblock)
+    try {
+      const cached = sessionStorage.getItem("noir_winners_cache");
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setResults(parsed);
+          setLoading(false);
+        }
+      }
+    } catch {}
+
     async function fetchWinners() {
       try {
-        const res = await fetch("/api/winners", { cache: "no-store" });
+        const res = await fetch("/api/winners");
         const data = await res.json();
 
         setPublished(Boolean(data.published));
@@ -81,11 +93,15 @@ export default function WinnersPage() {
             localStorage.setItem("noir_countdown_target", data.countdown_target);
           } catch {}
         }
-        if (data.results) {
+        if (data.results && data.results.length > 0) {
           setResults(data.results);
+          try {
+            sessionStorage.setItem("noir_winners_cache", JSON.stringify(data.results));
+          } catch {}
         }
-      } catch {}
-      finally {
+      } catch (err) {
+        console.warn("Winners fetch fallback:", err);
+      } finally {
         setLoading(false);
       }
     }
