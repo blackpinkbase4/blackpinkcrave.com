@@ -1053,14 +1053,26 @@ export default function AdminPage() {
                   </button>
                 </div>
 
-                <div className="flex gap-2 pt-1">
-                  <input
-                    type="text"
-                    value={countdownInput || settings.countdown_target || ""}
-                    onChange={(e) => setCountdownInput(e.target.value)}
-                    placeholder="2026-10-31T18:00:00+05:30"
-                    className="flex-1 bg-black border border-white/20 rounded-xl px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-amber-400"
-                  />
+                <div className="flex items-center gap-2 pt-1 relative">
+                  <div className="relative flex-1">
+                    <input
+                      type="text"
+                      value={countdownInput}
+                      onChange={(e) => setCountdownInput(e.target.value)}
+                      placeholder="e.g. 2026-10-31T18:00:00+05:30"
+                      className="w-full bg-black border border-white/20 rounded-xl px-3 py-2 pr-8 text-xs font-mono text-white focus:outline-none focus:border-amber-400"
+                    />
+                    {countdownInput && (
+                      <button
+                        type="button"
+                        onClick={() => setCountdownInput("")}
+                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-chrome-400 hover:text-white text-xs font-bold p-1 cursor-pointer"
+                        title="Clear input"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
                   <button
                     type="button"
                     onClick={() => {
