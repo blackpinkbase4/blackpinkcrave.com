@@ -220,6 +220,18 @@ export const LivePremiereBroadcast: React.FC<LivePremiereBroadcastProps> = ({
             <span>Skip</span>
             <ChevronRight className="w-3.5 h-3.5" />
           </button>
+
+          {/* Jump directly to Hall of Fame Archive */}
+          <button
+            type="button"
+            onClick={onFinishPremiere}
+            className="px-3.5 py-1.5 rounded-full bg-amber-400 hover:bg-amber-300 text-black font-heading font-black text-[11px] uppercase flex items-center gap-1.5 shadow-vma-gold transition-all"
+            title="Open Full Hall of Fame Podium"
+          >
+            <Trophy className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Hall of Fame</span>
+            <span>Podium</span>
+          </button>
         </div>
       </div>
 
@@ -452,10 +464,17 @@ export const LivePremiereBroadcast: React.FC<LivePremiereBroadcastProps> = ({
       </div>
 
       {/* Bottom Progress Bar */}
-      <div className="border-t border-amber-400/20 pt-3 flex items-center justify-between text-xs font-mono text-chrome-300">
+      <div className="border-t border-amber-400/20 pt-3 flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-chrome-300">
         <span>
           Category {currentCatIndex + 1} of {categories.length}
         </span>
+        <button
+          type="button"
+          onClick={onFinishPremiere}
+          className="text-amber-300 hover:text-amber-200 underline uppercase font-bold text-[11px] tracking-wider transition-colors"
+        >
+          Skip All to Full Podium 🏆
+        </button>
         <span className="text-amber-300 font-bold">
           {stagePhase === "winner" ? `⏳ Next Reveal in 0${phaseSecondsLeft}s` : "Announcing..."}
         </span>

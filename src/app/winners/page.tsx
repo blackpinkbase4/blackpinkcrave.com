@@ -26,25 +26,11 @@ import { LivePremiereBroadcast } from "@/components/LivePremiereBroadcast";
 import { LiveChatReactions } from "@/components/LiveChatReactions";
 
 export default function WinnersPage() {
-  const [loading, setLoading] = useState(false);
-  const [published, setPublished] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("noir_published") === "true";
-    }
-    return false;
-  });
-  const [ceremonyMode, setCeremonyMode] = useState<"countdown" | "live" | "unlocked">(() => {
-    if (typeof window !== "undefined") {
-      return (localStorage.getItem("noir_ceremony_mode") as any) || "countdown";
-    }
-    return "countdown";
-  });
-  const [countdownTarget, setCountdownTarget] = useState<string>(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("noir_countdown_target") || "2026-10-28T12:30:00.000Z";
-    }
-    return "2026-10-28T12:30:00.000Z";
-  });
+  const [mounted, setMounted] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [published, setPublished] = useState(false);
+  const [ceremonyMode, setCeremonyMode] = useState<"countdown" | "live" | "unlocked">("countdown");
+  const [countdownTarget, setCountdownTarget] = useState<string>("2026-10-28T12:30:00.000Z");
   const [results, setResults] = useState<CategoryWinnerResult[]>([]);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
@@ -53,6 +39,17 @@ export default function WinnersPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    setMounted(true);
+    // Safely hydrate cached ceremony mode on client mount without causing SSR mismatch
+    try {
+      const cachedPublished = localStorage.getItem("noir_published") === "true";
+      const cachedMode = localStorage.getItem("noir_ceremony_mode") as any;
+      const cachedTarget = localStorage.getItem("noir_countdown_target");
+      if (cachedPublished) setPublished(true);
+      if (cachedMode) setCeremonyMode(cachedMode);
+      if (cachedTarget) setCountdownTarget(cachedTarget);
+    } catch {}
+
     setIsMusicPlaying(songPlayer.getIsPlaying());
     const handleSongUpdate = () => {
       setIsMusicPlaying(songPlayer.getIsPlaying());
@@ -448,7 +445,7 @@ export default function WinnersPage() {
     </div>
   ) : null;
 
-  if (loading) {
+  if (!mounted || loading) {
     return (
       <div className="max-w-4xl mx-auto py-28 px-4 text-center space-y-4 font-mono">
         <div className="w-12 h-12 rounded-full border-2 border-amber-400 border-t-transparent animate-spin mx-auto" />
