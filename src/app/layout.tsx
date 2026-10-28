@@ -25,6 +25,9 @@ export const metadata: Metadata = {
     description: "ONE TIMELINE. EVERY FANDOM. Cast your 10 split votes now.",
     type: "website",
   },
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default function RootLayout({

@@ -1,0 +1,11 @@
+import { NextResponse } from "next/server";
+
+export async function GET() {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><rect width="32" height="32" rx="6" fill="#07080c" stroke="#facc15" stroke-width="1.5"/><path d="M10 8h12v4c0 3.31-2.69 6-6 6s-6-2.69-6-6V8zm-2 2H6v3c0 1.66 1.34 3 3 3h1v-6zm16 0v6h1c1.66 0 3-1.34 3-3v-3h-4zm-9 10h2v4h-2v-4zm-4 4h10v2H11v-2z" fill="#facc15"/></svg>`;
+  return new NextResponse(svg, {
+    headers: {
+      "Content-Type": "image/svg+xml",
+      "Cache-Control": "public, max-age=86400",
+    },
+  });
+}
