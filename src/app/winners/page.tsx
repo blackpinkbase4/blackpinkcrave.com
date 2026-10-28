@@ -228,31 +228,25 @@ export default function WinnersPage() {
       const photoBoxH = 680;
 
       let imageDrawn = false;
-      if (nominee.avatar_url) {
-        const img = new Image();
-        let srcToLoad = nominee.avatar_url;
 
-        // If remote URL, route through same-origin image-proxy to prevent canvas CORS security blocks
-        if (srcToLoad.startsWith("http://") || srcToLoad.startsWith("https://")) {
-          srcToLoad = `/api/image-proxy?url=${encodeURIComponent(srcToLoad)}`;
-          img.crossOrigin = "anonymous";
-        }
-        // For data: URIs, never set crossOrigin (which causes Chrome security aborts on base64)
+      // FIRST PRIORITY: Use already-rendered and decoded <img> from the active DOM!
+      const existingDomImg = document.getElementById(
+        `avatar-img-${nominee.nominee_id}`
+      ) as HTMLImageElement | null;
 
-        await new Promise((resolve) => {
-          img.onload = () => resolve(true);
-          img.onerror = () => resolve(false);
-          img.src = srcToLoad;
-        });
-
-        if (img.complete && img.naturalWidth > 0 && img.naturalHeight > 0) {
+      if (
+        existingDomImg &&
+        existingDomImg.complete &&
+        existingDomImg.naturalWidth > 0 &&
+        existingDomImg.naturalHeight > 0
+      ) {
+        try {
           ctx.save();
           ctx.beginPath();
           ctx.roundRect(60, photoBoxY, photoBoxW, photoBoxH, 24);
           ctx.clip();
 
-          // Aspect-ratio cover math: preserves portrait proportions without distortion
-          const imgAspect = img.naturalWidth / img.naturalHeight;
+          const imgAspect = existingDomImg.naturalWidth / existingDomImg.naturalHeight;
           const boxAspect = photoBoxW / photoBoxH;
           let renderW = photoBoxW;
           let renderH = photoBoxH;
@@ -267,14 +261,70 @@ export default function WinnersPage() {
             offsetY = photoBoxY - (renderH - photoBoxH) / 2;
           }
 
-          ctx.drawImage(img, offsetX, offsetY, renderW, renderH);
+          ctx.drawImage(existingDomImg, offsetX, offsetY, renderW, renderH);
           ctx.restore();
           imageDrawn = true;
-        }
+        } catch {}
+      }
+
+      // SECOND PRIORITY: If DOM element not available, load image directly
+      if (!imageDrawn && nominee.avatar_url) {
+        try {
+          const img = new Image();
+          let srcToLoad = nominee.avatar_url;
+
+          if (!srcToLoad.startsWith("data:")) {
+            // For remote URLs, proxy to ensure canvas CORS compliance
+            srcToLoad = `/api/image-proxy?url=${encodeURIComponent(srcToLoad)}`;
+            img.crossOrigin = "anonymous";
+          }
+          // Note: NEVER set crossOrigin on data: URIs (triggers Chrome security block)
+
+          img.src = srcToLoad;
+
+          if (typeof img.decode === "function") {
+            await img.decode().catch(() => {});
+          } else {
+            await new Promise((resolve) => {
+              img.onload = () => resolve(true);
+              img.onerror = () => resolve(false);
+            });
+          }
+
+          if (img.complete && img.naturalWidth > 0 && img.naturalHeight > 0) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.roundRect(60, photoBoxY, photoBoxW, photoBoxH, 24);
+            ctx.clip();
+
+            const imgAspect = img.naturalWidth / img.naturalHeight;
+            const boxAspect = photoBoxW / photoBoxH;
+            let renderW = photoBoxW;
+            let renderH = photoBoxH;
+            let offsetX = 60;
+            let offsetY = photoBoxY;
+
+            if (imgAspect > boxAspect) {
+              renderW = photoBoxH * imgAspect;
+              offsetX = 60 - (renderW - photoBoxW) / 2;
+            } else {
+              renderH = photoBoxW / imgAspect;
+              offsetY = photoBoxY - (renderH - photoBoxH) / 2;
+            }
+
+            ctx.drawImage(img, offsetX, offsetY, renderW, renderH);
+            ctx.restore();
+            imageDrawn = true;
+          }
+        } catch {}
       }
 
       if (!imageDrawn) {
         // Luxury VIP monogram placeholder if no avatar provided
+        ctx.save();
+        ctx.beginPath();
+        ctx.roundRect(60, photoBoxY, photoBoxW, photoBoxH, 24);
+        ctx.clip();
         ctx.fillStyle = "#131824";
         ctx.fillRect(60, photoBoxY, photoBoxW, photoBoxH);
         ctx.fillStyle = isWinner ? "#facc15" : "#38bdf8";
@@ -286,28 +336,53 @@ export default function WinnersPage() {
           60 + photoBoxW / 2,
           photoBoxY + photoBoxH / 2
         );
-        ctx.textAlign = "start";
-        ctx.textBaseline = "alphabetic";
+        ctx.restore();
       }
 
-      // Dark gradient overlay at bottom of photo
-      const photoGrad = ctx.createLinearGradient(0, photoBoxY + 300, 0, photoBoxY + photoBoxH);
+      // Elegant dark gradient overlay at bottom of photo (strictly clipped inside the 24px rounded corners)
+      ctx.save();
+      ctx.beginPath();
+      ctx.roundRect(60, photoBoxY, photoBoxW, photoBoxH, 24);
+      ctx.clip();
+      const photoGrad = ctx.createLinearGradient(0, photoBoxY + photoBoxH - 280, 0, photoBoxY + photoBoxH);
       photoGrad.addColorStop(0, "rgba(7, 8, 12, 0)");
-      photoGrad.addColorStop(1, "rgba(7, 8, 12, 0.95)");
+      photoGrad.addColorStop(1, "rgba(7, 8, 12, 0.96)");
       ctx.fillStyle = photoGrad;
-      ctx.fillRect(60, photoBoxY, photoBoxW, photoBoxH);
+      ctx.fillRect(60, photoBoxY + photoBoxH - 280, photoBoxW, 280);
+      ctx.restore();
+
+      // Outer crisp border for the Photo Box
+      ctx.save();
+      ctx.strokeStyle = borderAccent;
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.roundRect(60, photoBoxY, photoBoxW, photoBoxH, 24);
+      ctx.stroke();
+      ctx.restore();
 
       // Position Pill Stamp inside photo
+      ctx.save();
       ctx.fillStyle = pillBg;
-      ctx.fillRect(90, photoBoxY + photoBoxH - 120, 360, 48);
+      ctx.beginPath();
+      ctx.roundRect(90, photoBoxY + photoBoxH - 120, 360, 48, 12);
+      ctx.fill();
       ctx.fillStyle = pillTextColor;
       ctx.font = "900 24px 'Oswald', sans-serif";
       ctx.fillText(pillTitle, 105, photoBoxY + photoBoxH - 88);
 
-      // Nominee Name Overlay
+      // Nominee Name Overlay (with automatic ellipsis if name is extra long)
       ctx.fillStyle = "#ffffff";
       ctx.font = "900 52px 'Syne', 'Oswald', sans-serif";
-      ctx.fillText(nominee.display_name, 90, photoBoxY + photoBoxH - 30);
+      const maxNameWidth = photoBoxW - 80;
+      let renderName = nominee.display_name || nominee.x_username;
+      if (ctx.measureText(renderName).width > maxNameWidth) {
+        while (renderName.length > 3 && ctx.measureText(renderName + "...").width > maxNameWidth) {
+          renderName = renderName.slice(0, -1);
+        }
+        renderName += "...";
+      }
+      ctx.fillText(renderName, 90, photoBoxY + photoBoxH - 30);
+      ctx.restore();
 
       // 5. Bottom Info Bar
       const bottomY = photoBoxY + photoBoxH + 40;
@@ -537,15 +612,25 @@ export default function WinnersPage() {
                         {winner.avatar_url ? (
                           /* eslint-disable-next-line @next/next/no-img-element */
                           <img
+                            id={`avatar-img-${winner.nominee_id}`}
                             src={winner.avatar_url}
                             alt={winner.display_name}
                             className="w-full h-full object-cover"
+                            onError={(e) => {
+                              (e.target as HTMLElement).style.display = "none";
+                              const fallback = document.getElementById(`avatar-fallback-${winner.nominee_id}`);
+                              if (fallback) fallback.style.display = "flex";
+                            }}
                           />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-noir-800 font-heading font-black text-6xl text-amber-400">
-                            {winner.display_name.charAt(0)}
-                          </div>
-                        )}
+                        ) : null}
+                        <div
+                          id={`avatar-fallback-${winner.nominee_id}`}
+                          className={`w-full h-full flex items-center justify-center bg-noir-800 font-heading font-black text-6xl text-amber-400 ${
+                            winner.avatar_url ? "hidden" : "flex"
+                          }`}
+                        >
+                          {winner.display_name.charAt(0) || "★"}
+                        </div>
 
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
 
@@ -644,15 +729,25 @@ export default function WinnersPage() {
                             {nominee.avatar_url ? (
                               /* eslint-disable-next-line @next/next/no-img-element */
                               <img
+                                id={`avatar-img-${nominee.nominee_id}`}
                                 src={nominee.avatar_url}
                                 alt={nominee.display_name}
                                 className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  (e.target as HTMLElement).style.display = "none";
+                                  const fallback = document.getElementById(`avatar-fallback-${nominee.nominee_id}`);
+                                  if (fallback) fallback.style.display = "flex";
+                                }}
                               />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center bg-noir-800 font-heading font-black text-4xl text-chrome-400">
-                                {nominee.display_name.charAt(0)}
-                              </div>
-                            )}
+                            ) : null}
+                            <div
+                              id={`avatar-fallback-${nominee.nominee_id}`}
+                              className={`w-full h-full flex items-center justify-center bg-noir-800 font-heading font-black text-4xl text-chrome-400 ${
+                                nominee.avatar_url ? "hidden" : "flex"
+                              }`}
+                            >
+                              {nominee.display_name.charAt(0) || "★"}
+                            </div>
 
                             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
 

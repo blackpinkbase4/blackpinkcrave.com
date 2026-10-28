@@ -954,27 +954,30 @@ export async function getCategoryResults(
     }
   }
 
-  // Fallback avatar enrichment from Netlify pre-loaded catalog for any nominees with null/missing avatar
-  let fallbackAvatars: Record<string, string> = {};
-  try {
-    fallbackAvatars = require("../avatarDirectory.json");
-  } catch {}
+  // Sanitize all avatar URLs: strip dead 402 storage URLs and non-image Twitter links
+  const isValidAvatar = (url?: string | null): boolean => {
+    if (!url) return false;
+    if (url.includes("dgfwwhvgsejhtvnrttcb.supabase.co")) return false; // Inactive project (402)
+    if (url.startsWith("data:image/")) return true; // High-res base64 stored in DB
+    if (url.startsWith("http://") || url.startsWith("https://")) {
+      if (url.includes("x.com/") || url.includes("twitter.com/")) {
+        // Only accept if it's an actual CDN image path like pbs.twimg.com
+        return url.includes("pbs.twimg.com") || url.match(/\.(jpg|jpeg|png|webp|gif)(\?.*)?$/i) !== null;
+      }
+      return true;
+    }
+    return false;
+  };
 
   for (const r of results) {
     for (const w of r.winners) {
-      if (!w.avatar_url) {
-        const cleanUser = w.x_username.toLowerCase().replace(/^@/, "");
-        if (fallbackAvatars[cleanUser]) {
-          w.avatar_url = fallbackAvatars[cleanUser];
-        }
+      if (!isValidAvatar(w.avatar_url)) {
+        w.avatar_url = null;
       }
     }
     for (const n of r.nominees) {
-      if (!n.avatar_url) {
-        const cleanUser = n.x_username.toLowerCase().replace(/^@/, "");
-        if (fallbackAvatars[cleanUser]) {
-          n.avatar_url = fallbackAvatars[cleanUser];
-        }
+      if (!isValidAvatar(n.avatar_url)) {
+        n.avatar_url = null;
       }
     }
   }

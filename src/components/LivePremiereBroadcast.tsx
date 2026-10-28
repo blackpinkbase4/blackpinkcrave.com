@@ -249,12 +249,25 @@ export const LivePremiereBroadcast: React.FC<LivePremiereBroadcastProps> = ({
                 <div key={nom.nominee_id} className="flex flex-col items-center space-y-1.5 animate-scale-up">
                   <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-black border-2 border-white/25 shadow-lg relative">
                     {nom.avatar_url ? (
-                      <img src={nom.avatar_url} alt="" className="w-full h-full object-cover" />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center font-heading font-black text-2xl text-amber-300">
-                        {nom.display_name.charAt(0)}
-                      </div>
-                    )}
+                      <img
+                        src={nom.avatar_url}
+                        alt=""
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLElement).style.display = "none";
+                          const fb = document.getElementById(`live-avatar-fb-${nom.nominee_id}`);
+                          if (fb) fb.style.display = "flex";
+                        }}
+                      />
+                    ) : null}
+                    <div
+                      id={`live-avatar-fb-${nom.nominee_id}`}
+                      className={`w-full h-full flex items-center justify-center font-heading font-black text-2xl text-amber-300 ${
+                        nom.avatar_url ? "hidden" : "flex"
+                      }`}
+                    >
+                      {nom.display_name.charAt(0) || "★"}
+                    </div>
                     <span className="absolute bottom-1 right-1 bg-black/80 border border-amber-400/50 text-amber-300 text-[9px] font-mono font-bold px-1 rounded">
                       #{i + 1}
                     </span>
@@ -313,12 +326,25 @@ export const LivePremiereBroadcast: React.FC<LivePremiereBroadcastProps> = ({
               {/* Large Avatar */}
               <div className="relative mx-auto w-28 h-28 sm:w-36 sm:h-36 rounded-3xl overflow-hidden bg-black border-4 border-amber-400 shadow-vma-gold ring-4 ring-amber-400/40 my-2">
                 {winner.avatar_url ? (
-                  <img src={winner.avatar_url} alt={winner.display_name} className="w-full h-full object-cover" />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center font-heading font-black text-5xl text-amber-300">
-                    {winner.display_name.charAt(0)}
-                  </div>
-                )}
+                  <img
+                    src={winner.avatar_url}
+                    alt={winner.display_name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLElement).style.display = "none";
+                      const fb = document.getElementById(`live-winner-fb-${winner.nominee_id}`);
+                      if (fb) fb.style.display = "flex";
+                    }}
+                  />
+                ) : null}
+                <div
+                  id={`live-winner-fb-${winner.nominee_id}`}
+                  className={`w-full h-full flex items-center justify-center font-heading font-black text-5xl text-amber-300 ${
+                    winner.avatar_url ? "hidden" : "flex"
+                  }`}
+                >
+                  {winner.display_name.charAt(0) || "★"}
+                </div>
                 <div className="absolute -bottom-2 -right-2 bg-amber-400 text-black p-2 rounded-full shadow-lg">
                   <Crown className="w-5 h-5 fill-current" />
                 </div>
