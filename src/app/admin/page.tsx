@@ -56,6 +56,7 @@ export default function AdminPage() {
   const [cooldownHours, setCooldownHours] = useState<number>(3);
   const [powerHourActive, setPowerHourActive] = useState<boolean>(false);
   const [updatingRules, setUpdatingRules] = useState(false);
+  const [countdownInput, setCountdownInput] = useState("");
 
   // Data
   const [settings, setSettings] = useState<EventSettings | null>(null);
@@ -112,6 +113,7 @@ export default function AdminPage() {
         if (sData.settings.music_enabled !== undefined) setSongEnabled(Boolean(sData.settings.music_enabled));
         if (sData.settings.cooldown_hours !== undefined) setCooldownHours(sData.settings.cooldown_hours);
         if (sData.settings.power_hour_active !== undefined) setPowerHourActive(Boolean(sData.settings.power_hour_active));
+        if (sData.settings.countdown_target !== undefined) setCountdownInput(sData.settings.countdown_target);
       }
       if (cData?.categories) {
         setCategories(cData.categories);
@@ -1007,9 +1009,10 @@ export default function AdminPage() {
                     type="button"
                     onClick={() => {
                       const d = new Date(Date.now() + 5 * 60 * 1000).toISOString();
+                      setCountdownInput(d);
                       handleUpdateSettings({ countdown_target: d });
                     }}
-                    className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-amber-400 hover:text-black text-[10px] text-amber-200 font-mono transition-all"
+                    className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-amber-400 hover:text-black text-[10px] text-amber-200 font-mono transition-all cursor-pointer"
                   >
                     ⚡ In 5 Mins (Test)
                   </button>
@@ -1017,9 +1020,10 @@ export default function AdminPage() {
                     type="button"
                     onClick={() => {
                       const d = new Date(Date.now() + 30 * 60 * 1000).toISOString();
+                      setCountdownInput(d);
                       handleUpdateSettings({ countdown_target: d });
                     }}
-                    className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-amber-400 hover:text-black text-[10px] text-amber-200 font-mono transition-all"
+                    className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-amber-400 hover:text-black text-[10px] text-amber-200 font-mono transition-all cursor-pointer"
                   >
                     ⏱️ In 30 Mins
                   </button>
@@ -1027,41 +1031,41 @@ export default function AdminPage() {
                     type="button"
                     onClick={() => {
                       const now = new Date();
-                      now.setHours(17, 30, 0, 0);
-                      handleUpdateSettings({ countdown_target: now.toISOString() });
+                      now.setHours(18, 0, 0, 0);
+                      const d = now.toISOString();
+                      setCountdownInput(d);
+                      handleUpdateSettings({ countdown_target: d });
                     }}
-                    className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-amber-400 hover:text-black text-[10px] text-amber-200 font-mono transition-all"
+                    className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-amber-400 hover:text-black text-[10px] text-amber-200 font-mono transition-all cursor-pointer"
                   >
-                    📅 Today 5:30 PM
+                    📅 Today 6:00 PM IST
                   </button>
                   <button
                     type="button"
                     onClick={() => {
-                      const now = new Date();
-                      now.setDate(now.getDate() + 1);
-                      now.setHours(17, 30, 0, 0);
-                      handleUpdateSettings({ countdown_target: now.toISOString() });
+                      const target = new Date("2026-10-31T18:00:00+05:30").toISOString();
+                      setCountdownInput(target);
+                      handleUpdateSettings({ countdown_target: target });
                     }}
-                    className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-amber-400 hover:text-black text-[10px] text-amber-200 font-mono transition-all"
+                    className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-amber-400 hover:text-black text-[10px] text-amber-200 font-mono transition-all cursor-pointer"
                   >
-                    🗓️ Tomorrow 5:30 PM
+                    🗓️ Oct 31 6:00 PM IST
                   </button>
                 </div>
 
                 <div className="flex gap-2 pt-1">
                   <input
                     type="text"
-                    defaultValue={settings.countdown_target || "2026-10-31T17:30:00+05:30"}
-                    id="countdownTargetInput"
-                    placeholder="2026-10-31T17:30:00+05:30"
+                    value={countdownInput || settings.countdown_target || ""}
+                    onChange={(e) => setCountdownInput(e.target.value)}
+                    placeholder="2026-10-31T18:00:00+05:30"
                     className="flex-1 bg-black border border-white/20 rounded-xl px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-amber-400"
                   />
                   <button
                     type="button"
                     onClick={() => {
-                      const el = document.getElementById("countdownTargetInput") as HTMLInputElement;
-                      if (el?.value) {
-                        handleUpdateSettings({ countdown_target: el.value.trim() });
+                      if (countdownInput.trim()) {
+                        handleUpdateSettings({ countdown_target: countdownInput.trim() });
                       }
                     }}
                     className="px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-heading font-black text-xs uppercase cursor-pointer"

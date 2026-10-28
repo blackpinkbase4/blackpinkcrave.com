@@ -30,6 +30,10 @@ export async function POST(req: NextRequest) {
       "display_timezone",
       "winners_published",
       "reveal_date_display",
+      "ceremony_mode",
+      "countdown_target",
+      "current_category_index",
+      "manual_winners",
     ];
 
     const updates: Record<string, unknown> = {};
