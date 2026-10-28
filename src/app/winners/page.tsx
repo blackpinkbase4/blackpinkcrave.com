@@ -330,6 +330,24 @@ export default function WinnersPage() {
     } catch {}
   };
 
+  const grandTotalVotes = results.reduce((sum, c) => sum + (c.total_votes || 0), 0);
+
+  // Top Corner Total Votes Badge (Fixed at top-right corner across all ceremony phases)
+  const TopCornerVotesBadge = grandTotalVotes > 0 ? (
+    <div className="fixed top-20 right-3 sm:top-24 sm:right-6 z-40 animate-fade-in pointer-events-auto">
+      <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/90 border border-amber-400/60 shadow-vma-gold backdrop-blur-md font-mono text-[11px] sm:text-xs">
+        <Trophy className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+        <span className="text-chrome-300 font-bold uppercase tracking-wider hidden sm:inline">
+          TOTAL BALLOTS:
+        </span>
+        <span className="text-amber-300 font-black font-mono">
+          {grandTotalVotes.toLocaleString()}
+        </span>
+        <span className="text-[10px] text-amber-400/90 font-bold uppercase">VOTES</span>
+      </div>
+    </div>
+  ) : null;
+
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto py-28 px-4 text-center space-y-4 font-mono">
@@ -345,6 +363,7 @@ export default function WinnersPage() {
   if (!published || ceremonyMode === "countdown") {
     return (
       <div className="relative">
+        {TopCornerVotesBadge}
         <CountdownStage
           targetIso={countdownTarget}
           onCountdownComplete={() => setCeremonyMode("live")}
@@ -361,6 +380,7 @@ export default function WinnersPage() {
   if (ceremonyMode === "live") {
     return (
       <div className="relative">
+        {TopCornerVotesBadge}
         <LivePremiereBroadcast
           categories={results}
           onFinishPremiere={() => setCeremonyMode("unlocked")}
@@ -375,6 +395,8 @@ export default function WinnersPage() {
   // =========================================================================
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16 relative">
+      {TopCornerVotesBadge}
+
       {/* Hidden canvas for downloading */}
       <canvas ref={canvasRef} className="hidden" />
 
@@ -398,7 +420,7 @@ export default function WinnersPage() {
         <div className="flex items-center justify-center pt-1 font-mono text-xs">
           <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 font-bold uppercase tracking-wider shadow-sm">
             <Trophy className="w-3.5 h-3.5 text-amber-400" />
-            <span>TOTAL VERIFIED BALLOTS: {results.reduce((sum, c) => sum + (c.total_votes || 0), 0).toLocaleString()} VOTES</span>
+            <span>TOTAL VERIFIED BALLOTS: {grandTotalVotes.toLocaleString()} VOTES</span>
           </div>
         </div>
 
