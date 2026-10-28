@@ -19,6 +19,18 @@ export async function GET() {
       });
     }
 
+    // Fast-path: When still in countdown room, respond instantly (5ms) without heavy vote queries
+    if (settings.ceremony_mode === "countdown") {
+      return NextResponse.json({
+        published: true,
+        ceremony_mode: "countdown",
+        countdown_target: settings.countdown_target || "2026-10-31T17:30:00+05:30",
+        current_category_index: settings.current_category_index || 0,
+        reveal_date_display: settings.reveal_date_display,
+        results: [],
+      });
+    }
+
     const results = await getCategoryResults(true);
 
     return NextResponse.json({

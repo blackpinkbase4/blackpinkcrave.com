@@ -27,9 +27,24 @@ import { LiveChatReactions } from "@/components/LiveChatReactions";
 
 export default function WinnersPage() {
   const [loading, setLoading] = useState(false);
-  const [published, setPublished] = useState(false);
-  const [ceremonyMode, setCeremonyMode] = useState<"countdown" | "live" | "unlocked">("countdown");
-  const [countdownTarget, setCountdownTarget] = useState("2026-10-31T17:30:00+05:30");
+  const [published, setPublished] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("noir_published") === "true";
+    }
+    return false;
+  });
+  const [ceremonyMode, setCeremonyMode] = useState<"countdown" | "live" | "unlocked">(() => {
+    if (typeof window !== "undefined") {
+      return (localStorage.getItem("noir_ceremony_mode") as any) || "countdown";
+    }
+    return "countdown";
+  });
+  const [countdownTarget, setCountdownTarget] = useState<string>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("noir_countdown_target") || "2026-10-28T12:30:00.000Z";
+    }
+    return "2026-10-28T12:30:00.000Z";
+  });
   const [results, setResults] = useState<CategoryWinnerResult[]>([]);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
@@ -53,11 +68,21 @@ export default function WinnersPage() {
         const data = await res.json();
 
         setPublished(Boolean(data.published));
+        try {
+          localStorage.setItem("noir_published", String(Boolean(data.published)));
+        } catch {}
+
         if (data.ceremony_mode) {
           setCeremonyMode(data.ceremony_mode);
+          try {
+            localStorage.setItem("noir_ceremony_mode", data.ceremony_mode);
+          } catch {}
         }
         if (data.countdown_target) {
           setCountdownTarget(data.countdown_target);
+          try {
+            localStorage.setItem("noir_countdown_target", data.countdown_target);
+          } catch {}
         }
         if (data.results) {
           setResults(data.results);
