@@ -28,10 +28,13 @@ export const CountdownStage: React.FC<CountdownStageProps> = ({
     return { total: diff, hours, minutes, seconds };
   };
 
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const [timeLeft, setTimeLeft] = useState({ total: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [isMounted, setIsMounted] = useState(false);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
+    setTimeLeft(calculateTimeLeft());
     setIsMusicPlaying(songPlayer.getIsPlaying());
     const handleSongUpdate = () => {
       setIsMusicPlaying(songPlayer.getIsPlaying());
@@ -103,8 +106,8 @@ export const CountdownStage: React.FC<CountdownStageProps> = ({
       <div className="grid grid-cols-3 gap-3 sm:gap-6 w-full max-w-xl">
         {/* Hours */}
         <div className="p-4 sm:p-6 rounded-3xl bg-black/85 border-2 border-amber-400/50 backdrop-blur-xl shadow-vma-gold flex flex-col items-center">
-          <span className="text-4xl sm:text-7xl font-heading font-black text-amber-300 tracking-tight drop-shadow">
-            {pad(timeLeft.hours)}
+          <span suppressHydrationWarning className="text-4xl sm:text-7xl font-heading font-black text-amber-300 tracking-tight drop-shadow">
+            {isMounted ? pad(timeLeft.hours) : "00"}
           </span>
           <span className="text-[10px] sm:text-xs font-mono text-chrome-400 uppercase tracking-widest mt-1">
             HOURS
@@ -113,8 +116,8 @@ export const CountdownStage: React.FC<CountdownStageProps> = ({
 
         {/* Minutes */}
         <div className="p-4 sm:p-6 rounded-3xl bg-black/85 border-2 border-amber-400/50 backdrop-blur-xl shadow-vma-gold flex flex-col items-center">
-          <span className="text-4xl sm:text-7xl font-heading font-black text-white tracking-tight drop-shadow">
-            {pad(timeLeft.minutes)}
+          <span suppressHydrationWarning className="text-4xl sm:text-7xl font-heading font-black text-white tracking-tight drop-shadow">
+            {isMounted ? pad(timeLeft.minutes) : "00"}
           </span>
           <span className="text-[10px] sm:text-xs font-mono text-chrome-400 uppercase tracking-widest mt-1">
             MINUTES
@@ -123,8 +126,8 @@ export const CountdownStage: React.FC<CountdownStageProps> = ({
 
         {/* Seconds */}
         <div className="p-4 sm:p-6 rounded-3xl bg-black/85 border-2 border-red-500/60 backdrop-blur-xl shadow-2xl flex flex-col items-center">
-          <span className="text-4xl sm:text-7xl font-heading font-black text-red-400 tracking-tight drop-shadow">
-            {pad(timeLeft.seconds)}
+          <span suppressHydrationWarning className="text-4xl sm:text-7xl font-heading font-black text-red-400 tracking-tight drop-shadow">
+            {isMounted ? pad(timeLeft.seconds) : "00"}
           </span>
           <span className="text-[10px] sm:text-xs font-mono text-chrome-400 uppercase tracking-widest mt-1">
             SECONDS

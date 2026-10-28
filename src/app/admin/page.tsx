@@ -895,7 +895,10 @@ export default function AdminPage() {
                 </div>
                 <button
                   type="button"
-                  onClick={() => handleUpdateSettings({ winners_published: !settings.winners_published })}
+                  onClick={() => handleUpdateSettings({ 
+                    winners_published: !settings.winners_published,
+                    ceremony_mode: !settings.winners_published ? "unlocked" : "countdown"
+                  })}
                   className={`w-full py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center gap-2 ${
                     settings.winners_published
                       ? "bg-noir-800 hover:bg-amber-950/80 text-amber-300 border border-amber-500/50 shadow-md"
@@ -904,6 +907,16 @@ export default function AdminPage() {
                 >
                   {settings.winners_published ? "🔒 HIDE WINNERS" : "👑 REVEAL WINNERS"}
                 </button>
+                {settings.winners_published && (
+                  <a
+                    href="/winners"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-center text-[10px] text-vma-mint hover:underline font-bold"
+                  >
+                    ↗ Open Live Winners Podium
+                  </a>
+                )}
               </div>
             </div>
           </div>
@@ -975,12 +988,67 @@ export default function AdminPage() {
             {/* Countdown Target Time & Manual Winners Action */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Countdown Target Config */}
-              <div className="p-4 rounded-xl bg-noir-900 border border-white/10 space-y-2">
+              <div className="p-4 rounded-xl bg-noir-900 border border-white/10 space-y-3">
                 <div className="flex items-center justify-between text-xs font-bold text-chrome-300 uppercase">
-                  <span>Countdown Target Date & Time (IST)</span>
-                  <span className="text-[10px] text-amber-300 font-mono">ISO Format</span>
+                  <span>Countdown Target Date & Time</span>
+                  <span className="text-[10px] text-amber-300 font-mono">
+                    {new Date(settings.countdown_target || "2026-10-31T17:30:00+05:30").toLocaleString([], {
+                      month: "short",
+                      day: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </span>
                 </div>
-                <div className="flex gap-2">
+
+                {/* Quick 1-Click Preset Buttons */}
+                <div className="flex flex-wrap gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const d = new Date(Date.now() + 5 * 60 * 1000).toISOString();
+                      handleUpdateSettings({ countdown_target: d });
+                    }}
+                    className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-amber-400 hover:text-black text-[10px] text-amber-200 font-mono transition-all"
+                  >
+                    ⚡ In 5 Mins (Test)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const d = new Date(Date.now() + 30 * 60 * 1000).toISOString();
+                      handleUpdateSettings({ countdown_target: d });
+                    }}
+                    className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-amber-400 hover:text-black text-[10px] text-amber-200 font-mono transition-all"
+                  >
+                    ⏱️ In 30 Mins
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const now = new Date();
+                      now.setHours(17, 30, 0, 0);
+                      handleUpdateSettings({ countdown_target: now.toISOString() });
+                    }}
+                    className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-amber-400 hover:text-black text-[10px] text-amber-200 font-mono transition-all"
+                  >
+                    📅 Today 5:30 PM
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const now = new Date();
+                      now.setDate(now.getDate() + 1);
+                      now.setHours(17, 30, 0, 0);
+                      handleUpdateSettings({ countdown_target: now.toISOString() });
+                    }}
+                    className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-amber-400 hover:text-black text-[10px] text-amber-200 font-mono transition-all"
+                  >
+                    🗓️ Tomorrow 5:30 PM
+                  </button>
+                </div>
+
+                <div className="flex gap-2 pt-1">
                   <input
                     type="text"
                     defaultValue={settings.countdown_target || "2026-10-31T17:30:00+05:30"}

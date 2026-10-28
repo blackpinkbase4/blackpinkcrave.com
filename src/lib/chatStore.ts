@@ -1,5 +1,3 @@
-import { getPublicSupabase } from "@/lib/supabase/client";
-
 export interface ChatMessage {
   id: string;
   sender: string;
@@ -53,6 +51,33 @@ const INITIAL_MESSAGES: ChatMessage[] = [
   },
 ];
 
+// Browser Broadcast Channel for instant, clean multi-tab sync with 0 WebSocket errors
+const broadcastChannel =
+  typeof window !== "undefined" && typeof window.BroadcastChannel !== "undefined"
+    ? new BroadcastChannel("noir-ceremony-live-channel")
+    : null;
+
+if (broadcastChannel) {
+  broadcastChannel.onmessage = (event) => {
+    const data = event.data;
+    if (!data || !data.type) return;
+
+    if (data.type === "new-message" && data.payload) {
+      const banned = getBannedHandles();
+      if (!banned.includes(data.payload.sender?.toLowerCase())) {
+        const current = getChatMessages();
+        if (!current.some((m) => m.id === data.payload.id)) {
+          saveChatMessages([...current.slice(-60), data.payload], false);
+        }
+      }
+    } else if (data.type === "emoji-reaction" && data.payload?.emoji) {
+      window.dispatchEvent(new CustomEvent("remote_emoji_reaction", { detail: data.payload.emoji }));
+    } else if (data.type === "ceremony-state-update" && data.payload) {
+      saveCeremonyState(data.payload, false);
+    }
+  };
+}
+
 export function getBannedHandles(): string[] {
   if (typeof window === "undefined") return [];
   try {
@@ -75,9 +100,8 @@ export function banHandle(handle: string) {
       window.dispatchEvent(new CustomEvent("noir_chat_updated"));
     } catch {}
 
-    chatChannel?.send({
-      type: "broadcast",
-      event: "ban-user",
+    broadcastChannel?.postMessage({
+      type: "ban-user",
       payload: { handle: clean },
     });
   }
@@ -96,12 +120,19 @@ export function getChatMessages(): ChatMessage[] {
   return INITIAL_MESSAGES;
 }
 
-export function saveChatMessages(messages: ChatMessage[]) {
+export function saveChatMessages(messages: ChatMessage[], broadcast = true) {
   if (typeof window === "undefined") return;
   try {
     localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(messages));
     window.dispatchEvent(new CustomEvent("noir_chat_updated", { detail: messages }));
   } catch {}
+
+  if (broadcast) {
+    broadcastChannel?.postMessage({
+      type: "sync-messages",
+      payload: messages,
+    });
+  }
 }
 
 export function addChatMessage(sender: string, text: string, isAdmin = false): ChatMessage | null {
@@ -122,11 +153,10 @@ export function addChatMessage(sender: string, text: string, isAdmin = false): C
 
   const current = getChatMessages();
   const updated = [...current.slice(-60), newMsg];
-  saveChatMessages(updated);
+  saveChatMessages(updated, false);
 
-  chatChannel?.send({
-    type: "broadcast",
-    event: "new-message",
+  broadcastChannel?.postMessage({
+    type: "new-message",
     payload: newMsg,
   });
 
@@ -137,27 +167,15 @@ export function deleteChatMessage(id: string) {
   const current = getChatMessages();
   const updated = current.filter((m) => m.id !== id);
   saveChatMessages(updated);
-
-  chatChannel?.send({
-    type: "broadcast",
-    event: "delete-message",
-    payload: { id },
-  });
 }
 
 export function clearAllChatMessages() {
   saveChatMessages([]);
-  chatChannel?.send({
-    type: "broadcast",
-    event: "clear-chat",
-    payload: {},
-  });
 }
 
 export function broadcastEmojiReaction(emoji: string) {
-  chatChannel?.send({
-    type: "broadcast",
-    event: "emoji-reaction",
+  broadcastChannel?.postMessage({
+    type: "emoji-reaction",
     payload: { emoji },
   });
 }
@@ -178,62 +196,10 @@ export function saveCeremonyState(state: CeremonyState, broadcast = true) {
     window.dispatchEvent(new CustomEvent("noir_ceremony_state_changed", { detail: state }));
   } catch {}
 
-  if (broadcast && chatChannel) {
-    chatChannel.send({
-      type: "broadcast",
-      event: "ceremony-state-update",
+  if (broadcast) {
+    broadcastChannel?.postMessage({
+      type: "ceremony-state-update",
       payload: state,
     });
   }
-}
-
-// Global Supabase Realtime Channel
-const supabase = typeof window !== "undefined" ? getPublicSupabase() : null;
-export const chatChannel = supabase ? supabase.channel("noir-ceremony-live") : null;
-
-if (chatChannel) {
-  chatChannel
-    .on("broadcast", { event: "ceremony-state-update" }, ({ payload }) => {
-      if (payload && payload.mode) {
-        saveCeremonyState(payload, false);
-      }
-    })
-    .on("broadcast", { event: "new-message" }, ({ payload }) => {
-      if (!payload || !payload.id) return;
-      const banned = getBannedHandles();
-      if (banned.includes(payload.sender?.toLowerCase())) return;
-
-      const current = getChatMessages();
-      if (!current.some((m) => m.id === payload.id)) {
-        saveChatMessages([...current.slice(-60), payload]);
-      }
-    })
-    .on("broadcast", { event: "delete-message" }, ({ payload }) => {
-      if (!payload || !payload.id) return;
-      const current = getChatMessages();
-      saveChatMessages(current.filter((m) => m.id !== payload.id));
-    })
-    .on("broadcast", { event: "clear-chat" }, () => {
-      saveChatMessages([]);
-    })
-    .on("broadcast", { event: "ban-user" }, ({ payload }) => {
-      if (!payload?.handle) return;
-      const clean = payload.handle.toLowerCase();
-      const banned = getBannedHandles();
-      if (!banned.includes(clean)) {
-        banned.push(clean);
-        try {
-          localStorage.setItem(BANNED_STORAGE_KEY, JSON.stringify(banned));
-          const msgs = getChatMessages().filter((m) => m.sender.toLowerCase() !== clean);
-          saveChatMessages(msgs);
-          window.dispatchEvent(new CustomEvent("noir_chat_updated"));
-        } catch {}
-      }
-    })
-    .on("broadcast", { event: "emoji-reaction" }, ({ payload }) => {
-      if (payload?.emoji) {
-        window.dispatchEvent(new CustomEvent("remote_emoji_reaction", { detail: payload.emoji }));
-      }
-    })
-    .subscribe();
 }
