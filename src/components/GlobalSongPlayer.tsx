@@ -7,13 +7,16 @@ import { songPlayer, isCurrentPageAdmin } from "@/lib/songPlayer";
 export const GlobalSongPlayer: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isWinners, setIsWinners] = useState(false);
 
   useEffect(() => {
     setIsAdmin(isCurrentPageAdmin());
+    setIsWinners(typeof window !== "undefined" && window.location.pathname.startsWith("/winners"));
 
     const updateState = () => {
       setIsPlaying(songPlayer.getIsPlaying());
       setIsAdmin(isCurrentPageAdmin());
+      setIsWinners(typeof window !== "undefined" && window.location.pathname.startsWith("/winners"));
     };
 
     window.addEventListener("song_player_state_changed", updateState);
@@ -39,8 +42,8 @@ export const GlobalSongPlayer: React.FC = () => {
     };
   }, []);
 
-  // Never render audio controller on admin desk
-  if (isAdmin) return null;
+  // Never render audio controller on admin desk or winners page (which has its own hero audio control)
+  if (isAdmin || isWinners) return null;
 
   return (
     <div className="fixed bottom-3 sm:bottom-4 left-3 sm:left-4 z-40">
