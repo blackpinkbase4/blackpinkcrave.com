@@ -82,7 +82,7 @@ export default function WinnersPage() {
         : `#${rank} FINALIST ★`;
 
     const text = `Official Noir Gala '26 Accolade! Congratulations to @${nominee.x_username} for taking ${rankTitle} in ${categoryTitle}! #NoirGala26 #OneTimelineEveryFandom`;
-    const url = typeof window !== "undefined" ? window.location.origin : "https://blackpinkcrave.com";
+    const url = "https://blackpinkcrave.com";
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
     window.open(twitterUrl, "_blank", "noopener,noreferrer");
   };

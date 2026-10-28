@@ -134,7 +134,7 @@ export const LivePremiereBroadcast: React.FC<LivePremiereBroadcastProps> = ({
   const handleTweetWinner = () => {
     if (!winner || !currentCategory) return;
     const text = `🏆 LIVE PREMIERE REVEAL! Huge congratulations to @${winner.x_username} for taking home 1ST PLACE in ${currentCategory.category_title} at the Noir Gala '26! 🌟 #NoirGala26 #OneTimelineEveryFandom`;
-    const shareUrl = typeof window !== "undefined" ? window.location.origin : "https://blackpinkcrave.com";
+    const shareUrl = "https://blackpinkcrave.com";
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`;
     window.open(twitterUrl, "_blank", "noopener,noreferrer");
   };

@@ -171,7 +171,7 @@ export function ShareCardModal({
     playClickSound();
     const text = `I'm supporting @${nomineeHandle} for ${categoryTitle} at NOIR GALA '26! Hosted by @pinknoir_4 🏆`;
     window.open(
-      `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.origin)}`,
+      `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent("https://blackpinkcrave.com")}`,
       "_blank",
       "noopener,noreferrer"
     );
