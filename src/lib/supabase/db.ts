@@ -869,7 +869,6 @@ export async function getCategoryResults(
     let winners: NomineeResult[] = [];
     let isTied = false;
 
-    const chosenWinnerId = cat.winner_nominee_id || settings.manual_winners?.[cat.id];
     if (chosenWinnerId) {
       // Manual winner selection by Admin!
       const manualWinner = nomineeResults.find((n) => n.nominee_id === chosenWinnerId);
