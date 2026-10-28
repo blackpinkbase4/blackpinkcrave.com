@@ -917,14 +917,14 @@ export async function getCategoryResults(
     });
   }
 
-  // Efficiently hydrate high-res avatars ONLY for the finalists and winners
+  // Efficiently hydrate high-res avatars for ALL finalists and winners
   if (supabase) {
     const neededAvatarIds = Array.from(
       new Set(
         results.flatMap((r) =>
           r.winners
             .map((w) => w.nominee_id)
-            .concat(r.nominees.slice(0, 5).map((n) => n.nominee_id))
+            .concat(r.nominees.map((n) => n.nominee_id))
         )
       )
     ).filter(Boolean);
@@ -949,6 +949,31 @@ export async function getCategoryResults(
               if (url) n.avatar_url = url;
             }
           }
+        }
+      }
+    }
+  }
+
+  // Fallback avatar enrichment from Netlify pre-loaded catalog for any nominees with null/missing avatar
+  let fallbackAvatars: Record<string, string> = {};
+  try {
+    fallbackAvatars = require("../avatarDirectory.json");
+  } catch {}
+
+  for (const r of results) {
+    for (const w of r.winners) {
+      if (!w.avatar_url) {
+        const cleanUser = w.x_username.toLowerCase().replace(/^@/, "");
+        if (fallbackAvatars[cleanUser]) {
+          w.avatar_url = fallbackAvatars[cleanUser];
+        }
+      }
+    }
+    for (const n of r.nominees) {
+      if (!n.avatar_url) {
+        const cleanUser = n.x_username.toLowerCase().replace(/^@/, "");
+        if (fallbackAvatars[cleanUser]) {
+          n.avatar_url = fallbackAvatars[cleanUser];
         }
       }
     }

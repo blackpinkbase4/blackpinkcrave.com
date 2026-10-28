@@ -202,29 +202,67 @@ export default function WinnersPage() {
       const photoBoxW = 960;
       const photoBoxH = 680;
 
+      let imageDrawn = false;
       if (nominee.avatar_url) {
         const img = new Image();
-        img.crossOrigin = "anonymous";
+        let srcToLoad = nominee.avatar_url;
+
+        // If remote URL, route through same-origin image-proxy to prevent canvas CORS security blocks
+        if (srcToLoad.startsWith("http://") || srcToLoad.startsWith("https://")) {
+          srcToLoad = `/api/image-proxy?url=${encodeURIComponent(srcToLoad)}`;
+          img.crossOrigin = "anonymous";
+        }
+        // For data: URIs, never set crossOrigin (which causes Chrome security aborts on base64)
+
         await new Promise((resolve) => {
-          img.onload = resolve;
-          img.onerror = resolve;
-          img.src = nominee.avatar_url!;
+          img.onload = () => resolve(true);
+          img.onerror = () => resolve(false);
+          img.src = srcToLoad;
         });
 
-        if (img.complete && img.naturalWidth > 0) {
+        if (img.complete && img.naturalWidth > 0 && img.naturalHeight > 0) {
           ctx.save();
           ctx.beginPath();
           ctx.roundRect(60, photoBoxY, photoBoxW, photoBoxH, 24);
           ctx.clip();
-          ctx.drawImage(img, 60, photoBoxY, photoBoxW, photoBoxH);
+
+          // Aspect-ratio cover math: preserves portrait proportions without distortion
+          const imgAspect = img.naturalWidth / img.naturalHeight;
+          const boxAspect = photoBoxW / photoBoxH;
+          let renderW = photoBoxW;
+          let renderH = photoBoxH;
+          let offsetX = 60;
+          let offsetY = photoBoxY;
+
+          if (imgAspect > boxAspect) {
+            renderW = photoBoxH * imgAspect;
+            offsetX = 60 - (renderW - photoBoxW) / 2;
+          } else {
+            renderH = photoBoxW / imgAspect;
+            offsetY = photoBoxY - (renderH - photoBoxH) / 2;
+          }
+
+          ctx.drawImage(img, offsetX, offsetY, renderW, renderH);
           ctx.restore();
-        } else {
-          ctx.fillStyle = "#161c28";
-          ctx.fillRect(60, photoBoxY, photoBoxW, photoBoxH);
+          imageDrawn = true;
         }
-      } else {
-        ctx.fillStyle = "#161c28";
+      }
+
+      if (!imageDrawn) {
+        // Luxury VIP monogram placeholder if no avatar provided
+        ctx.fillStyle = "#131824";
         ctx.fillRect(60, photoBoxY, photoBoxW, photoBoxH);
+        ctx.fillStyle = isWinner ? "#facc15" : "#38bdf8";
+        ctx.font = "900 140px 'Syne', 'Oswald', sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(
+          (nominee.display_name.trim().charAt(0) || "★").toUpperCase(),
+          60 + photoBoxW / 2,
+          photoBoxY + photoBoxH / 2
+        );
+        ctx.textAlign = "start";
+        ctx.textBaseline = "alphabetic";
       }
 
       // Dark gradient overlay at bottom of photo
