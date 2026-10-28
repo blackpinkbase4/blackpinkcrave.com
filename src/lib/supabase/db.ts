@@ -402,12 +402,13 @@ export async function deleteCategory(id: string, adminIp?: string): Promise<bool
 // ==========================================
 export async function getNominees(
   categoryId?: string,
-  onlyFinalists = false
+  onlyFinalists = false,
+  includeAvatars = false
 ): Promise<Nominee[]> {
   const supabase = getServerSupabase();
   if (supabase) {
-    // If querying all categories at once (summary/counts), omit heavy avatar_urls to prevent 12.5MB payload timeouts!
-    const selectFields = categoryId
+    // If querying all categories at once (summary/counts), omit heavy avatar_urls unless explicitly requested (e.g. for winners)
+    const selectFields = (categoryId || includeAvatars)
       ? "id, category_id, x_username, display_name, avatar_url, is_finalist, created_at"
       : "id, category_id, x_username, display_name, is_finalist, created_at";
 
@@ -796,7 +797,7 @@ export async function getCategoryResults(
   }
 
   const categories = await getCategories(true);
-  const finalists = await getNominees(undefined, true); // Only finalists compete
+  const allNominees = await getNominees(undefined, false, true); // Include avatars for winner cards & broadcast!
 
   let votes: { nominee_id: string; category_id: string; vote_count: number }[] = [];
 
@@ -827,7 +828,19 @@ export async function getCategoryResults(
   const results: CategoryWinnerResult[] = [];
 
   for (const cat of categories) {
-    const catNominees = finalists.filter((n) => n.category_id === cat.id);
+    let catNominees = allNominees.filter((n) => n.category_id === cat.id && n.is_finalist);
+    if (catNominees.length === 0) {
+      catNominees = allNominees.filter((n) => n.category_id === cat.id);
+    }
+
+    const chosenWinnerId = cat.winner_nominee_id || settings.manual_winners?.[cat.id];
+    if (chosenWinnerId) {
+      const manualWinner = allNominees.find((n) => n.id === chosenWinnerId);
+      if (manualWinner && !catNominees.some((n) => n.id === chosenWinnerId)) {
+        catNominees.unshift(manualWinner);
+      }
+    }
+
     const categoryTotalVotes = catNominees.reduce(
       (sum, n) => sum + (voteTallies[n.id] || 0),
       0

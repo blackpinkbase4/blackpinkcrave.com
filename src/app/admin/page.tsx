@@ -933,10 +933,26 @@ export default function AdminPage() {
                   <Crown className="w-3.5 h-3.5 text-amber-400 animate-bounce" />
                   <span>CEREMONY & PREMIERE CONTROL ROOM</span>
                 </div>
-                <h3 className="text-xl font-heading font-black text-white uppercase flex items-center gap-2">
+                <h3 className="text-xl font-heading font-black text-white uppercase flex flex-wrap items-center gap-2">
                   <span>LIVE CEREMONY BROADCAST MODE</span>
-                  <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-amber-400 text-black font-black uppercase">
-                    CURRENT: {settings.ceremony_mode || "COUNTDOWN"}
+                  <span
+                    className={`text-[10px] px-2.5 py-0.5 rounded-full font-black uppercase flex items-center gap-1.5 ${
+                      settings.ceremony_mode === "live"
+                        ? "bg-red-600 text-white animate-pulse shadow-lg"
+                        : settings.ceremony_mode === "unlocked"
+                        ? "bg-emerald-400 text-black shadow-md"
+                        : "bg-amber-400 text-black shadow-vma-gold"
+                    }`}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-current animate-ping" />
+                    <span>
+                      CURRENT:{" "}
+                      {settings.ceremony_mode === "live"
+                        ? "LIVE BROADCAST"
+                        : settings.ceremony_mode === "unlocked"
+                        ? "HALL OF FAME (UNLOCKED)"
+                        : "COUNTDOWN WAITING ROOM"}
+                    </span>
                   </span>
                 </h3>
                 <p className="text-xs text-chrome-400 font-mono">
@@ -948,10 +964,10 @@ export default function AdminPage() {
               <div className="flex flex-wrap items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => handleUpdateSettings({ ceremony_mode: "countdown" })}
+                  onClick={() => handleUpdateSettings({ ceremony_mode: "countdown", winners_published: false })}
                   className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
                     (settings.ceremony_mode || "countdown") === "countdown"
-                      ? "bg-amber-400 text-black shadow-vma-gold font-black"
+                      ? "bg-amber-400 text-black shadow-vma-gold font-black scale-105"
                       : "bg-noir-850 hover:bg-noir-800 text-chrome-300 border border-white/10"
                   }`}
                 >
@@ -964,7 +980,7 @@ export default function AdminPage() {
                   onClick={() => handleUpdateSettings({ ceremony_mode: "live", winners_published: true })}
                   className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
                     settings.ceremony_mode === "live"
-                      ? "bg-red-600 text-white shadow-lg font-black animate-pulse"
+                      ? "bg-red-600 text-white shadow-lg font-black scale-105 animate-pulse"
                       : "bg-noir-850 hover:bg-noir-800 text-chrome-300 border border-white/10"
                   }`}
                 >
@@ -977,7 +993,7 @@ export default function AdminPage() {
                   onClick={() => handleUpdateSettings({ ceremony_mode: "unlocked", winners_published: true })}
                   className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
                     settings.ceremony_mode === "unlocked"
-                      ? "bg-emerald-500 text-black shadow-lg font-black"
+                      ? "bg-emerald-500 text-black shadow-lg font-black scale-105"
                       : "bg-noir-850 hover:bg-noir-800 text-chrome-300 border border-white/10"
                   }`}
                 >
