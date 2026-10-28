@@ -14,6 +14,10 @@ export interface EventSettings {
   display_timezone: string;
   winners_published: boolean;
   reveal_date_display: string;
+  ceremony_mode?: "countdown" | "live" | "unlocked";
+  countdown_target?: string;
+  current_category_index?: number;
+  manual_winners?: Record<string, string>;
   updated_at?: string;
 }
 

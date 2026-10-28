@@ -174,6 +174,10 @@ export async function getEventSettings(forceFresh = false): Promise<EventSetting
         music_enabled?: boolean;
         cooldown_hours?: number;
         power_hour_active?: boolean;
+        ceremony_mode?: "countdown" | "live" | "unlocked";
+        countdown_target?: string;
+        current_category_index?: number;
+        manual_winners?: Record<string, string>;
       } = {};
 
       try {
@@ -192,6 +196,23 @@ export async function getEventSettings(forceFresh = false): Promise<EventSetting
         music_enabled: meta.music_enabled ?? false,
         cooldown_hours: typeof meta.cooldown_hours === "number" ? meta.cooldown_hours : 3,
         power_hour_active: Boolean(meta.power_hour_active),
+        ceremony_mode: meta.ceremony_mode || "countdown",
+        countdown_target: meta.countdown_target || "2026-10-31T17:30:00+05:30",
+        current_category_index: typeof meta.current_category_index === "number" ? meta.current_category_index : 0,
+        manual_winners: meta.manual_winners || {
+          "best-fanbase": "nom_1792229360249_cj55i",
+          "best-update": "nom_1792226803501_vi7i2",
+          "best-voting-streaming": "nom_1792317124691_ywsh6",
+          "best-charts": "nom_1792256711633_qeblx",
+          "best-graphics-designer": "nom_1792228583980_g8qvp",
+          "best-video-editor": "nom_1792228615581_3ij3o",
+          "funniest-stan": "nom_1792229283667_qb21s",
+          "best-new-account": "nom_1792226723482_q2qdp",
+          "most-iconic-account": "nom_1792230173780_cgfrl",
+          "peoples-choice": "nom_1792229689031_a3zbv",
+          "best-khia-account": "nom_1792230111270_vh77e",
+          "best-bts-ender-account": "nom_1792320780502_zluyc"
+        },
       };
       cachedSettings = finalSettings;
       cachedSettingsExpiry = now + 15000;
@@ -222,6 +243,10 @@ export async function updateEventSettings(
     music_enabled: updates.music_enabled !== undefined ? updates.music_enabled : (current.music_enabled ?? false),
     cooldown_hours: updates.cooldown_hours !== undefined ? updates.cooldown_hours : (current.cooldown_hours ?? 3),
     power_hour_active: updates.power_hour_active !== undefined ? updates.power_hour_active : (current.power_hour_active ?? false),
+    ceremony_mode: updates.ceremony_mode !== undefined ? updates.ceremony_mode : (current.ceremony_mode ?? "countdown"),
+    countdown_target: updates.countdown_target !== undefined ? updates.countdown_target : (current.countdown_target ?? "2026-10-31T17:30:00+05:30"),
+    current_category_index: updates.current_category_index !== undefined ? updates.current_category_index : (current.current_category_index ?? 0),
+    manual_winners: updates.manual_winners !== undefined ? updates.manual_winners : (current.manual_winners ?? {}),
   };
 
   const sanitizedUpdates: Record<string, unknown> = { ...updates };
@@ -232,6 +257,10 @@ export async function updateEventSettings(
   delete sanitizedUpdates.music_enabled;
   delete sanitizedUpdates.cooldown_hours;
   delete sanitizedUpdates.power_hour_active;
+  delete sanitizedUpdates.ceremony_mode;
+  delete sanitizedUpdates.countdown_target;
+  delete sanitizedUpdates.current_category_index;
+  delete sanitizedUpdates.manual_winners;
 
   if (supabase) {
     const { data, error } = await supabase
@@ -255,6 +284,10 @@ export async function updateEventSettings(
       music_enabled: meta.music_enabled,
       cooldown_hours: meta.cooldown_hours,
       power_hour_active: meta.power_hour_active,
+      ceremony_mode: meta.ceremony_mode,
+      countdown_target: meta.countdown_target,
+      current_category_index: meta.current_category_index,
+      manual_winners: meta.manual_winners,
     };
   }
 
@@ -823,12 +856,17 @@ export async function getCategoryResults(
     let winners: NomineeResult[] = [];
     let isTied = false;
 
-    if (cat.winner_nominee_id) {
+    const chosenWinnerId = cat.winner_nominee_id || settings.manual_winners?.[cat.id];
+    if (chosenWinnerId) {
       // Manual winner selection by Admin!
-      const manualWinner = nomineeResults.find((n) => n.nominee_id === cat.winner_nominee_id);
+      const manualWinner = nomineeResults.find((n) => n.nominee_id === chosenWinnerId);
       if (manualWinner) {
         manualWinner.is_winner = true;
         winners = [manualWinner];
+        // Move manualWinner to top (index 0) of nomineeResults
+        const others = nomineeResults.filter((n) => n.nominee_id !== chosenWinnerId);
+        nomineeResults.length = 0;
+        nomineeResults.push(manualWinner, ...others);
       }
     } else if (nomineeResults.length > 0 && nomineeResults[0].votes > 0) {
       const topVotes = nomineeResults[0].votes;

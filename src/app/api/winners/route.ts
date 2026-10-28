@@ -9,6 +9,8 @@ export async function GET() {
     if (!settings.winners_published) {
       return NextResponse.json({
         published: false,
+        ceremony_mode: settings.ceremony_mode || "countdown",
+        countdown_target: settings.countdown_target || "2026-10-31T17:30:00+05:30",
         reveal_date_display: settings.reveal_date_display || "Coming Soon",
         message: "THE WINNERS ARE UNDER WRAPS.",
       });
@@ -18,6 +20,9 @@ export async function GET() {
 
     return NextResponse.json({
       published: true,
+      ceremony_mode: settings.ceremony_mode || "unlocked",
+      countdown_target: settings.countdown_target || "2026-10-31T17:30:00+05:30",
+      current_category_index: settings.current_category_index || 0,
       reveal_date_display: settings.reveal_date_display,
       results,
     });

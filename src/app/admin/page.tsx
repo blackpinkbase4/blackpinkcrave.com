@@ -31,6 +31,7 @@ import {
   Upload,
   Zap,
   Hourglass,
+  Radio,
 } from "lucide-react";
 import { Category, Nominee, EventSettings, CategoryWinnerResult } from "@/types";
 import { playClickSound, playVoteSuccessSound } from "@/lib/sound";
@@ -902,6 +903,152 @@ export default function AdminPage() {
                   }`}
                 >
                   {settings.winners_published ? "🔒 HIDE WINNERS" : "👑 REVEAL WINNERS"}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* =========================================================================
+              CEREMONY & PREMIERE BROADCAST CONTROL ROOM
+              ========================================================================= */}
+          <div className="p-6 rounded-2xl bg-gradient-to-r from-noir-900 via-black to-noir-900 border-2 border-amber-400/60 space-y-6 shadow-vma-gold relative overflow-hidden">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-amber-400/25 pb-4">
+              <div className="space-y-1">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 border border-amber-400/50 text-amber-300 text-[11px] font-bold uppercase tracking-wider">
+                  <Crown className="w-3.5 h-3.5 text-amber-400 animate-bounce" />
+                  <span>CEREMONY & PREMIERE CONTROL ROOM</span>
+                </div>
+                <h3 className="text-xl font-heading font-black text-white uppercase flex items-center gap-2">
+                  <span>LIVE CEREMONY BROADCAST MODE</span>
+                  <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-amber-400 text-black font-black uppercase">
+                    CURRENT: {settings.ceremony_mode || "COUNTDOWN"}
+                  </span>
+                </h3>
+                <p className="text-xs text-chrome-400 font-mono">
+                  Control what viewers see on <code className="text-amber-300">/winners</code> and the front page: Countdown Waiting Room, Live 1-by-1 TV Broadcast, or Full Podium Archive.
+                </p>
+              </div>
+
+              {/* Ceremony Mode Buttons */}
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleUpdateSettings({ ceremony_mode: "countdown" })}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+                    (settings.ceremony_mode || "countdown") === "countdown"
+                      ? "bg-amber-400 text-black shadow-vma-gold font-black"
+                      : "bg-noir-850 hover:bg-noir-800 text-chrome-300 border border-white/10"
+                  }`}
+                >
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>⏳ 1. Countdown Room</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleUpdateSettings({ ceremony_mode: "live", winners_published: true })}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+                    settings.ceremony_mode === "live"
+                      ? "bg-red-600 text-white shadow-lg font-black animate-pulse"
+                      : "bg-noir-850 hover:bg-noir-800 text-chrome-300 border border-white/10"
+                  }`}
+                >
+                  <Radio className="w-3.5 h-3.5" />
+                  <span>📺 2. Live Broadcast</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleUpdateSettings({ ceremony_mode: "unlocked", winners_published: true })}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+                    settings.ceremony_mode === "unlocked"
+                      ? "bg-emerald-500 text-black shadow-lg font-black"
+                      : "bg-noir-850 hover:bg-noir-800 text-chrome-300 border border-white/10"
+                  }`}
+                >
+                  <Trophy className="w-3.5 h-3.5" />
+                  <span>🏆 3. Hall of Fame</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Countdown Target Time & Manual Winners Action */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Countdown Target Config */}
+              <div className="p-4 rounded-xl bg-noir-900 border border-white/10 space-y-2">
+                <div className="flex items-center justify-between text-xs font-bold text-chrome-300 uppercase">
+                  <span>Countdown Target Date & Time (IST)</span>
+                  <span className="text-[10px] text-amber-300 font-mono">ISO Format</span>
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    defaultValue={settings.countdown_target || "2026-10-31T17:30:00+05:30"}
+                    id="countdownTargetInput"
+                    placeholder="2026-10-31T17:30:00+05:30"
+                    className="flex-1 bg-black border border-white/20 rounded-xl px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-amber-400"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const el = document.getElementById("countdownTargetInput") as HTMLInputElement;
+                      if (el?.value) {
+                        handleUpdateSettings({ countdown_target: el.value.trim() });
+                      }
+                    }}
+                    className="px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-heading font-black text-xs uppercase cursor-pointer"
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+
+              {/* Pre-load 12 Host Choice Winners */}
+              <div className="p-4 rounded-xl bg-noir-900 border border-white/10 space-y-2 flex flex-col justify-between">
+                <div>
+                  <span className="text-xs font-bold text-chrome-300 uppercase block">Host Choice Accolades</span>
+                  <p className="text-[11px] text-chrome-500 font-mono mt-1">
+                    Pre-load the 12 hand-picked winners (Random Shyt, Kai, RYON, Blinks United, Pristine, etc.) across all categories.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    const MANUAL_WINNERS: Record<string, string> = {
+                      "best-fanbase": "nom_1792229360249_cj55i",
+                      "best-update": "nom_1792226803501_vi7i2",
+                      "best-voting-streaming": "nom_1792317124691_ywsh6",
+                      "best-charts": "nom_1792256711633_qeblx",
+                      "best-graphics-designer": "nom_1792228583980_g8qvp",
+                      "best-video-editor": "nom_1792228615581_3ij3o",
+                      "funniest-stan": "nom_1792229283667_qb21s",
+                      "best-new-account": "nom_1792226723482_q2qdp",
+                      "most-iconic-account": "nom_1792230173780_cgfrl",
+                      "peoples-choice": "nom_1792229689031_a3zbv",
+                      "best-khia-account": "nom_1792230111270_vh77e",
+                      "best-bts-ender-account": "nom_1792320780502_zluyc",
+                    };
+                    playClickSound();
+                    try {
+                      await handleUpdateSettings({ manual_winners: MANUAL_WINNERS });
+                      for (const [catId, nomId] of Object.entries(MANUAL_WINNERS)) {
+                        await fetch("/api/admin/categories", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ action: "set_winner", id: catId, data: { nominee_id: nomId } }),
+                        });
+                      }
+                      playVoteSuccessSound();
+                      alert("✅ Successfully loaded and crowned all 12 Host Choice winners!");
+                      loadData();
+                    } catch {
+                      alert("Error applying manual winners.");
+                    }
+                  }}
+                  className="w-full py-2.5 rounded-xl bg-amber-400/20 hover:bg-amber-400 text-amber-300 hover:text-black font-heading font-black text-xs uppercase tracking-wider border border-amber-400/50 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <Crown className="w-4 h-4" />
+                  <span>Apply 12 Host Choice Winners</span>
                 </button>
               </div>
             </div>
